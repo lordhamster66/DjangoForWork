@@ -130,7 +130,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
-CRONJOBS = [
-    ('40 17 * * *', 'crm/views.py', [''], {}, ''),
-]
