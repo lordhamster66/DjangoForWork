@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>人众日报</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="/static/build/css/daily.css">
+</head>
+<body>
+    <div class="daily-content">
+        <div id="page1" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left" >
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">总览</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/daily/#page1" method="POST">
+                    <input id="search-daily" type="submit" class="right search" value="查询">
+                    <input type="text" class="datepicker right search" name="qdate" placeholder="日期">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="info left" style="margin-left: 100px">
+                    <img class="left" src="/static/build/img/percent.png" alt="">
+                    <div class="msg left">
+                        <h2 class="val">{{ daily_page1.tz_zh }}%</h2>
+                        <p class="bold">当日投资转化率</p>
+                        <p>(当日新增投资人数/当日注册人数）</p>
+                    </div>
+                </div>
+                <div class="info right" style="margin-right: 100px">
+                    <img class="left" src="/static/build/img/account.png" alt="">
+                    <div class="msg left">
+                        <h2 class="val">{{ daily_page1.tz_j }}万</h2>
+                        <p class="bold">当日投资金额</p>
+                        <p>(新增投资金额{{ daily_page1.xztz_j }}万，占比{{ daily_page1.xztz_j_zb }}%)</p>
+                        <p>平均每人投资<span class="val">{{ daily_page1.pg_tz_j }}万</span></p>
+                    </div>
+                </div>
+                <div class="left" style="width: 1400px;">
+                    <div class="info left" style="margin-left: 500px;">
+                        <img class="left" style="height: 70px;" src="/static/build/img/register.png" alt="">
+                        <div class="msg left">
+                            <h2 class="val">{{ daily_page1.sm_r }}</h2>
+                            <p class="bold">当日新增实名人数</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info left" style="margin-left: 100px">
+                    <img class="left" style="height: 48px;" src="/static/build/img/people.png" alt="">
+                    <div class="msg left">
+                        <h2 class="val">{{ daily_page1.zhu_r }}</h2>
+                        <p class="bold">当日注册人数</p>
+                    </div>
+                </div>
+                <div class="info right" style="margin-right: 100px">
+                    <img class="left" src="/static/build/img/person.png" alt="">
+                    <div class="msg left">
+                        <h2 class="val">{{ daily_page1.tz_r }}</h2>
+                        <p class="bold">个当日投资人数</p>
+                        <p>(当日新增投资{{ daily_page1.xztz_r }}人)</p>
+                        <p>(其中有0人来自推荐)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page2" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left" >
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">平台数据</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <input id="search-daily" type="button" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="start_date" placeholder="日期">
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+
+            </div>
+        </div>
+    </div>
+    <script src="/static/plugins/jquery-1.12.4.js"></script>
+    <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="/static/build/js/common.js"></script>
+    <script src="/static/build/js/daily.js"></script>
+</body>
+</html>

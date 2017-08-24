@@ -1,0 +1,91 @@
+body {
+    background: url("/static/build/img/background.jpg");
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.daily-content {
+    width: 1500px;
+    height: 1000px;
+    margin: 0 auto;
+}
+
+.daily-container {
+    margin-top: 45px;
+    width: 1500px;
+    background: #ffffff;
+    height: 900px;
+}
+
+.daily-container .head {
+    width: 1500px;
+    height: 190px;
+    line-height: 80px;
+}
+
+.daily-container .head .daily-tag {
+    display: block;
+    margin-left: 30px;
+}
+
+.daily-container .head .title {
+    margin-left: 30px;
+    display: block;
+    color: #0087b1;
+    font-weight: bold;
+}
+
+.daily-container .head .search {
+    display: inline-block;
+    height: 48px;
+    line-height: 48px;
+    margin-top: 20px;
+}
+
+.clear {
+    clear: both;
+}
+
+.daily-container .body {
+    margin: 0 auto;
+    width: 1400px;
+    height: 700px;
+}
+
+.daily-container .body .info {
+    width: 400px;
+    height: 200px;
+}
+
+.daily-container .body .info img {
+    width: 96px;
+    height: 79px;
+    margin-top: 50px;
+}
+
+.daily-container .body .info .msg {
+    margin-top: 20px;
+    width: 300px;
+    height: 150px;
+}
+
+.daily-container .body .info .msg p{
+    text-align: center;
+}
+
+.daily-container .body .info .msg .val {
+    text-align: center;
+    font-weight: bold;
+    color: #ffc000;
+}
+
+.daily-container .body .info .msg .bold {
+    font-size: large;
+    font-weight: bold;
+}
