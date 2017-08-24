@@ -5,7 +5,7 @@ from django.db import models
 
 class BaseInfo(models.Model):
     """基础数据"""
-    qdate = models.DateField(verbose_name='日期')
+    qdate = models.DateField(verbose_name='日期', db_index=True)
     zhu_r = models.IntegerField(verbose_name='注册人数')
     sm_r = models.IntegerField(verbose_name='实名人数')
     sc_r = models.IntegerField(verbose_name='首充人数')
@@ -23,3 +23,9 @@ class BaseInfo(models.Model):
     hk_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款金额')
     zg_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='站岗金额')
     zg_r = models.IntegerField(verbose_name='站岗人数', null=True)
+
+
+class QudaoName(models.Model):
+    """渠道名称对应表"""
+    sign = models.CharField(max_length=32, verbose_name='渠道标识', db_index=True)
+    name = models.CharField(max_length=32, verbose_name='渠道名称', db_index=True)
