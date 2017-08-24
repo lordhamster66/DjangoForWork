@@ -47,8 +47,8 @@ class OperateInfo(models.Model):
     xz_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='新增充值')
     hk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款并充值')
     unhk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='非回款充值')
-    zj_ft_lv = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='资金复投率')
-    rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人数复投率')
+    zj_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='资金复投率')
+    rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='人数复投率')
 
 
 class InviteInfo(models.Model):
