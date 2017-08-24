@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/8/23
-import os
-import sys
 import time
 import datetime
 import urllib.request
@@ -22,7 +20,7 @@ def checktime(s):
         time.sleep(1)
 
 
-s = '2017-08-24 23:59:59'
+s = '2017-08-23 23:59:59'
 
 while True:
     checktime(s)
