@@ -110,12 +110,6 @@
                 }
             }
         },
-        label: {
-            normal: {
-                show: true,
-                position: 'inside'
-            }
-        },
         legend: {
             data: ['注册人数', '新增投资转化率', '新增投资人数']
         },
@@ -140,7 +134,7 @@
                 type: 'value',
                 name: '转化率',
                 axisLabel: {
-                    formatter: '{value}'
+                    formatter: '{value} %'
                 }
             }
         ],
@@ -148,18 +142,37 @@
             {
                 name: '注册人数',
                 type: 'bar',
-                data: [548, 536, 422, 383, 337, 356, 323, 305]
+                data: [548, 536, 422, 383, 337, 356, 323, 305],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
             },
             {
                 name: '新增投资人数',
                 type: 'bar',
-                data: [214, 191, 180, 116, 91, 139, 16, 195]
+                data: [214, 191, 180, 116, 91, 139, 16, 195],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
             },
             {
                 name: '新增投资转化率',
                 type: 'line',
                 yAxisIndex: 1,
-                data: [39.05, 35.63, 42.65, 30.29, 27.00, 39.04, 4.95, 63.93]
+                data: [39.05, 35.63, 42.65, 30.29, 27.00, 39.04, 4.95, 63.93],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter: '{c}%'
+                    }
+                }
             }
         ]
     };
