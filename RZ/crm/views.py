@@ -9,6 +9,7 @@ from django.views import View
 from django.db import connections
 from crm import models
 from RZ import settings
+from crm import forms
 
 # Create your views here.
 # 伪造一些请求头
@@ -212,12 +213,20 @@ class Daily(View):
     def get(self, request, *args, **kwargs):
         today = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")
         daily_page1 = self.get_info(today)
-        return render(request, "daily.html", {"daily_page1": daily_page1})
+        qdate = forms.DailyForm()
+        return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
 
     def post(self, request, *args, **kwargs):
         qdate = request.POST.get("qdate")
         daily_page1 = self.get_info(qdate)
-        return render(request, "daily.html", {"daily_page1": daily_page1})
+        qdate = forms.DailyForm(request.POST, initial={"qdate": qdate})
+        # if qdate.is_valid():
+        #     values = qdate.clean()
+        #     print(values)
+        # else:
+        #     errors = qdate.errors
+        #     print(errors)
+        return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
 
 
 def get_wdzj_info(request):

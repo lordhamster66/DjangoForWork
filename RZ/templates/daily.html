@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>人众日报</title>
+    <link rel="shortcut icon" href="/static/build/img/favicon.ico">
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" href="/static/build/css/daily.css">
@@ -20,7 +21,7 @@
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
             <form action="/crm/daily/#page1" method="POST">
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                {{ qdate.qdate }}
             </form>
             <div class="clear"></div>
         </div>
