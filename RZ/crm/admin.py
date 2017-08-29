@@ -4,3 +4,5 @@ from crm import models
 
 admin.site.register(models.BaseInfo)
 admin.site.register(models.KeFuInfo)
+admin.site.register(models.WDZJ_Info)
+admin.site.register(models.WDTY_Info)
