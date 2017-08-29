@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^ceshi/$', views.ceshi),
     url(r'^data_storage/$', views.DataStorage.as_view()),
     url(r'^daily/$', views.Daily.as_view()),
+    url(r'^get_wdzj_info/$', views.get_wdzj_info),
+    url(r'^get_wdty_info/$', views.get_wdty_info),
 ]

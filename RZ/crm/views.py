@@ -1,6 +1,8 @@
 import os
-import time
 import datetime
+import requests  # 爬虫专用
+import random
+import re  # 正则模块
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.views import View
@@ -8,8 +10,29 @@ from django.db import connections
 from crm import models
 from RZ import settings
 
-
 # Create your views here.
+# 伪造一些请求头
+user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64)", 'Mozilla/5.0 (Windows NT 6.3; WOW64)',
+              'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+              'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko',
+              'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36',
+              'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; rv:11.0) like Gecko)',
+              'Mozilla/5.0 (Windows; U; Windows NT 5.2) Gecko/2008070208 Firefox/3.0.1',
+              'Mozilla/5.0 (Windows; U; Windows NT 5.1) Gecko/20070309 Firefox/2.0.0.3',
+              'Mozilla/5.0 (Windows; U; Windows NT 5.1) Gecko/20070803 Firefox/1.5.0.12',
+              'Opera/9.27 (Windows NT 5.2; U; zh-cn)',
+              'Mozilla/5.0 (Macintosh; PPC Mac OS X; U; en) Opera 8.0',
+              'Opera/8.0 (Macintosh; PPC Mac OS X; U; en)',
+              'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.12) Gecko/20080219 Firefox/2.0.0.12 Navigator/9.0.0.6',
+              'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Win64; x64; Trident/4.0)',
+              'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)',
+              'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; InfoPath.2; .NET4.0C; .NET4.0E)',
+              'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Maxthon/4.0.6.2000 Chrome/26.0.1410.43 Safari/537.1 ',
+              'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; InfoPath.2; .NET4.0C; .NET4.0E; QQBrowser/7.3.9825.400)',
+              'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:21.0) Gecko/20100101 Firefox/21.0 ',
+              'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.92 Safari/537.1 LBBROWSER',
+              'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; BIDUBrowser 2.x)',
+              'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.11 TaoBrowser/3.0 Safari/536.11']
 
 
 def ceshi(request):
@@ -70,6 +93,13 @@ class DataStorage(View):
         return info_list
 
     def get(self, request, *args, **kwargs):
+        """
+        通过get请求可以将公司数据库的信息存入BI专用数据库
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         base_info = self.get_info_dict("daily", "base_info.sql")  # 基础信息
         balance_info = self.get_info_dict("daily", "zhangang.sql")  # 站岗信息
         # 增加基础数据信息
@@ -188,3 +218,86 @@ class Daily(View):
         qdate = request.POST.get("qdate")
         daily_page1 = self.get_info(qdate)
         return render(request, "daily.html", {"daily_page1": daily_page1})
+
+
+def get_wdzj_info(request):
+    """获取网贷之家数据信息并存入数据库"""
+    if request.method == "GET":
+        headers = {"User-Agent": random.choice(user_agent)}
+        # 访问网贷之家数据接口，获取昨天各平台数据信息
+        response = requests.post("http://shuju.wdzj.com/plat-data-custom.html", headers=headers)
+        data = response.json()  # 用json解析数据
+        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        # 循环在数据库创建每个平台信息
+        for msg_dic in data:
+            models.WDZJ_Info.objects.using("default").create(
+                qdate=qdate,  # 日期
+                platName=msg_dic.get("platName"),  # 平台名称
+                amount=msg_dic.get("amount"),  # 成交量(万元)
+                incomeRate=msg_dic.get("incomeRate"),  # 平均预期收益率(%)
+                loanPeriod=msg_dic.get("loanPeriod"),  # 平均借款期限(月)
+                regCapital=msg_dic.get("regCapital"),  # 注册资本(万元)
+                fullloanTime=msg_dic.get("fullloanTime"),  # 满标用时(分)
+                stayStillOfTotal=msg_dic.get("stayStillOfTotal"),  # 待还余额(万元)
+                netInflowOfThirty=msg_dic.get("netInflowOfThirty"),  # 资金净流入(万元)
+                timeOperation=int(msg_dic.get("timeOperation")),  # 运营时间(月)
+                bidderNum=int(msg_dic.get("bidderNum")),  # 投资人数(人)
+                borrowerNum=int(msg_dic.get("borrowerNum")),  # 借款人数(人)
+                totalLoanNum=int(msg_dic.get("totalLoanNum")),  # 借款标数(个)
+                top10DueInProportion=msg_dic.get("top10DueInProportion"),  # 前十大土豪待收金额占比(%)
+                avgBidMoney=msg_dic.get("avgBidMoney"),  # 人均投资金额(万元)
+                top10StayStillProportion=msg_dic.get("top10StayStillProportion"),  # 前十大借款人待还金额占比(%)
+                avgBorrowMoney=msg_dic.get("avgBorrowMoney"),  # 人均借款金额(万元)
+                developZhishu=int(msg_dic.get("developZhishu"))  # 发展指数排名
+            )
+        return HttpResponse("网贷之家数据填入完毕!")
+
+
+def get_wdty_info(request):
+    """获取网贷天眼数据信息并存入数据库"""
+    if request.method == "GET":
+        headers = {"User-Agent": random.choice(user_agent)}
+        response = requests.get("http://www.p2peye.com/shuju/ptsj/", headers=headers)
+        ret = response.content.decode("GBK")
+        tbody = re.findall('<tbody[\s\S]*</tbody>', ret, re.S)  # 获取tbody内容
+        name = re.findall('>(.{2,10})<\/a', tbody[0], re.S)  # 获取平台名称
+        name = [i for i in name if i != "添加关注"]
+        total = re.findall('<td class="total">(\d*.\d*)万</td>', tbody[0], re.S)  # 获取平台成交额(万)
+        rate = re.findall('<td class="rate">(\d*.\d*)%</td>', tbody[0], re.S)  # 获取平台综合利率(%)
+        pnum = re.findall('<td class="pnum">(\d*)人</td>', tbody[0], re.S)  # 获取平台投资人数(人)
+        cycle = re.findall('<td class="cycle">(\d*.\d*)月</td>', tbody[0], re.S)  # 获取平台借款周期(月)
+        p1num = re.findall('<td class="p1num">(\d*)人</td>', tbody[0], re.S)  # 获取平台借款人(人)
+        fuload = re.findall('<td class="fuload">(\d*.\d*)分钟</td>', tbody[0], re.S)  # 获取平台满标速度(分钟)
+        alltotal = re.findall('<td class="alltotal">(-?\d*.\d*)万</td>', tbody[0], re.S)  # 获取平台累计贷款余额(万)
+        capital = re.findall('<td class="capital">(-?\d*.\d*)万</td>', tbody[0], re.S)  # 获取平台资金净流入(万)
+        data_list = []  # 存放500万及以上平台数据信息包括人众金服
+        for index, temp_name in enumerate(name):
+            if float(total[index]) >= 500 or temp_name == "人众金服":
+                # 存放每一个平台的信息
+                temp_dict = {}
+                temp_dict["name"] = temp_name  # 平台名称
+                temp_dict["total"] = float(total[index])  # 平台成交额(万)
+                temp_dict["rate"] = float(rate[index])  # 平台综合利率(%)
+                temp_dict["pnum"] = int(pnum[index])  # 平台投资人数(人)
+                temp_dict["cycle"] = float(cycle[index])  # 平台借款周期(月)
+                temp_dict["p1num"] = int(p1num[index])  # 平台借款人(人)
+                temp_dict["fuload"] = float(fuload[index])  # 平台满标速度(分钟)
+                temp_dict["alltotal"] = float(alltotal[index])  # 平台累计贷款余额(万)
+                temp_dict["capital"] = float(capital[index])  # 平台资金净流入(万)
+                data_list.append(temp_dict)
+        # 循环存入每个平台的信息
+        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        for msg_dict in data_list:
+            models.WDTY_Info.objects.using("default").create(
+                qdate=qdate,  # 日期
+                name=msg_dict.get("name"),  # 平台名称
+                total=msg_dict.get("total"),  # 平台成交额(万)
+                rate=msg_dict.get("rate"),  # 平台综合利率(%)
+                pnum=msg_dict.get("pnum"),  # 平台投资人数(人)
+                cycle=msg_dict.get("cycle"),  # 平台借款周期(月)
+                p1num=msg_dict.get("p1num"),  # 平台借款人(人)
+                fuload=msg_dict.get("fuload"),  # 平台满标速度(分钟)
+                alltotal=msg_dict.get("alltotal"),  # 平台累计贷款余额(万)
+                capital=msg_dict.get("capital")  # 平台资金净流入(万)
+            )
+        return HttpResponse("网贷天眼数据填入完毕!")
