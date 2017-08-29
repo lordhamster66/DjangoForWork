@@ -80,3 +80,39 @@ class KeFuInfo(models.Model):
     st_r = models.IntegerField(verbose_name='首投人数')
     ls_r = models.IntegerField(verbose_name='流失用户')
     zt_r = models.IntegerField(verbose_name='在投用户')
+
+
+class WDZJ_Info(models.Model):
+    """网贷之家数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True, null=True)
+    platName = models.CharField(max_length=32, verbose_name='平台名称')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='成交量(万元)')
+    incomeRate = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平均预期收益率(%)')
+    loanPeriod = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平均借款期限(月)')
+    regCapital = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='注册资本(万元)')
+    fullloanTime = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时(分)')
+    stayStillOfTotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='待还余额(万元)')
+    netInflowOfThirty = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='资金净流入(万元)')
+    timeOperation = models.IntegerField(verbose_name='运营时间(月)')
+    bidderNum = models.IntegerField(verbose_name='投资人数(人)')
+    borrowerNum = models.IntegerField(verbose_name='借款人数(人)')
+    totalLoanNum = models.IntegerField(verbose_name='借款标数(个)')
+    top10DueInProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大土豪待收金额占比(%)')
+    avgBidMoney = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人均投资金额(万元)')
+    top10StayStillProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大借款人待还金额占比(%)')
+    avgBorrowMoney = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人均借款金额(万元)')
+    developZhishu = models.IntegerField(verbose_name='发展指数排名')
+
+
+class WDTY_Info(models.Model):
+    """网贷天眼数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True, null=True)
+    name = models.CharField(max_length=32, verbose_name='平台名称')
+    total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台成交额(万)')
+    rate = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台综合利率(%)')
+    pnum = models.IntegerField(verbose_name='平台投资人数(人)')
+    cycle = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台借款周期(月)')
+    p1num = models.IntegerField(verbose_name='平台借款人(人)')
+    fuload = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台满标速度(分钟)')
+    alltotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台累计贷款余额(万)')
+    capital = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台资金净流入(万)')
