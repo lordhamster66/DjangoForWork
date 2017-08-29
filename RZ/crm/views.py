@@ -103,6 +103,7 @@ class DataStorage(View):
         """
         base_info = self.get_info_dict("daily", "base_info.sql")  # 基础信息
         balance_info = self.get_info_dict("daily", "zhangang.sql")  # 站岗信息
+        zaidai_info = self.get_info_dict("daily", "zaidai.sql")  # 在贷信息
         # 增加基础数据信息
         models.BaseInfo.objects.using("default").create(
             qdate=base_info.get("qdate"),  # 日期
@@ -123,6 +124,8 @@ class DataStorage(View):
             hk_j=base_info.get("hk_j"),  # 回款金额
             zg_j=balance_info.get("zg_j"),  # 站岗金额
             zg_r=balance_info.get("zg_r"),  # 站岗人数
+            zd_r=zaidai_info.get("zd_r"),  # 在贷人数
+            zd_j=zaidai_info.get("zd_j"),  # 在贷金额
         )
         tg_info = self.get_info_dict("daily", "tg.sql")  # 获取昨日推广数据
         # 增加昨日推广数据信息

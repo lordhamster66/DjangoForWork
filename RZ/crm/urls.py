@@ -17,9 +17,9 @@ from django.conf.urls import url
 from crm import views
 
 urlpatterns = [
-    url(r'^ceshi/$', views.ceshi),
-    url(r'^data_storage/$', views.DataStorage.as_view()),
-    url(r'^daily/$', views.Daily.as_view()),
-    url(r'^get_wdzj_info/$', views.get_wdzj_info),
-    url(r'^get_wdty_info/$', views.get_wdty_info),
+    url(r'^ceshi/$', views.ceshi),  # 测试
+    url(r'^data_storage/$', views.DataStorage.as_view()),  # 获取公司数据库信息
+    url(r'^daily/$', views.Daily.as_view()),  # 日报
+    url(r'^get_wdzj_info/$', views.get_wdzj_info),  # 爬取网贷之家数据信息
+    url(r'^get_wdty_info/$', views.get_wdty_info),  # 爬取网贷天眼数据信息
 ]
