@@ -65,6 +65,10 @@ class OperateInfo(models.Model):
     zj_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='资金复投率')
     rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='人数复投率')
 
+    class Meta:
+        verbose_name = '运营数据'
+        verbose_name_plural = '运营数据'
+
 
 class InviteInfo(models.Model):
     """邀请数据"""
@@ -78,6 +82,10 @@ class InviteInfo(models.Model):
     hb_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包发放金额')
     hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额')
 
+    class Meta:
+        verbose_name = '邀请数据'
+        verbose_name_plural = '邀请数据'
+
 
 class AssetInfo(models.Model):
     """资产数据详情"""
@@ -86,6 +94,10 @@ class AssetInfo(models.Model):
     tz_r = models.IntegerField(verbose_name='投资人数')
     tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')
     mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时')
+
+    class Meta:
+        verbose_name = '资产数据'
+        verbose_name_plural = '资产数据'
 
 
 class KeFuInfo(models.Model):

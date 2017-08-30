@@ -37,6 +37,36 @@ class TgInfoAdmin(admin.ModelAdmin):
     list_filter = ('qdate',)
 
 
+class OperateInfoAdmin(admin.ModelAdmin):
+    """运营数据对应表显示信息"""
+    list_display = ("qdate", "xz_cz", "hk_cz", "unhk_cz", "zj_ft_lv", "rs_ft_lv")
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate',)
+
+
+class InviteInfoAdmin(admin.ModelAdmin):
+    """邀请数据对应表显示信息"""
+    list_display = (
+        "qdate", "invite_r", "invited_r", "invited_st_r", "invited_st_j", "cash_f", "cash_l"
+        , "hb_f", "hb_s"
+    )
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate',)
+
+
+class AssetInfoAdmin(admin.ModelAdmin):
+    """资产数据对应表显示信息"""
+    list_display = ("qdate", "term", "tz_r", "tz_j", "mb_ys")
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate',)
+
+
 class WDZJ_InfoAdmin(admin.ModelAdmin):
     """网贷之家数据信息表显示信息"""
     list_display = (
@@ -45,7 +75,7 @@ class WDZJ_InfoAdmin(admin.ModelAdmin):
 
     search_fields = ('platName',)
 
-    ordering = ('qdate',)
+    ordering = ('qdate', "amount")
 
     list_filter = ('qdate', "platName")
 
@@ -56,7 +86,7 @@ class WDTY_InfoAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
 
-    ordering = ('qdate',)
+    ordering = ('qdate', "total")
 
     list_filter = ('qdate', "name")
 
@@ -71,6 +101,9 @@ class KeFuInfoAdmin(admin.ModelAdmin):
 admin.site.register(models.BaseInfo, BaseInfoAdmin)
 admin.site.register(models.QudaoName, QudaoNameAdmin)
 admin.site.register(models.TgInfo, TgInfoAdmin)
+admin.site.register(models.OperateInfo, OperateInfoAdmin)
+admin.site.register(models.InviteInfo, InviteInfoAdmin)
+admin.site.register(models.AssetInfo, AssetInfoAdmin)
 admin.site.register(models.KeFuInfo, KeFuInfoAdmin)
 admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)
 admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)
