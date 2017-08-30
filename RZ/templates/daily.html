@@ -20,6 +20,7 @@
             <h1 class="title left">总览</h1>
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
             <form action="/crm/daily/#page1" method="POST">
+                {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
                 {{ qdate.qdate }}
             </form>
@@ -78,6 +79,7 @@
             <h1 class="title left">平台数据</h1>
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
             <form action="/crm/daily/#page2" method="POST">
+                {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
                 <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
             </form>
