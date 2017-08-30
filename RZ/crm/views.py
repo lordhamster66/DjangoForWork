@@ -190,12 +190,12 @@ class Daily(View):
 
     def get_info(self, qdate):
         try:
-            base_info = models.BaseInfo.objects.using("default").filter(qdate=qdate).first()
-            tg_info = models.TgInfo.objects.using("default").filter(qdate=qdate).first()
-            operate_info = models.OperateInfo.objects.using("default").filter(qdate=qdate).first()
-            invite_info = models.InviteInfo.objects.using("default").filter(qdate=qdate).first()
-            asset_info = models.AssetInfo.objects.using("default").filter(qdate=qdate).first()
-            kefu_info = models.KeFuInfo.objects.using("default").filter(qdate=qdate).first()
+            base_info = models.BaseInfo.objects.using("default").filter(qdate=qdate).first()  # 获取基础信息
+            tg_info = models.TgInfo.objects.using("default").filter(qdate=qdate).first()  # 获取推广信息
+            operate_info = models.OperateInfo.objects.using("default").filter(qdate=qdate).first()  # 获取运营信息
+            invite_info = models.InviteInfo.objects.using("default").filter(qdate=qdate).first()  # 获取邀请信息
+            asset_info = models.AssetInfo.objects.using("default").filter(qdate=qdate).first()  # 获取项目信息
+            kefu_info = models.KeFuInfo.objects.using("default").filter(qdate=qdate).first()  # 获取客服信息
             # 存放第一页数据
             daily_page1 = {}
             daily_page1["qdate"] = qdate  # 当前日期
@@ -210,25 +210,21 @@ class Daily(View):
             daily_page1["pg_tz_j"] = round(int(base_info.tz_j) / int(base_info.tz_r) / 10000, 1)  # 平均每人投资
             daily_page1["tj_r"] = int(invite_info.invited_st_r)
         except Exception as e:
-            daily_page1 = None
+            print(e)
         return daily_page1
 
     def get(self, request, *args, **kwargs):
-        today = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")
+        """获取日报"""
+        today = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
         daily_page1 = self.get_info(today)
-        qdate = forms.DailyForm()
+        qdate = forms.DailyForm(initial={"qdate": today})
         return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
 
     def post(self, request, *args, **kwargs):
+        """查询其他日期的日报"""
         qdate = request.POST.get("qdate")
         daily_page1 = self.get_info(qdate)
         qdate = forms.DailyForm(request.POST, initial={"qdate": qdate})
-        # if qdate.is_valid():
-        #     values = qdate.clean()
-        #     print(values)
-        # else:
-        #     errors = qdate.errors
-        #     print(errors)
         return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
 
 

@@ -1,4 +1,4 @@
-SELECT sum(h.recover_account) zd_r,count(DISTINCT h.uid) zd_j
+SELECT sum(h.recover_account) zd_j,count(DISTINCT h.uid) zd_r
 from
      (
 					SELECT a1.uid,t2.time_h,t1.name,a1.recover_account,a1.recover_capital,a1.recover_interest,a1.recover_times,a1.bid
