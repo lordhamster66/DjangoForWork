@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -26,11 +27,19 @@ class BaseInfo(models.Model):
     zd_r = models.IntegerField(verbose_name='在贷人数', null=True)
     zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='在贷金额', null=True)
 
+    class Meta:
+        verbose_name = '基础数据'
+        verbose_name_plural = '基础数据'
+
 
 class QudaoName(models.Model):
     """渠道名称对应表"""
     sign = models.CharField(max_length=32, verbose_name='渠道标识', db_index=True)
     name = models.CharField(max_length=32, verbose_name='渠道名称', db_index=True)
+
+    class Meta:
+        verbose_name = '渠道名称对应表'
+        verbose_name_plural = '渠道名称对应表'
 
 
 class TgInfo(models.Model):
@@ -41,6 +50,10 @@ class TgInfo(models.Model):
     tg_sc_r = models.IntegerField(verbose_name='推广首充人数')
     tg_xztz_r = models.IntegerField(verbose_name='推广新增人数')
     tg_xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广新增金额')
+
+    class Meta:
+        verbose_name = '推广数据'
+        verbose_name_plural = '推广数据'
 
 
 class OperateInfo(models.Model):
@@ -83,6 +96,10 @@ class KeFuInfo(models.Model):
     ls_r = models.IntegerField(verbose_name='流失用户')
     zt_r = models.IntegerField(verbose_name='在投用户')
 
+    class Meta:
+        verbose_name = '客服数据'
+        verbose_name_plural = '客服数据'
+
 
 class WDZJ_Info(models.Model):
     """网贷之家数据详情"""
@@ -105,6 +122,10 @@ class WDZJ_Info(models.Model):
     avgBorrowMoney = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人均借款金额(万元)')
     developZhishu = models.IntegerField(verbose_name='发展指数排名')
 
+    class Meta:
+        verbose_name = '网贷之家数据信息'
+        verbose_name_plural = '网贷之家数据信息'
+
 
 class WDTY_Info(models.Model):
     """网贷天眼数据详情"""
@@ -118,3 +139,7 @@ class WDTY_Info(models.Model):
     fuload = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台满标速度(分钟)')
     alltotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台累计贷款余额(万)')
     capital = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台资金净流入(万)')
+
+    class Meta:
+        verbose_name = '网贷天眼数据信息'
+        verbose_name_plural = '网贷天眼数据信息'

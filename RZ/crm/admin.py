@@ -1,8 +1,76 @@
 from django.contrib import admin
 from crm import models
-# Register your models here.
 
-admin.site.register(models.BaseInfo)
-admin.site.register(models.KeFuInfo)
-admin.site.register(models.WDZJ_Info)
-admin.site.register(models.WDTY_Info)
+
+# Register your models here.
+# 创建类
+class BaseInfoAdmin(admin.ModelAdmin):
+    # 把这个基础数据表里的想要显示值放进去
+    list_display = (
+        'qdate', 'zhu_r', 'sm_r', 'sc_r', 'xztz_r', 'xztz_j',
+        'cz_r', 'cz_j', 'tx_r', 'tx_j', 'tz_r', 'tz_j', 'tz_b',
+        'tz_dl_r', 'hk_r', 'hk_j', 'zg_j', 'zg_r', 'zd_r', 'zd_j'
+    )
+
+    search_fields = (
+        'qdate', 'zhu_r', 'sm_r', 'sc_r', 'xztz_r', 'xztz_j',
+        'cz_r', 'cz_j', 'tx_r', 'tx_j', 'tz_r', 'tz_j', 'tz_b',
+        'tz_dl_r', 'hk_r', 'hk_j', 'zg_j', 'zg_r', 'zd_r', 'zd_j'
+    )
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate',)
+
+
+class QudaoNameAdmin(admin.ModelAdmin):
+    """渠道名称对应表显示信息"""
+    list_display = ("sign", "name")
+
+
+class TgInfoAdmin(admin.ModelAdmin):
+    """推广数据对应表显示信息"""
+    list_display = ("qdate", "tg_zhu_r", "tg_sm_r", "tg_sc_r", "tg_xztz_r", "tg_xztz_j")
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate',)
+
+
+class WDZJ_InfoAdmin(admin.ModelAdmin):
+    """网贷之家数据信息表显示信息"""
+    list_display = (
+        "qdate", "platName", "amount", "bidderNum", "borrowerNum", "totalLoanNum", "stayStillOfTotal"
+    )
+
+    search_fields = ('platName',)
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate', "platName")
+
+
+class WDTY_InfoAdmin(admin.ModelAdmin):
+    """网贷天眼数据信息表显示信息"""
+    list_display = ("qdate", "name", "total", "rate", "pnum", "cycle", "p1num", "fuload", "alltotal", "capital")
+
+    search_fields = ('name',)
+
+    ordering = ('qdate',)
+
+    list_filter = ('qdate', "name")
+
+
+class KeFuInfoAdmin(admin.ModelAdmin):
+    """客服数据信息表显示信息"""
+    list_display = ("qdate", "st_ft_r", "st_r", "ls_r", "zt_r")
+
+    ordering = ('qdate',)
+
+
+admin.site.register(models.BaseInfo, BaseInfoAdmin)
+admin.site.register(models.QudaoName, QudaoNameAdmin)
+admin.site.register(models.TgInfo, TgInfoAdmin)
+admin.site.register(models.KeFuInfo, KeFuInfoAdmin)
+admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)
+admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)
