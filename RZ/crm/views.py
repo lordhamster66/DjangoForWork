@@ -248,15 +248,15 @@ def get_wdzj_info(request):
                 fullloanTime=msg_dic.get("fullloanTime"),  # 满标用时(分)
                 stayStillOfTotal=msg_dic.get("stayStillOfTotal"),  # 待还余额(万元)
                 netInflowOfThirty=msg_dic.get("netInflowOfThirty"),  # 资金净流入(万元)
-                timeOperation=int(msg_dic.get("timeOperation")),  # 运营时间(月)
-                bidderNum=int(msg_dic.get("bidderNum")),  # 投资人数(人)
-                borrowerNum=int(msg_dic.get("borrowerNum")),  # 借款人数(人)
-                totalLoanNum=int(msg_dic.get("totalLoanNum")),  # 借款标数(个)
+                timeOperation=msg_dic.get("timeOperation"),  # 运营时间(月)
+                bidderNum=msg_dic.get("bidderNum"),  # 投资人数(人)
+                borrowerNum=msg_dic.get("borrowerNum"),  # 借款人数(人)
+                totalLoanNum=msg_dic.get("totalLoanNum"),  # 借款标数(个)
                 top10DueInProportion=msg_dic.get("top10DueInProportion"),  # 前十大土豪待收金额占比(%)
                 avgBidMoney=msg_dic.get("avgBidMoney"),  # 人均投资金额(万元)
                 top10StayStillProportion=msg_dic.get("top10StayStillProportion"),  # 前十大借款人待还金额占比(%)
                 avgBorrowMoney=msg_dic.get("avgBorrowMoney"),  # 人均借款金额(万元)
-                developZhishu=int(msg_dic.get("developZhishu"))  # 发展指数排名
+                developZhishu=msg_dic.get("developZhishu")  # 发展指数排名
             )
         return HttpResponse("网贷之家数据填入完毕!")
 

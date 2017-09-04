@@ -20,7 +20,7 @@ def checktime(s):
         time.sleep(1)
 
 
-s = '2017-08-23 23:59:59'
+s = '2017-09-01 23:59:59'
 
 while True:
     checktime(s)
