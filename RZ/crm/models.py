@@ -113,6 +113,21 @@ class KeFuInfo(models.Model):
         verbose_name_plural = '客服数据'
 
 
+class GeDuanInfo(models.Model):
+    """各端数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    geduan = models.CharField(max_length=32, verbose_name='各端类型')
+    recover = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端已还")
+    recover_withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端回款并提现")
+    account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端投资")
+    xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端新增投资")
+    withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端提现金额")
+
+    class Meta:
+        verbose_name = "各端数据"
+        verbose_name_plural = "各端数据"
+
+
 class WDZJ_Info(models.Model):
     """网贷之家数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True, null=True)
@@ -128,9 +143,11 @@ class WDZJ_Info(models.Model):
     bidderNum = models.IntegerField(verbose_name='投资人数(人)', null=True)
     borrowerNum = models.IntegerField(verbose_name='借款人数(人)', null=True)
     totalLoanNum = models.IntegerField(verbose_name='借款标数(个)', null=True)
-    top10DueInProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大土豪待收金额占比(%)', null=True)
+    top10DueInProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大土豪待收金额占比(%)',
+                                               null=True)
     avgBidMoney = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人均投资金额(万元)', null=True)
-    top10StayStillProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大借款人待还金额占比(%)', null=True)
+    top10StayStillProportion = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='前十大借款人待还金额占比(%)',
+                                                   null=True)
     avgBorrowMoney = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='人均借款金额(万元)', null=True)
     developZhishu = models.IntegerField(verbose_name='发展指数排名', null=True)
 

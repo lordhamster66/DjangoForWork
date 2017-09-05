@@ -67,6 +67,20 @@ class AssetInfoAdmin(admin.ModelAdmin):
     list_filter = ('qdate',)
 
 
+class KeFuInfoAdmin(admin.ModelAdmin):
+    """客服数据信息表显示信息"""
+    list_display = ("qdate", "st_ft_r", "st_r", "ls_r", "zt_r")
+
+    ordering = ('qdate',)
+
+
+class GeDuanInfoAdmin(admin.ModelAdmin):
+    """各端数据信息表显示信息"""
+    list_display = ("qdate", "geduan", "recover", "recover_withdraw", "account", "xztz_j", "withdraw")
+
+    ordering = ("qdate",)
+
+
 class WDZJ_InfoAdmin(admin.ModelAdmin):
     """网贷之家数据信息表显示信息"""
     list_display = (
@@ -91,13 +105,6 @@ class WDTY_InfoAdmin(admin.ModelAdmin):
     list_filter = ('qdate', "name")
 
 
-class KeFuInfoAdmin(admin.ModelAdmin):
-    """客服数据信息表显示信息"""
-    list_display = ("qdate", "st_ft_r", "st_r", "ls_r", "zt_r")
-
-    ordering = ('qdate',)
-
-
 admin.site.register(models.BaseInfo, BaseInfoAdmin)
 admin.site.register(models.QudaoName, QudaoNameAdmin)
 admin.site.register(models.TgInfo, TgInfoAdmin)
@@ -105,5 +112,6 @@ admin.site.register(models.OperateInfo, OperateInfoAdmin)
 admin.site.register(models.InviteInfo, InviteInfoAdmin)
 admin.site.register(models.AssetInfo, AssetInfoAdmin)
 admin.site.register(models.KeFuInfo, KeFuInfoAdmin)
+admin.site.register(models.GeDuanInfo, GeDuanInfoAdmin)
 admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)
 admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)

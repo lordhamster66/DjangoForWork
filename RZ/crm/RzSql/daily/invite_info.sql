@@ -135,7 +135,7 @@ union all
 			and a.ispay=1
 			and DATE(a.time_use) = DATE_SUB(curdate(),INTERVAL 1 DAY)
 			-- and UNIX_TIMESTAMP(DATE_FORMAT(a.time_use,"%Y-%m-%d")) - UNIX_TIMESTAMP(z.time_h) < 86400*29
-			and  a.flag   in (1901,1902,1903)
+			and  a.flag   in (1901,1902,1903,2074,2075,2076)
 
 union all
 
@@ -156,7 +156,7 @@ union all
 			where a.money_ty = 0
 			and a.uid=z.uid
 			and DATE(a.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
-			and  a.flag   in (1901,1902,1903)
+			and  a.flag   in (2074,2075,2076)
 
 union all
 
