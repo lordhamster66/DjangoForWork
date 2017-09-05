@@ -164,9 +164,9 @@ class DataStorage(View):
             hb_f=invite_info.get("hb_f"),  # 红包发放金额
             hb_s=invite_info.get("hb_s")  # 红包使用金额
         )
+        # 增加资产数据详情
         qixian_mb_ys_info = self.get_info_list("daily", "qixian_mb_ys.sql")  # 获取期限满标用时数据
         qixian_tz_info = self.get_info_list("daily", "qixian_tz.sql")  # 获取期限投资数据
-        # 增加资产数据详情
         for index, row in enumerate(qixian_mb_ys_info):
             models.AssetInfo.objects.using("default").create(
                 qdate=row.get("qdate"),  # 日期
@@ -174,6 +174,35 @@ class DataStorage(View):
                 tz_r=qixian_tz_info[index].get("tz_r"),  # 投资人数
                 tz_j=qixian_tz_info[index].get("tz_j"),  # 投资金额
                 mb_ys=row.get("mb_ys")  # 满标用时
+            )
+        # 增加各端数据详情
+        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        geduan_rw = self.get_info_list("daily", "geduan_rw.sql")  # 获取各端回款并提现数据
+        geduan_rw_dic = {}  # 定义一个各端回款并提现字典
+        for i in geduan_rw:
+            geduan_rw_dic[i.get("geduan")] = {"recover": i.get("recover"), "recover_withdraw": i.get("recover_withdraw")}
+        geduan_account = self.get_info_list("daily", "geduan_account.sql")  # 获取各端投资数据
+        geduan_account_dic = {}
+        for i in geduan_account:
+            geduan_account_dic[i.get("geduan")] = {"account": i.get("account")}
+        geduan_xztz = self.get_info_list("daily", "geduan_xztz.sql")  # 获取各端新增投资数据
+        geduan_xztz_dic = {}
+        for i in geduan_xztz:
+            geduan_xztz_dic[i.get("geduan")] = {"xztz_j": i.get("xztz_j")}
+        geduan_withdraw = self.get_info_list("daily", "geduan_withdraw.sql")  # 获取各端提现数据
+        geduan_withdraw_dic = {}
+        for i in geduan_withdraw:
+            geduan_withdraw_dic[i.get("geduan")] = {"withdraw": i.get("withdraw")}
+        geduan_list = ["APP", "PC", "WAP"]  # 各端列表
+        for gd in geduan_list:
+            models.GeDuanInfo.objects.using("default").create(
+                qdate=qdate,
+                geduan=gd,
+                recover=geduan_rw_dic.get(gd).get("recover"),
+                recover_withdraw=geduan_rw_dic.get(gd).get("recover_withdraw"),
+                account=geduan_account_dic.get(gd).get("account"),
+                xztz_j=geduan_xztz_dic.get(gd).get("xztz_j"),
+                withdraw=geduan_withdraw_dic.get(gd).get("withdraw")
             )
         return HttpResponse("ok!")
 

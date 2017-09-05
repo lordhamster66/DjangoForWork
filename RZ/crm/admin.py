@@ -78,7 +78,7 @@ class GeDuanInfoAdmin(admin.ModelAdmin):
     """各端数据信息表显示信息"""
     list_display = ("qdate", "geduan", "recover", "recover_withdraw", "account", "xztz_j", "withdraw")
 
-    ordering = ("qdate",)
+    ordering = ("qdate", "geduan")
 
 
 class WDZJ_InfoAdmin(admin.ModelAdmin):

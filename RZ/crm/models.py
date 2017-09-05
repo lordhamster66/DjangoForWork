@@ -117,11 +117,11 @@ class GeDuanInfo(models.Model):
     """各端数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
     geduan = models.CharField(max_length=32, verbose_name='各端类型')
-    recover = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端已还")
-    recover_withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端回款并提现")
-    account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端投资")
-    xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端新增投资")
-    withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端提现金额")
+    recover = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端已还", null=True)
+    recover_withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端回款并提现", null=True)
+    account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端投资", null=True)
+    xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端新增投资", null=True)
+    withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端提现金额", null=True)
 
     class Meta:
         verbose_name = "各端数据"
