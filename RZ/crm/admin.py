@@ -105,13 +105,13 @@ class WDTY_InfoAdmin(admin.ModelAdmin):
     list_filter = ('qdate', "name")
 
 
-admin.site.register(models.BaseInfo, BaseInfoAdmin)
-admin.site.register(models.QudaoName, QudaoNameAdmin)
-admin.site.register(models.TgInfo, TgInfoAdmin)
-admin.site.register(models.OperateInfo, OperateInfoAdmin)
-admin.site.register(models.InviteInfo, InviteInfoAdmin)
-admin.site.register(models.AssetInfo, AssetInfoAdmin)
-admin.site.register(models.KeFuInfo, KeFuInfoAdmin)
-admin.site.register(models.GeDuanInfo, GeDuanInfoAdmin)
-admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)
-admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)
+admin.site.register(models.BaseInfo, BaseInfoAdmin)  # 注册基础数据信息
+admin.site.register(models.QudaoName, QudaoNameAdmin)  # 注册渠道名称信息
+admin.site.register(models.TgInfo, TgInfoAdmin)  # 注册推广数据信息
+admin.site.register(models.OperateInfo, OperateInfoAdmin)  # 注册运营数据信息
+admin.site.register(models.InviteInfo, InviteInfoAdmin)  # 注册邀请数据信息
+admin.site.register(models.AssetInfo, AssetInfoAdmin)  # 注册资产数据信息
+admin.site.register(models.KeFuInfo, KeFuInfoAdmin)  # 注册客服数据信息
+admin.site.register(models.GeDuanInfo, GeDuanInfoAdmin)  # 注册各端数据信息
+admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)  # 注册网贷之家数据信息
+admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)  # 注册网贷天眼数据信息
