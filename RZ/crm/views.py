@@ -37,54 +37,54 @@ user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64)", 'Mozilla/5.0 (Windows NT 6
 
 
 def ceshi(request):
-    def get_info_list(catalog, file_name):
-        """
-        执行sql语句并以列表的形式返回单行结果
-        :param catalog: sql语句目录名
-        :param file_name: sql文件名
-        :return: 返回查询结果(列表形式)
-        """
-        file_path = os.path.join(settings.BASE_DIR, "crm", "RzSql", catalog, file_name)
-        f = open(file_path, "r", encoding="utf-8")
-        sql = f.read()
-        f.close()
-        cursor = connections['rz'].cursor()
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        col_names = [i[0] for i in cursor.description]
-        info_list = [dict(zip(col_names, row)) for row in data]
-        return info_list
-
-    # 增加各端数据详情
-    qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
-    geduan_rw = get_info_list("daily", "geduan_rw.sql")  # 获取各端回款并提现数据
-    geduan_rw_dic = {}  # 定义一个各端回款并提现字典
-    for i in geduan_rw:
-        geduan_rw_dic[i.get("geduan")] = {"recover": i.get("recover"), "recover_withdraw": i.get("recover_withdraw")}
-    geduan_account = get_info_list("daily", "geduan_account.sql")  # 获取各端投资数据
-    geduan_account_dic = {}
-    for i in geduan_account:
-        geduan_account_dic[i.get("geduan")] = {"account": i.get("account")}
-    geduan_xztz = get_info_list("daily", "geduan_xztz.sql")  # 获取各端新增投资数据
-    geduan_xztz_dic = {}
-    for i in geduan_xztz:
-        geduan_xztz_dic[i.get("geduan")] = {"xztz_j": i.get("xztz_j")}
-    geduan_withdraw = get_info_list("daily", "geduan_withdraw.sql")  # 获取各端提现数据
-    geduan_withdraw_dic = {}
-    for i in geduan_withdraw:
-        geduan_withdraw_dic[i.get("geduan")] = {"withdraw": i.get("withdraw")}
-    geduan_list = ["APP", "PC", "WAP"]  # 各端列表
-    for gd in geduan_list:
-        models.GeDuanInfo.objects.using("default").create(
-            qdate=qdate,
-            geduan=gd,
-            recover=geduan_rw_dic.get(gd).get("recover"),
-            recover_withdraw=geduan_rw_dic.get(gd).get("recover_withdraw"),
-            account=geduan_account_dic.get(gd).get("account"),
-            xztz_j=geduan_xztz_dic.get(gd).get("xztz_j"),
-            withdraw=geduan_withdraw_dic.get(gd).get("withdraw")
-        )
-    return HttpResponse("ok!")
+    # def get_info_list(catalog, file_name):
+    #     """
+    #     执行sql语句并以列表的形式返回单行结果
+    #     :param catalog: sql语句目录名
+    #     :param file_name: sql文件名
+    #     :return: 返回查询结果(列表形式)
+    #     """
+    #     file_path = os.path.join(settings.BASE_DIR, "crm", "RzSql", catalog, file_name)
+    #     f = open(file_path, "r", encoding="utf-8")
+    #     sql = f.read()
+    #     f.close()
+    #     cursor = connections['rz'].cursor()
+    #     cursor.execute(sql)
+    #     data = cursor.fetchall()
+    #     col_names = [i[0] for i in cursor.description]
+    #     info_list = [dict(zip(col_names, row)) for row in data]
+    #     return info_list
+    #
+    # # 增加各端数据详情
+    # qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+    # geduan_rw = get_info_list("daily", "geduan_rw.sql")  # 获取各端回款并提现数据
+    # geduan_rw_dic = {}  # 定义一个各端回款并提现字典
+    # for i in geduan_rw:
+    #     geduan_rw_dic[i.get("geduan")] = {"recover": i.get("recover"), "recover_withdraw": i.get("recover_withdraw")}
+    # geduan_account = get_info_list("daily", "geduan_account.sql")  # 获取各端投资数据
+    # geduan_account_dic = {}
+    # for i in geduan_account:
+    #     geduan_account_dic[i.get("geduan")] = {"account": i.get("account")}
+    # geduan_xztz = get_info_list("daily", "geduan_xztz.sql")  # 获取各端新增投资数据
+    # geduan_xztz_dic = {}
+    # for i in geduan_xztz:
+    #     geduan_xztz_dic[i.get("geduan")] = {"xztz_j": i.get("xztz_j")}
+    # geduan_withdraw = get_info_list("daily", "geduan_withdraw.sql")  # 获取各端提现数据
+    # geduan_withdraw_dic = {}
+    # for i in geduan_withdraw:
+    #     geduan_withdraw_dic[i.get("geduan")] = {"withdraw": i.get("withdraw")}
+    # geduan_list = ["APP", "PC", "WAP"]  # 各端列表
+    # for gd in geduan_list:
+    #     models.GeDuanInfo.objects.using("default").create(
+    #         qdate=qdate,
+    #         geduan=gd,
+    #         recover=geduan_rw_dic.get(gd).get("recover"),
+    #         recover_withdraw=geduan_rw_dic.get(gd).get("recover_withdraw"),
+    #         account=geduan_account_dic.get(gd).get("account"),
+    #         xztz_j=geduan_xztz_dic.get(gd).get("xztz_j"),
+    #         withdraw=geduan_withdraw_dic.get(gd).get("withdraw")
+    #     )
+    return render(requests, "123.html")
 
 
 class DataStorage(View):
