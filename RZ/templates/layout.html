@@ -6,48 +6,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css">
     {% block css %}{% endblock %}
     <style>
         body {
             margin: 0;
         }
 
-        .pg-header{
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .pg-header {
             height: 48px;
             background-color: #2459a2;
             line-height: 48px;
         }
 
-        .pg-nav{
+        .pg-header .logo {
+            width: 200px;
+            height: 50px;
+        }
+
+        .pg-header .container {
+            width: 500px;
+            height: 48px;
+            margin-right: 100px;
+        }
+
+        .pg-header .container .icon {
+            float: right;
+            position: relative;
+            width: 50px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+        }
+
+        .pg-header .container img {
+            width: 50px;
+            height: 47px;
+            border-radius: 50%;
+        }
+        .pg-header .container .icon:hover {
+            cursor: pointer;
+            background-color: #5956dc;
+        }
+
+        .pg-header .container .icon:hover .settings {
+            display: block;
+        }
+
+        .pg-header .container .settings {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: -70px;
+            background-color: white;
+            border: 1px solid #dddddd;
+        }
+
+        .pg-header .container .settings .setting-line {
+            display: block;
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: small;
+        }
+
+        .pg-header .container .settings .setting-line:hover {
+            background-color: #32323a;
+        }
+
+        @media screen and (max-width: 900px) {
+            .pg-header .container {
+                display: none;
+            }
+        }
+
+        .pg-nav {
             position: absolute;
             top: 48px;
             bottom: 0;
             left: 0;
             width: 200px;
-            background-color: #dddddd;
+            background-color: #2a3542;
             overflow: auto;
         }
 
-        .pg-content{
+        .pg-content {
             position: absolute;
             top: 48px;
             right: 0;
             bottom: 0;
             left: 200px;
-            background-color: pink;
             overflow: auto;
         }
 
     </style>
 </head>
 <body>
-    <div class="pg-header"></div>
-    <div class="pg-nav"></div>
-    <div class="pg-content">
-        {% block content %}{% endblock %}
+<div class="pg-header">
+    <img class="logo" src="/static/build/img/admin_logo.png" alt="">
+    <div class="container right">
+        <div class="icon">
+            <img src="/static/build/img/breakering.jpg" alt="">
+            <div class="settings">
+                <a class="setting-line" href="http://www.baidu.com">我的信息</a>
+                <a class="setting-line" href="http://www.baidu.com">设置</a>
+                <a class="setting-line" href="http://www.baidu.com">注销</a>
+            </div>
+        </div>
+        <div class="right">
+            <a href=""><i class="fa fa-user-o" aria-hidden="true"></i></a>
+        </div>
+
     </div>
-    <script src="/static/plugins/jquery-1.12.4.js"></script>
-    <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-    {% block js %}{% endblock %}
+</div>
+<div class="pg-nav">
+    <div class=""></div>
+</div>
+<div class="pg-content">
+    {% block content %}{% endblock %}
+</div>
+<script src="/static/plugins/jquery-1.12.4.js"></script>
+<script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script>
+    $(function () {
+
+    })
+</script>
+{% block js %}{% endblock %}
 </body>
 </html>
