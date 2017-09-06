@@ -7,7 +7,8 @@ class User(models.Model):
     username = models.CharField(max_length=16, unique=True, verbose_name="用户名", db_index=True)
     pwd = models.CharField(max_length=64, verbose_name="密码")
     qq = models.IntegerField(verbose_name="QQ号")
-    register_time = models.DateTimeField(verbose_name="注册时间")
+    register_time = models.DateTimeField(auto_now_add=True, verbose_name="注册时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
 
     class Meta:
         verbose_name = "用户信息"

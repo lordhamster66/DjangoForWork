@@ -6,7 +6,9 @@ from crm import models
 # 创建类
 class UserAdmin(admin.ModelAdmin):
     # 把用户数据表里的想要显示的值放进去,在admin页面即可展示
-    list_display = ("username", "qq", "register_time")
+    list_display = ("username", "qq", "register_time", "update_time")
+
+    search_fields = ("username",)
 
     ordering = ("register_time",)
 
