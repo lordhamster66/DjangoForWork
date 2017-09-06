@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Breakering后台管理系统注册页面</title>
+    <link rel="shortcut icon" href="/static/build/img/favicon.ico">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/build/css/login.css">
+</head>
+<body>
+<h1>后台登录<sup>V2017</sup></h1>
+
+<div class="login" style="margin-top:50px;">
+
+    <div class="header">
+        <div class="switch" id="switch">
+            <a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+            <a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">快速注册</a>
+            <div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+        </div>
+    </div>
+
+
+    <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">
+        <!--登录-->
+        <div class="web_login" id="web_login">
+            <div class="login-box">
+                <div class="login_form">
+                    <form action="/crm/login/" name="loginform" accept-charset="utf-8" id="login_form"
+                          class="loginForm" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="did" value="0"/>
+                        <input type="hidden" name="to" value="log"/>
+                        <div class="uinArea" id="uinArea">
+                            <label class="input-tips" for="u">{{ login_obj.username.label }}</label>
+                            <div class="inputOuter" id="uArea">
+                                {{ login_obj.username }}
+                                <span class="errors">{{ login_obj.username.errors.0 }}</span>
+                            </div>
+                        </div>
+                        <div class="pwdArea" id="pwdArea">
+                            <label class="input-tips" for="p">{{ login_obj.pwd.label }}</label>
+                            <div class="inputOuter" id="pArea">
+                                {{ login_obj.pwd }}
+                                <span class="errors">{{ login_obj.pwd.errors.0 }}</span>
+                            </div>
+                        </div>
+                        <div style="padding-left:20px;margin-top:20px;">
+                            <span class="remember">{{ login_obj.remember }}记住我</span>
+                            <input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <!--登录end-->
+    </div>
+
+    <!--注册-->
+    <div class="qlogin" id="qlogin" style="display: none; ">
+        <div class="web_login">
+            <form name="form2" id="regUser" accept-charset="utf-8">
+                {% csrf_token %}
+                <input type="hidden" name="to" value="reg"/>
+                <input type="hidden" name="did" value="0"/>
+                <ul class="reg_form" id="reg-ul">
+                    <div id="userCue" class="cue">快速注册请注意格式</div>
+                    <li>
+                        <label for="user" class="input-tips2">{{ register_obj.username.label }}</label>
+                        <div class="inputOuter2">
+                            {{ register_obj.username }}
+                            <span id="username-error" class="errors">{{ register_obj.username.errors.0 }}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <label for="passwd" class="input-tips2">{{ register_obj.pwd.label }}</label>
+                        <div class="inputOuter2">
+                            {{ register_obj.pwd }}
+                            <span id="pwd-error" class="errors">{{ register_obj.pwd.errors.0 }}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <label for="passwd2" class="input-tips2">{{ register_obj.pwd_again.label }}</label>
+                        <div class="inputOuter2">
+                            {{ register_obj.pwd_again }}
+                            <span id="pwd_again-error" class="errors">{{ register_obj.pwd_again.errors.0 }}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <label for="qq" class="input-tips2">{{ register_obj.qq.label }}</label>
+                        <div class="inputOuter2">
+                            {{ register_obj.qq }}
+                            <span id="qq-error" class="errors">{{ register_obj.qq.errors.0 }}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="inputArea">
+                            <input type="button" id="reg" style="margin-top:10px;margin-left:85px;" class="button_blue"
+                                   value="同意协议并注册"/>
+                            <a href="#" class="zcxy" target="_blank">注册协议</a>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+    <!--注册end-->
+</div>
+<script src="/static/plugins/jquery-1.12.4.js"></script>
+<script src="/static/plugins/jquery.cookie.js"></script>
+<script src="/static/build/js/login.js"></script>
+</body>
+</html>

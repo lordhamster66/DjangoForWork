@@ -4,6 +4,15 @@ from crm import models
 
 # Register your models here.
 # 创建类
+class UserAdmin(admin.ModelAdmin):
+    # 把用户数据表里的想要显示的值放进去,在admin页面即可展示
+    list_display = ("username", "qq", "register_time")
+
+    ordering = ("register_time",)
+
+    list_filter = ('username',)
+
+
 class BaseInfoAdmin(admin.ModelAdmin):
     # 把这个基础数据表里的想要显示值放进去
     list_display = (
@@ -104,7 +113,7 @@ class WDTY_InfoAdmin(admin.ModelAdmin):
 
     list_filter = ('qdate', "name")
 
-
+admin.site.register(models.User, UserAdmin)  # 注册用户数据信息
 admin.site.register(models.BaseInfo, BaseInfoAdmin)  # 注册基础数据信息
 admin.site.register(models.QudaoName, QudaoNameAdmin)  # 注册渠道名称信息
 admin.site.register(models.TgInfo, TgInfoAdmin)  # 注册推广数据信息
