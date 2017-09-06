@@ -4,9 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    {% block css %}{% endblock %}
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .pg-header{
+            height: 48px;
+            background-color: #2459a2;
+            line-height: 48px;
+        }
+
+        .pg-nav{
+            position: absolute;
+            top: 48px;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            background-color: #dddddd;
+            overflow: auto;
+        }
+
+        .pg-content{
+            position: absolute;
+            top: 48px;
+            right: 0;
+            bottom: 0;
+            left: 200px;
+            background-color: pink;
+            overflow: auto;
+        }
+
+    </style>
 </head>
 <body>
-
+    <div class="pg-header"></div>
+    <div class="pg-nav"></div>
+    <div class="pg-content">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="/static/plugins/jquery-1.12.4.js"></script>
+    <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>
