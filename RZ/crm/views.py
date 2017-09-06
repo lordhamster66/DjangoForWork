@@ -348,7 +348,7 @@ def login(request):
             request.session.clear_expired()  # 清空过期的session
             if login_obj.clean().get("remember", None) == "True":
                 request.session["username"] = login_obj.clean().get("username")  # 设置session
-            return redirect("/crm/daily")
+            return render(request, "layout.html")
         else:
             return render(request, "login.html", {"login_obj": login_obj, "register_obj": register_obj})
 
@@ -383,7 +383,7 @@ def index(request):
     """后台首页"""
     if request.method == "GET":
         if request.session.get("username", None):
-            return render(request, "index.html")
+            return render(request, "layout.html")
         else:
             return redirect("/report/login/")
     elif request.method == "POST":
