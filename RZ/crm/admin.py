@@ -100,7 +100,7 @@ class WDZJ_InfoAdmin(admin.ModelAdmin):
 
     search_fields = ('platName',)
 
-    ordering = ('qdate', "amount")
+    ordering = ('qdate',)
 
     list_filter = ('qdate', "platName")
 
@@ -114,6 +114,7 @@ class WDTY_InfoAdmin(admin.ModelAdmin):
     ordering = ('qdate', "total")
 
     list_filter = ('qdate', "name")
+
 
 admin.site.register(models.User, UserAdmin)  # 注册用户数据信息
 admin.site.register(models.BaseInfo, BaseInfoAdmin)  # 注册基础数据信息
