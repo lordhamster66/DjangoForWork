@@ -28,7 +28,7 @@ class LoginForm(Form):
 
     pwd = fields.CharField(
         label="密码：",
-        widget=widgets.TextInput(attrs={"id": "p", "class": "inputstyle"}),
+        widget=widgets.PasswordInput(attrs={"id": "p", "class": "inputstyle"}),
         error_messages={"required": "密码不能为空！"}
     )
 

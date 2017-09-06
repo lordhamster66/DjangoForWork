@@ -3,7 +3,7 @@ import datetime
 import requests  # 爬虫专用
 import random
 import json
-import hashlib
+import hashlib  # 加密模块
 import re  # 正则模块
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
@@ -348,7 +348,7 @@ def login(request):
             request.session.clear_expired()  # 清空过期的session
             if login_obj.clean().get("remember", None) == "True":
                 request.session["username"] = login_obj.clean().get("username")  # 设置session
-            return render(request, "index.html")
+            return redirect("/crm/daily")
         else:
             return render(request, "login.html", {"login_obj": login_obj, "register_obj": register_obj})
 

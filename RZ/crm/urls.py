@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^daily/$', views.Daily.as_view()),  # 日报
     url(r'^get_wdzj_info/$', views.get_wdzj_info),  # 爬取网贷之家数据信息
     url(r'^get_wdty_info/$', views.get_wdty_info),  # 爬取网贷天眼数据信息
-    url(r'^login/$', views.login),
-    url(r'^register/$', views.register),
-    url(r'^index/$', views.index),
+    url(r'^login/$', views.login),  # 登录功能
+    url(r'^register/$', views.register),  # 注册功能
+    url(r'^index/$', views.index),  # 首页
 ]
