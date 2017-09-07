@@ -23,6 +23,21 @@ from crm import utils  # 常用功能及一些工具或一些常用变量
 def backup(request):
     """备份数据库表"""
     if request.method == "GET":
+        """
+            01u_0info_compay 
+
+            11_auth
+
+            01u_0base
+            05b_0base
+            05b_0base_run
+            05b_7dsbid
+            05b_1tenderfinal
+            rz_borrow
+            rz_loan_open_data
+            rz_borrow_tender
+            rz_borrow_big
+        """
         cursor = connections['default'].cursor()  # 获取一个游标
         base_sql = utils.sql_file_parser("backup", "05b_0base.sql")  # 获取更新05b_0base表的sql
         try:
@@ -346,9 +361,10 @@ def login(request):
         login_obj = forms.LoginForm(request.POST)
         if login_obj.is_valid():
             request.session.clear_expired()  # 清空过期的session
+            username = login_obj.clean().get("username")  # 获取用户名
             if login_obj.clean().get("remember", None) == "True":
-                request.session["username"] = login_obj.clean().get("username")  # 设置session
-            return render(request, "layout.html")
+                request.session["username"] = username  # 设置session
+            return render(request, "index.html", {"username": username})
         else:
             return render(request, "login.html", {"login_obj": login_obj, "register_obj": register_obj})
 
@@ -382,10 +398,11 @@ def register(request):
 def index(request):
     """后台首页"""
     if request.method == "GET":
-        if request.session.get("username", None):
-            return render(request, "layout.html")
+        username = request.session.get("username", None)  # 从session获取用户名
+        if username:  # 能获取到用户名，则直接让其看页面，否则让其重新登录
+            return render(request, "index.html", {"username": username})
         else:
-            return redirect("/report/login/")
+            return redirect("/crm/login/")
     elif request.method == "POST":
         return HttpResponse("滚！")
     else:
