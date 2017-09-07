@@ -455,3 +455,10 @@ def index(request):
         return HttpResponse("滚！")
     else:
         return HttpResponse("滚！")
+
+
+def logout(request):
+    """注销功能"""
+    if request.method == "GET":
+        request.session.delete(request.session.session_key)
+    return redirect("/crm/login/")

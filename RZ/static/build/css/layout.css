@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.hide {
+    display: none;
+}
+
+.pg-header {
+    height: 48px;
+    background-color: #2459a2;
+    line-height: 48px;
+}
+
+.pg-header .logo {
+    width: 200px;
+    height: 50px;
+}
+
+.pg-header .container {
+    width: 500px;
+    height: 48px;
+    margin-right: 100px;
+}
+
+.pg-header .container .header-menu {
+    display: inline-block;
+    width: 100px;
+    height: 48px;
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.pg-header .container .header-menu:hover {
+    background: #396bb3;
+}
+
+.pg-header .container .header-menu:hover a {
+    color: #fff;
+}
+
+.pg-header .container .header-menu a {
+    font-size: large;
+    color: #c0cddf;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.pg-header .container .icon {
+    position: relative;
+    width: 50px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+}
+
+.pg-header .container img {
+    width: 50px;
+    height: 47px;
+    border-radius: 50%;
+}
+
+.pg-header .container .icon:hover {
+    cursor: pointer;
+    background-color: #5956dc;
+}
+
+.pg-header .container .icon:hover .settings {
+    display: block;
+}
+
+.pg-header .container .settings {
+    z-index: 100;
+    display: none;
+    position: absolute;
+    width: 200px;
+    top: 48px;
+    left: -70px;
+    background-color: #f1f2f7;
+    border: 1px solid #dddddd;
+}
+
+.pg-header .container .settings .setting-line {
+    display: block;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-size: small;
+}
+
+.pg-header .container .settings .setting-line:hover {
+    background-color: #dddddd;
+}
+
+@media screen and (max-width: 900px) {
+    .pg-header .container {
+        display: none;
+    }
+}
+
+.pg-nav {
+    position: absolute;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    background-color: #2a3542;
+    overflow: auto;
+}
+
+.pg-nav .menu-line {
+    width: 200px;
+    text-align: center;
+    color: #fff;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.pg-nav .menu-line a {
+    color: #fff;
+}
+
+.pg-nav .menu-line:hover {
+    background: #2d404d;
+}
+
+.pg-nav .menu-line .menu-title {
+    width: 160px;
+    margin-left: 20px;
+}
+
+.pg-nav .menu-line .menu {
+    display: inline-block;
+    width: 200px;
+    font-size: small;
+    height: 40px;
+}
+
+.pg-nav .menu-line .menu:hover {
+    background: #28494d;
+}
+
+.pg-content {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+    overflow: auto;
+}
