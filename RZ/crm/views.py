@@ -13,6 +13,8 @@ from django.db import connections
 from crm import models
 from RZ import settings
 from crm import forms
+from django.db.utils import InternalError
+from crm import utils
 
 # Create your views here.
 # 伪造一些请求头
@@ -39,9 +41,22 @@ user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64)", 'Mozilla/5.0 (Windows NT 6
               'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.11 TaoBrowser/3.0 Safari/536.11']
 
 
+def backup(request):
+    """备份数据库表"""
+    cursor = connections['default'].cursor()  # 获取一个游标
+    base_sql = utils.sql_file_parser("backup", "05b_0base.sql")  # 获取更新05b_0base表的sql
+    try:
+        cursor.execute("create table 05b_0base like wd.05b_0base;")  # 在rzjf_bi创建05b_0base表
+    except InternalError as e:  # 捕捉错误并继续
+        print(e)
+    base_ret = cursor.execute(base_sql)  # 更新05b_0base表内容
+    return HttpResponse("ok!")
+
+
 def ceshi(request):
-    obj = models.User.objects.using("default").filter(id=6).first()
-    obj.save()
+    # cursor = connections['default'].cursor()
+    # cursor.execute("""create table 05b_0base like wd.05b_0base;""")
+    # cursor.execute("""""")
     return HttpResponse("ok!")
 
 
