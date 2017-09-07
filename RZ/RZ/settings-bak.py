@@ -90,6 +90,14 @@ DATABASES = {
         'HOST': 'sdfsdfsdf',
         'PORT': 'sdfsadfsdf',
     },
+    'rz_bi': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sdfsdf',
+        'USER': 'sdfsadfsadf',
+        'PASSWORD': 'sdfsadfsadfsad',
+        'HOST': 'sdfsdfsdf',
+        'PORT': 'sdfsadfsdf',
+    },
 }
 
 # Password validation
