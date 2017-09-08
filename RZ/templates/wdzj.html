@@ -1,8 +1,30 @@
 {% extends "layout.html" %}
 {% block title %}网贷之家{% endblock %}
+{% block css %}
+    <style>
+        a.page {
+            display: inline-block;
+            padding: 5px;
+            background-color: cyan;
+            margin: 5px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .page.active {
+            background-color: brown;
+            color: white;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <div class="left table-container">
-
+        <form action="/crm/wdzj/" method="POST">
+            {% csrf_token %}
+            <input id="search-daily" type="submit" class="right search" value="查询">
+            <input style="display: none" type="text" name="username" value="{{ username }}">
+            <input class="datepicker right" type="text" name="qdate">
+        </form>
         <table>
             <thead>
             <tr>
@@ -47,5 +69,6 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="pagenation">{{ page_str }}</div>
     </div>
 {% endblock %}

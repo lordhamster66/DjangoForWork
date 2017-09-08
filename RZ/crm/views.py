@@ -15,6 +15,7 @@ from RZ import settings
 from crm import forms
 from django.db.utils import InternalError
 from crm import utils  # 常用功能及一些工具或一些常用变量
+from utils import mypagenation
 
 
 # Create your views here.
@@ -428,9 +429,22 @@ def logout(request):
 
 def wdzj(request):
     """对接网贷之家接口"""
+    today = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")
     if request.method == "GET":
-        username = request.GET.get("u")
-        url = "https://testcg.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date=2017-09-07&page=1&pageSize=5"
-        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
-        borrowList = response.json().get("borrowList")
-        return render(request, "wdzj.html", {"username": username, "borrowList": borrowList})
+        qdate = request.GET.get("qdate", today)  # 获取日期，默认昨天
+        username = request.GET.get("u")  # 获取用户名
+        current_page = int(request.GET.get("p", "1"))  # 获取当前页
+    elif request.method == "POST":
+        qdate = request.POST.get("qdate", today)  # 获取日期，默认昨天
+        username = request.POST.get("username")  # 获取用户名
+        current_page = int(request.POST.get("p", "1"))  # 获取当前页
+    num_show = 20
+    url = "https://testcg.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
+        current_page=current_page, num_show=num_show, qdate=qdate)
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
+    data = response.json()  # 获取接口返回的数据
+    data_count = int(data.get("totalCount"))
+    pagenation = mypagenation.MyPageNation(current_page, data_count, num_show)
+    page_str = pagenation.page_str("/crm/wdzj/", username, qdate)
+    borrowList = data.get("borrowList")
+    return render(request, "wdzj.html", {"username": username, "borrowList": borrowList, "page_str": page_str})

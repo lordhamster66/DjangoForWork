@@ -5,8 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="/static/build/img/favicon.ico">
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" href="/static/build/css/layout.css">
     {% block css %}{% endblock %}
 </head>
@@ -58,6 +60,7 @@
 </div>
 <script src="/static/plugins/jquery-1.12.4.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script>
     $(function () {
         $(".menu-title").click(function () {

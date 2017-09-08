@@ -9,21 +9,8 @@ insert into 11_auth select * from wd.11_auth;
 CREATE TABLE 01u_0base like wd.01u_0base;
 insert into 01u_0base select * from wd.01u_0base WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
-
-CREATE TABLE 05b_0base like wd.05b_0base;
-insert into 05b_0base select * from wd.05b_0base WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
-
-
-CREATE TABLE 05b_0base_run like wd.05b_0base_run;
-insert into 05b_0base_run select * from wd.05b_0base_run WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
-
-
 CREATE TABLE 05b_7dsbid like wd.05b_7dsbid;
 insert into 05b_7dsbid select * from wd.05b_7dsbid WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
-
-
-create table 05b_1tenderfinal like wd.05b_1tenderfinal;
-insert into 05b_1tenderfinal select * from wd.05b_1tenderfinal WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
 create table rz_borrow like new_wd.rz_borrow;
 insert into rz_borrow select * from new_wd.rz_borrow WHERE create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
@@ -42,12 +29,6 @@ insert into rz_borrow_big select * from new_wd.rz_borrow_big WHERE create_time <
 
 CREATE TABLE 01u_0info like wd.01u_0info;
 insert into 01u_0info select * from wd.01u_0info WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
-
-
-create table 05b_1tenderdetail like wd.05b_1tenderdetail;
-insert into 05b_1tenderdetail select * from wd.05b_1tenderdetail WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
-
-
 
 create table rz_borrow_tender_0 like new_wd.rz_borrow_tender_0;
 insert into rz_borrow_tender_0 select * from new_wd.rz_borrow_tender_0 WHERE create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");

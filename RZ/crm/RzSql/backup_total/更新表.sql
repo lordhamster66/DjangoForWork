@@ -5,21 +5,8 @@ insert into 11_auth select * from wd.11_auth WHERE uid > (SELECT max(uid) from 1
 insert into 01u_0base select * from wd.01u_0base
 WHERE time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
 
-insert into 05b_0base select * from wd.05b_0base
-where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
-
-
-insert into 05b_0base_run select * from wd.05b_0base_run
-where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
-
-
 insert into 05b_7dsbid select * from wd.05b_7dsbid
 where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
-
-
-insert into 05b_1tenderfinal select * from wd.05b_1tenderfinal
-where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
-
 
 insert into rz_borrow select * from new_wd.rz_borrow
 where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and create_time <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
@@ -38,9 +25,6 @@ where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:
 
 
 insert into 01u_0info select * from wd.01u_0info
-where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
-
-insert into 05b_1tenderdetail select * from wd.05b_1tenderdetail
 where time_h > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and time_h <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
 
 insert into rz_borrow_tender_0 select * from new_wd.rz_borrow_tender_0

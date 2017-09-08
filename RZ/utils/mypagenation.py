@@ -30,7 +30,7 @@ class MyPageNation(object):
         """获取总页数"""
         return int(math.ceil(self.__data_count / self.__num_show))
 
-    def page_str(self, base_url):
+    def page_str(self, base_url, username=None, qdate=None):
         page_list = []  # 存放html内容
         if self.page_count <= self.__total_page_show:  # 如果总页数小于要显示的页码
             start_index = 1
@@ -51,15 +51,26 @@ class MyPageNation(object):
         if self.__current_page == 1:
             page_list.append('<a class="page" href="javascript:void(0);">上一页</a>')
         else:
-            page_list.append('<a class="page" href="%s?p=%s">上一页</a>' % (base_url, self.__current_page - 1,))
+            page_list.append(
+                '<a class="page" href="%s?p=%s&u=%s&qdate=%s">上一页</a>' % (
+                    base_url, self.__current_page - 1, username, qdate
+                )
+            )
         for i in range(start_index, end_index):
             if i == self.__current_page:
-                page_list.append("<a class='page active' href='%s?p=%s'>%s</a>" % (base_url, i, i))
+                page_list.append("<a class='page active' href='%s?p=%s&u=%s&qdate=%s'>%s</a>" % (
+                    base_url, i, username, qdate, i
+                ))
             else:
-                page_list.append("<a class='page' href='%s?p=%s'>%s</a>" % (base_url, i, i))
+                page_list.append("<a class='page' href='%s?p=%s&u=%s&qdate=%s'>%s</a>" % (
+                    base_url, i, username, qdate, i
+                ))
         if self.__current_page == self.page_count:
             page_list.append('<a class="page" href="javascript:void(0);">下一页</a>')
         else:
-            page_list.append('<a class="page" href="%s?p=%s">下一页</a>' % (base_url, self.__current_page + 1,))
+            page_list.append(
+                '<a class="page" href="%s?p=%s&u=%s&qdate=%s">下一页</a>' % (
+                    base_url, self.__current_page + 1, username, qdate
+                ))
         page_str = mark_safe("".join(page_list))
         return page_str
