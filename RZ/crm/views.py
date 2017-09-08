@@ -37,58 +37,20 @@ def backup(request):
             rz_loan_open_data
             rz_borrow_tender
             rz_borrow_big
+            
+            01u_0info
+            05b_1tenderdetail
+            rz_borrow_tender_0 ~ rz_borrow_tender_31
         """
         cursor = connections['rz_bi'].cursor()  # 获取一个游标
         try:
-            cursor.execute("start transaction;")
-
-            info_compay_sql = utils.sql_file_parser("backup", "01u_0info_compay.sql")  # 获取更新01u_0info_compay表的sql
-            info_compay_ret = cursor.execute(info_compay_sql)  # 更新01u_0info_compay表内容
-            settings.action_logger.info("01u_0info_compay更新了%s条数据!" % (info_compay_ret,))
-
-            auth_sql = utils.sql_file_parser("backup", "11_auth.sql")
-            auth_ret = cursor.execute(auth_sql)
-            settings.action_logger.info("11_auth更新了%s条数据!" % (auth_ret,))
-
-            base01u_sql = utils.sql_file_parser("backup", "01u_0base.sql")
-            base01u_ret = cursor.execute(base01u_sql)
-            settings.action_logger.info("01u_0base更新了%s条数据!" % (base01u_ret,))
-
-            base05b_sql = utils.sql_file_parser("backup", "05b_0base.sql")
-            base05b_ret = cursor.execute(base05b_sql)
-            settings.action_logger.info("05b_obase更新了%s条数据!" % (base05b_ret,))
-
-            base05b_run_sql = utils.sql_file_parser("backup", "05b_0base_run.sql")
-            base05b_run_ret = cursor.execute(base05b_run_sql)
-            settings.action_logger.info("05b_0base_run更新了%s条数据!" % (base05b_run_ret,))
-
-            base05b_run_sql = utils.sql_file_parser("backup", "05b_0base_run.sql")
-            base05b_run_ret = cursor.execute(base05b_run_sql)
-            settings.action_logger.info("05b_0base_run更新了%s条数据!" % (base05b_run_ret,))
-
-            dsbid_sql = utils.sql_file_parser("backup", "05b_7dsbid.sql")
-            dsbid_ret = cursor.execute(dsbid_sql)
-            settings.action_logger.info("05b_7dsbid更新了%s条数据!" % (dsbid_ret,))
-
-            tenderfinal_sql = utils.sql_file_parser("backup", "05b_1tenderfinal.sql")
-            tenderfinal_ret = cursor.execute(tenderfinal_sql)
-            settings.action_logger.info("05b_1tenderfinal更新了%s条数据!" % (tenderfinal_ret,))
-
-            rz_borrow_sql = utils.sql_file_parser("backup", "rz_borrow.sql")
-            rz_borrow_ret = cursor.execute(rz_borrow_sql)
-            settings.action_logger.info("rz_borrow更新了%s条数据!" % (rz_borrow_ret,))
-
-            rz_loan_open_data_sql = utils.sql_file_parser("backup", "rz_loan_open_data.sql")
-            rz_loan_open_data_ret = cursor.execute(rz_loan_open_data_sql)
-            settings.action_logger.info("rz_loan_open_data更新了%s条数据!" % (rz_loan_open_data_ret,))
-
-            rz_borrow_tender_sql = utils.sql_file_parser("backup", "rz_borrow_tender.sql")
-            rz_borrow_tender_ret = cursor.execute(rz_borrow_tender_sql)
-            settings.action_logger.info("rz_borrow_tender更新了%s条数据!" % (rz_borrow_tender_ret,))
-
-            rz_borrow_big_sql = utils.sql_file_parser("backup", "rz_borrow_big.sql")
-            rz_borrow_big_ret = cursor.execute(rz_borrow_big_sql)
-            settings.action_logger.info("rz_borrow_big更新了%s条数据!" % (rz_borrow_big_ret,))
+            cursor.execute("start transaction;")  # 开启事务
+            sql_file_name_list = os.listdir(os.path.join(settings.BASE_DIR, "crm", "RzSql", "backup"))  # 获取所有备份数据文件名称
+            for sql_file_name in sql_file_name_list:
+                temp_sql = utils.sql_file_parser("backup", sql_file_name)  # 获取sql
+                temp_ret = cursor.execute(temp_sql)  # 执行sql
+                table_name = sql_file_name.replace(".sql", "")  # 获取表名
+                settings.action_logger.info("%s更新了%s条数据!" % (table_name, temp_ret))  # 插入日志
         except Exception as e:
             settings.action_logger.info("数据备份出错了!%s" % e)
             cursor.execute("rollback;")
@@ -462,3 +424,13 @@ def logout(request):
     if request.method == "GET":
         request.session.delete(request.session.session_key)
     return redirect("/crm/login/")
+
+
+def wdzj(request):
+    """对接网贷之家接口"""
+    if request.method == "GET":
+        username = request.GET.get("u")
+        url = "https://testcg.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date=2017-09-07&page=1&pageSize=5"
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
+        borrowList = response.json().get("borrowList")
+        return render(request, "wdzj.html", {"username": username, "borrowList": borrowList})

@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^register/$', views.register),  # 注册功能
     url(r'^logout/$', views.logout),  # 注销功能
     url(r'^index/$', views.index),  # 首页
-    url(r'^index/$', views.index),  # 首页
+    url(r'^wdzj/$', views.wdzj),  # 网贷之家
 ]
