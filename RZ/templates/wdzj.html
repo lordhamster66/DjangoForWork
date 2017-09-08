@@ -28,6 +28,7 @@
         <table>
             <thead>
             <tr>
+                <th>序号</th>
                 <th>标的名称</th>
                 <th>借款标题</th>
                 <th>借款金额</th>
@@ -49,6 +50,7 @@
             <tbody id="tb1">
             {% for item in borrowList %}
                 <tr>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ item.flag_name }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.amount }}</td>
