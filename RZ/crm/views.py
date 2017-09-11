@@ -26,9 +26,7 @@ def backup(request):
     if request.method == "GET":
         """
             01u_0info_compay 
-
             11_auth
-
             01u_0base
             05b_0base
             05b_0base_run
@@ -37,8 +35,7 @@ def backup(request):
             rz_borrow
             rz_loan_open_data
             rz_borrow_tender
-            rz_borrow_big
-            
+            rz_borrow_big     
             01u_0info
             05b_1tenderdetail
             rz_borrow_tender_0 ~ rz_borrow_tender_31

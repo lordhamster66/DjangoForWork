@@ -24,7 +24,7 @@ def recive(sender, **kwargs):
 
 
 def save_obj(sender, **kwargs):
-    print(sender, kwargs)
+    pass
 
 request_started.connect(recive)
 post_save.connect(save_obj)
