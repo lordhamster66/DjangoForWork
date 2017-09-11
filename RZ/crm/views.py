@@ -436,7 +436,7 @@ def wdzj(request):
         username = request.POST.get("username")  # 获取用户名
         current_page = int(request.POST.get("p", "1"))  # 获取当前页
     num_show = 20
-    url = "https://testcg.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
+    url = "https://www.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
         current_page=current_page, num_show=num_show, qdate=qdate)
     response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
     data = response.json()  # 获取接口返回的数据
