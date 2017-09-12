@@ -16,6 +16,7 @@ from crm import forms
 from django.db.utils import InternalError
 from crm import utils  # 常用功能及一些工具或一些常用变量
 from utils import mypagenation
+from datetime import timedelta, date
 
 
 # Create your views here.
@@ -55,14 +56,6 @@ def backup(request):
         else:
             cursor.execute("commit;")
         return HttpResponse("ok!")
-
-
-def ceshi(request):
-    # cursor = connections['default'].cursor()
-    # cursor.execute("""create table 05b_0base like wd.05b_0base;""")
-    # cursor.execute("""""")
-    settings.action_logger.info("你好!")
-    return HttpResponse("ok!")
 
 
 class DataStorage(View):
@@ -227,53 +220,6 @@ class DataStorage(View):
         pass
 
 
-class Daily(View):
-    """用于日报展示"""
-
-    def dispatch(self, request, *args, **kwargs):
-        result = super(Daily, self).dispatch(request, *args, **kwargs)
-        return result
-
-    def get_info(self, qdate):
-        try:
-            base_info = models.BaseInfo.objects.using("default").filter(qdate=qdate).first()  # 获取基础信息
-            tg_info = models.TgInfo.objects.using("default").filter(qdate=qdate).first()  # 获取推广信息
-            operate_info = models.OperateInfo.objects.using("default").filter(qdate=qdate).first()  # 获取运营信息
-            invite_info = models.InviteInfo.objects.using("default").filter(qdate=qdate).first()  # 获取邀请信息
-            asset_info = models.AssetInfo.objects.using("default").filter(qdate=qdate).first()  # 获取项目信息
-            kefu_info = models.KeFuInfo.objects.using("default").filter(qdate=qdate).first()  # 获取客服信息
-            # 存放第一页数据
-            daily_page1 = {}
-            daily_page1["qdate"] = qdate  # 当前日期
-            daily_page1["tz_zh"] = round(int(base_info.xztz_r) / int(base_info.zhu_r) * 100, 2)  # 当日投资转化率
-            daily_page1["tz_j"] = round(int(base_info.tz_j) / 10000, 2)  # 投资金额
-            daily_page1["xztz_j"] = round(int(base_info.xztz_j) / 10000, 2)  # 新增投资金额
-            daily_page1["xztz_j_zb"] = round(int(base_info.xztz_j) / int(base_info.tz_j) * 100, 0)  # 新增投资金额占比
-            daily_page1["sm_r"] = int(base_info.sm_r)  # 实名人数
-            daily_page1["zhu_r"] = int(base_info.zhu_r)  # 注册人数
-            daily_page1["tz_r"] = int(base_info.tz_r)  # 投资人数
-            daily_page1["xztz_r"] = int(base_info.xztz_r)  # 新增投资人数
-            daily_page1["pg_tz_j"] = round(int(base_info.tz_j) / int(base_info.tz_r) / 10000, 1)  # 平均每人投资
-            daily_page1["tj_r"] = int(invite_info.invited_st_r)
-        except Exception as e:
-            print(e)
-        return daily_page1
-
-    def get(self, request, *args, **kwargs):
-        """获取日报"""
-        today = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
-        daily_page1 = self.get_info(today)
-        qdate = forms.DailyForm(initial={"qdate": today})
-        return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
-
-    def post(self, request, *args, **kwargs):
-        """查询其他日期的日报"""
-        qdate = request.POST.get("qdate")
-        daily_page1 = self.get_info(qdate)
-        qdate = forms.DailyForm(request.POST, initial={"qdate": qdate})
-        return render(request, "daily.html", {"daily_page1": daily_page1, "qdate": qdate})
-
-
 def get_wdzj_info(request):
     """获取网贷之家数据信息并存入数据库"""
     if request.method == "GET":
@@ -436,7 +382,7 @@ def wdzj(request):
         username = request.POST.get("username")  # 获取用户名
         current_page = int(request.POST.get("p", "1"))  # 获取当前页
     num_show = 20
-    url = "https://www.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
+    url = "https://testcg.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
         current_page=current_page, num_show=num_show, qdate=qdate)
     response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
     data = response.json()  # 获取接口返回的数据

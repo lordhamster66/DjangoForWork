@@ -8,11 +8,13 @@
     <link rel="shortcut icon" href="/static/build/img/favicon.ico">
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="/static/plugins/sweetalert-master/dist/sweetalert.css">
     <link rel="stylesheet" href="/static/build/css/daily.css">
 </head>
 <body>
 <div class="daily-content">
     <div id="page1" class="daily-container">
+        <span id="alert" style="display: none;">{{ alert_message }}</span>
         <div class="head">
             <div class="daily-tag left">
                 <img src="/static/build/img/daily_tag.png" alt="">
@@ -22,7 +24,7 @@
             <form action="/crm/daily/#page1" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                {{ qdate.qdate }}
+                {{ daily_form.qdate }}
             </form>
             <div class="clear"></div>
         </div>
@@ -86,18 +88,127 @@
             <div class="clear"></div>
         </div>
         <div class="body">
-            <div class="left" id="main" style="width: 1000px;height: 500px;margin-top: 80px;"></div>
+            <div class="left echart" id="zhu_xz"></div>
+            <div class="right summary">
+                <p class="left content">总结:</p>
+                <img class="left" src="/static/build/img/line.png" alt="">
+                <p class="left content" style="color: black;font-size: large;">2017年9月11日:</p>
+                <div>
+                    <p class="left content title">当日注册人数:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">872</span>人
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">上升</span>
+                        <span class="mark">101.4%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">当日新增投资人数:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">246</span>人
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">上升</span>
+                        <span class="mark">59.7%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">新增投资转化率:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">28.21%</span>
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">下降</span>
+                        <span class="mark">20.7%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page3" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">平台数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page2" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="zhu_xz"></div>
+            <div class="right summary">
+                <p class="left content">总结:</p>
+                <img class="left" src="/static/build/img/line.png" alt="">
+                <p class="left content" style="color: black;font-size: large;">2017年9月11日:</p>
+                <div>
+                    <p class="left content title">当日注册人数:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">872</span>人
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">上升</span>
+                        <span class="mark">101.4%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">当日新增投资人数:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">246</span>人
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">上升</span>
+                        <span class="mark">59.7%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">新增投资转化率:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">28.21%</span>
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">下降</span>
+                        <span class="mark">20.7%</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script src="/static/plugins/jquery-1.12.4.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
 <script src="/static/plugins/echarts.js"></script>
 <script src="/static/build/js/common.js"></script>
 <script src="/static/build/js/daily.js"></script>
+<script>
+    $(function () {
+        var alertMessage = $("#alert").text();
+        if (alertMessage) {
+            swal({
+                title: alertMessage,
+                text: "正在重定向至昨天的日报!",
+                type: "warning"
+            }, function () {
+                location.href = "/crm/daily/";
+            });
+        }
+    })
+</script>
 <script type="text/javascript">
-    var dom = document.getElementById("main");
+    var dom = document.getElementById("zhu_xz");
     var myChart = echarts.init(dom);
     var app = {};
     option = null;
@@ -144,7 +255,7 @@
             {
                 name: '注册人数',
                 type: 'bar',
-                data: [548, 536, 422, 383, 337, 356, 323, 305],
+                data: {{ zhu_r_list | safe }},
                 label: {
                     normal: {
                         show: true,

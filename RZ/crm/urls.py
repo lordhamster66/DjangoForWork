@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from crm import views
+from .views import daily
+from .views import views
+from .views import ceshi
 
 urlpatterns = [
-    url(r'^ceshi/$', views.ceshi),  # 测试
+    url(r'^ceshi/$', ceshi.ceshi),  # 测试
     url(r'^data_storage/$', views.DataStorage.as_view()),  # 获取公司数据库信息
-    url(r'^daily/$', views.Daily.as_view()),  # 日报
+    url(r'^daily/$', daily.Daily.as_view()),  # 日报
     url(r'^get_wdzj_info/$', views.get_wdzj_info),  # 爬取网贷之家数据信息
     url(r'^get_wdty_info/$', views.get_wdty_info),  # 爬取网贷天眼数据信息
     url(r'^backup/$', views.backup),  # 备份表

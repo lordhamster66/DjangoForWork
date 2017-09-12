@@ -75,7 +75,7 @@ body {
     height: 150px;
 }
 
-.daily-container .body .info .msg p{
+.daily-container .body .info .msg p {
     text-align: center;
 }
 
@@ -88,4 +88,47 @@ body {
 .daily-container .body .info .msg .bold {
     font-size: large;
     font-weight: bold;
+}
+
+.daily-container .body .echart {
+    width: 1000px;
+    height: 500px;
+    margin-top: 80px;
+}
+
+.daily-container .body .summary {
+    width: 400px;
+    height: 500px;
+    margin-top: 20px;
+}
+
+.daily-container .body .summary .content {
+    width: 400px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    color: #255796;
+    font-weight: bold;
+    font-size: large;
+}
+
+.daily-container .body .summary .title {
+    color: black;
+    font-size: medium;
+}
+
+.daily-container .body .summary .text {
+    color: black;
+    font-size: large;
+    text-align: right;
+    padding-right: 50px
+}
+
+.daily-container .body .summary .mark {
+    color: #ffc000;
+}
+
+.daily-container .body .summary .contrast {
+    color: red;
+    font-size: medium;
 }

@@ -11,8 +11,9 @@ class User(models.Model):
     update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
 
     class Meta:
-        verbose_name = "用户信息"
-        verbose_name_plural = "用户信息"
+        db_table = "rzjf_user"  # 数据库表名
+        verbose_name = "用户信息"  # admin表名
+        verbose_name_plural = "用户信息"  # admin +s表名
 
 
 class BaseInfo(models.Model):
@@ -39,6 +40,7 @@ class BaseInfo(models.Model):
     zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='在贷金额', null=True)
 
     class Meta:
+        db_table = "rzjf_base_info"
         verbose_name = '基础数据'
         verbose_name_plural = '基础数据'
 
@@ -49,6 +51,7 @@ class QudaoName(models.Model):
     name = models.CharField(max_length=32, verbose_name='渠道名称', db_index=True)
 
     class Meta:
+        db_table = "rzjf_qudao_name"
         verbose_name = '渠道名称对应表'
         verbose_name_plural = '渠道名称对应表'
 
@@ -63,6 +66,7 @@ class TgInfo(models.Model):
     tg_xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广新增金额')
 
     class Meta:
+        db_table = "rzjf_tg_info"
         verbose_name = '推广数据'
         verbose_name_plural = '推广数据'
 
@@ -77,6 +81,7 @@ class OperateInfo(models.Model):
     rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='人数复投率')
 
     class Meta:
+        db_table = "rzjf_operate_info"
         verbose_name = '运营数据'
         verbose_name_plural = '运营数据'
 
@@ -94,6 +99,7 @@ class InviteInfo(models.Model):
     hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额')
 
     class Meta:
+        db_table = "rzjf_invite_info"
         verbose_name = '邀请数据'
         verbose_name_plural = '邀请数据'
 
@@ -107,6 +113,7 @@ class AssetInfo(models.Model):
     mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时')
 
     class Meta:
+        db_table = "rzjf_asset_info"
         verbose_name = '资产数据'
         verbose_name_plural = '资产数据'
 
@@ -120,6 +127,7 @@ class KeFuInfo(models.Model):
     zt_r = models.IntegerField(verbose_name='在投用户')
 
     class Meta:
+        db_table = "rzjf_kefu_info"
         verbose_name = '客服数据'
         verbose_name_plural = '客服数据'
 
@@ -135,6 +143,7 @@ class GeDuanInfo(models.Model):
     withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端提现金额", null=True)
 
     class Meta:
+        db_table = "rzjf_geduan_info"
         verbose_name = "各端数据"
         verbose_name_plural = "各端数据"
 
@@ -163,6 +172,7 @@ class WDZJ_Info(models.Model):
     developZhishu = models.IntegerField(verbose_name='发展指数排名', null=True)
 
     class Meta:
+        db_table = "rzjf_wdzj_info"
         verbose_name = '网贷之家数据信息'
         verbose_name_plural = '网贷之家数据信息'
 
@@ -181,5 +191,6 @@ class WDTY_Info(models.Model):
     capital = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='平台资金净流入(万)', null=True)
 
     class Meta:
+        db_table = "rzjf_wdty_info"
         verbose_name = '网贷天眼数据信息'
         verbose_name_plural = '网贷天眼数据信息'
