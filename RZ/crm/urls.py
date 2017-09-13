@@ -18,6 +18,7 @@ from .views import daily
 from .views import views
 from .views import ceshi
 from .views import db_backup
+from .views import some_script
 
 urlpatterns = [
     url(r'^ceshi/$', ceshi.ceshi),  # 测试
@@ -31,4 +32,5 @@ urlpatterns = [
     url(r'^logout/$', views.logout),  # 注销功能
     url(r'^index/$', views.index),  # 首页
     url(r'^wdzj/$', views.wdzj),  # 网贷之家
+    url(r'^create_fake_info/(?P<bid>\d*)/(?P<new_bid>\d*)/(?P<name>\w*-\w*)/$', some_script.create_fake_info),  # 创建虚假数据
 ]
