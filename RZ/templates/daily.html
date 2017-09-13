@@ -15,7 +15,7 @@
 <body>
 <div class="daily-content">
     <div id="page1" class="daily-container">
-        <span id="alert" style="display: none;">{{ alert_message }}</span>
+        <span id="alert" style="display: none;">{{ alert_message }}{{ daily_form.qdate.errors.0 }}</span>
         <div class="head">
             <div class="daily-tag left">
                 <img src="/static/build/img/daily_tag.png" alt="">
@@ -120,11 +120,6 @@
                     <p class="left content title">新增投资转化率:</p>
                     <p class="left content text">
                         <span class="mark" style="margin-right: 50px;">{{ daily_page1.tz_zh }}%</span>
-                    </p>
-                    <p class="left content text" style="padding-right: 0">
-                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.xztz_lv_ud }}</span>
-                        <span class="mark">{{ daily_page2.xztz_lv_huanbi }}%</span>
                     </p>
                 </div>
             </div>

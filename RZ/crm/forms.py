@@ -9,12 +9,16 @@ from django.forms import widgets
 from django.forms import RegexField
 from crm import models
 from django.core.exceptions import ValidationError
+from datetime import datetime
 
 
 class DailyForm(Form):
     qdate = fields.DateField(
-        error_messages={"required": "日期不能为空!"},
-        widget=widgets.TextInput(attrs={"class": "datepicker right search"})
+        widget=widgets.TextInput(attrs={"class": "datepicker right search"}),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
     )
 
 

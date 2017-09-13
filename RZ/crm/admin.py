@@ -92,6 +92,20 @@ class GeDuanInfoAdmin(admin.ModelAdmin):
     ordering = ("qdate", "geduan")
 
 
+class TimeSlotAdmin(admin.ModelAdmin):
+    """各时间段详情信息表显示信息"""
+    list_display = ("qdate", "timeslot", "tz_r")
+
+    ordering = ("qdate", "timeslot")
+
+
+class OtherInfoAdmin(admin.ModelAdmin):
+    """其他数据信息表显示信息"""
+    list_display = ("qdate", "cz_fee", "short_tz_r", "short_tz_j", "short_zd_j")
+
+    ordering = ("qdate",)
+
+
 class WDZJ_InfoAdmin(admin.ModelAdmin):
     """网贷之家数据信息表显示信息"""
     list_display = (
@@ -125,5 +139,7 @@ admin.site.register(models.InviteInfo, InviteInfoAdmin)  # 注册邀请数据信
 admin.site.register(models.AssetInfo, AssetInfoAdmin)  # 注册资产数据信息
 admin.site.register(models.KeFuInfo, KeFuInfoAdmin)  # 注册客服数据信息
 admin.site.register(models.GeDuanInfo, GeDuanInfoAdmin)  # 注册各端数据信息
+admin.site.register(models.TimeSlot, TimeSlotAdmin)  # 注册各时间段详情
+admin.site.register(models.OtherInfo, OtherInfoAdmin)  # 注册其他数据
 admin.site.register(models.WDZJ_Info, WDZJ_InfoAdmin)  # 注册网贷之家数据信息
 admin.site.register(models.WDTY_Info, WDTY_InfoAdmin)  # 注册网贷天眼数据信息

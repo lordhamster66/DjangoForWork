@@ -149,6 +149,32 @@ class GeDuanInfo(models.Model):
         verbose_name_plural = "各端数据"
 
 
+class TimeSlot(models.Model):
+    """各时间段详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    timeslot = models.IntegerField(verbose_name="时间段")
+    tz_r = models.IntegerField(verbose_name='投资人数')
+
+    class Meta:
+        db_table = "rzjf_time_slot"
+        verbose_name = "各时间段数据"
+        verbose_name_plural = "各时间段数据"
+
+
+class OtherInfo(models.Model):
+    """其他数据"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    cz_fee = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="充值手续费", null=True)
+    short_tz_r = models.IntegerField(verbose_name="30天以内短标交易人数", null=True)
+    short_tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="30天以内短标交易金额", null=True)
+    short_zd_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="30天以内短标待还总额", null=True)
+
+    class Meta:
+        db_table = "rzjf_other_info"
+        verbose_name = "其他数据"
+        verbose_name_plural = "其他数据"
+
+
 class WDZJ_Info(models.Model):
     """网贷之家数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True, null=True)

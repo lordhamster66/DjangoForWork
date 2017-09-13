@@ -84,8 +84,6 @@ class Daily(View):
             daily_page2["zhu_r_ud"] = ""  # 注册人数上升或者下降
             daily_page2["xztz_r_huanbi"] = ""  # 新增投资人数环比
             daily_page2["xztz_r_ud"] = ""  # 新增投资人数上升或者下降
-            daily_page2["xztz_lv_huanbi"] = ""  # 新增投资转化率环比
-            daily_page2["xztz_lv_ud"] = ""  # 新增投资转化率上升或者下降
 
             daily_page3["hk_j"] = round(int(base_info.hk_j) / 10000, 2)  # 回款金额
             daily_page3["zg_j"] = round(int(base_info.zg_j) / 10000, 2)  # 站岗资金
@@ -144,9 +142,6 @@ class Daily(View):
                     xztz_r_huanbi = self.mom(daily_page1["xztz_r"], obj.xztz_r)
                     daily_page2["xztz_r_ud"] = self.up_or_down(xztz_r_huanbi)
                     daily_page2["xztz_r_huanbi"] = abs(xztz_r_huanbi)
-                    xztz_lv_huanbi = self.mom(daily_page1["tz_zh"], xztz_lv)
-                    daily_page2["xztz_lv_ud"] = self.up_or_down(xztz_lv_huanbi)
-                    daily_page2["xztz_lv_huanbi"] = abs(xztz_lv_huanbi)
 
                     tz_j_huanbi = self.mom(daily_page1["tz_j"], obj.tz_j)
                     daily_page3["tz_j_ud"] = self.up_or_down(tz_j_huanbi)
@@ -201,6 +196,7 @@ class Daily(View):
             daily_page5, daily_page6, daily_page7
         ) = self.get_info(today)
         daily_form = forms.DailyForm(initial={"qdate": today})
+        daily_form.is_valid()
         return render(
             request, "daily.html",
             {
@@ -218,23 +214,26 @@ class Daily(View):
 
     def post(self, request, *args, **kwargs):
         """查询其他日期的日报"""
-        qdate = request.POST.get("qdate")
-        (
-            alert_message, daily_page1, daily_page2, daily_page3, daily_page4,
-            daily_page5, daily_page6, daily_page7
-        ) = self.get_info(qdate)
+        qdate = request.POST.get("qdate")  # 获取用户输入的日期
         daily_form = forms.DailyForm(request.POST, initial={"qdate": qdate})
-        return render(
-            request, "daily.html",
-            {
-                "daily_page1": daily_page1,
-                "daily_page2": daily_page2,
-                "daily_page3": daily_page3,
-                "daily_page4": daily_page4,
-                "daily_page5": daily_page5,
-                "daily_page6": daily_page6,
-                "daily_page7": daily_page7,
-                "daily_form": daily_form,
-                "alert_message": alert_message
-            }
-        )
+        if daily_form.is_valid():
+            (
+                alert_message, daily_page1, daily_page2, daily_page3, daily_page4,
+                daily_page5, daily_page6, daily_page7
+            ) = self.get_info(qdate)
+            return render(
+                request, "daily.html",
+                {
+                    "daily_page1": daily_page1,
+                    "daily_page2": daily_page2,
+                    "daily_page3": daily_page3,
+                    "daily_page4": daily_page4,
+                    "daily_page5": daily_page5,
+                    "daily_page6": daily_page6,
+                    "daily_page7": daily_page7,
+                    "daily_form": daily_form,
+                    "alert_message": alert_message
+                }
+            )
+        else:
+            return render(request, "daily.html", {"daily_form": daily_form})
