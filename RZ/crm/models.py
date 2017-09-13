@@ -64,6 +64,7 @@ class TgInfo(models.Model):
     tg_sc_r = models.IntegerField(verbose_name='推广首充人数')
     tg_xztz_r = models.IntegerField(verbose_name='推广新增人数')
     tg_xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广新增金额')
+    tg_cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广花费', null=True)
 
     class Meta:
         db_table = "rzjf_tg_info"

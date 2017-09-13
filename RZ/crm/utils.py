@@ -41,3 +41,14 @@ def sql_file_parser(catalog, sql_name):
     sql = f.read()
     f.close()
     return sql
+
+
+def normal_date(qdate):
+    """
+
+    :param qdate:
+    :return:
+    """
+    temp_list = qdate.split("-")
+    NormalDate = temp_list[0] + "年" + temp_list[1] + "月" + temp_list[2] + "日"
+    return NormalDate

@@ -1,3 +1,4 @@
+{% load mytag %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,38 +93,38 @@
             <div class="right summary">
                 <p class="left content">总结:</p>
                 <img class="left" src="/static/build/img/line.png" alt="">
-                <p class="left content" style="color: black;font-size: large;">2017年9月11日:</p>
+                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
                 <div>
                     <p class="left content title">当日注册人数:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">872</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.zhu_r }}</span>人
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">上升</span>
-                        <span class="mark">101.4%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.zhu_r_ud }}</span>
+                        <span class="mark">{{ daily_page2.zhu_r_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">当日新增投资人数:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">246</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.xztz_r }}</span>人
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">上升</span>
-                        <span class="mark">59.7%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.xztz_r_ud }}</span>
+                        <span class="mark">{{ daily_page2.xztz_r_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">新增投资转化率:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">28.21%</span>
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.tz_zh }}%</span>
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">下降</span>
-                        <span class="mark">20.7%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.xztz_lv_ud }}</span>
+                        <span class="mark">{{ daily_page2.xztz_lv_huanbi }}%</span>
                     </p>
                 </div>
             </div>
@@ -136,7 +137,7 @@
             </div>
             <h1 class="title left">平台数据</h1>
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
-            <form action="/crm/daily/#page2" method="POST">
+            <form action="/crm/daily/#page3" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
                 <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
@@ -144,45 +145,162 @@
             <div class="clear"></div>
         </div>
         <div class="body">
-            <div class="left echart" id="zhu_xz"></div>
-            <div class="right summary">
+            <div class="left echart" id="tz_hk"></div>
+            <div class="right summary" style="margin-top: 0">
                 <p class="left content">总结:</p>
                 <img class="left" src="/static/build/img/line.png" alt="">
-                <p class="left content" style="color: black;font-size: large;">2017年9月11日:</p>
+                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
                 <div>
-                    <p class="left content title">当日注册人数:</p>
+                    <p class="left content title">投资金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">872</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.tz_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">上升</span>
-                        <span class="mark">101.4%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.tz_j_ud }}</span>
+                        <span class="mark">{{ daily_page3.tz_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
-                    <p class="left content title">当日新增投资人数:</p>
+                    <p class="left content title">回款金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">246</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page3.hk_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">上升</span>
-                        <span class="mark">59.7%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.hk_j_ud }}</span>
+                        <span class="mark">{{ daily_page3.hk_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
-                    <p class="left content title">新增投资转化率:</p>
+                    <p class="left content title">站岗资金:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">28.21%</span>
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page3.zg_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">下降</span>
-                        <span class="mark">20.7%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.zg_j_ud }}</span>
+                        <span class="mark">{{ daily_page3.zg_j_huanbi }}%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title" style="padding-right: 120px">
+                        资金复投率:
+                        <span class="mark right" style="font-size: larger">{{ daily_page3.zj_ft_lv }}%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title" style="padding-right: 120px; margin-top: 50px;">
+                        人数复投率:
+                        <span class="mark right" style="font-size: larger">{{ daily_page3.rs_ft_lv }}%</span>
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="page4" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">平台数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page4" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="cz_tx"></div>
+            <div class="right summary">
+                <p class="left content">总结:</p>
+                <img class="left" src="/static/build/img/line.png" alt="">
+                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
+                <div>
+                    <p class="left content title">充值金额:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.cz_j }}</span>万
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page4.cz_j_ud }}</span>
+                        <span class="mark">{{ daily_page4.cz_j_huanbi }}%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">提现金额:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.tx_j }}</span>万
+                    </p>
+                    <p class="left content text" style="padding-right: 0">
+                        <span class="contrast" style="margin-right: 10px;">环比前日</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.tx_j_ud }}</span>
+                        <span class="mark">{{ daily_page4.tx_j_huanbi }}%</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="left content title">净流入:</p>
+                    <p class="left content text">
+                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.income }}</span>万
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page5" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">平台数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page5" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="renshu_tz" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page7" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">推广数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page7" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="renshu_tg" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page8" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">推广数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page8" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="tg_xz" style="width: 1400px;height: 500px"></div>
         </div>
     </div>
 </div>
@@ -214,6 +332,9 @@
     option = null;
     app.title = '折柱混合';
     option = {
+        title: {
+            text: "注册-新增转化率" //正标题
+        },
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -229,7 +350,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ['8月16日', '8月17日', '8月18日', '8月19日', '8月20日', '8月21日', '8月22日', '8月23日'],
+                data: {{ daily_page2.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -255,7 +376,10 @@
             {
                 name: '注册人数',
                 type: 'bar',
-                data: {{ zhu_r_list | safe }},
+                data: {{ daily_page2.zhu_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
                 label: {
                     normal: {
                         show: true,
@@ -266,7 +390,10 @@
             {
                 name: '新增投资人数',
                 type: 'bar',
-                data: [214, 191, 180, 116, 91, 139, 16, 195],
+                data: {{ daily_page2.xztz_r_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
                 label: {
                     normal: {
                         show: true,
@@ -278,12 +405,458 @@
                 name: '新增投资转化率',
                 type: 'line',
                 yAxisIndex: 1,
-                data: [39.05, 35.63, 42.65, 30.29, 27.00, 39.04, 4.95, 63.93],
+                itemStyle: {
+                    normal: {color: '#e46c0a'}
+                },
+                data: {{ daily_page2.xztz_lv_list | safe }},
                 label: {
                     normal: {
                         show: true,
                         position: 'inside',
                         formatter: '{c}%'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("tz_hk");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "投资回款概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['投资金额', '回款金额', '站岗资金']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '投资金额',
+                type: 'bar',
+                data: {{ daily_page3.tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '回款金额',
+                type: 'bar',
+                data: {{ daily_page3.hk_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
+            },
+            {
+                name: '站岗资金',
+                type: 'bar',
+                data: {{ daily_page3.zg_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#c3d69b'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("cz_tx");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "资金概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['充值金额', '提现金额', '净流入']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '充值金额',
+                type: 'bar',
+                data: {{ daily_page4.cz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '提现金额',
+                type: 'bar',
+                data: {{ daily_page4.tx_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
+            },
+            {
+                name: '净流入',
+                type: 'bar',
+                data: {{ daily_page4.income_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("renshu_tz");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "人数概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['投资人数', '投资笔数', '投资用户登录数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '投资人数',
+                type: 'line',
+                data: {{ daily_page5.tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '投资笔数',
+                type: 'line',
+                data: {{ daily_page5.tz_b_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '投资用户登录数',
+                type: 'line',
+                data: {{ daily_page5.tz_dl_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("renshu_tg");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各节点人数概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['推广注册人数', '推广实名人数', '推广首充人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '推广注册人数',
+                type: 'bar',
+                data: {{ daily_page7.tg_zhu_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '推广实名人数',
+                type: 'bar',
+                data: {{ daily_page7.tg_sm_r_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '推广首充人数',
+                type: 'bar',
+                data: {{ daily_page7.tg_sc_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("tg_xz");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "推广新增概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['推广新增金额', '推广新增人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            },
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '推广新增金额',
+                type: 'bar',
+                barWidth : 50,//柱图宽度
+                data: {{ daily_page7.tg_zhu_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '推广新增人数',
+                type: 'line',
+                yAxisIndex: 1,
+                symbol:'star',//拐点样式
+                symbolSize: 8,//拐点大小
+                data: {{ daily_page7.tg_sm_r_list |safe }},
+                itemStyle: {
+                    width:100,//折线宽度
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
                     }
                 }
             }
