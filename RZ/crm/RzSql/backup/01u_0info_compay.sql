@@ -1,0 +1,1 @@
+insert into 01u_0info_compay select * from wd.01u_0info_compay WHERE establishment_data >= curdate();
