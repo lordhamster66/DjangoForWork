@@ -50,6 +50,15 @@ class Daily(View):
         daily_page5 = {}  # 存放第五页数据
         daily_page6 = {}  # 存放第六页数据
         daily_page7 = {}  # 存放第七页数据
+        daily_page8 = {}  # 存放第八页数据
+        daily_page9 = {}  # 存放第九页数据
+        daily_page10 = {}  # 存放第十页数据
+        daily_page11 = {}  # 存放第十一页数据
+        operate_dict = {}  # 存放运营概况
+        invite_dict = {}  # 存放邀请概况
+        asset_dict = {}  # 存放项目概况
+        geduan_dict = {}  # 存放各端概况
+        kefu_dict = {}  # 存放客服概况
         base_info = models.BaseInfo.objects.using("default").filter(qdate=qdate).first()  # 获取基础信息
         invite_info = models.InviteInfo.objects.using("default").filter(qdate=qdate).first()  # 获取邀请信息
         operate_info = models.OperateInfo.objects.using("default").filter(qdate=qdate).first()  # 获取运营信息
@@ -163,6 +172,11 @@ class Daily(View):
                     daily_page4["tx_j_ud"] = self.up_or_down(tx_j_huanbi)
                     daily_page4["tx_j_huanbi"] = abs(tx_j_huanbi)
 
+            # 获取各时间段投资信息
+            daily_page6["timeslot_tz_r_list"] = []  # 各时间段投资人数
+            timeslot_info = models.TimeSlot.objects.using("default").filter(qdate=qdate).all()
+            for obj in timeslot_info:
+                daily_page6["timeslot_tz_r_list"].append(obj.tz_r)
             # 获取最近8天的推广数据
             tg_info_8 = models.TgInfo.objects.using("default").filter(
                 qdate__range=(
@@ -173,19 +187,260 @@ class Daily(View):
             daily_page7["tg_zhu_r_list"] = []  # 近八天推广注册人数
             daily_page7["tg_sm_r_list"] = []  # 近八天推广实名人数
             daily_page7["tg_sc_r_list"] = []  # 近八天推广首充人数
+
+            daily_page8["tg_xztz_j_list"] = []  # 近八天推广新增金额
+            daily_page8["tg_xztz_r_list"] = []  # 近八天推广新增人数
+
+            daily_page9["tg_zhu_sm_lv_list"] = []  # 注册-实名转化率
+            daily_page9["tg_sm_sc_lv_list"] = []  # 实名-首充转化率
+            daily_page9["tg_zhu_xztz_lv_list"] = []  # 注册-首投转化率
+
+            daily_page10["tg_zhu_cost_list"] = []  # 注册成本
+            daily_page10["tg_sm_cost_list"] = []  # 实名成本
+            daily_page10["tg_xztz_cost_list"] = []  # 首投成本
+
+            daily_page11["tg_cost_list"] = []  # 推广花费
+            daily_page11["tg_roi_list"] = []  # 推广ROT
             for obj in tg_info_8:
                 daily_page7["tg_zhu_r_list"].append(int(obj.tg_zhu_r))  # 推广注册人数
                 daily_page7["tg_sm_r_list"].append(int(obj.tg_sm_r))  # 推广实名人数
                 daily_page7["tg_sc_r_list"].append(int(obj.tg_sc_r))  # 推广首充人数
 
+                daily_page8["tg_xztz_j_list"].append(round(int(obj.tg_xztz_j) / 10000, 2))  # 推广新增金额
+                daily_page8["tg_xztz_r_list"].append(int(obj.tg_xztz_r))  # 推广新增人数
+
+                daily_page9["tg_zhu_sm_lv_list"].append(
+                    round(int(obj.tg_sm_r) / int(obj.tg_zhu_r) * 100, 2)
+                )
+                daily_page9["tg_sm_sc_lv_list"].append(
+                    round(int(obj.tg_sc_r) / int(obj.tg_sm_r) * 100, 2)
+                )
+                daily_page9["tg_zhu_xztz_lv_list"].append(
+                    round(int(obj.tg_xztz_r) / int(obj.tg_zhu_r) * 100, 2)
+                )
+
+                daily_page10["tg_zhu_cost_list"].append(
+                    round(int(obj.tg_cost if obj.tg_cost is not None else 0) / int(obj.tg_zhu_r), 2)
+                )
+                daily_page10["tg_sm_cost_list"].append(
+                    round(int(obj.tg_cost if obj.tg_cost is not None else 0) / int(obj.tg_sm_r), 2)
+                )
+                daily_page10["tg_xztz_cost_list"].append(
+                    round(int(obj.tg_cost if obj.tg_cost is not None else 0) / int(obj.tg_xztz_r), 2)
+                )
+
+                daily_page11["tg_cost_list"].append(round(float(obj.tg_cost), 2) if obj.tg_cost is not None else 0)
+                daily_page11["tg_roi_list"].append(
+                    round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2) if obj.tg_cost is not None else 0
+                )
+
+            # 获取最近8天的运营数据
+            operate_info_8 = models.OperateInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            operate_dict["qdate_list"] = []  # 日期列表
+            operate_dict["xz_cz_list"] = []  # 新增充值
+            operate_dict["hk_cz_list"] = []  # 回款并充值
+            operate_dict["unhk_cz_list"] = []  # 非回款充值
+
+            for obj in operate_info_8:
+                operate_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                operate_dict["xz_cz_list"].append(round(int(obj.xz_cz) / 10000, 2))
+                operate_dict["hk_cz_list"].append(round(int(obj.hk_cz) / 10000, 2))
+                operate_dict["unhk_cz_list"].append(round(int(obj.unhk_cz) / 10000, 2))
+
+            # 获取最近8天邀请数据
+            invite_info_8 = models.InviteInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            invite_dict["qdate_list"] = []  # 日期列表
+            invite_dict["invite_r_list"] = []  # 邀请人数
+            invite_dict["invited_r_list"] = []  # 被邀请人数
+            invite_dict["invited_st_r_list"] = []  # 被邀请首投人数
+            invite_dict["acquisition_cost_list"] = []  # 获客成本
+            invite_dict["invited_st_roi_list"] = []  # 首投ROI
+            invite_dict["cash_f_list"] = []  # 现金发放金额
+            for obj in invite_info_8:
+                invite_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                invite_dict["invite_r_list"].append(obj.invite_r)
+                invite_dict["invited_r_list"].append(obj.invited_r)
+                invite_dict["invited_st_r_list"].append(obj.invited_st_r)
+                invite_dict["acquisition_cost_list"].append(
+                    round(int(obj.cash_f if obj.cash_f is not None else 0) / int(obj.invited_st_r), 2)
+                )
+                invite_dict["invited_st_roi_list"].append(
+                    round(int(obj.invited_st_j) / int(obj.cash_f if obj.cash_f is not None else 0), 2)
+                )
+                invite_dict["cash_f_list"].append(int(obj.cash_f))
+
+            # 获取最近8天项目数据
+            asset_info_8 = models.AssetInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            asset_dict["qdate_list"] = []  # 日期列表
+            asset_dict["A_tz_r_list"] = []  # 短标投资人数
+            asset_dict["B_tz_r_list"] = []  # 1月标投资人数
+            asset_dict["C_tz_r_list"] = []  # 2月标投资人数
+            asset_dict["D_tz_r_list"] = []  # 3月标投资人数
+            asset_dict["E_tz_r_list"] = []  # 6月标投资人数
+            asset_dict["F_tz_r_list"] = []  # 10月标及以上投资人数
+            asset_dict["A_tz_j_list"] = []  # 短标投资金额
+            asset_dict["B_tz_j_list"] = []  # 1月标投资金额
+            asset_dict["C_tz_j_list"] = []  # 2月标投资金额
+            asset_dict["D_tz_j_list"] = []  # 3月标投资金额
+            asset_dict["E_tz_j_list"] = []  # 6月标投资金额
+            asset_dict["F_tz_j_list"] = []  # 10月标及以上投资金额
+            asset_dict["A_mb_ys_list"] = []  # 短标满标用时
+            asset_dict["B_mb_ys_list"] = []  # 1月标满标用时
+            asset_dict["C_mb_ys_list"] = []  # 2月标满标用时
+            asset_dict["D_mb_ys_list"] = []  # 3月标满标用时
+            asset_dict["E_mb_ys_list"] = []  # 6月标满标用时
+            asset_dict["F_mb_ys_list"] = []  # 10月标及以上满标用时
+            for obj in asset_info_8:
+                if obj.term == "A:短标":
+                    asset_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                    asset_dict["A_tz_r_list"].append(obj.tz_r)
+                    asset_dict["A_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["A_mb_ys_list"].append(float(obj.mb_ys))
+                elif obj.term == "B:1月标":
+                    asset_dict["B_tz_r_list"].append(obj.tz_r)
+                    asset_dict["B_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["B_mb_ys_list"].append(float(obj.mb_ys))
+                elif obj.term == "C:2月标":
+                    asset_dict["C_tz_r_list"].append(obj.tz_r)
+                    asset_dict["C_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["C_mb_ys_list"].append(float(obj.mb_ys))
+                elif obj.term == "D:3月标":
+                    asset_dict["D_tz_r_list"].append(obj.tz_r)
+                    asset_dict["D_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["D_mb_ys_list"].append(float(obj.mb_ys))
+                elif obj.term == "E:6月标":
+                    asset_dict["E_tz_r_list"].append(obj.tz_r)
+                    asset_dict["E_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["E_mb_ys_list"].append(float(obj.mb_ys))
+                elif obj.term == "F:10月标":
+                    asset_dict["F_tz_r_list"].append(obj.tz_r)
+                    asset_dict["F_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
+                    asset_dict["F_mb_ys_list"].append(float(obj.mb_ys))
+
+            # 获取最近8天其他数据
+            other_info_8 = models.OtherInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            asset_dict["short_qdate_list"] = []  # 短标日期列表
+            asset_dict["short_tz_j_list"] = []  # 短标交易金额
+            asset_dict["short_zd_j_list"] = []  # 短标在贷金额
+            asset_dict["short_tz_r_list"] = []  # 短标交易人数
+            for obj in other_info_8:
+                asset_dict["short_qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                asset_dict["short_tz_j_list"].append(round(int(obj.short_tz_j) / 10000, 2))
+                asset_dict["short_zd_j_list"].append(round(int(obj.short_zd_j) / 10000, 2))
+                asset_dict["short_tz_r_list"].append(obj.short_tz_r)
+
+            geduan_info = models.GeDuanInfo.objects.using("default").filter(qdate=qdate).all()  # 获取各端数据
+            # 获取最近8天各端数据
+            geduan_info_8 = models.GeDuanInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            geduan_dict["qdate_list"] = []  # 日期
+            geduan_dict["APP_account_list"] = []  # app投资
+            geduan_dict["PC_account_list"] = []  # PC投资
+            geduan_dict["WAP_account_list"] = []  # WAP投资
+            geduan_dict["APP_xztz_j_list"] = []  # app新增投资
+            geduan_dict["PC_xztz_j_list"] = []  # PC新增投资
+            geduan_dict["WAP_xztz_j_list"] = []  # WAP新增投资
+            geduan_dict["APP_ft_j_list"] = []  # app复投金额
+            geduan_dict["PC_ft_j_list"] = []  # PC复投金额
+            geduan_dict["WAP_ft_j_list"] = []  # WAP复投金额
+            geduan_dict["APP_withdraw_list"] = []  # app提现金额
+            geduan_dict["PC_withdraw_list"] = []  # PC提现金额
+            geduan_dict["WAP_withdraw_list"] = []  # WAP提现金额
+            for obj in geduan_info_8:
+                if obj.geduan == "APP":
+                    geduan_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                    geduan_dict["APP_account_list"].append(round(int(obj.account) / 10000, 2))
+                    geduan_dict["APP_xztz_j_list"].append(round(int(obj.xztz_j) / 10000, 2))
+                    geduan_dict["APP_ft_j_list"].append(round((int(obj.account) - int(obj.xztz_j)) / 10000, 2))
+                    geduan_dict["APP_withdraw_list"].append(round(int(obj.withdraw) / 10000, 2))
+                elif obj.geduan == "PC":
+                    geduan_dict["PC_account_list"].append(round(int(obj.account) / 10000, 2))
+                    geduan_dict["PC_xztz_j_list"].append(round(int(obj.xztz_j) / 10000, 2))
+                    geduan_dict["PC_ft_j_list"].append(round((int(obj.account) - int(obj.xztz_j)) / 10000, 2))
+                    geduan_dict["PC_withdraw_list"].append(round(int(obj.withdraw) / 10000, 2))
+                elif obj.geduan == "WAP":
+                    geduan_dict["WAP_account_list"].append(round(int(obj.account) / 10000, 2))
+                    geduan_dict["WAP_xztz_j_list"].append(round(int(obj.xztz_j) / 10000, 2))
+                    geduan_dict["WAP_ft_j_list"].append(round((int(obj.account) - int(obj.xztz_j)) / 10000, 2))
+                    geduan_dict["WAP_withdraw_list"].append(round(int(obj.withdraw) / 10000, 2))
+
+            geduan_dict["geduan_name_list"] = []  # 各端名称
+            geduan_dict["geduan_recover_list"] = []  # 各端回款
+            geduan_dict["geduan_recover_withdraw_list"] = []  # 各端回款并提现
+            geduan_dict["geduan_proportion_list"] = []  # 各端提现占回款比重
+            for obj in geduan_info:
+                geduan_dict["geduan_name_list"].append(obj.geduan)
+                geduan_dict["geduan_recover_list"].append(round(int(obj.recover) / 10000, 2))
+                geduan_dict["geduan_recover_withdraw_list"].append(round(int(obj.recover_withdraw) / 10000, 2))
+                geduan_dict["geduan_proportion_list"].append(
+                    round(int(obj.recover_withdraw) / int(obj.recover) * 100, 2)
+                )
+
+            # 获取最近8天客服数据
+            kefu_info_8 = models.KeFuInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all()
+
+            kefu_dict["qdate_list"] = []  # 日期列表
+            kefu_dict["st_ft_r_list"] = []  # 首投后复投人数
+            kefu_dict["st_r_list"] = []  # 首投人数
+            kefu_dict["ft_lv_list"] = []  # 复投率
+            kefu_dict["ls_r_list"] = []  # 流失用户
+            kefu_dict["zt_r_list"] = []  # 在投用户
+            kefu_dict["Wastage_rate_list"] = []  # 流失率
+
+            for obj in kefu_info_8:
+                kefu_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+                kefu_dict["st_ft_r_list"].append(obj.st_ft_r)
+                kefu_dict["st_r_list"].append(obj.st_r)
+                kefu_dict["ft_lv_list"].append(
+                    round(int(obj.st_ft_r) / int(obj.st_r) * 100, 2)
+                )
+                kefu_dict["ls_r_list"].append(obj.ls_r)
+                kefu_dict["zt_r_list"].append(obj.zt_r)
+                kefu_dict["Wastage_rate_list"].append(
+                    round(int(obj.ls_r) / (int(obj.ls_r) + int(obj.zt_r)) * 100, 2)
+                )
+
         else:
             alert_message = "没有该日期的数据!"
-        # asset_info = models.AssetInfo.objects.using("default").filter(qdate=qdate).first()  # 获取项目信息
-        # kefu_info = models.KeFuInfo.objects.using("default").filter(qdate=qdate).first()  # 获取客服信息
-        # 存放第一页数据
         return (
             alert_message, daily_page1, daily_page2, daily_page3, daily_page4,
-            daily_page5, daily_page6, daily_page7
+            daily_page5, daily_page6, daily_page7, daily_page8, daily_page9,
+            daily_page10, daily_page11, operate_dict, invite_dict, asset_dict,
+            geduan_dict, kefu_dict
         )
 
     def get(self, request, *args, **kwargs):
@@ -193,7 +448,9 @@ class Daily(View):
         today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
         (
             alert_message, daily_page1, daily_page2, daily_page3, daily_page4,
-            daily_page5, daily_page6, daily_page7
+            daily_page5, daily_page6, daily_page7, daily_page8, daily_page9,
+            daily_page10, daily_page11, operate_dict, invite_dict, asset_dict,
+            geduan_dict, kefu_dict
         ) = self.get_info(today)
         daily_form = forms.DailyForm(initial={"qdate": today})
         daily_form.is_valid()
@@ -207,6 +464,15 @@ class Daily(View):
                 "daily_page5": daily_page5,
                 "daily_page6": daily_page6,
                 "daily_page7": daily_page7,
+                "daily_page8": daily_page8,
+                "daily_page9": daily_page9,
+                "daily_page10": daily_page10,
+                "daily_page11": daily_page11,
+                "operate_dict": operate_dict,
+                "invite_dict": invite_dict,
+                "geduan_dict": geduan_dict,
+                "asset_dict": asset_dict,
+                "kefu_dict": kefu_dict,
                 "daily_form": daily_form,
                 "alert_message": alert_message
             }
@@ -219,7 +485,9 @@ class Daily(View):
         if daily_form.is_valid():
             (
                 alert_message, daily_page1, daily_page2, daily_page3, daily_page4,
-                daily_page5, daily_page6, daily_page7
+                daily_page5, daily_page6, daily_page7, daily_page8, daily_page9,
+                daily_page10, daily_page11, operate_dict, invite_dict, asset_dict,
+                geduan_dict, kefu_dict
             ) = self.get_info(qdate)
             return render(
                 request, "daily.html",
@@ -231,6 +499,15 @@ class Daily(View):
                     "daily_page5": daily_page5,
                     "daily_page6": daily_page6,
                     "daily_page7": daily_page7,
+                    "daily_page8": daily_page8,
+                    "daily_page9": daily_page9,
+                    "daily_page10": daily_page10,
+                    "daily_page11": daily_page11,
+                    "operate_dict": operate_dict,
+                    "invite_dict": invite_dict,
+                    "asset_dict": asset_dict,
+                    "geduan_dict": geduan_dict,
+                    "kefu_dict": kefu_dict,
                     "daily_form": daily_form,
                     "alert_message": alert_message
                 }

@@ -262,6 +262,24 @@
             <div class="left echart" id="renshu_tz" style="width: 1400px;height: 500px"></div>
         </div>
     </div>
+    <div id="page6" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">平台数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page5" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="timeslot" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
     <div id="page7" class="daily-container">
         <div class="head">
             <div class="daily-tag left">
@@ -296,6 +314,332 @@
         </div>
         <div class="body">
             <div class="left echart" id="tg_xz" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page9" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">推广数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page9" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="tg_zh_lv" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page10" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">推广数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page10" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="tg_zh_cost" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page11" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">推广数据</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page11" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="tg_cost" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page12" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">运营概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page12" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="gl_cz" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page13" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">邀请概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page13" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="renshu_invite" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page14" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">邀请概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page14" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="invite_cost" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page15" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">项目概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page15" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="renshu_asset" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page16" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">项目概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page15" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="asset_tz_j" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page17" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">项目概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page17" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="asset_mb_ys" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page18" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">项目概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page18" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="asset_short" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page19" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">各端概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page19" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="geduan_account" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page20" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">各端概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page20" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="geduan_xztz_j" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page21" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">各端概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page21" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="geduan_ft_j" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page22" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">各端概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page22" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="geduan_withdraw" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page23" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">各端概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page23" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="geduan_proportion" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page24" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">客服概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page24" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="exclusive_kefu" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="page25" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">客服概况</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#page25" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="vip_kefu" style="width: 1400px;height: 500px"></div>
+        </div>
+    </div>
+    <div id="end" class="daily-container">
+        <div class="head">
+            <div class="daily-tag left">
+                <img src="/static/build/img/daily_tag.png" alt="">
+            </div>
+            <h1 class="title left">END</h1>
+            <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+            <form action="/crm/daily/#end" method="POST">
+                {% csrf_token %}
+                <input id="search-daily" type="submit" class="right search" value="查询">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+            </form>
+            <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="left echart" id="#" style="width: 1400px;height: 500px;">
+                <img src="/static/build/img/end.png" alt="" style="margin-left: 330px;margin-top: 100px;">
+            </div>
         </div>
     </div>
 </div>
@@ -492,7 +836,7 @@
                 type: 'bar',
                 data: {{ daily_page3.zg_j_list | safe }},
                 itemStyle: {
-                    normal: {color: '#c3d69b'}
+                    normal: {color: '#00b050'}
                 },
                 label: {
                     normal: {
@@ -630,9 +974,9 @@
         yAxis: [
             {
                 type: 'value',
-                name: '金额',
+                name: '人数',
                 axisLabel: {
-                    formatter: '{value} 万'
+                    formatter: '{value}'
                 }
             }
         ],
@@ -686,6 +1030,67 @@
     }
 </script>
 <script type="text/javascript">
+    var dom = document.getElementById("timeslot");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各时间段投资人数" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['各时间段投资人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '各时间段投资人数',
+                type: 'bar',
+                data: {{ daily_page6.timeslot_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
     var dom = document.getElementById("renshu_tg");
     var myChart = echarts.init(dom);
     var app = {};
@@ -719,9 +1124,9 @@
         yAxis: [
             {
                 type: 'value',
-                name: '金额',
+                name: '人数',
                 axisLabel: {
-                    formatter: '{value} 万'
+                    formatter: '{value}'
                 }
             }
         ],
@@ -825,8 +1230,8 @@
             {
                 name: '推广新增金额',
                 type: 'bar',
-                barWidth : 50,//柱图宽度
-                data: {{ daily_page7.tg_zhu_r_list | safe }},
+                barWidth: 50,//柱图宽度
+                data: {{ daily_page8.tg_xztz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -841,12 +1246,1671 @@
                 name: '推广新增人数',
                 type: 'line',
                 yAxisIndex: 1,
-                symbol:'star',//拐点样式
+                symbol: 'star',//拐点样式
                 symbolSize: 8,//拐点大小
-                data: {{ daily_page7.tg_sm_r_list |safe }},
+                data: {{ daily_page8.tg_xztz_r_list |safe }},
                 itemStyle: {
-                    width:100,//折线宽度
+                    width: 100,//折线宽度
                     normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("tg_zh_lv");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各节点转化率" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['注册-实名转化率', '实名-首充转化率', '注册-首投转化率']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '百分比',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '注册-实名转化率',
+                type: 'line',
+                data: {{ daily_page9.tg_zhu_sm_lv_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '实名-首充转化率',
+                type: 'line',
+                data: {{ daily_page9.tg_sm_sc_lv_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '注册-首投转化率',
+                type: 'line',
+                data: {{ daily_page9.tg_zhu_xztz_lv_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("tg_zh_cost");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各节点成本" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['注册成本', '实名成本', '首投成本']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '成本',
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '注册成本',
+                type: 'line',
+                data: {{ daily_page10.tg_zhu_cost_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            },
+            {
+                name: '实名成本',
+                type: 'line',
+                data: {{ daily_page10.tg_sm_cost_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '首投成本',
+                type: 'line',
+                data: {{ daily_page10.tg_xztz_cost_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("tg_cost");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "花费概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['推广花费金额', 'ROI']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ daily_page2.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '花费',
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            },
+            {
+                type: 'value',
+                name: '转化率',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '推广花费金额',
+                type: 'bar',
+                barWidth: 50,//柱图宽度
+                data: {{ daily_page11.tg_cost_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
+            },
+            {
+                name: 'ROI',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ daily_page11.tg_roi_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("gl_cz");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各类充值详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['新增充值', '回款并充值', '非回款充值']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ operate_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万元'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '新增充值',
+                type: 'line',
+                data: {{ operate_dict.xz_cz_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            },
+            {
+                name: '回款并充值',
+                type: 'line',
+                data: {{ operate_dict.hk_cz_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '非回款充值',
+                type: 'line',
+                data: {{ operate_dict.unhk_cz_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("renshu_invite");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "邀请人数概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['邀请人数', '被邀请人数', '被邀请首投人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ invite_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '邀请人数',
+                type: 'line',
+                data: {{ invite_dict.invite_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'bottom'
+                    }
+                }
+            },
+            {
+                name: '被邀请人数',
+                type: 'line',
+                data: {{ invite_dict.invited_r_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '被邀请首投人数',
+                type: 'line',
+                data: {{ invite_dict.invited_st_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("invite_cost");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "邀请成本概况" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['获客成本', '首投ROI', '现金奖励发放金额']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ invite_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '成本ROI',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '获客成本',
+                type: 'bar',
+                data: {{ invite_dict.acquisition_cost_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '首投ROI',
+                type: 'bar',
+                data: {{ invite_dict.invited_st_roi_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '现金奖励发放金额',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ invite_dict.cash_f_list | safe }},
+                itemStyle: {
+                    normal: {color: '#e46c0a'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("renshu_asset");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各期限投资人数" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['A:短标', 'B:1月标', 'C:2月标', 'D:3月标', 'E:6月标', 'F:10月标']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ asset_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'A:短标',
+                type: 'bar',
+                data: {{ asset_dict.A_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'B:1月标',
+                type: 'bar',
+                data: {{ asset_dict.B_tz_r_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'C:2月标',
+                type: 'bar',
+                data: {{ asset_dict.C_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#c3d69b'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'D:3月标',
+                type: 'bar',
+                data: {{ asset_dict.D_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#95b3d7'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'E:6月标',
+                type: 'bar',
+                data: {{ asset_dict.E_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#4bacc6'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'F:10月标',
+                type: 'bar',
+                data: {{ asset_dict.F_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#e67519'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("asset_tz_j");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各期限投资金额" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['A:短标', 'B:1月标', 'C:2月标', 'D:3月标', 'E:6月标', 'F:10月标']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ asset_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'A:短标',
+                type: 'bar',
+                data: {{ asset_dict.A_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'B:1月标',
+                type: 'bar',
+                data: {{ asset_dict.B_tz_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'C:2月标',
+                type: 'bar',
+                data: {{ asset_dict.C_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#c3d69b'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'D:3月标',
+                type: 'bar',
+                data: {{ asset_dict.D_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#95b3d7'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'E:6月标',
+                type: 'bar',
+                data: {{ asset_dict.E_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#4bacc6'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'F:10月标',
+                type: 'bar',
+                data: {{ asset_dict.F_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#e67519'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("asset_mb_ys");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各期限满标时长" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['A:短标', 'B:1月标', 'C:2月标', 'D:3月标', 'E:6月标', 'F:10月标']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ asset_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '满标用时',
+                axisLabel: {
+                    formatter: '{value} 时'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'A:短标',
+                type: 'bar',
+                data: {{ asset_dict.A_mb_ys_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'B:1月标',
+                type: 'bar',
+                data: {{ asset_dict.B_mb_ys_list |safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'C:2月标',
+                type: 'bar',
+                data: {{ asset_dict.C_mb_ys_list | safe }},
+                itemStyle: {
+                    normal: {color: '#c3d69b'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'D:3月标',
+                type: 'bar',
+                data: {{ asset_dict.D_mb_ys_list | safe }},
+                itemStyle: {
+                    normal: {color: '#95b3d7'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'E:6月标',
+                type: 'bar',
+                data: {{ asset_dict.E_mb_ys_list | safe }},
+                itemStyle: {
+                    normal: {color: '#4bacc6'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'F:10月标',
+                type: 'bar',
+                data: {{ asset_dict.F_mb_ys_list | safe }},
+                itemStyle: {
+                    normal: {color: '#e67519'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("asset_short");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "30天以内短标详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['30天以内短标交易金额', '30天以内短标待还总额', '30天以内短标交易人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ asset_dict.short_qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            },
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '30天以内短标交易金额',
+                type: 'bar',
+                data: {{ asset_dict.short_tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '30天以内短标待还总额',
+                type: 'bar',
+                data: {{ asset_dict.short_zd_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '30天以内短标交易人数',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ asset_dict.short_tz_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#ff99ff'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("geduan_account");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各端投资详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['APP', 'PC', 'WAP']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ geduan_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'APP',
+                type: 'line',
+                data: {{ geduan_dict.APP_account_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'PC',
+                type: 'line',
+                data: {{ geduan_dict.PC_account_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'WAP',
+                type: 'line',
+                data: {{ geduan_dict.WAP_account_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("geduan_xztz_j");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各端新增投资详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['APP', 'PC', 'WAP']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ geduan_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'APP',
+                type: 'line',
+                data: {{ geduan_dict.APP_xztz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'PC',
+                type: 'line',
+                data: {{ geduan_dict.PC_xztz_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'WAP',
+                type: 'line',
+                data: {{ geduan_dict.WAP_xztz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("geduan_ft_j");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各端复投详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['APP', 'PC', 'WAP']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ geduan_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'APP',
+                type: 'line',
+                data: {{ geduan_dict.APP_ft_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'PC',
+                type: 'line',
+                data: {{ geduan_dict.PC_ft_j_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'WAP',
+                type: 'line',
+                data: {{ geduan_dict.WAP_ft_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("geduan_withdraw");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各端提现详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['APP', 'PC', 'WAP']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ geduan_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'APP',
+                type: 'line',
+                data: {{ geduan_dict.APP_withdraw_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'PC',
+                type: 'line',
+                data: {{ geduan_dict.PC_withdraw_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: 'WAP',
+                type: 'line',
+                data: {{ geduan_dict.WAP_withdraw_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("geduan_proportion");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "各端回款及提现详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['回款金额', '回款并提现金额', '提现占回款比重']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ geduan_dict.geduan_name_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                }
+            },
+            {
+                type: 'value',
+                name: '百分比',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '回款金额',
+                type: 'bar',
+                data: {{ geduan_dict.geduan_recover_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '回款并提现金额',
+                type: 'bar',
+                data: {{ geduan_dict.geduan_recover_withdraw_list |safe }},
+                itemStyle: {
+                    normal: {color: '#ffc000'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '提现占回款比重',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ geduan_dict.geduan_proportion_list | safe }},
+                itemStyle: {
+                    normal: {color: '#ff00ff'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("exclusive_kefu");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "专属客服复投详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['首投后复投人数', '首投人数', '复投率']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ kefu_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            },
+            {
+                type: 'value',
+                name: '百分比',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '首投后复投人数',
+                type: 'bar',
+                data: {{ kefu_dict.st_ft_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#66ccff'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '首投人数',
+                type: 'bar',
+                data: {{ kefu_dict.st_r_list |safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            },
+            {
+                name: '复投率',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ kefu_dict.ft_lv_list | safe }},
+                itemStyle: {
+                    normal: {color: '#ff3757'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript">
+    var dom = document.getElementById("vip_kefu");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "VIP客服流失用户详情" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['流失用户', '流失率']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ kefu_dict.qdate_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            },
+            {
+                type: 'value',
+                name: '百分比',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '流失用户',
+                type: 'bar',
+                data: {{ kefu_dict.ls_r_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b0f0'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside'
+                    }
+                }
+            }, {
+                name: '流失率',
+                type: 'line',
+                yAxisIndex: 1,
+                data: {{ kefu_dict.Wastage_rate_list | safe }},
+                itemStyle: {
+                    normal: {color: '#e42b40'}
                 },
                 label: {
                     normal: {
