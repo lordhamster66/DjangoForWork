@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/14
+"""
+用户存储数据至数据库
+"""
 import os
 import random
 import re  # 正则模块
@@ -172,6 +175,26 @@ class DataStorage(View):
                 xztz_j=geduan_xztz_dic.get(gd).get("xztz_j"),
                 withdraw=geduan_withdraw_dic.get(gd).get("withdraw")
             )
+
+        # 增加时间段数据详情
+        timeslot_info = self.get_info_list("daily", "timeslot.sql")  # 获取各时间段投资详情
+        for row in timeslot_info:
+            models.TimeSlot.objects.using("default").create(
+                qdate=qdate,  # 日期
+                timeslot=row.get("timeslot"),  # 时间段
+                tz_r=row.get("tz_r")  # 投资人数
+            )
+
+        # 增加其他数据详情
+        short_tz_info = self.get_info_dict("daily", "short_tz.sql")  # 获取短标投资信息
+        short_zd_info = self.get_info_dict("daily", "short_zd.sql")  # 获取短标在贷信息
+        models.OtherInfo.objects.using("default").create(
+            qdate=short_tz_info.get("qdate"),
+            short_tz_r=short_tz_info.get("short_tz_r"),
+            short_tz_j=short_tz_info.get("short_tz_j"),
+            short_zd_j=short_zd_info.get("short_zd_j"),
+        )
+
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
         return HttpResponse("ok!")
 
