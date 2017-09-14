@@ -19,13 +19,14 @@ from .views import views
 from .views import ceshi
 from .views import db_backup
 from .views import some_script
+from .views import storage
 
 urlpatterns = [
     url(r'^ceshi/$', ceshi.ceshi),  # 测试
-    url(r'^data_storage/$', views.DataStorage.as_view()),  # 获取公司数据库信息
+    url(r'^data_storage/$', storage.DataStorage.as_view()),  # 获取公司数据库信息
     url(r'^daily/$', daily.Daily.as_view()),  # 日报
-    url(r'^get_wdzj_info/$', views.get_wdzj_info),  # 爬取网贷之家数据信息
-    url(r'^get_wdty_info/$', views.get_wdty_info),  # 爬取网贷天眼数据信息
+    url(r'^get_wdzj_info/$', storage.get_wdzj_info),  # 爬取网贷之家数据信息
+    url(r'^get_wdty_info/$', storage.get_wdty_info),  # 爬取网贷天眼数据信息
     url(r'^backup/$', db_backup.backup),  # 备份表
     url(r'^login/$', views.login),  # 登录功能
     url(r'^register/$', views.register),  # 注册功能
