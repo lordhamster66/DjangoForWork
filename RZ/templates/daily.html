@@ -1096,7 +1096,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1110,7 +1112,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1124,7 +1128,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1178,7 +1184,9 @@
             {
                 name: '投资人数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ base_dict.tz_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
@@ -1186,14 +1194,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '投资笔数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ base_dict.tz_b_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
@@ -1201,14 +1213,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '投资用户登录数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ base_dict.tz_dl_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -1216,7 +1232,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1277,7 +1295,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1338,7 +1358,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1352,7 +1374,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1366,7 +1390,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1435,17 +1461,19 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '推广新增人数',
                 type: 'line',
-                smooth: true,
                 yAxisIndex: 1,
-                symbol: 'star',//拐点样式
-                symbolSize: 8,//拐点大小
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_xztz_r_list |safe }},
                 itemStyle: {
                     width: 100,//折线宽度
@@ -1454,7 +1482,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1508,7 +1538,9 @@
             {
                 name: '注册-实名转化率',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_zhu_sm_lv_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
@@ -1516,14 +1548,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '实名-首充转化率',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_sm_sc_lv_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
@@ -1531,14 +1567,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '注册-首投转化率',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_zhu_xztz_lv_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -1546,7 +1586,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1600,7 +1642,9 @@
             {
                 name: '注册成本',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_zhu_cost_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
@@ -1608,14 +1652,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '实名成本',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_sm_cost_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
@@ -1623,14 +1671,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '首投成本',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ tg_dict.tg_xztz_cost_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -1638,7 +1690,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1707,14 +1761,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'ROI',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ tg_dict.tg_roi_list |safe }},
                 itemStyle: {
@@ -1723,7 +1781,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1777,7 +1837,9 @@
             {
                 name: '新增充值',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ operate_dict.xz_cz_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
@@ -1785,14 +1847,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '回款并充值',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ operate_dict.hk_cz_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
@@ -1800,14 +1866,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '非回款充值',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ operate_dict.unhk_cz_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -1815,7 +1885,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1869,7 +1941,9 @@
             {
                 name: '邀请人数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ invite_dict.invite_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
@@ -1877,14 +1951,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '被邀请人数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ invite_dict.invited_r_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
@@ -1892,14 +1970,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '被邀请首投人数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ invite_dict.invited_st_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -1907,7 +1989,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -1975,7 +2059,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1989,14 +2075,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '现金奖励发放金额',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ invite_dict.cash_f_list | safe }},
                 itemStyle: {
@@ -2005,7 +2095,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2066,7 +2158,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2080,7 +2174,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2094,7 +2190,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2108,7 +2206,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2122,7 +2222,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2136,7 +2238,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2197,7 +2301,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2211,7 +2317,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2225,7 +2333,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'inside',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2239,7 +2349,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2253,7 +2365,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2267,7 +2381,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2328,7 +2444,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2342,7 +2460,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2356,7 +2476,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2370,7 +2492,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2384,7 +2508,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2398,7 +2524,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2466,7 +2594,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2480,14 +2610,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '30天以内短标交易人数',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ asset_dict.short_tz_r_list | safe }},
                 itemStyle: {
@@ -2496,7 +2630,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2550,7 +2686,9 @@
             {
                 name: 'APP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.APP_account_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
@@ -2558,14 +2696,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'PC',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.PC_account_list |safe }},
                 itemStyle: {
                     normal: {color: '#ffc000'}
@@ -2573,14 +2715,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'WAP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.WAP_account_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -2588,7 +2734,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2642,7 +2790,9 @@
             {
                 name: 'APP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.APP_xztz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
@@ -2650,14 +2800,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'PC',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.PC_xztz_j_list |safe }},
                 itemStyle: {
                     normal: {color: '#ffc000'}
@@ -2665,14 +2819,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'WAP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.WAP_xztz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -2680,7 +2838,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2734,7 +2894,9 @@
             {
                 name: 'APP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.APP_ft_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
@@ -2742,14 +2904,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'PC',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.PC_ft_j_list |safe }},
                 itemStyle: {
                     normal: {color: '#ffc000'}
@@ -2757,14 +2923,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'WAP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.WAP_ft_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -2772,7 +2942,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2826,7 +2998,9 @@
             {
                 name: 'APP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.APP_withdraw_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
@@ -2834,14 +3008,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'PC',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.PC_withdraw_list |safe }},
                 itemStyle: {
                     normal: {color: '#ffc000'}
@@ -2849,14 +3027,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: 'WAP',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 data: {{ geduan_dict.WAP_withdraw_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
@@ -2864,7 +3046,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -2932,7 +3116,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -2946,14 +3132,18 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '提现占回款比重',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ geduan_dict.geduan_proportion_list | safe }},
                 itemStyle: {
@@ -2962,7 +3152,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -3070,11 +3262,6 @@
                         fontSize: 15,  //文字大小
                         fontWeight: 'bold'  //文字粗细
                     }
-                },
-                lineStyle: {
-                    normal: {
-                        width: 5  //线条粗细
-                    }
                 }
             }
         ]
@@ -3163,11 +3350,6 @@
                         position: 'top',
                         fontSize: 15,  //文字大小
                         fontWeight: 'bold'  //文字粗细
-                    }
-                },
-                lineStyle: {
-                    normal: {
-                        width: 5
                     }
                 }
             }
