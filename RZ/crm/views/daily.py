@@ -41,7 +41,7 @@ class Daily(View):
         else:
             return "持平"
 
-    def get_info(self, qdate):
+    def get_info(self, qdate, section=8):
         alert_message = ""  # 定义错误提示信息
         base_dict = {}  # 存放平台概况
         tg_dict = {}  # 存放推广概况
@@ -74,10 +74,10 @@ class Daily(View):
             # 获取最近8天的基础数据
             base_info_8 = models.BaseInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
             base_dict["zhu_r_list"] = []  # 近八天注册人数
             base_dict["xztz_r_list"] = []  # 近八天新增投资人数
             base_dict["xztz_lv_list"] = []  # 近八天新增投资转化率
@@ -173,10 +173,10 @@ class Daily(View):
             # 获取最近8天的推广数据
             tg_info_8 = models.TgInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             tg_dict["qdate_list"] = []  # 近八天日期列表
             tg_dict["tg_zhu_r_list"] = []  # 近八天推广注册人数
@@ -233,10 +233,10 @@ class Daily(View):
             # 获取最近8天的运营数据
             operate_info_8 = models.OperateInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             operate_dict["qdate_list"] = []  # 日期列表
             operate_dict["xz_cz_list"] = []  # 新增充值
@@ -252,10 +252,10 @@ class Daily(View):
             # 获取最近8天邀请数据
             invite_info_8 = models.InviteInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             invite_dict["qdate_list"] = []  # 日期列表
             invite_dict["invite_r_list"] = []  # 邀请人数
@@ -280,10 +280,10 @@ class Daily(View):
             # 获取最近8天项目数据
             asset_info_8 = models.AssetInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             asset_dict["qdate_list"] = []  # 日期列表
             asset_dict["A_tz_r_list"] = []  # 短标投资人数
@@ -334,10 +334,10 @@ class Daily(View):
             # 获取最近8天其他数据
             other_info_8 = models.OtherInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             asset_dict["short_qdate_list"] = []  # 短标日期列表
             asset_dict["short_tz_j_list"] = []  # 短标交易金额
@@ -352,10 +352,10 @@ class Daily(View):
             # 获取最近8天各端数据
             geduan_info_8 = models.GeDuanInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             geduan_dict["qdate_list"] = []  # 日期
             geduan_dict["APP_account_list"] = []  # app投资
@@ -403,10 +403,10 @@ class Daily(View):
             # 获取最近8天客服数据
             kefu_info_8 = models.KeFuInfo.objects.using("default").filter(
                 qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-7),
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
                     datetime.strptime(qdate, "%Y-%m-%d")
                 )
-            ).all()
+            ).all().order_by("qdate")
 
             kefu_dict["qdate_list"] = []  # 日期列表
             kefu_dict["st_ft_r_list"] = []  # 首投后复投人数
@@ -438,11 +438,11 @@ class Daily(View):
     def get(self, request, *args, **kwargs):
         """获取日报"""
         today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        daily_form = forms.DailyForm(initial={"qdate": today, "section": "8"})
         (
             alert_message, base_dict, tg_dict, operate_dict,
             invite_dict, asset_dict, geduan_dict, kefu_dict
         ) = self.get_info(today)
-        daily_form = forms.DailyForm(initial={"qdate": today})
         return render(
             request, "daily.html",
             {
@@ -461,12 +461,13 @@ class Daily(View):
     def post(self, request, *args, **kwargs):
         """查询其他日期的日报"""
         qdate = request.POST.get("qdate")  # 获取用户输入的日期
-        daily_form = forms.DailyForm(request.POST, initial={"qdate": qdate})
+        daily_form = forms.DailyForm(request.POST)
         if daily_form.is_valid():
+            section = int(daily_form.cleaned_data.get("section"))
             (
                 alert_message, base_dict, tg_dict, operate_dict,
                 invite_dict, asset_dict, geduan_dict, kefu_dict
-            ) = self.get_info(qdate)
+            ) = self.get_info(qdate, section)
             return render(
                 request, "daily.html",
                 {

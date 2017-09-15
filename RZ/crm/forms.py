@@ -20,6 +20,10 @@ class DailyForm(Form):
             "invalid": "请输入正确的日期格式!"
         }
     )
+    section = fields.ChoiceField(
+        choices=[("7", 7), ("8", 8), ("14", 14)],
+        widget=widgets.Select()
+    )
 
 
 class LoginForm(Form):

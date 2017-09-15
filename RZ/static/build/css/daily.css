@@ -90,10 +90,22 @@ body {
     font-weight: bold;
 }
 
+.daily-container .body .echart-content {
+    position: relative;
+    width: 1000px
+}
+
 .daily-container .body .echart {
     width: 1000px;
     height: 500px;
     margin-top: 80px;
+}
+
+.daily-container .body #section {
+    position: absolute;
+    display: inline-block;
+    right: 60px;
+    top: 60px;
 }
 
 .daily-container .body .summary {
