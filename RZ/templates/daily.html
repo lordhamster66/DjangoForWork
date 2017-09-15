@@ -901,7 +901,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -915,7 +917,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -923,7 +927,9 @@
                 name: '新增投资转化率',
                 type: 'line',
                 yAxisIndex: 1,
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 itemStyle: {
                     normal: {color: '#e46c0a'}
                 },
@@ -932,7 +938,9 @@
                     normal: {
                         show: true,
                         position: 'inside',
-                        formatter: '{c}%'
+                        formatter: '{c}%',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -993,7 +1001,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1007,7 +1017,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -1021,7 +1033,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             }
@@ -3016,7 +3030,9 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
@@ -3030,23 +3046,34 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
                     }
                 }
             },
             {
                 name: '复投率',
                 type: 'line',
-                smooth: true,
+                smooth: true,  //平滑过渡
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ kefu_dict.ft_lv_list | safe }},
                 itemStyle: {
-                    normal: {color: '#ff3757'}
+                    normal: {color: '#e67519'}
                 },
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5  //线条粗细
                     }
                 }
             }
@@ -3114,22 +3141,33 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'inside'
+                        position: 'inside',
+                        fontSize: 15,
+                        fontWeight: 'bold'
                     }
                 }
             }, {
                 name: '流失率',
                 type: 'line',
                 smooth: true,
+                symbol: 'pin',//拐点样式
+                symbolSize: 10,//拐点大小
                 yAxisIndex: 1,
                 data: {{ kefu_dict.Wastage_rate_list | safe }},
                 itemStyle: {
-                    normal: {color: '#e42b40'}
+                    normal: {color: '#e67519'}
                 },
                 label: {
                     normal: {
                         show: true,
-                        position: 'top'
+                        position: 'top',
+                        fontSize: 15,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5
                     }
                 }
             }
