@@ -10,9 +10,7 @@ import random
 import re  # 正则模块
 from RZ import settings
 from django.views import View
-from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from django.shortcuts import redirect
 from django.db import connections
 from crm import utils  # 常用功能及一些工具或一些常用变量
 from crm import models
