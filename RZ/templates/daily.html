@@ -33,7 +33,7 @@
             <div class="info left" style="margin-left: 100px">
                 <img class="left" src="/static/build/img/percent.png" alt="">
                 <div class="msg left">
-                    <h2 class="val">{{ daily_page1.tz_zh }}%</h2>
+                    <h2 class="val">{{ base_dict.tz_zh }}%</h2>
                     <p class="bold">当日投资转化率</p>
                     <p>(当日新增投资人数/当日注册人数）</p>
                 </div>
@@ -41,17 +41,17 @@
             <div class="info right" style="margin-right: 100px">
                 <img class="left" src="/static/build/img/account.png" alt="">
                 <div class="msg left">
-                    <h2 class="val">{{ daily_page1.tz_j }}万</h2>
+                    <h2 class="val">{{ base_dict.tz_j }}万</h2>
                     <p class="bold">当日投资金额</p>
-                    <p>(新增投资金额{{ daily_page1.xztz_j }}万，占比{{ daily_page1.xztz_j_zb }}%)</p>
-                    <p>平均每人投资<span class="val">{{ daily_page1.pg_tz_j }}万</span></p>
+                    <p>(新增投资金额{{ base_dict.xztz_j }}万，占比{{ base_dict.xztz_j_zb }}%)</p>
+                    <p>平均每人投资<span class="val">{{ base_dict.pg_tz_j }}万</span></p>
                 </div>
             </div>
             <div class="left" style="width: 1400px;">
                 <div class="info left" style="margin-left: 500px;">
                     <img class="left" style="height: 70px;" src="/static/build/img/register.png" alt="">
                     <div class="msg left">
-                        <h2 class="val">{{ daily_page1.sm_r }}</h2>
+                        <h2 class="val">{{ base_dict.sm_r }}</h2>
                         <p class="bold">当日新增实名人数</p>
                     </div>
                 </div>
@@ -59,17 +59,17 @@
             <div class="info left" style="margin-left: 100px">
                 <img class="left" style="height: 48px;" src="/static/build/img/people.png" alt="">
                 <div class="msg left">
-                    <h2 class="val">{{ daily_page1.zhu_r }}</h2>
+                    <h2 class="val">{{ base_dict.zhu_r }}</h2>
                     <p class="bold">当日注册人数</p>
                 </div>
             </div>
             <div class="info right" style="margin-right: 100px">
                 <img class="left" src="/static/build/img/person.png" alt="">
                 <div class="msg left">
-                    <h2 class="val">{{ daily_page1.tz_r }}</h2>
+                    <h2 class="val">{{ base_dict.tz_r }}</h2>
                     <p class="bold">个当日投资人数</p>
-                    <p>(当日新增投资{{ daily_page1.xztz_r }}人)</p>
-                    <p>(其中有{{ daily_page1.tj_r }}人来自推荐)</p>
+                    <p>(当日新增投资{{ base_dict.xztz_r }}人)</p>
+                    <p>(其中有{{ base_dict.tj_r }}人来自推荐)</p>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
             <form action="/crm/daily/#page2" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -93,33 +93,33 @@
             <div class="right summary">
                 <p class="left content">总结:</p>
                 <img class="left" src="/static/build/img/line.png" alt="">
-                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
+                <p class="left content" style="color: black;font-size: large;">{{ base_dict.qdate }}:</p>
                 <div>
                     <p class="left content title">当日注册人数:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.zhu_r }}</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.zhu_r }}</span>人
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.zhu_r_ud }}</span>
-                        <span class="mark">{{ daily_page2.zhu_r_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.zhu_r_ud }}</span>
+                        <span class="mark">{{ base_dict.zhu_r_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">当日新增投资人数:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.xztz_r }}</span>人
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.xztz_r }}</span>人
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.xztz_r_ud }}</span>
-                        <span class="mark">{{ daily_page2.xztz_r_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.xztz_r_ud }}</span>
+                        <span class="mark">{{ base_dict.xztz_r_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">新增投资转化率:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.tz_zh }}%</span>
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.tz_zh }}%</span>
                     </p>
                 </div>
             </div>
@@ -135,7 +135,7 @@
             <form action="/crm/daily/#page3" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -144,50 +144,50 @@
             <div class="right summary" style="margin-top: 0">
                 <p class="left content">总结:</p>
                 <img class="left" src="/static/build/img/line.png" alt="">
-                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
+                <p class="left content" style="color: black;font-size: large;">{{ base_dict.qdate }}:</p>
                 <div>
                     <p class="left content title">投资金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page1.tz_j }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.tz_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.tz_j_ud }}</span>
-                        <span class="mark">{{ daily_page3.tz_j_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.tz_j_ud }}</span>
+                        <span class="mark">{{ base_dict.tz_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">回款金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page3.hk_j }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.hk_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.hk_j_ud }}</span>
-                        <span class="mark">{{ daily_page3.hk_j_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.hk_j_ud }}</span>
+                        <span class="mark">{{ base_dict.hk_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">站岗资金:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page3.zg_j }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.zg_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page3.zg_j_ud }}</span>
-                        <span class="mark">{{ daily_page3.zg_j_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.zg_j_ud }}</span>
+                        <span class="mark">{{ base_dict.zg_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title" style="padding-right: 120px">
                         资金复投率:
-                        <span class="mark right" style="font-size: larger">{{ daily_page3.zj_ft_lv }}%</span>
+                        <span class="mark right" style="font-size: larger">{{ base_dict.zj_ft_lv }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title" style="padding-right: 120px; margin-top: 50px;">
                         人数复投率:
-                        <span class="mark right" style="font-size: larger">{{ daily_page3.rs_ft_lv }}%</span>
+                        <span class="mark right" style="font-size: larger">{{ base_dict.rs_ft_lv }}%</span>
                     </p>
                 </div>
             </div>
@@ -203,7 +203,7 @@
             <form action="/crm/daily/#page4" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -212,33 +212,33 @@
             <div class="right summary">
                 <p class="left content">总结:</p>
                 <img class="left" src="/static/build/img/line.png" alt="">
-                <p class="left content" style="color: black;font-size: large;">{{ daily_page1.qdate }}:</p>
+                <p class="left content" style="color: black;font-size: large;">{{ base_dict.qdate }}:</p>
                 <div>
                     <p class="left content title">充值金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.cz_j }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.cz_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page4.cz_j_ud }}</span>
-                        <span class="mark">{{ daily_page4.cz_j_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.cz_j_ud }}</span>
+                        <span class="mark">{{ base_dict.cz_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">提现金额:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.tx_j }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.tx_j }}</span>万
                     </p>
                     <p class="left content text" style="padding-right: 0">
                         <span class="contrast" style="margin-right: 10px;">环比前日</span>
-                        <span class="contrast" style="margin-right: 10px;">{{ daily_page2.tx_j_ud }}</span>
-                        <span class="mark">{{ daily_page4.tx_j_huanbi }}%</span>
+                        <span class="contrast" style="margin-right: 10px;">{{ base_dict.tx_j_ud }}</span>
+                        <span class="mark">{{ base_dict.tx_j_huanbi }}%</span>
                     </p>
                 </div>
                 <div>
                     <p class="left content title">净流入:</p>
                     <p class="left content text">
-                        <span class="mark" style="margin-right: 50px;">{{ daily_page4.income }}</span>万
+                        <span class="mark" style="margin-right: 50px;">{{ base_dict.income }}</span>万
                     </p>
                 </div>
             </div>
@@ -254,7 +254,7 @@
             <form action="/crm/daily/#page5" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -272,7 +272,7 @@
             <form action="/crm/daily/#page5" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -290,7 +290,7 @@
             <form action="/crm/daily/#page7" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -308,7 +308,7 @@
             <form action="/crm/daily/#page8" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -326,7 +326,7 @@
             <form action="/crm/daily/#page9" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -344,7 +344,7 @@
             <form action="/crm/daily/#page10" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -362,7 +362,7 @@
             <form action="/crm/daily/#page11" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -380,7 +380,7 @@
             <form action="/crm/daily/#page12" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -398,7 +398,7 @@
             <form action="/crm/daily/#page13" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -416,7 +416,7 @@
             <form action="/crm/daily/#page14" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -434,7 +434,7 @@
             <form action="/crm/daily/#page15" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -452,7 +452,7 @@
             <form action="/crm/daily/#page15" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -470,7 +470,7 @@
             <form action="/crm/daily/#page17" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -488,7 +488,7 @@
             <form action="/crm/daily/#page18" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -506,7 +506,7 @@
             <form action="/crm/daily/#page19" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -524,7 +524,7 @@
             <form action="/crm/daily/#page20" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -542,7 +542,7 @@
             <form action="/crm/daily/#page21" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -560,7 +560,7 @@
             <form action="/crm/daily/#page22" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -578,7 +578,7 @@
             <form action="/crm/daily/#page23" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -596,7 +596,7 @@
             <form action="/crm/daily/#page24" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -614,7 +614,7 @@
             <form action="/crm/daily/#page25" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -632,7 +632,7 @@
             <form action="/crm/daily/#end" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
-                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ daily_page1.qdate }}">
+                <input type="text" class="datepicker right search" name="qdate" placeholder="{{ base_dict.qdate }}">
             </form>
             <div class="clear"></div>
         </div>
@@ -689,7 +689,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ base_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -715,7 +715,7 @@
             {
                 name: '注册人数',
                 type: 'bar',
-                data: {{ daily_page2.zhu_r_list | safe }},
+                data: {{ base_dict.zhu_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -729,7 +729,7 @@
             {
                 name: '新增投资人数',
                 type: 'bar',
-                data: {{ daily_page2.xztz_r_list |safe }},
+                data: {{ base_dict.xztz_r_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -747,7 +747,7 @@
                 itemStyle: {
                     normal: {color: '#e46c0a'}
                 },
-                data: {{ daily_page2.xztz_lv_list | safe }},
+                data: {{ base_dict.xztz_lv_list | safe }},
                 label: {
                     normal: {
                         show: true,
@@ -787,7 +787,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ base_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -806,7 +806,7 @@
             {
                 name: '投资金额',
                 type: 'bar',
-                data: {{ daily_page3.tz_j_list | safe }},
+                data: {{ base_dict.tz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -820,7 +820,7 @@
             {
                 name: '回款金额',
                 type: 'bar',
-                data: {{ daily_page3.hk_j_list |safe }},
+                data: {{ base_dict.hk_j_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -834,7 +834,7 @@
             {
                 name: '站岗资金',
                 type: 'bar',
-                data: {{ daily_page3.zg_j_list | safe }},
+                data: {{ base_dict.zg_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -876,7 +876,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ base_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -895,7 +895,7 @@
             {
                 name: '充值金额',
                 type: 'bar',
-                data: {{ daily_page4.cz_j_list | safe }},
+                data: {{ base_dict.cz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -909,7 +909,7 @@
             {
                 name: '提现金额',
                 type: 'bar',
-                data: {{ daily_page4.tx_j_list |safe }},
+                data: {{ base_dict.tx_j_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -923,7 +923,7 @@
             {
                 name: '净流入',
                 type: 'bar',
-                data: {{ daily_page4.income_list | safe }},
+                data: {{ base_dict.income_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -965,7 +965,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ base_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -984,7 +984,7 @@
             {
                 name: '投资人数',
                 type: 'line',
-                data: {{ daily_page5.tz_r_list | safe }},
+                data: {{ base_dict.tz_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -998,7 +998,7 @@
             {
                 name: '投资笔数',
                 type: 'line',
-                data: {{ daily_page5.tz_b_list |safe }},
+                data: {{ base_dict.tz_b_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -1012,7 +1012,7 @@
             {
                 name: '投资用户登录数',
                 type: 'line',
-                data: {{ daily_page5.tz_dl_r_list | safe }},
+                data: {{ base_dict.tz_dl_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -1073,7 +1073,7 @@
             {
                 name: '各时间段投资人数',
                 type: 'bar',
-                data: {{ daily_page6.timeslot_tz_r_list | safe }},
+                data: {{ base_dict.timeslot_tz_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
                 },
@@ -1115,7 +1115,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ tg_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -1134,7 +1134,7 @@
             {
                 name: '推广注册人数',
                 type: 'bar',
-                data: {{ daily_page7.tg_zhu_r_list | safe }},
+                data: {{ tg_dict.tg_zhu_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -1148,7 +1148,7 @@
             {
                 name: '推广实名人数',
                 type: 'bar',
-                data: {{ daily_page7.tg_sm_r_list |safe }},
+                data: {{ tg_dict.tg_sm_r_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -1162,7 +1162,7 @@
             {
                 name: '推广首充人数',
                 type: 'bar',
-                data: {{ daily_page7.tg_sc_r_list | safe }},
+                data: {{ tg_dict.tg_sc_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -1204,7 +1204,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ tg_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -1231,7 +1231,7 @@
                 name: '推广新增金额',
                 type: 'bar',
                 barWidth: 50,//柱图宽度
-                data: {{ daily_page8.tg_xztz_j_list | safe }},
+                data: {{ tg_dict.tg_xztz_j_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -1248,7 +1248,7 @@
                 yAxisIndex: 1,
                 symbol: 'star',//拐点样式
                 symbolSize: 8,//拐点大小
-                data: {{ daily_page8.tg_xztz_r_list |safe }},
+                data: {{ tg_dict.tg_xztz_r_list |safe }},
                 itemStyle: {
                     width: 100,//折线宽度
                     normal: {color: '#d99694'}
@@ -1291,7 +1291,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ tg_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -1310,7 +1310,7 @@
             {
                 name: '注册-实名转化率',
                 type: 'line',
-                data: {{ daily_page9.tg_zhu_sm_lv_list | safe }},
+                data: {{ tg_dict.tg_zhu_sm_lv_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -1324,7 +1324,7 @@
             {
                 name: '实名-首充转化率',
                 type: 'line',
-                data: {{ daily_page9.tg_sm_sc_lv_list |safe }},
+                data: {{ tg_dict.tg_sm_sc_lv_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -1338,7 +1338,7 @@
             {
                 name: '注册-首投转化率',
                 type: 'line',
-                data: {{ daily_page9.tg_zhu_xztz_lv_list | safe }},
+                data: {{ tg_dict.tg_zhu_xztz_lv_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -1380,7 +1380,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ tg_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -1399,7 +1399,7 @@
             {
                 name: '注册成本',
                 type: 'line',
-                data: {{ daily_page10.tg_zhu_cost_list | safe }},
+                data: {{ tg_dict.tg_zhu_cost_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -1413,7 +1413,7 @@
             {
                 name: '实名成本',
                 type: 'line',
-                data: {{ daily_page10.tg_sm_cost_list |safe }},
+                data: {{ tg_dict.tg_sm_cost_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
@@ -1427,7 +1427,7 @@
             {
                 name: '首投成本',
                 type: 'line',
-                data: {{ daily_page10.tg_xztz_cost_list | safe }},
+                data: {{ tg_dict.tg_xztz_cost_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b050'}
                 },
@@ -1469,7 +1469,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: {{ daily_page2.qdate_list | safe }},
+                data: {{ tg_dict.qdate_list | safe }},
                 axisPointer: {
                     type: 'shadow'
                 }
@@ -1496,7 +1496,7 @@
                 name: '推广花费金额',
                 type: 'bar',
                 barWidth: 50,//柱图宽度
-                data: {{ daily_page11.tg_cost_list | safe }},
+                data: {{ tg_dict.tg_cost_list | safe }},
                 itemStyle: {
                     normal: {color: '#31859c'}
                 },
@@ -1511,7 +1511,7 @@
                 name: 'ROI',
                 type: 'line',
                 yAxisIndex: 1,
-                data: {{ daily_page11.tg_roi_list |safe }},
+                data: {{ tg_dict.tg_roi_list |safe }},
                 itemStyle: {
                     normal: {color: '#d99694'}
                 },
