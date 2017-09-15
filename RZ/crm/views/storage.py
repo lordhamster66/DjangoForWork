@@ -146,7 +146,7 @@ class DataStorage(View):
         #         mb_ys=row.get("mb_ys")  # 满标用时
         #     )
         # # 增加各端数据详情
-        # qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
         # geduan_rw = self.get_info_list("daily", "geduan_rw.sql")  # 获取各端回款并提现数据
         # geduan_rw_dic = {}  # 定义一个各端回款并提现字典
         # for i in geduan_rw:
