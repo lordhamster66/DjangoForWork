@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/13
+"""
+网贷之家网贷天眼所属数据库表备份模块
+"""
 import os
 from django.db import connections
 from crm import utils  # 常用功能及一些工具或一些常用变量

@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/13
+"""
+方便工作使用，用于对一些重复工作提供接口
+"""
 import os
 from RZ import settings
 from crm import models
