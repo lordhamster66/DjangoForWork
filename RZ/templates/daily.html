@@ -1,4 +1,3 @@
-{% load mytag %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +10,111 @@
     <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" href="/static/plugins/sweetalert-master/dist/sweetalert.css">
     <link rel="stylesheet" href="/static/build/css/daily.css">
+    <style>
+        .subNavBox {
+            position: fixed;
+            top: 50px;
+            left: 10px;
+            width: 180px;
+            border: solid 1px #e5e3da;
+            margin: 100px auto;
+            background-color: white;
+        }
+
+        .subNav {
+            border-bottom: solid 1px #e5e3da;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            color: #999;
+            line-height: 28px;
+            padding-left: 10px;
+            background: url(/static/build/img/jiantou1.jpg) no-repeat;
+            background-position: 95% 50%
+        }
+
+        .subNav:hover {
+            color: #277fc2;
+        }
+
+        .currentDd {
+            color: #277fc2
+        }
+
+        .currentDt {
+            background-image: url(/static/build/img/jiantou.jpg);
+        }
+
+        .navContent {
+            display: none;
+            border-bottom: solid 1px #e5e3da;
+        }
+
+        .navContent li a {
+            display: block;
+            height: 28px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 28px;
+            color: #333
+        }
+
+        .navContent li a:hover {
+            color: #fff;
+            background-color: #277fc2
+        }
+    </style>
 </head>
 <body>
 <div class="daily-content">
+    <div class="subNavBox">
+        <div class="subNav currentDd currentDt">平台数据</div>
+        <ul class="navContent " style="display:block">
+            <li><a href="#page1">总览</a></li>
+            <li><a href="#page2">注册-新增转化</a></li>
+            <li><a href="#page3">投资回款</a></li>
+            <li><a href="#page4">资金概况</a></li>
+            <li><a href="#page5">人数概况</a></li>
+            <li><a href="#page6">各时间段投资</a></li>
+        </ul>
+        <div class="subNav">推广数据</div>
+        <ul class="navContent">
+            <li><a href="#page7">各节点人数</a></li>
+            <li><a href="#page8">推广新增</a></li>
+            <li><a href="#page9">各节点转化率</a></li>
+            <li><a href="#page10">各节点成本</a></li>
+            <li><a href="#page11">推广花费</a></li>
+        </ul>
+        <div class="subNav">运营概况</div>
+        <ul class="navContent">
+            <li><a href="#page12">各类充值</a></li>
+        </ul>
+        <div class="subNav">邀请概况</div>
+        <ul class="navContent">
+            <li><a href="#page13">邀请人数</a></li>
+            <li><a href="#page14">邀请成本</a></li>
+        </ul>
+        <div class="subNav">项目概况</div>
+        <ul class="navContent">
+            <li><a href="#page15">各期限投资人数</a></li>
+            <li><a href="#page16">各期限投资金额</a></li>
+            <li><a href="#page17">各期限满标时长</a></li>
+            <li><a href="#page18">30天以内短标详情</a></li>
+        </ul>
+        <div class="subNav">各端概况</div>
+        <ul class="navContent">
+            <li><a href="#page19">各端投资</a></li>
+            <li><a href="#page20">各端新增</a></li>
+            <li><a href="#page21">各端复投</a></li>
+            <li><a href="#page22">各端提现</a></li>
+            <li><a href="#page23">各端回款并提现</a></li>
+        </ul>
+        <div class="subNav">客服概况</div>
+        <ul class="navContent">
+            <li><a href="#page24">专属客服复投详情</a></li>
+            <li><a href="#page25">VIP客服流失详情</a></li>
+        </ul>
+    </div>
     <div id="page1" class="daily-container">
         <span id="alert" style="display: none;">{{ alert_message }}{{ daily_form.qdate.errors.0 }}</span>
         <div class="head">
@@ -662,6 +763,12 @@
                 location.href = "/crm/daily/";
             });
         }
+        ;
+        $(".subNav").click(function () {
+            $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd")
+            $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt")
+            $(this).next(".navContent").slideToggle(300).siblings(".navContent").slideUp(500)
+        })
     })
 </script>
 <script type="text/javascript">
