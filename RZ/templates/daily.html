@@ -124,7 +124,7 @@
             </div>
             <h1 class="title left">总览</h1>
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
-            <form action="/crm/daily/#page1" method="POST">
+            <form action="/crm/daily/" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
                 {{ daily_form.qdate }}
@@ -384,7 +384,7 @@
             </div>
             <h1 class="title left">平台数据</h1>
             <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
-            <form action="/crm/daily/#page5" method="POST">
+            <form action="/crm/daily/#page6" method="POST">
                 {% csrf_token %}
                 <input id="search-daily" type="submit" class="right search" value="查询">
                 <input type="text" class="datepicker right search" name="qdate" value="{{ base_dict.qdate }}">
@@ -589,7 +589,7 @@
         </form>
     </div>
     <div id="page16" class="daily-container">
-        <form action="/crm/daily/#page15" method="POST">
+        <form action="/crm/daily/#page16" method="POST">
             <div class="head">
                 <div class="daily-tag left">
                     <img src="/static/build/img/daily_tag.png" alt="">

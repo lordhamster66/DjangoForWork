@@ -483,4 +483,21 @@ class Daily(View):
                 }
             )
         else:
-            return render(request, "daily.html", {"daily_form": daily_form})
+            (
+                alert_message, base_dict, tg_dict, operate_dict,
+                invite_dict, asset_dict, geduan_dict, kefu_dict
+            ) = self.get_info(qdate)
+            return render(
+                request, "daily.html",
+                {
+                    "base_dict": base_dict,
+                    "tg_dict": tg_dict,
+                    "operate_dict": operate_dict,
+                    "invite_dict": invite_dict,
+                    "asset_dict": asset_dict,
+                    "geduan_dict": geduan_dict,
+                    "kefu_dict": kefu_dict,
+                    "daily_form": daily_form,
+                    "alert_message": alert_message
+                }
+            )
