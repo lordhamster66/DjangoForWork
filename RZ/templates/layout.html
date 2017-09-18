@@ -64,7 +64,7 @@
 <script>
     $(function () {
         $(".menu-title").click(function () {
-            $(this).next(".menu-content").slideToggle(300).parent().siblings().children(".menu-content").slideUp(600);
+            $(this).next(".menu-content").slideToggle(300).parent().siblings().children(".menu-content").slideUp(500);
             var sign = $(this).children(":eq(1)").text();
             if(sign === "+"){
                 $(this).children(":eq(1)").text("-");
