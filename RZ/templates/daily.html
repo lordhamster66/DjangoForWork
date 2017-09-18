@@ -3112,6 +3112,7 @@
             {
                 name: '回款金额',
                 type: 'bar',
+                barWidth: 80,//柱图宽度
                 data: {{ geduan_dict.geduan_recover_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
@@ -3119,7 +3120,7 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top',
+                        position: 'inside',
                         fontSize: 15,  //文字大小
                         fontWeight: 'bold'  //文字粗细
                     }
@@ -3128,6 +3129,7 @@
             {
                 name: '回款并提现金额',
                 type: 'bar',
+                barWidth: 80,//柱图宽度
                 data: {{ geduan_dict.geduan_recover_withdraw_list |safe }},
                 itemStyle: {
                     normal: {color: '#ffc000'}
@@ -3135,7 +3137,7 @@
                 label: {
                     normal: {
                         show: true,
-                        position: 'top',
+                        position: 'inside',
                         fontSize: 15,  //文字大小
                         fontWeight: 'bold'  //文字粗细
                     }
@@ -3326,6 +3328,7 @@
             {
                 name: '流失用户',
                 type: 'bar',
+                barWidth: 50,//柱图宽度
                 data: {{ kefu_dict.ls_r_list | safe }},
                 itemStyle: {
                     normal: {color: '#00b0f0'}
