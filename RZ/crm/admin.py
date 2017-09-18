@@ -41,7 +41,7 @@ class QudaoNameAdmin(admin.ModelAdmin):
 
 class TgInfoAdmin(admin.ModelAdmin):
     """推广数据对应表显示信息"""
-    list_display = ("qdate", "tg_zhu_r", "tg_sm_r", "tg_sc_r", "tg_xztz_r", "tg_xztz_j")
+    list_display = ("qdate", "tg_zhu_r", "tg_sm_r", "tg_sc_r", "tg_xztz_r", "tg_xztz_j", "tg_cost")
 
     ordering = ('qdate',)
 
