@@ -146,6 +146,10 @@ a:hover {
     margin-left: 20px;
 }
 
+.pg-nav .menu-line .menu-content {
+    display: none;
+}
+
 .pg-nav .menu-line .menu {
     display: inline-block;
     width: 200px;

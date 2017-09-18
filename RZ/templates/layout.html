@@ -38,7 +38,7 @@
                 <span class="left">首页</span>
                 <span class="right">+</span>
             </div>
-            <div class="hide">
+            <div class="menu-content">
                 <a class="left menu" href="#">仪表盘</a>
                 <a class="left menu" href="#">详情</a>
             </div>
@@ -48,7 +48,7 @@
                 <span class="left">第三方对接</span>
                 <span class="right">+</span>
             </div>
-            <div class="hide">
+            <div class="menu-content">
                 <a class="left menu" href="/crm/wdzj/?u={{ username }}">网贷之家</a>
                 <a class="left menu" href="#">网贷天眼</a>
             </div>
@@ -64,7 +64,14 @@
 <script>
     $(function () {
         $(".menu-title").click(function () {
-            $(this).children(":eq(1)").text("-").parent().next().removeClass("hide").parent().siblings().children(":eq(1)").addClass("hide").siblings().children(":eq(1)").text("+");
+            $(this).next(".menu-content").slideToggle(300).parent().siblings().children(".menu-content").slideUp(600);
+            var sign = $(this).children(":eq(1)").text();
+            if(sign === "+"){
+                $(this).children(":eq(1)").text("-");
+                $(this).parent().siblings().children(".menu-title").children(":eq(1)").text("+");
+            }else{
+                $(this).children(":eq(1)").text("+");
+            }
         })
     })
 </script>
