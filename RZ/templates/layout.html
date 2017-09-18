@@ -68,7 +68,9 @@
             var sign = $(this).children(":eq(1)").text();
             if(sign === "+"){
                 $(this).children(":eq(1)").text("-");
-                $(this).parent().siblings().children(".menu-title").children(":eq(1)").text("+");
+                $(this).parent().siblings().each(function () {
+                    $(this).children(".menu-title").children(":eq(1)").text("+");
+                })
             }else{
                 $(this).children(":eq(1)").text("+");
             }
