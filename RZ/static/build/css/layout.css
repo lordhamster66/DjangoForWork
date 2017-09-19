@@ -31,7 +31,7 @@ body {
 }
 
 .pg-header .container {
-    width: 500px;
+    width: 600px;
     height: 48px;
     margin-right: 100px;
 }
@@ -43,6 +43,17 @@ body {
     text-align: center;
     margin-right: 10px;
     cursor: pointer;
+    color: #ffffff;
+}
+
+.pg-header .container .header-menu .bg-success {
+    background-color: #5cb85c !important;
+    color: #ffffff;
+}
+
+.pg-header .container .header-menu .bg-danger {
+    background-color: #d9534f !important;
+    color: #ffffff;
 }
 
 .pg-header .container .header-menu:hover {
@@ -169,6 +180,7 @@ a:hover {
     left: 220px;
     overflow: auto;
     background-color: #e7ebee;
+    border: 1px solid #dddddd;
 }
 
 .table-container {

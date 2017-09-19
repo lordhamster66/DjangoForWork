@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from .views import user
+from .views import manage
 
 urlpatterns = [
     url(r'^login/', user.login),
+    url(r'^index/', manage.index),
 ]
