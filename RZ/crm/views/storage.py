@@ -133,14 +133,13 @@ class DataStorage(View):
             hb_s=invite_info.get("hb_s")  # 红包使用金额
         )
         # 增加资产数据详情
-        qixian_mb_ys_info = self.get_info_list("daily", "qixian_mb_ys.sql")  # 获取期限满标用时数据
-        qixian_tz_info = self.get_info_list("daily", "qixian_tz.sql")  # 获取期限投资数据
-        for index, row in enumerate(qixian_mb_ys_info):
+        qixian_info = self.get_info_list("daily", "qixian_info.sql")  # 获取期限数据
+        for row in qixian_info:
             models.AssetInfo.objects.using("default").create(
                 qdate=row.get("qdate"),  # 日期
                 term=row.get("term"),  # 期限类型
-                tz_r=qixian_tz_info[index].get("tz_r"),  # 投资人数
-                tz_j=qixian_tz_info[index].get("tz_j"),  # 投资金额
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
                 mb_ys=row.get("mb_ys")  # 满标用时
             )
         # 增加各端数据详情

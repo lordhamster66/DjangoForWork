@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/11
+import os
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
@@ -9,6 +10,8 @@ from django.views import View
 from crm import models
 from datetime import datetime, timedelta, date
 from crm import forms
+from django.db import connections
+from RZ import settings
 from crm import utils
 
 
@@ -40,6 +43,23 @@ class Daily(View):
                 return "下降"
         else:
             return "持平"
+
+    def get_sql(self, catalog, file_name):
+        """获取SQL信息"""
+        file_path = os.path.join(settings.BASE_DIR, "crm", "RzSql", catalog, file_name)
+        f = open(file_path, "r", encoding="utf-8")
+        sql = f.read()
+        f.close()
+        return sql
+
+    def get_info_list(self, sql, db="default"):
+        """获取SQL执行结果"""
+        cursor = connections[db].cursor()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        col_names = [i[0] for i in cursor.description]
+        info_list = [dict(zip(col_names, row)) for row in data]
+        return info_list
 
     def get_info(self, qdate, section=8):
         alert_message = ""  # 定义错误提示信息
@@ -278,58 +298,31 @@ class Daily(View):
                 invite_dict["cash_f_list"].append(int(obj.cash_f))
 
             # 获取最近8天项目数据
-            asset_info_8 = models.AssetInfo.objects.using("default").filter(
-                qdate__range=(
-                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
-                    datetime.strptime(qdate, "%Y-%m-%d")
-                )
-            ).all().order_by("qdate")
-
-            asset_dict["qdate_list"] = []  # 日期列表
-            asset_dict["A_tz_r_list"] = []  # 短标投资人数
-            asset_dict["B_tz_r_list"] = []  # 1月标投资人数
-            asset_dict["C_tz_r_list"] = []  # 2月标投资人数
-            asset_dict["D_tz_r_list"] = []  # 3月标投资人数
-            asset_dict["E_tz_r_list"] = []  # 6月标投资人数
-            asset_dict["F_tz_r_list"] = []  # 10月标及以上投资人数
-            asset_dict["A_tz_j_list"] = []  # 短标投资金额
-            asset_dict["B_tz_j_list"] = []  # 1月标投资金额
-            asset_dict["C_tz_j_list"] = []  # 2月标投资金额
-            asset_dict["D_tz_j_list"] = []  # 3月标投资金额
-            asset_dict["E_tz_j_list"] = []  # 6月标投资金额
-            asset_dict["F_tz_j_list"] = []  # 10月标及以上投资金额
-            asset_dict["A_mb_ys_list"] = []  # 短标满标用时
-            asset_dict["B_mb_ys_list"] = []  # 1月标满标用时
-            asset_dict["C_mb_ys_list"] = []  # 2月标满标用时
-            asset_dict["D_mb_ys_list"] = []  # 3月标满标用时
-            asset_dict["E_mb_ys_list"] = []  # 6月标满标用时
-            asset_dict["F_mb_ys_list"] = []  # 10月标及以上满标用时
-            for obj in asset_info_8:
-                if obj.term == "A:短标":
-                    asset_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
-                    asset_dict["A_tz_r_list"].append(obj.tz_r)
-                    asset_dict["A_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["A_mb_ys_list"].append(float(obj.mb_ys))
-                elif obj.term == "B:1月标":
-                    asset_dict["B_tz_r_list"].append(obj.tz_r)
-                    asset_dict["B_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["B_mb_ys_list"].append(float(obj.mb_ys))
-                elif obj.term == "C:2月标":
-                    asset_dict["C_tz_r_list"].append(obj.tz_r)
-                    asset_dict["C_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["C_mb_ys_list"].append(float(obj.mb_ys))
-                elif obj.term == "D:3月标":
-                    asset_dict["D_tz_r_list"].append(obj.tz_r)
-                    asset_dict["D_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["D_mb_ys_list"].append(float(obj.mb_ys))
-                elif obj.term == "E:6月标":
-                    asset_dict["E_tz_r_list"].append(obj.tz_r)
-                    asset_dict["E_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["E_mb_ys_list"].append(float(obj.mb_ys))
-                elif obj.term == "F:10月标":
-                    asset_dict["F_tz_r_list"].append(obj.tz_r)
-                    asset_dict["F_tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))
-                    asset_dict["F_mb_ys_list"].append(float(obj.mb_ys))
+            rzjf_asset_info_sql = self.get_sql("daily", "rzjf_asset_info.sql")  # 获取SQL
+            rzjf_asset_info_sql = rzjf_asset_info_sql.format(qdate=qdate, section=section)
+            info_list = self.get_info_list(rzjf_asset_info_sql)  # 执行SQL并获取结果
+            color_list = ['#31859c', '#d99694', '#c3d69b', '#95b3d7', '#4bacc6', '#e67519']  # 定义颜色取值范围
+            asset_dict["temp_term_title_list"] = []
+            for row in info_list:
+                asset_dict["temp_term_title_list"].append(row.get("term"))
+            asset_dict["term_title_list"] = []  # 定义期限类型和SQL同步
+            [asset_dict["term_title_list"].append(i) for i in asset_dict["temp_term_title_list"] if
+             i not in asset_dict["term_title_list"]]
+            asset_dict["term_list"] = []  # 存放期限对应的数据
+            for index, term in enumerate(asset_dict["term_title_list"]):
+                asset_dict["term_list"].append(
+                    {"term": term, "tz_r": [], "tz_j": [], "mb_ys": [], "color": color_list[index]})
+            asset_dict["qdate_list1"] = []  # 临时存放日期列表
+            for row in info_list:
+                for term_dict in asset_dict["term_list"]:
+                    if row.get("term") == term_dict.get("term"):
+                        term_dict["tz_r"].append(int(row.get("tz_r")))
+                        term_dict["tz_j"].append(round(int(row.get("tz_j")) / 10000, 2))
+                        term_dict["mb_ys"].append(float(row.get("mb_ys")))
+                asset_dict["qdate_list1"].append(datetime.strftime(row.get("qdate"), "%m-%d"))
+            asset_dict["qdate_list2"] = []  # 最终去重日期列表
+            [asset_dict["qdate_list2"].append(i) for i in asset_dict["qdate_list1"] if
+             i not in asset_dict["qdate_list2"]]
 
             # 获取最近8天其他数据
             other_info_8 = models.OtherInfo.objects.using("default").filter(
