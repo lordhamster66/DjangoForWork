@@ -302,27 +302,28 @@ class Daily(View):
             rzjf_asset_info_sql = rzjf_asset_info_sql.format(qdate=qdate, section=section)
             info_list = self.get_info_list(rzjf_asset_info_sql)  # 执行SQL并获取结果
             color_list = ['#31859c', '#d99694', '#c3d69b', '#95b3d7', '#4bacc6', '#e67519']  # 定义颜色取值范围
-            asset_dict["temp_term_title_list"] = []
+            temp_term_title_list = []  # 临时存放期限类型列表
             for row in info_list:
-                asset_dict["temp_term_title_list"].append(row.get("term"))
+                temp_term_title_list.append(row.get("term"))
             asset_dict["term_title_list"] = []  # 定义期限类型和SQL同步
-            [asset_dict["term_title_list"].append(i) for i in asset_dict["temp_term_title_list"] if
-             i not in asset_dict["term_title_list"]]
+            [asset_dict["term_title_list"].append(i) for i in temp_term_title_list if
+             i not in asset_dict["term_title_list"]]  # 对temp_term_title_list去重
+
             asset_dict["term_list"] = []  # 存放期限对应的数据
             for index, term in enumerate(asset_dict["term_title_list"]):
                 asset_dict["term_list"].append(
                     {"term": term, "tz_r": [], "tz_j": [], "mb_ys": [], "color": color_list[index]})
-            asset_dict["qdate_list1"] = []  # 临时存放日期列表
+            temp_qdate_list = []  # 临时存放日期列表
             for row in info_list:
                 for term_dict in asset_dict["term_list"]:
                     if row.get("term") == term_dict.get("term"):
                         term_dict["tz_r"].append(int(row.get("tz_r")))
                         term_dict["tz_j"].append(round(int(row.get("tz_j")) / 10000, 2))
                         term_dict["mb_ys"].append(float(row.get("mb_ys")))
-                asset_dict["qdate_list1"].append(datetime.strftime(row.get("qdate"), "%m-%d"))
-            asset_dict["qdate_list2"] = []  # 最终去重日期列表
-            [asset_dict["qdate_list2"].append(i) for i in asset_dict["qdate_list1"] if
-             i not in asset_dict["qdate_list2"]]
+                temp_qdate_list.append(datetime.strftime(row.get("qdate"), "%m-%d"))
+            asset_dict["qdate_list"] = []  # 最终去重日期列表
+            [asset_dict["qdate_list"].append(i) for i in temp_qdate_list if
+             i not in asset_dict["qdate_list"]]  # 对temp_qdate_list去重
 
             # 获取最近8天其他数据
             other_info_8 = models.OtherInfo.objects.using("default").filter(
