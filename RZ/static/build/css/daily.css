@@ -43,11 +43,15 @@ body {
 
 .daily-container .head .search {
     display: inline-block;
+    width: 120px;
     height: 48px;
     line-height: 48px;
     margin-top: 20px;
 }
-
+.daily-container .head #search-daily {
+    width: 60px;
+    line-height: 37px;
+}
 .clear {
     clear: both;
 }
