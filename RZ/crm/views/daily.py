@@ -301,7 +301,9 @@ class Daily(View):
             rzjf_asset_info_sql = self.get_sql("daily", "rzjf_asset_info.sql")  # 获取SQL
             rzjf_asset_info_sql = rzjf_asset_info_sql.format(qdate=qdate, section=section)
             info_list = self.get_info_list(rzjf_asset_info_sql)  # 执行SQL并获取结果
-            color_list = ['#31859c', '#d99694', '#c3d69b', '#95b3d7', '#4bacc6', '#e67519']  # 定义颜色取值范围
+            # 定义颜色取值范围
+            color_list = ['#31859c', '#d99694', '#c3d69b', '#95b3d7', '#4bacc6', '#e67519', '#00b38c', '#00b0f0',
+                          '#82abba']
             temp_term_title_list = []  # 临时存放期限类型列表
             for row in info_list:
                 temp_term_title_list.append(row.get("term"))
@@ -312,7 +314,8 @@ class Daily(View):
             asset_dict["term_list"] = []  # 存放期限对应的数据
             for index, term in enumerate(asset_dict["term_title_list"]):
                 asset_dict["term_list"].append(
-                    {"term": term, "tz_r": [], "tz_j": [], "mb_ys": [], "color": color_list[index]})
+                    {"term": term, "tz_r": [], "tz_j": [], "mb_ys": [],
+                     "color": color_list[index] if index < len(color_list) else '#82abba'})
             temp_qdate_list = []  # 临时存放日期列表
             for row in info_list:
                 for term_dict in asset_dict["term_list"]:
