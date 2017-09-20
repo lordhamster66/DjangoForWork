@@ -299,34 +299,43 @@ class Daily(View):
 
             # 获取最近8天项目数据
             rzjf_asset_info_sql = self.get_sql("daily", "rzjf_asset_info.sql")  # 获取SQL
-            rzjf_asset_info_sql = rzjf_asset_info_sql.format(qdate=qdate, section=section)
+            rzjf_asset_info_sql = rzjf_asset_info_sql.format(qdate=qdate, section=section)  # 格式化SQL语句
             info_list = self.get_info_list(rzjf_asset_info_sql)  # 执行SQL并获取结果
             # 定义颜色取值范围
             color_list = ['#31859c', '#d99694', '#c3d69b', '#95b3d7', '#4bacc6', '#e67519', '#00b38c', '#00b0f0',
                           '#82abba']
-            temp_term_title_list = []  # 临时存放期限类型列表
-            for row in info_list:
-                temp_term_title_list.append(row.get("term"))
-            asset_dict["term_title_list"] = []  # 定义期限类型和SQL同步
-            [asset_dict["term_title_list"].append(i) for i in temp_term_title_list if
-             i not in asset_dict["term_title_list"]]  # 对temp_term_title_list去重
-
+            asset_dict["qdate_list"] = []  # 最终去重日期列表
+            asset_dict["term_title_list"] = []  # 定义期限名称列表
             asset_dict["term_list"] = []  # 存放期限对应的数据
-            for index, term in enumerate(asset_dict["term_title_list"]):
-                asset_dict["term_list"].append(
-                    {"term": term, "tz_r": [], "tz_j": [], "mb_ys": [],
-                     "color": color_list[index] if index < len(color_list) else '#82abba'})
-            temp_qdate_list = []  # 临时存放日期列表
+
             for row in info_list:
+                temp_term = row.get("term")  # 本次循环到的期限
+                if temp_term not in asset_dict["term_title_list"]:  # 如果期限不在期限名称列表里面
+                    asset_dict["term_title_list"].append(temp_term)  # 存放期限至期限名称列表
+                    temp_index = asset_dict["term_title_list"].index(temp_term)  # 获取该期限名称在列表的索引
+                    # 为该期限生成对应的字典
+                    asset_dict["term_list"].append({
+                        "term": temp_term,  # 期限名称
+                        "tz_r": [],  # 投资人数列表
+                        "tz_j": [],  # 投资金额列表
+                        "mb_ys": [],  # 满标用时列表
+                        "color": color_list[temp_index] if temp_index < len(color_list) else '#82abba'  # 定义该期限类型颜色
+                    }
+                    )
+
+                # 存放期限对应的数据
                 for term_dict in asset_dict["term_list"]:
-                    if row.get("term") == term_dict.get("term"):
+                    if temp_term == term_dict["term"]:  # 期限名称
                         term_dict["tz_r"].append(int(row.get("tz_r")))
                         term_dict["tz_j"].append(round(int(row.get("tz_j")) / 10000, 2))
                         term_dict["mb_ys"].append(float(row.get("mb_ys")))
-                temp_qdate_list.append(datetime.strftime(row.get("qdate"), "%m-%d"))
-            asset_dict["qdate_list"] = []  # 最终去重日期列表
-            [asset_dict["qdate_list"].append(i) for i in temp_qdate_list if
-             i not in asset_dict["qdate_list"]]  # 对temp_qdate_list去重
+
+                # 获取本次循环渠道的日期
+                temp_qdate = datetime.strftime(row.get("qdate"), "%m-%d")
+
+                # 存放不重复的日期
+                if temp_qdate not in asset_dict["qdate_list"]:
+                    asset_dict["qdate_list"].append(temp_qdate)
 
             # 获取最近8天其他数据
             other_info_8 = models.OtherInfo.objects.using("default").filter(
