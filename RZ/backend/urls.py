@@ -18,6 +18,8 @@ from .views import user
 from .views import manage
 
 urlpatterns = [
-    url(r'^login/', user.login),
-    url(r'^index/', manage.index),
+    url(r'^check_code.html$', user.check_code),
+    url(r'^register/$', user.register),
+    url(r'^login/$', user.login),
+    url(r'^index/$', manage.index),
 ]

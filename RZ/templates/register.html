@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="shortcut icon" href="/static/build/img/favicon.ico">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/build/css/edmure.css"/>
+    <link rel="stylesheet" href="/static/build/css/commons.css"/>
+    <link rel="stylesheet" href="/static/build/css/account.css"/>
+</head>
+<body>
+<div class="register">
+    <div style="font-size: 25px; font-weight: bold;text-align: center;">
+        用户注册
+    </div>
+    <form role="form">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            {{ register_obj.username }}
+        </div>
+        <div class="form-group">
+            <label for="pwd">密码</label>
+            {{ register_obj.pwd }}
+        </div>
+        <div class="form-group">
+            <label for="pwd_again">确认密码</label>
+            {{ register_obj.pwd_again }}
+        </div>
+        <div class="form-group">
+            <label for="qq">QQ</label>
+            {{ register_obj.qq }}
+        </div>
+        <div class="form-group">
+            <label for="check_code">验证码</label>
+            <div class="row">
+                <div class="col-xs-7">
+                    {{ register_obj.check_code }}
+                </div>
+                <div class="col-xs-5">
+                    <img id="code" src="/backend/check_code.html">
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-default" value="下一步"/>
+    </form>
+    <script src="/static/plugins/jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            $("#code").click(function () {
+                this.src = this.src + "?";
+            })
+        })
+    </script>
+</div>
+</body>
+</html>
