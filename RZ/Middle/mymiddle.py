@@ -24,7 +24,7 @@ class CommonMiddle(MiddlewareMixin):
     def process_exception(self, request, exception):
         """只有出现异常时才会执行"""
         if isinstance(exception, ValueError):
-            return HttpResponse('出现异常》。。')
+            return HttpResponse('出现异常》%s' % exception)
         elif isinstance(exception, TemplateDoesNotExist):
             print(request.path_info)
             return render(request, "404.html")

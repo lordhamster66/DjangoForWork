@@ -16,14 +16,20 @@ class LoginForm(Form):
     """登录验证FORM"""
     username = fields.CharField(
         label="用户名：",
-        widget=widgets.TextInput(attrs={"id": "u", "class": "inputstyle"}),
+        widget=widgets.TextInput(attrs={"id": "username", "class": "form-control", "placeholder": "请输入用户名"}),
         error_messages={"required": "用户名不能为空！"}
     )
 
     pwd = fields.CharField(
         label="密码：",
-        widget=widgets.PasswordInput(attrs={"id": "p", "class": "inputstyle"}),
+        widget=widgets.PasswordInput(attrs={"id": "pwd", "class": "form-control", "placeholder": "请输入密码"}),
         error_messages={"required": "密码不能为空！"}
+    )
+
+    check_code = fields.CharField(
+        label="验证码：",
+        widget=widgets.TextInput(attrs={"id": "check_code", "class": "form-control", "placeholder": "请输入验证码"}),
+        error_messages={"required": "验证码不能为空！"}
     )
 
     remember = fields.CharField(
@@ -39,17 +45,18 @@ class LoginForm(Form):
             raise ValidationError("用户不存在！", "invalid")
         return username
 
-    def clean_pwd(self):
-        username = self.cleaned_data.get("username")
-        pwd = self.cleaned_data.get("pwd")
+    def clean(self):
+        """整体验证"""
+        username = self.cleaned_data.get("username")  # 获取用户输入的用户名
+        pwd = self.cleaned_data.get("pwd")  # 获取用户输入的密码
         if username:
-            m_obj = hashlib.md5()
-            m_obj.update(pwd.encode())
-            password = m_obj.hexdigest()
-            obj = models.User.objects.filter(username=username).first()
-            if password != obj.pwd:
-                raise ValidationError("密码错误！", "invalid")
-        return pwd
+            m_obj = hashlib.md5()  # 获取一个加密对象
+            m_obj.update(pwd.encode())  # 加密密码
+            password = m_obj.hexdigest()  # 获取加密的密码
+            obj = models.User.objects.filter(username=username).first()  # 获取用户对象
+            if password != obj.pwd:  # 检测密码输入是否正确
+                self.add_error("pwd", "密码错误!")
+        return self.cleaned_data
 
 
 class RegisterForm(Form):
@@ -102,10 +109,29 @@ class RegisterForm(Form):
             raise ValidationError("qq号已经存在！", "invalid")
         return qq
 
-    def clean_pwd_again(self):
-        """检测用户输入的密码"""
+    def clean(self):
+        """检测整体"""
         pwd = self.cleaned_data.get("pwd")
         pwd_again = self.cleaned_data.get("pwd_again")
         if pwd != pwd_again:
-            raise ValidationError("两次输入的密码不一样！", "invalid")
-        return pwd_again
+            self.add_error("pwd_again", "两次密码不一样")
+        return self.cleaned_data
+
+
+class UserForm(Form):
+    """个人信息修改"""
+    username = fields.CharField(
+        label="用户名：",
+        widget=widgets.TextInput(attrs={
+            "class": "form-control",
+            "id": "username",
+            "placeholder": "请输入昵称"
+        }),
+        error_messages={"required": "用户名不能为空！"}
+    )
+
+    qq = fields.IntegerField(
+        label="QQ：",
+        widget=widgets.TextInput(attrs={"id": "qq", "class": "form-control", "placeholder": "请输入QQ号"}),
+        error_messages={"required": "QQ号不能为空！", "invalid": "QQ号必须为数字!"}
+    )

@@ -21,5 +21,8 @@ urlpatterns = [
     url(r'^check_code.html$', user.check_code),
     url(r'^register/$', user.register),
     url(r'^login/$', user.login),
+    url(r'^logout/$', user.logout),
     url(r'^index/$', manage.index),
+    url(r'^base_info/$', manage.base_info),
+    url(r'^upload_head_portrait/$', manage.upload_head_portrait),
 ]

@@ -1,0 +1,106 @@
+{% extends 'backend_layout.html' %}
+{% block css %}
+    <style>
+        .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+        .avatar-container {
+            height: 200px;
+            width: 200px;
+            padding: 2px;
+            border: 1px solid #dddddd;
+            position: relative;
+        }
+
+        .avatar-container img {
+            height: 200px;
+            width: 200px;
+            border: 0;
+            overflow: hidden;
+        }
+
+        .avatar-container .text {
+            text-align: center;
+        }
+
+        .avatar-container .img-file {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            position: absolute;
+            z-index: 102;
+        }
+    </style>
+{% endblock %}
+{% block conent %}
+    <ol class="breadcrumb">
+        <li><a href="#">用户管理</a></li>
+        <li class="active">用户信息</li>
+    </ol>
+    <div>
+
+        <div class="row" style="position: relative;">
+            <form class="form-horizontal" action="/backend/base-info.html" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">用户名</label>
+
+                        <div class="col-xs-5">
+                            <p class="form-control-static">{{ userform_obj.username }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">QQ</label>
+
+                        <div class="col-xs-5">
+                            <p class="form-control-static">{{ userform_obj.qq }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-primary">保 存</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <div style="position: absolute;" class="col-xs-offset-7 col-xs-5">
+                <div class="avatar-container">
+                    <form id="fm1" action="/backend/upload_head_portrait/" method="POST" target="ifm1"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <iframe id="ifm1" name="ifm1" style="display: none"></iframe>
+                        <img id="tx" origin="/static/imgs/avatar/default.png"
+                             src="{{ userobj.avatar.url }}">
+                        <div class="text">点击图片更换(<a href="#">撤销</a>)</div>
+                        <input id="avatarImg" type="file" class="img-file" name="head_portrait"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+            $("#avatarImg").change(function () {
+                $("#ifm1").load(function () {
+                    var text = $("#ifm1").contents().find("body").text();
+                    var obj = JSON.parse(text);
+                    console.log(obj.status);
+                    if (obj.status) {
+                        location.reload()
+                    }
+                });
+                $("#fm1").submit();
+            })
+        })
+    </script>
+{% endblock %}
