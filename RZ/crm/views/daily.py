@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/11
+"""
+日报功能实现模块
+"""
 import os
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
