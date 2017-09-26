@@ -48,6 +48,17 @@ def base_info(request):
         })
 
 
+@login_decorate
+def tg_info(request):
+    username = request.session.get("username")  # 获取用户名
+    userobj = models.User.objects.using("default").filter(username=username).first()
+    if request.method == "GET":
+        userform_obj = UserForm()
+        return render(request, "backend_tg_info.html", {
+            "username": username, "userform_obj": userform_obj, "userobj": userobj
+        })
+
+
 def upload_head_portrait(request):
     """上传头像"""
     username = request.session.get("username")
