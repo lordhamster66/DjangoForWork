@@ -57,28 +57,64 @@
 </div>
 <div class="pg-body">
     <div class="menu">
-        <a class="menu-item" href="/backend/article.html">
-            <i class="fa fa-cogs" aria-hidden="true"></i>
-            <span>推广详情</span>
-        </a>
-        <a class="menu-item" href="/backend/category.html">
-            <i class="fa fa-cogs" aria-hidden="true"></i>
-            <span>分类管理</span>
-        </a>
-        <a class="menu-item" href="/backend/tag.html">
-            <i class="fa fa-cogs" aria-hidden="true"></i>
-            <span>标签管理</span>
-        </a>
-        <a class="menu-item" href="/backend/base_info/">
-            <i class="fa fa-cogs" aria-hidden="true"></i>
-            <span>个人信息</span>
-        </a>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                           aria-expanded="true" aria-controls="collapseOne" style="display: block">
+                            标题一
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                     aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        内容一
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="display: block">
+                            标题二
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        内容二
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                           style="display: block">
+                            标题三
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        内容三
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="content">
         {% block conent %} {% endblock %}
     </div>
 </div>
 <script src="/static/plugins/jquery-1.12.4.js"></script>
+<script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 {% block js %}{% endblock %}
 </body>
 </html>
