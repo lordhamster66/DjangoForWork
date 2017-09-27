@@ -6,10 +6,12 @@
     overflow: visible;
     font-size: 12px;
 }
-.pg-header a{
+
+.pg-header a {
     color: #ffffff;
     text-decoration: none;
 }
+
 .pg-header .logo {
     width: 200px;
     overflow: hidden;
@@ -22,19 +24,23 @@
     margin-top: 4px;
 
 }
-.pg-header .left-menu{
+
+.pg-header .left-menu {
     font-size: 13px;
 }
-.pg-header .left-menu .menu-item{
+
+.pg-header .left-menu .menu-item {
     display: inline-block;
     padding: 0 15px;
     cursor: pointer;
     position: relative;
 }
+
 .pg-header .left-menu .menu-item:hover {
     background-color: #337ab7;
 
 }
+
 .pg-header .left-menu .menu-item .more-info {
     display: none;
     position: absolute;
@@ -46,9 +52,11 @@
     background-color: #fff;
     color: #333;
 }
+
 .pg-header .left-menu .menu-item:hover .more-info {
     display: block;
 }
+
 .pg-header .left-menu .menu-item .more-info .more-item {
     display: block;
     min-width: 120px;
@@ -58,7 +66,8 @@
     color: #000000;
 
 }
-.pg-header .left-menu .menu-item .more-info .more-item:hover{
+
+.pg-header .left-menu .menu-item .more-info .more-item:hover {
     background-color: #f1f0f0;
 }
 
@@ -67,11 +76,13 @@
     cursor: pointer;
     color: #ffffff;
 }
-.pg-header .right-menu .user-menu .bg-success{
+
+.pg-header .right-menu .user-menu .bg-success {
     background-color: #5cb85c !important;
     color: #ffffff;
 }
-.pg-header .right-menu .user-menu .bg-danger{
+
+.pg-header .right-menu .user-menu .bg-danger {
     background-color: #d9534f !important;
     color: #ffffff;
 }
@@ -97,7 +108,6 @@
     height: 48px;
 }
 
-
 .pg-header .right-menu .user-info .more-info {
     display: none;
     position: absolute;
@@ -114,6 +124,7 @@
 .pg-header .right-menu .user-info:hover .more-info {
     display: block;
 }
+
 .pg-header .right-menu .user-info .more-info .more-item {
     display: block;
     min-width: 160px;
@@ -123,21 +134,22 @@
     color: #000000;
 
 }
-.pg-header .right-menu .user-info .more-info .more-item:hover{
+
+.pg-header .right-menu .user-info .more-info .more-item:hover {
     background-color: #f1f0f0;
 }
 
-
-.pg-body{
+.pg-body {
     position: absolute;
     z-index: 90;
-    top:50px;
+    top: 50px;
     bottom: 0;
     right: 0;
     left: 0;
     min-width: 1190px;
 }
-.pg-body .menu{
+
+.pg-body .menu {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -145,14 +157,15 @@
     width: 200px;
     border: 1px solid #dddddd;
 }
-.pg-body .menu .menu-item{
+
+.pg-body .menu .menu-item {
     display: block;
     padding: 8px 8px;
     border-bottom: 1px dashed #dddddd;
     text-decoration: none;
 }
 
-.pg-body .content{
+.pg-body .content {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -160,5 +173,46 @@
     left: 205px;
     border: 1px solid #dddddd;
     overflow: scroll;
+}
+
+.my-menu-title {
+    width: 200px;
+    height: 48px;
+    line-height: 48px;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+}
+
+.my-menu-title p {
+    width: 150px;
+    height: 48px;
+    margin: 0 0 0 25px;
+}
+
+.my-menu-content {
+    display: none;
+    border-bottom: 1px solid #dddddd;
+    text-align: center;
+}
+
+.my-menu-content p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.my-menu-content p:hover {
+    background-color: #1c5a9c;
+}
+
+.my-menu-content p:hover a {
+    color: white;
+}
+
+.my-menu-content a {
+    display: block;
+}
+
+.my-menu-content a:hover {
+    text-decoration: none;
 }
 

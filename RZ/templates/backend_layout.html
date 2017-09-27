@@ -11,6 +11,7 @@
     {% block css %} {% endblock %}
 </head>
 <body>
+<!-- 后台管理头部开始 -->
 <div class="pg-header">
     <div class="logo left" style="text-align: center;background-color: #1c5a9c;">
         <a href="#" style="color: #ffffff;font-size:30px;font-weight: bold;text-decoration: none">
@@ -55,66 +56,79 @@
     </div>
 
 </div>
+<!-- 后台管理头部结束 -->
+
+<!-- 后台管理body开始 -->
 <div class="pg-body">
+    <!-- 后台管理菜单开始 -->
     <div class="menu">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                           aria-expanded="true" aria-controls="collapseOne" style="display: block">
-                            标题一
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                     aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        内容一
-                    </div>
-                </div>
+        <div class="my-menu-line">
+            <div class="my-menu-title">
+                <p>
+                    <span class="pull-left">首页</span>
+                    <span class="pull-right chevron-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                    <span class="pull-right chevron-down hidden"><i class="fa fa-chevron-down"
+                                                                    aria-hidden="true"></i></span>
+                </p>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="display: block">
-                            标题二
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                     aria-labelledby="headingTwo">
-                    <div class="panel-body">
-                        内容二
-                    </div>
-                </div>
+            <div class="my-menu-content">
+                <p><a href="#">仪表盘</a></p>
+                <p><a href="#">详情</a></p>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingThree">
-                    <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
-                           style="display: block">
-                            标题三
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                     aria-labelledby="headingThree">
-                    <div class="panel-body">
-                        内容三
-                    </div>
-                </div>
+        </div>
+
+        <div class="my-menu-line">
+            <div class="my-menu-title">
+                <p>
+                    <span class="pull-left">运营数据</span>
+                    <span class="pull-right chevron-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                    <span class="pull-right chevron-down hidden"><i class="fa fa-chevron-down"
+                                                                    aria-hidden="true"></i></span>
+                </p>
+            </div>
+            <div class="my-menu-content">
+                <p><a href="#">基本</a></p>
+                <p><a href="#">详情</a></p>
+            </div>
+        </div>
+
+        <div class="my-menu-line">
+            <div class="my-menu-title">
+                <p>
+                    <span class="pull-left">推广数据</span>
+                    <span class="pull-right chevron-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                    <span class="pull-right chevron-down hidden"><i class="fa fa-chevron-down"
+                                                                    aria-hidden="true"></i></span>
+                </p>
+            </div>
+            <div class="my-menu-content">
+                <p><a href="#">实名数据</a></p>
+                <p><a href="#">首投数据</a></p>
             </div>
         </div>
     </div>
+    <!-- 后台管理菜单结束 -->
+
+    <!-- 后台管理内容开始 -->
     <div class="content">
         {% block conent %} {% endblock %}
     </div>
+    <!-- 后台管理内容结束 -->
 </div>
+<!-- 后台管理body结束 -->
 <script src="/static/plugins/jquery-1.12.4.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script>
+    $(function () {
+        $(".my-menu-title").click(function () {
+            $(this).children().children(".chevron-right").toggleClass("hidden").next().toggleClass("hidden");
+            $(this).next(".my-menu-content").slideToggle(300).parent().siblings().each(function () {
+                $(this).children(".my-menu-title").children().children(".chevron-right").removeClass("hidden").next().addClass("hidden");
+                $(this).children(".my-menu-content").slideUp(500);
+            });
+        })
+    })
+</script>
 {% block js %}{% endblock %}
 </body>
 </html>
