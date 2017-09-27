@@ -6,6 +6,8 @@
     <link rel="shortcut icon" href="/static/build/img/favicon.ico">
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="/static/plugins/sweetalert-master/dist/sweetalert.css">
     <link rel="stylesheet" href="/static/build/css/commons.css"/>
     <link rel="stylesheet" href="/static/build/css/backend.css"/>
     {% block css %} {% endblock %}
@@ -105,8 +107,7 @@
                 </p>
             </div>
             <div class="my-menu-content">
-                <p><a href="#">实名数据</a></p>
-                <p><a href="#">首投数据</a></p>
+                <p><a href="/backend/tg_info/">实名首投数据</a></p>
             </div>
         </div>
     </div>
@@ -121,6 +122,9 @@
 <!-- 后台管理body结束 -->
 <script src="/static/plugins/jquery-1.12.4.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
+<script src="/static/build/js/common.js"></script>
 <script>
     $(function () {
         $(".my-menu-title").click(function () {

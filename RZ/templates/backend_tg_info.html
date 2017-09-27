@@ -1,50 +1,116 @@
 {% extends 'backend_layout.html' %}
-{% block css %}
-    <style>
-        .form-horizontal .control-label {
-            padding-top: 7px;
-            margin-bottom: 0;
-            text-align: right;
-        }
-
-        .avatar-container {
-            height: 200px;
-            width: 200px;
-            padding: 2px;
-            border: 1px solid #dddddd;
-            position: relative;
-        }
-
-        .avatar-container img {
-            height: 200px;
-            width: 200px;
-            border: 0;
-            overflow: hidden;
-        }
-
-        .avatar-container .text {
-            text-align: center;
-        }
-
-        .avatar-container .img-file {
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            position: absolute;
-            z-index: 102;
-        }
-    </style>
-{% endblock %}
+{% block title %}实名首投数据{% endblock %}
+{% block css %}{% endblock %}
 {% block conent %}
     <ol class="breadcrumb">
-        <li><a href="#">用户管理</a></li>
-        <li class="active">用户信息</li>
+        <li><a href="#">推广数据</a></li>
+        <li class="active">实名首投数据</li>
     </ol>
-    <div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="height: 30px;line-height: 30px;">
+                <span class="pull-left">实名首投数据查询</span>
+                <button type="button" class="btn btn-success pull-right">导出EXCEL</button>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <!-- 工具栏开始 -->
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <span id="alert" style="display: none;">{{ alert_message }}</span>
+                        <form class="form-inline pull-right" action="/backend/tg_info/" method="POST">
+                            {% csrf_token %}
+                            <div class="checkbox">
+                                {{ smst_obj.qudao_name }}
+                            </div>
+                            <div class="checkbox">
+                                {{ smst_obj.data_type }}
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="start_time">起始日期</label>
+                                {{ smst_obj.start_time }}
+                                <span style="color: red;">{{ smst_obj.start_time.errors.0 }}</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="end_time">终止日期</label>
+                                {{ smst_obj.end_time }}
+                                <span style="color: red;">{{ smst_obj.end_time.errors.0 }}</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">查询</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- 工具栏结束 -->
+
+                <!-- 表格开始 -->
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>用户ID</th>
+                                <th>姓名</th>
+                                <th>手机号</th>
+                                <th>注册时间</th>
+                                <th>实名时间</th>
+                                <th>渠道来源</th>
+                                <th>首投金额</th>
+                                <th>首投时间</th>
+                                <th>期限</th>
+                                <th>标的</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for info in info_list %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ info.uid }}</td>
+                                    <td>{{ info.uname }}</td>
+                                    <td>{{ info.mobile }}</td>
+                                    <td>{{ info.time_h }}</td>
+                                    <td>{{ info.update_time }}</td>
+                                    <td>{{ info.name }}</td>
+                                    <td>{{ info.account }}</td>
+                                    <td>{{ info.tz_time }}</td>
+                                    <td>{{ info.qixian }}</td>
+                                    <td>{{ info.bd_name }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 表格结束 -->
+
+                <!-- 表格脚部开始 -->
+                <div class="row">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {{ page_str }}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 表格脚部结束 -->
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
-
+    <script>
+        $(function () {
+            var alertMessage = $("#alert").text();
+            if (alertMessage) {
+                swal({
+                    title: alertMessage,
+                    text: "正在重定向至昨天的日报!",
+                    type: "warning"
+                }, function () {
+                    location.href = "/crm/daily/";
+                });
+            }
+        });
+    </script>
 {% endblock %}

@@ -135,3 +135,44 @@ class UserForm(Form):
         widget=widgets.TextInput(attrs={"id": "qq", "class": "form-control", "placeholder": "请输入QQ号"}),
         error_messages={"required": "QQ号不能为空！", "invalid": "QQ号必须为数字!"}
     )
+
+
+class SmStForm(Form):
+    """实名首投查询"""
+    start_time = fields.DateField(
+        widget=widgets.TextInput(attrs={
+            "class": "datepicker form-control",
+            "id": "start_time",
+            "placeholder": "起始日期"
+        }),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
+    )
+
+    end_time = fields.DateField(
+        widget=widgets.TextInput(attrs={
+            "class": "datepicker form-control",
+            "id": "end_time",
+            "placeholder": "终止日期"
+        }),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
+    )
+
+    qudao_name = fields.ChoiceField(
+        choices=[],
+        widget=widgets.Select()
+    )
+
+    data_type = fields.ChoiceField(
+        choices=[("1", "实名"), ("2", "首投")],
+        widget=widgets.Select()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(SmStForm, self).__init__(*args, **kwargs)
+        self.fields['qudao_name'].choices = models.TgQudaoName.objects.using("default").values_list("id", "name")

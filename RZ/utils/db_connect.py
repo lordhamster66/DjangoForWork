@@ -7,19 +7,29 @@ from RZ import settings
 from django.db import connections
 
 
-def get_info_list(db_name, base_dir, sql_dir, catalog, file_name):
+def get_sql(base_dir, sql_dir, catalog, file_name):
     """
-    执行sql语句并以列表的形式返回单行结果
-    :param base_dir: 主目录名
-    :param sql_dir: sql语句所在主目录名
-    :param catalog: sql语句目录名
-    :param file_name: sql文件名
-    :return: 返回查询结果(列表形式)
+    获取sql语句
+    :param base_dir: 主目录
+    :param sql_dir: SQL文件主目录
+    :param catalog: SQL分类目录
+    :param file_name: SQL文件名
+    :return:
     """
     file_path = os.path.join(settings.BASE_DIR, base_dir, sql_dir, catalog, file_name)
     f = open(file_path, "r", encoding="utf-8")
     sql = f.read()
     f.close()
+    return sql
+
+
+def get_info_list(db_name, sql):
+    """
+    执行sql语句并返回列表形式的结果
+    :param db_name: 连接的库名，对应settings中的名字
+    :param sql: sql语句
+    :return:
+    """
     cursor = connections[db_name].cursor()
     cursor.execute(sql)
     data = cursor.fetchall()
