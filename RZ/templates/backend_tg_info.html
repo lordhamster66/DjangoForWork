@@ -1,4 +1,5 @@
 {% extends 'backend_layout.html' %}
+{% load mytag %}
 {% block title %}实名首投数据{% endblock %}
 {% block css %}{% endblock %}
 {% block conent %}
@@ -67,8 +68,8 @@
                                 <tr>
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ info.uid }}</td>
-                                    <td>{{ info.uname }}</td>
-                                    <td>{{ info.mobile }}</td>
+                                    <td>{{ info.uname|name_filter }}</td>
+                                    <td>{{ info.mobile|phone_filter }}</td>
                                     <td>{{ info.time_h }}</td>
                                     <td>{{ info.update_time }}</td>
                                     <td>{{ info.name }}</td>
