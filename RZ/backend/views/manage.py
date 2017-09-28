@@ -69,10 +69,17 @@ def tg_info(request):
     username = request.session.get("username")  # 获取用户名
     userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
     if request.method == "GET":
-        start_time = request.session.get("smst_start_time", "")
-        end_time = request.session.get("smst_end_time", "")
+        start_time = request.session.get("smst_start_time", "")  # 获取上次查询的起始日期
+        end_time = request.session.get("smst_end_time", "")  # 获取上次查询的终止日期
+        qudao_name = request.session.get("smst_qudao_name_id", "1")  # 获取上次查询的渠道名称
+        data_type = request.session.get("smst_data_type_id", "1")  # 获取上次查询的是实名还是首投
         info_list = request.session.get("tg_info_list", [])  # 获取上次查询的信息,没有则置空
-        smst_obj = SmStForm({"start_time": start_time, "end_time": end_time})  # 获取实名首投form对象
+        smst_obj = SmStForm({
+            "start_time": start_time,
+            "end_time": end_time,
+            "qudao_name": qudao_name,
+            "data_type": data_type
+        })  # 获取实名首投form对象
         current_page = int(request.GET.get("p", "1"))  # 获取当前页，没有则默认第一页
         page_obj = Page(current_page, len(info_list))  # 生成分页对象
         info_list = info_list[page_obj.start:page_obj.end]  # 获取当前页的所有文章
@@ -88,12 +95,13 @@ def tg_info(request):
             start_time = datetime.strftime(smst_obj.cleaned_data.get("start_time"), "%Y-%m-%d")  # 格式化用户输入起始日期
             end_time = datetime.strftime(smst_obj.cleaned_data.get("end_time"), "%Y-%m-%d")  # 格式化用户输入终止日期
             qudao_name_id = smst_obj.cleaned_data.get("qudao_name")  # 获取用户输入渠道名称
+            data_type_id = smst_obj.cleaned_data.get("data_type")  # 获取用户输入的是实名还是首投
             # 获取渠道名称对应的对象
             tg_qudao_name_obj = models.TgQudaoName.objects.using("default").filter(id=qudao_name_id).first()
             qudao_sign_list = ["'%s'" % i for i in tg_qudao_name_obj.sign.split(",")]  # 以逗号分隔渠道标识
             qudao_sign = ",".join(qudao_sign_list)  # 重组渠道标识
             # 获取sql语句
-            sql = db_connect.get_sql("crm", "RzSql", "tg", data_type_dict[smst_obj.cleaned_data.get("data_type")])
+            sql = db_connect.get_sql("crm", "RzSql", "tg", data_type_dict[data_type_id])
             # 格式化sql语句
             sql = sql.format(
                 start_time=start_time,
@@ -105,6 +113,8 @@ def tg_info(request):
             request.session["tg_info_list"] = info_list  # 将查询结果放入session
             request.session["smst_start_time"] = start_time  # 将用户查询的日期，保存以便告诉用户刚才所查询的日期
             request.session["smst_end_time"] = end_time
+            request.session["smst_qudao_name_id"] = qudao_name_id  # 存放这次查询的渠道名称id
+            request.session["smst_data_type_id"] = data_type_id  # 存放这次查询的是实名还是首投
             page_obj = Page(1, len(info_list))  # 生成分页对象
             info_list = info_list[page_obj.start:page_obj.end]  # 获取当前页的所有文章
             page_str = page_obj.page_str("/backend/tg_info/")  # 获取分页html
