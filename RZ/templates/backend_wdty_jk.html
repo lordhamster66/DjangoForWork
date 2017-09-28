@@ -1,0 +1,90 @@
+{% extends 'backend_layout.html' %}
+{% load mytag %}
+{% block title %}网贷天眼数据接口{% endblock %}
+{% block css %}{% endblock %}
+{% block conent %}
+    <ol class="breadcrumb">
+        <li><a href="#">第三方对接</a></li>
+        <li class="active">网贷天眼接口</li>
+    </ol>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">网贷天眼接口</h3>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <!-- 工具栏开始 -->
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <span id="alert" style="display: none;">{{ alert_message }}</span>
+                        <form class="form-inline pull-right" action="/backend/wdty_jk/" method="POST">
+                            {% csrf_token %}
+                            <input type="text" class="datepicker form-control" name="time_from"
+                                   placeholder="请输入起始日期" value="{{ time_from }}">
+                            <input type="text" class="datepicker form-control" name="time_to"
+                                   placeholder="请输入终止日期" value="{{ time_to }}">
+                            <button type="submit" class="btn btn-primary">查询</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- 工具栏结束 -->
+
+                <!-- 表格开始 -->
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>标编号</th>
+                                <th>标题</th>
+                                <th>借款类型</th>
+                                <th>借款金额</th>
+                                <th>借款年利率</th>
+                                <th>借款期限</th>
+                                <th>还款方式</th>
+                                <th>完成百分比</th>
+                                <th>标的创建时间</th>
+                                <th>满标时间</th>
+                                <th>标的链接</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for info in info_list %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ info.id }}</td>
+                                    <td>{{ info.title }}</td>
+                                    <td>{{ info.c_type }}</td>
+                                    <td>{{ info.amount }}</td>
+                                    <td>{{ info.rate }}</td>
+                                    <td>{{ info.period }}</td>
+                                    <td>{{ info.pay_way }}</td>
+                                    <td>{{ info.process }}</td>
+                                    <td>{{ info.start_time }}</td>
+                                    <td>{{ info.end_time }}</td>
+                                    <td><a href="{{ info.url }}" target="_blank">{{ info.url }}</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 表格结束 -->
+
+                <!-- 表格脚部开始 -->
+                <div class="row">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {{ page_str }}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 表格脚部结束 -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

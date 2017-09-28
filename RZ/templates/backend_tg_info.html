@@ -100,18 +100,4 @@
 {% endblock %}
 
 {% block js %}
-    <script>
-        $(function () {
-            var alertMessage = $("#alert").text();
-            if (alertMessage) {
-                swal({
-                    title: alertMessage,
-                    text: "正在重定向至昨天的日报!",
-                    type: "warning"
-                }, function () {
-                    location.href = "/crm/daily/";
-                });
-            }
-        });
-    </script>
 {% endblock %}

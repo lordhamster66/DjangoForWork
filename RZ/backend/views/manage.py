@@ -3,6 +3,7 @@
 # __author__ = "Breakering"
 # Date: 2017/9/19
 import json
+import requests  # 爬虫专用
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponse
@@ -12,7 +13,7 @@ from utils.pagination import Page
 from backend.forms import UserForm
 from utils.encoder import JsonCustomEncoder
 from backend.forms import SmStForm
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def login_decorate(func):
@@ -48,6 +49,7 @@ def upload_head_portrait(request):
 
 @login_decorate
 def index(request):
+    """后台首页"""
     username = request.session.get("username")  # 获取用户名
     userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
     return render(request, "backend_index.html", {"username": username, "userobj": userobj})
@@ -55,6 +57,7 @@ def index(request):
 
 @login_decorate
 def base_info(request):
+    """后台个人信息"""
     username = request.session.get("username")  # 获取用户名
     userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
     if request.method == "GET":
@@ -66,6 +69,7 @@ def base_info(request):
 
 @login_decorate
 def tg_info(request):
+    """后台推广数据信息"""
     username = request.session.get("username")  # 获取用户名
     userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
     if request.method == "GET":
@@ -126,3 +130,80 @@ def tg_info(request):
             return render(request, "backend_tg_info.html", {
                 "username": username, "userobj": userobj, "smst_obj": smst_obj
             })
+
+
+@login_decorate
+def wdzj_jk(request):
+    """网贷之家接口"""
+    username = request.session.get("username")  # 获取用户名
+    userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
+    qdate = ""  # 定义日期
+    num_show = 10  # 定义每页显示行数
+    current_page = 1  # 定义当前页
+    if request.method == "GET":
+        today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        default_wdzj_jk_dict = {"qdate": today}  # 默认日期为昨天
+        qdate = request.session.get("wdzj_jk_dict", default_wdzj_jk_dict).get("qdate")
+        current_page = int(request.GET.get("p", "1"))  # 获取当前页
+    elif request.method == "POST":
+        qdate = request.POST.get("qdate")  # 获取起始日期
+        request.session["wdzj_jk_dict"] = {
+            "qdate": qdate
+        }  # 将用户此次输入日期存入session
+        current_page = 1  # POST请求则为第一页
+    url = "https://www.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
+        qdate=qdate,
+        num_show=num_show,
+        current_page=current_page,
+    )
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
+    data = response.json()  # 获取接口返回的数据
+    data_count = int(data.get("totalCount", 0))  # 获取总页数
+    info_list = data.get("borrowList")  # 获取当前页内容
+    page_obj = Page(current_page, data_count)  # 生成分页对象
+    page_str = page_obj.page_str("/backend/wdzj_jk/")  # 获取分页html
+    return render(request, "backend_wdzj_jk.html", {
+        "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
+        "qdate": qdate
+    })
+
+
+@login_decorate
+def wdty_jk(request):
+    """网贷天眼接口"""
+    username = request.session.get("username")  # 获取用户名
+    userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
+    time_from = ""  # 定义起始日期
+    time_to = ""  # 定义终止日期
+    num_show = 10  # 定义每页显示行数
+    current_page = 1  # 定义当前页
+    if request.method == "GET":
+        today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        default_wdty_jk_dict = {"time_from": today, "time_to": today}  # 默认日期为昨天
+        time_from = request.session.get("wdty_jk_dict", default_wdty_jk_dict).get("time_from")
+        time_to = request.session.get("wdty_jk_dict", default_wdty_jk_dict).get("time_to")
+        current_page = int(request.GET.get("p", "1"))  # 获取当前页
+    elif request.method == "POST":
+        time_from = request.POST.get("time_from")  # 获取起始日期
+        time_to = request.POST.get("time_to")  # 获取终止日期
+        request.session["wdty_jk_dict"] = {
+            "time_from": time_from,
+            "time_to": time_to,
+        }  # 将用户此次输入日期存入session
+        current_page = 1  # POST请求则为第一页
+    url = "https://www.51rz.com/api/ip2peye.php/Ip2peye/blist?token=acb1415727bc2b1375d8f3a221816c1b&time_from={time_from}&time_to={time_to}%2023:59:59&status=1&page_size={num_show}&page_index={current_page}".format(
+        time_from=time_from,
+        time_to=time_to,
+        num_show=num_show,
+        current_page=current_page,
+    )
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
+    data = response.json()  # 获取接口返回的数据
+    data_count = int(data.get("page_count", 0))  # 获取总页数
+    info_list = data.get("loans")  # 获取当前页内容
+    page_obj = Page(current_page, data_count)  # 生成分页对象
+    page_str = page_obj.page_str("/backend/wdty_jk/")  # 获取分页html
+    return render(request, "backend_wdty_jk.html", {
+        "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
+        "time_from": time_from, "time_to": time_to
+    })

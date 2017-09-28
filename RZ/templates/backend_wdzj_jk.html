@@ -1,0 +1,96 @@
+{% extends 'backend_layout.html' %}
+{% load mytag %}
+{% block title %}网贷之家数据接口{% endblock %}
+{% block css %}{% endblock %}
+{% block conent %}
+    <ol class="breadcrumb">
+        <li><a href="#">第三方对接</a></li>
+        <li class="active">网贷之家接口</li>
+    </ol>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">网贷之家接口</h3>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <!-- 工具栏开始 -->
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <span id="alert" style="display: none;">{{ alert_message }}</span>
+                        <form class="form-inline pull-right" action="/backend/wdzj_jk/" method="POST">
+                            {% csrf_token %}
+                            <input type="text" class="datepicker form-control" name="time_from"
+                                   placeholder="请输入日期" value="{{ qdate }}">
+                            <button type="submit" class="btn btn-primary">查询</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- 工具栏结束 -->
+
+                <!-- 表格开始 -->
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>标的名称</th>
+                                <th>借款标题</th>
+                                <th>借款金额</th>
+                                <th>进度</th>
+                                <th>利率</th>
+                                <th>借款期限</th>
+                                <th>期限单位</th>
+                                <th>奖励</th>
+                                <th>标的类型</th>
+                                <th>项目主键</th>
+                                <th>还款方式</th>
+                                <th>营收</th>
+                                <th>标的详细页面地址链接</th>
+                                <th>满标的时间</th>
+                                <th>发标时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for info in info_list %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ info.flag_name }}</td>
+                                    <td>{{ info.title }}</td>
+                                    <td>{{ info.amount }}</td>
+                                    <td>{{ info.schedule }}</td>
+                                    <td>{{ info.interestRate }}</td>
+                                    <td>{{ info.deadline }}</td>
+                                    <td>{{ info.deadlineUnit }}</td>
+                                    <td>{{ info.reward }}</td>
+                                    <td>{{ info.type }}</td>
+                                    <td>{{ info.projectId }}</td>
+                                    <td>{{ info.repaymentType }}</td>
+                                    <td>{{ info.revenue }}</td>
+                                    <td><a href="{{ info.loanUrl }}">{{ info.loanUrl }}</a></td>
+                                    <td>{{ info.successTime }}</td>
+                                    <td>{{ info.publishTime }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 表格结束 -->
+
+                <!-- 表格脚部开始 -->
+                <div class="row">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {{ page_str }}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 表格脚部结束 -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
