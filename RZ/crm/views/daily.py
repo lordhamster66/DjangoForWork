@@ -352,11 +352,19 @@ class Daily(View):
             asset_dict["short_tz_j_list"] = []  # 短标交易金额
             asset_dict["short_zd_j_list"] = []  # 短标在贷金额
             asset_dict["short_tz_r_list"] = []  # 短标交易人数
+            asset_dict["Rplan_tz_j_list"] = []  # R计划交易人数
+            asset_dict["Rplan_zd_j_list"] = []  # R计划在贷金额
             for obj in other_info_8:
                 asset_dict["short_qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
                 asset_dict["short_tz_j_list"].append(round(int(obj.short_tz_j) / 10000, 2))
                 asset_dict["short_zd_j_list"].append(round(int(obj.short_zd_j) / 10000, 2))
                 asset_dict["short_tz_r_list"].append(obj.short_tz_r)
+                asset_dict["Rplan_tz_j_list"].append(
+                    round(int(obj.Rplan_account if obj.Rplan_account is not None else 0) / 10000, 2)
+                )
+                asset_dict["Rplan_zd_j_list"].append(
+                    round(int(obj.Rplan_recover_account if obj.Rplan_recover_account is not None else 0) / 10000, 2)
+                )
 
             # 获取最近8天各端数据
             geduan_info_8 = models.GeDuanInfo.objects.using("default").filter(

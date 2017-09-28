@@ -185,11 +185,15 @@ class DataStorage(View):
         # 增加其他数据详情
         short_tz_info = self.get_info_dict("daily", "short_tz.sql")  # 获取短标投资信息
         short_zd_info = self.get_info_dict("daily", "short_zd.sql")  # 获取短标在贷信息
+        Rplan_tz_info = self.get_info_dict("daily", "Rplan_tz.sql")  # 获取R计划投资信息
+        Rplan_zd_info = self.get_info_dict("daily", "Rplan_zd.sql")  # 获取R计划在贷信息
         models.OtherInfo.objects.using("default").create(
             qdate=short_tz_info.get("qdate"),
             short_tz_r=short_tz_info.get("short_tz_r"),
             short_tz_j=short_tz_info.get("short_tz_j"),
             short_zd_j=short_zd_info.get("short_zd_j"),
+            Rplan_account=Rplan_tz_info.get("Rplan_account"),
+            Rplan_recover_account=Rplan_zd_info.get("Rplan_recover_account")
         )
 
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))

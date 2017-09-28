@@ -180,6 +180,8 @@ class OtherInfo(models.Model):
     short_tz_r = models.IntegerField(verbose_name="30天以内短标交易人数", null=True)
     short_tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="30天以内短标交易金额", null=True)
     short_zd_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="30天以内短标待还总额", null=True)
+    Rplan_account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="R计划投资金额", null=True)
+    Rplan_recover_account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="R计划在贷金额", null=True)
 
     class Meta:
         db_table = "rzjf_other_info"
