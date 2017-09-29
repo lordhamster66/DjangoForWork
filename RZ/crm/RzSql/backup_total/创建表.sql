@@ -24,6 +24,9 @@ insert into zzz_ctlog_day_st01 select * from wd.zzz_ctlog_day_st01 WHERE time_h 
 create table 01u_2tender like wd.01u_2tender;
 insert into 01u_2tender select * from wd.01u_2tender WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
+create table 01u_2borrower like wd.01u_2borrower;
+insert into 01u_2borrower select * from wd.01u_2borrower WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
+
 create table rz_borrow like new_wd.rz_borrow;
 insert into rz_borrow select * from new_wd.rz_borrow WHERE create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
