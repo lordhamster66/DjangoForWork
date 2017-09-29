@@ -15,6 +15,15 @@ insert into 05b_7dsbid select * from wd.05b_7dsbid WHERE time_h <= DATE_FORMAT(D
 create table zzz_ctlog_c_uid like wd.zzz_ctlog_c_uid;
 insert into zzz_ctlog_c_uid select * from wd.zzz_ctlog_c_uid WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
+create table zzz_ctlog_c_st01 like wd.zzz_ctlog_c_st01;
+insert into zzz_ctlog_c_st01 select * from wd.zzz_ctlog_c_st01 WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
+
+create table zzz_ctlog_day_st01 like wd.zzz_ctlog_day_st01;
+insert into zzz_ctlog_day_st01 select * from wd.zzz_ctlog_day_st01 WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
+
+create table 01u_2tender like wd.01u_2tender;
+insert into 01u_2tender select * from wd.01u_2tender WHERE time_h <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
+
 create table rz_borrow like new_wd.rz_borrow;
 insert into rz_borrow select * from new_wd.rz_borrow WHERE create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00");
 
