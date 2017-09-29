@@ -157,7 +157,7 @@ def wdzj_jk(request):
         current_page=current_page,
     )
     response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
-    data = response.json()  # 获取接口返回的数据
+    data = response.json() if response.status_code == 200 else {"totalCount": 0, "borrowList": []}  # 获取接口返回的数据
     data_count = int(data.get("totalCount", 0))  # 获取总页数
     info_list = data.get("borrowList")  # 获取当前页内容
     page_obj = Page(current_page, data_count)  # 生成分页对象
@@ -198,7 +198,7 @@ def wdty_jk(request):
         current_page=current_page,
     )
     response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)"})
-    data = response.json()  # 获取接口返回的数据
+    data = response.json() if response.status_code == 200 else {"page_count": 0, "loans": []}  # 获取接口返回的数据
     data_count = int(data.get("page_count", 0))  # 获取总页数
     info_list = data.get("loans")  # 获取当前页内容
     page_obj = Page(current_page, data_count)  # 生成分页对象
