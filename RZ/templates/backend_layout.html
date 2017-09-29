@@ -38,19 +38,19 @@
             </div>
         </div>
 
-        <a class="user-menu right">
+        <a class="my-dev user-menu right">
             消息
             <i class="fa fa-commenting-o" aria-hidden="true"></i>
             <span class="badge bg-success">2</span>
         </a>
 
-        <a class="user-menu right">
+        <a class="my-dev user-menu right">
             通知
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
             <span class="badge bg-success">2</span>
         </a>
 
-        <a class="user-menu right">
+        <a class="my-dev user-menu right">
             任务
             <i class="fa fa-bell-o" aria-hidden="true"></i>
             <span class="badge bg-danger">4</span>
@@ -75,8 +75,8 @@
                 </p>
             </div>
             <div class="my-menu-content">
-                <p><a href="#">仪表盘</a></p>
-                <p><a href="#">详情</a></p>
+                <p><a class="my-dev" href="#">仪表盘</a></p>
+                <p><a class="my-dev" href="#">详情</a></p>
             </div>
         </div>
 
@@ -91,8 +91,8 @@
                 </p>
             </div>
             <div class="my-menu-content">
-                <p><a href="#">基本</a></p>
-                <p><a href="#">详情</a></p>
+                <p><a class="my-dev" href="#">基本</a></p>
+                <p><a class="my-dev" href="#">详情</a></p>
             </div>
         </div>
 
@@ -148,6 +148,13 @@
             $(this).next(".my-menu-content").slideToggle(300).parent().siblings().each(function () {
                 $(this).children(".my-menu-title").children().children(".chevron-right").removeClass("hidden").next().addClass("hidden");
                 $(this).children(".my-menu-content").slideUp(500);
+            });
+        });
+        $(".my-dev").click(function () {
+            swal({
+                title: "该功能正在开发中!",
+                text: "敬请期待！",
+                type: "warning"
             });
         })
     })
