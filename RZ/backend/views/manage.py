@@ -160,7 +160,7 @@ def wdzj_jk(request):
     data = response.json() if response.status_code == 200 else {"totalCount": 0, "borrowList": []}  # 获取接口返回的数据
     data_count = int(data.get("totalCount", 0))  # 获取总个数
     info_list = data.get("borrowList")  # 获取当前页内容
-    page_obj = Page(current_page, data_count)  # 生成分页对象
+    page_obj = Page(current_page, data_count, per_page_count=num_show)  # 生成分页对象
     page_str = page_obj.page_str("/backend/wdzj_jk/")  # 获取分页html
     return render(request, "backend_wdzj_jk.html", {
         "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
@@ -201,7 +201,7 @@ def wdty_jk(request):
     data = response.json() if response.status_code == 200 else {"page_count": 0, "loans": []}  # 获取接口返回的数据
     data_count = int(data.get("page_count", 0)) * num_show  # 获取总个数
     info_list = data.get("loans")  # 获取当前页内容
-    page_obj = Page(current_page, data_count)  # 生成分页对象
+    page_obj = Page(current_page, data_count, per_page_count=num_show)  # 生成分页对象
     page_str = page_obj.page_str("/backend/wdty_jk/")  # 获取分页html
     return render(request, "backend_wdty_jk.html", {
         "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
