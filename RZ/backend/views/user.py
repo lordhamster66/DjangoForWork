@@ -49,9 +49,10 @@ def login(request):
         if login_obj.is_valid():
             code = login_obj.cleaned_data.get("check_code")  # 获取用户输入验证码
             if request.session.get("CheckCode").upper() == code.upper():  # 用户输入验证码和系统生成验证码匹配
-                username = login_obj.cleaned_data.get("username")
-                request.session["username"] = username
-                remember = login_obj.cleaned_data.get("remember")
+                username = login_obj.cleaned_data.get("username")  # 获取用户输入用户名
+                request.session["username"] = username  # 在session中设置用户名
+                request.session.clear_expired()  # 将所有Session失效日期小于当前日期的数据删除
+                remember = login_obj.cleaned_data.get("remember")  # 用户是否选中一个月内自动登录
                 if remember:  # 用户选中一个月内自动登录
                     request.session.set_expiry(2592000)  # 设置过期时间为一个月之后
                 return redirect("/backend/index/")  # 注册完毕直接跳转登录页面
