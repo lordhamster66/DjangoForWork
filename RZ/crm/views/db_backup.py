@@ -20,7 +20,7 @@ def backup(request):
             05b_7dsbid          05b_1tenderfinal    rz_borrow   rz_loan_open_data   rz_borrow_tender
             rz_borrow_big       01u_0info           01u_0info   05b_1tenderdetail
             rz_borrow_tender_0 ~ rz_borrow_tender_31 zzz_ctlog_c_uid zzz_ctlog_c_st01 zzz_ctlog_day_st01
-            01u_2tender 01u_2borrower
+            01u_2tender 01u_2borrower 05b_2list_repay borrow_tender
         """
         cursor = connections['rz_bi'].cursor()  # 获取一个游标
         try:
