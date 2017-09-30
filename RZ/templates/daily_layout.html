@@ -9,10 +9,115 @@
     <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" href="/static/plugins/sweetalert-master/dist/sweetalert.css">
+    <link rel="stylesheet" href="/static/build/css/daily.css">
+    <style>
+        .subNavBox {
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 180px;
+            border: solid 1px #e5e3da;
+            margin: 100px auto;
+            background-color: white;
+        }
+
+        .subNav {
+            border-bottom: solid 1px #e5e3da;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            color: #999;
+            line-height: 28px;
+            padding-left: 10px;
+            background: url(/static/build/img/jiantou1.jpg) no-repeat;
+            background-position: 95% 50%
+        }
+
+        .subNav:hover {
+            color: #277fc2;
+        }
+
+        .currentDd {
+            color: #277fc2
+        }
+
+        .currentDt {
+            background-image: url(/static/build/img/jiantou.jpg);
+        }
+
+        .navContent {
+            display: none;
+            border-bottom: solid 1px #e5e3da;
+        }
+
+        .navContent li a {
+            display: block;
+            height: 28px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 28px;
+            color: #333
+        }
+
+        .navContent li a:hover {
+            color: #fff;
+            background-color: #277fc2
+        }
+    </style>
+    <style>
+        .my-pg-header {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 48px;
+        }
+
+        .my-pg-body {
+            position: absolute;
+            top: 48px;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+    </style>
     {% block css %}{% endblock %}
 </head>
 <body>
-{% block content %}{% endblock %}
+<!-- 顶部开始 -->
+<div class="my-pg-header">
+    <!-- 顶部导航开始 -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-6" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">每日报表</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+                <ul class="nav nav-pills" style="margin-top: 5px;">
+                    {% block nav %}{% endblock %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <!-- 顶部导航结束 -->
+</div>
+<!-- 顶部结束 -->
+
+<!-- 内容开始 -->
+<div class="my-pg-body">
+    {% block content %}{% endblock %}
+</div>
+<!-- 内容结束 -->
 
 <script src="/static/plugins/jquery-1.12.4.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>

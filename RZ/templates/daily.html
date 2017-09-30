@@ -2,65 +2,11 @@
 
 {% block title %}人众日报{% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" href="/static/build/css/daily.css">
-    <style>
-        .subNavBox {
-            z-index: 1000;
-            position: fixed;
-            top: 50px;
-            left: 10px;
-            width: 180px;
-            border: solid 1px #e5e3da;
-            margin: 100px auto;
-            background-color: white;
-        }
-
-        .subNav {
-            border-bottom: solid 1px #e5e3da;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            color: #999;
-            line-height: 28px;
-            padding-left: 10px;
-            background: url(/static/build/img/jiantou1.jpg) no-repeat;
-            background-position: 95% 50%
-        }
-
-        .subNav:hover {
-            color: #277fc2;
-        }
-
-        .currentDd {
-            color: #277fc2
-        }
-
-        .currentDt {
-            background-image: url(/static/build/img/jiantou.jpg);
-        }
-
-        .navContent {
-            display: none;
-            border-bottom: solid 1px #e5e3da;
-        }
-
-        .navContent li a {
-            display: block;
-            height: 28px;
-            text-align: center;
-            font-size: 14px;
-            line-height: 28px;
-            color: #333
-        }
-
-        .navContent li a:hover {
-            color: #fff;
-            background-color: #277fc2
-        }
-    </style>
+{% block css %}{% endblock %}
+{% block nav %}
+    <li role="presentation" class="active"><a href="/crm/daily/">日报</a></li>
+    <li role="presentation"><a href="#">月度数据</a></li>
 {% endblock %}
-
 {% block content %}
     <div class="daily-content">
         <!-- 左侧菜单开始 -->
@@ -939,7 +885,7 @@
 
 {% block js %}
     <script src="/static/build/js/daily.js"></script>
-    <!-- 左侧菜单js开始 -->
+    <!-- 日报专用js开始 -->
     <script>
         $(function () {
             var alertMessage = $("#alert").text();
@@ -952,14 +898,9 @@
                     location.href = "/crm/daily/";
                 });
             }
-            $(".subNav").click(function () {
-                $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
-                $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
-                $(this).next(".navContent").slideToggle(300).siblings(".navContent").slideUp(500)
-            })
         })
     </script>
-    <!-- 左侧菜单js结束 -->
+    <!-- 日报专用js结束 -->
 
     <!-- 注册新增转化js开始 -->
     <script type="text/javascript">
