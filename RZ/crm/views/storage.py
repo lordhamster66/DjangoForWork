@@ -166,11 +166,11 @@ class DataStorage(View):
             models.GeDuanInfo.objects.using("default").create(
                 qdate=qdate,
                 geduan=gd,
-                recover=geduan_rw_dic.get(gd).get("recover"),
-                recover_withdraw=geduan_rw_dic.get(gd).get("recover_withdraw"),
-                account=geduan_account_dic.get(gd).get("account"),
-                xztz_j=geduan_xztz_dic.get(gd).get("xztz_j"),
-                withdraw=geduan_withdraw_dic.get(gd).get("withdraw")
+                recover=geduan_rw_dic.get(gd, {"recover": 0}).get("recover"),
+                recover_withdraw=geduan_rw_dic.get(gd, {"recover_withdraw": 0}).get("recover_withdraw"),
+                account=geduan_account_dic.get(gd, {"account": 0}).get("account"),
+                xztz_j=geduan_xztz_dic.get(gd, {"xztz_j": 0}).get("xztz_j"),
+                withdraw=geduan_withdraw_dic.get(gd, {"withdraw": 0}).get("withdraw")
             )
 
         # 增加时间段数据详情
