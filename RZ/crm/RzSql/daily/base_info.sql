@@ -1,10 +1,10 @@
 SELECT a.qdate qdate,sum(a.zhu_r) zhu_r,sum(a.sm_r) sm_r,sum(a.sc_r) sc_r,sum(a.xztz_r) xztz_r,sum(a.xztz_j) xztz_j,
 sum(a.cz_r) cz_r,sum(a.cz_j) cz_j,sum(a.tx_r) tx_r,sum(a.tx_j) tx_j,sum(a.tz_r) tz_r,
-sum(a.tz_j) tz_j,sum(a.tz_b) tz_b,sum(a.tz_dl_r) tz_dl_r,sum(a.hk_r) hk_r,sum(a.hk_j) hk_j
+sum(a.tz_j) tz_j,sum(a.tz_b) tz_b,sum(a.hk_r) hk_r,sum(a.hk_j) hk_j
 from
 (		# 0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j
 		# 注册详情
-		SELECT DATE(a.time_h) qdate,count(DISTINCT(a.uid)) zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT DATE(a.time_h) qdate,count(DISTINCT(a.uid)) zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from 01u_0info a
 		LEFT JOIN (SELECT uid from 01u_0info where mobile like "JM%") b on a.uid = b.uid      # 机密借款人注册
 		where a.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
@@ -14,7 +14,7 @@ from
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 实名详情
-		SELECT DATE(a.update_time) qdate,0 zhu_r,count(DISTINCT(a.uid)) sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT DATE(a.update_time) qdate,0 zhu_r,count(DISTINCT(a.uid)) sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from rz_cg_user_ext a
 		LEFT JOIN 01u_0info b on a.uid = b.uid
 		where DATE(a.update_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
@@ -26,7 +26,7 @@ from
 		GROUP BY DATE(a.update_time)
 		UNION ALL
 		# 首充详情
-		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,count(DISTINCT(a.uid)) sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,count(DISTINCT(a.uid)) sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from 04a_3applyqueue a
 		LEFT JOIN 01u_0info b on a.uid=b.uid
 		INNER JOIN (SELECT uid,min(time_h) min_time from 04a_3applyqueue where aptype = 7 and uid_ty = 1 and `status` = 3 GROUP BY uid) c on a.uid = c.uid and a.time_h = c.min_time
@@ -39,7 +39,7 @@ from
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 新增详情
-		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,count(DISTINCT(a.uid)) xztz_r,sum(a.account) xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,count(DISTINCT(a.uid)) xztz_r,sum(a.account) xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from
 		(
 		SELECT uid,time_h,account
@@ -82,7 +82,7 @@ from
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 充值详情
-		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,count(DISTINCT(a.uid)) cz_r,sum(a.money) cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,count(DISTINCT(a.uid)) cz_r,sum(a.money) cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from 04a_3applyqueue a
 		LEFT JOIN 01u_0info b on a.uid=b.uid
 		where a.aptype = 7
@@ -94,7 +94,7 @@ from
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 提现详情
-		SELECT DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,count(DISTINCT (a.uid)) tx_r,sum(abs(a.money)) tx_j,0 tz_r,0 tz_j,0 tz_dl_r,0 hk_r,0 hk_j,0 tz_b
+		SELECT DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,count(DISTINCT (a.uid)) tx_r,sum(abs(a.money)) tx_j,0 tz_r,0 tz_j,0 hk_r,0 hk_j,0 tz_b
 		from 04a_3applyqueue a
 		LEFT JOIN 01u_0info c on a.uid=c.uid
 		where a.aptype=6                            #提现申请
@@ -105,7 +105,7 @@ from
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 投资详情
-		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,count(DISTINCT(a.uid)) tz_r,sum(a.account) tz_j,0 tz_dl_r,0 hk_r,0 hk_j,count(a.uid) tz_b
+		SELECT  DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,count(DISTINCT(a.uid)) tz_r,sum(a.account) tz_j,0 hk_r,0 hk_j,count(a.uid) tz_b
 		from
 		(
 					SELECT a1.bid,t1.name,t1.borrow_apr,a1.aprplus,
@@ -137,34 +137,8 @@ from
 		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
 		GROUP BY DATE(a.time_h)
 		UNION ALL
-		# 投资登录详情
-		SELECT DATE(a.time_h) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,count(DISTINCT(a.id)) tz_dl_r,0 hk_r,0 hk_j,0 tz_b
-		from zzz_ctlog_l_uid_loginsuc a
-		LEFT JOIN 01u_0info b on a.id = b.uid
-		INNER JOIN
-		(
-					SELECT uid,time_h
-					from 05b_1tenderfinal
-					where orguid=0 and bid <> 10000 and status in (1,3)
-					and unix_timestamp(time_h) < unix_timestamp(curdate())
-					UNION ALL
-					SELECT user_id,add_time
-					from new_wd.borrow_tender
-					where status = 1
-					and unix_timestamp(add_time ) < unix_timestamp(curdate())
-					UNION ALL
-					SELECT user_id,create_time
-					from new_wd.rz_borrow_tender
-					where status = 1
-					and unix_timestamp(create_time) < unix_timestamp(curdate())
-		) t on a.id = t.uid
-		where b.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.id not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and DATE(a.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
-		GROUP BY DATE(a.time_h)
-		UNION ALL
 		# 回款详情
-		SELECT DATE(h.recover_times) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,0 tz_dl_r,count(DISTINCT h.uid) hk_r,sum(h.recover_account) hk_j,0 tz_b
+		SELECT DATE(h.recover_times) qdate,0 zhu_r,0 sm_r,0 sc_r,0 xztz_r,0 xztz_j,0 cz_r,0 cz_j,0 tx_r,0 tx_j,0 tz_r,0 tz_j,count(DISTINCT h.uid) hk_r,sum(h.recover_account) hk_j,0 tz_b
 		from
 				 (
 					SELECT a1.uid,a1.recover_account,a1.recover_times
