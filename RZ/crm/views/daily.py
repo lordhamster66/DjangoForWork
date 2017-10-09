@@ -156,7 +156,7 @@ class Daily(View):
 
                 base_dict["tz_r_list"].append(int(obj.tz_r))  # 投资人数
                 base_dict["tz_b_list"].append(int(obj.tz_b))  # 投资笔数
-                base_dict["tz_dl_r_list"].append(int(obj.tz_dl_r))  # 投资用户登录数
+                base_dict["tz_dl_r_list"].append(obj.tz_dl_r)  # 投资用户登录数
 
                 this = datetime.strftime(obj.qdate, "%Y-%m-%d")
                 previous = datetime.strftime(datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-1), "%Y-%m-%d")

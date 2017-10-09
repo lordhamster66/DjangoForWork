@@ -70,6 +70,7 @@ class DataStorage(View):
         :return:
         """
         base_info = self.get_info_dict("daily", "base_info.sql")  # 基础信息
+        tz_dl_info = self.get_info_dict("daily", "tz_dl_info.sql")  # 投资登录人数信息
         balance_info = self.get_info_dict("daily", "zhangang.sql")  # 站岗信息
         zaidai_info = self.get_info_dict("daily", "zaidai.sql")  # 在贷信息
         # 增加基础数据信息
@@ -87,7 +88,7 @@ class DataStorage(View):
             tz_r=base_info.get("tz_r"),  # 投资人数
             tz_j=base_info.get("tz_j"),  # 投资金额
             tz_b=base_info.get("tz_b"),  # 投资笔数
-            # tz_dl_r=base_info.get("tz_dl_r"),  # 投资登录人数
+            tz_dl_r=tz_dl_info.get("tz_dl_r"),  # 投资登录人数
             hk_r=base_info.get("hk_r"),  # 回款人数
             hk_j=base_info.get("hk_j"),  # 回款金额
             zg_j=balance_info.get("zg_j"),  # 站岗金额
