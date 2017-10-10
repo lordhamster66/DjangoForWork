@@ -1,0 +1,207 @@
+{% extends "daily_layout.html" %}
+
+{% block title %}人众日报{% endblock %}
+
+{% block css %}{% endblock %}
+{% block nav %}
+    <li role="presentation"><a href="/crm/daily/">日报</a></li>
+    <li role="presentation" class="active"><a href="/crm/monthly/">月度数据</a></li>
+{% endblock %}
+
+{% block content %}
+    <div class="daily-content">
+        <span id="alert" style="display: none;">{{ alert_message }}</span>
+        <!-- 左侧菜单开始 -->
+        <div class="subNavBox">
+            <div class="subNav currentDd currentDt">月度数据</div>
+            <ul class="navContent " style="display:block">
+                <li><a href="#page1">人数详情</a></li>
+                <li><a href="#page2">投资回款详情</a></li>
+                <li><a href="#page3">充值提现详情</a></li>
+                <li><a href="#page4">充值手续费详情</a></li>
+                <li><a href="#page5">投资人数笔数详情</a></li>
+                <li><a href="#page6">人均投资额详情</a></li>
+                <li><a href="#page7">推广人数详情</a></li>
+                <li><a href="#page8">推广花费ROI</a></li>
+                <li><a href="#page9">各类充值</a></li>
+                <li><a href="#page10">在贷详情</a></li>
+                <li><a href="#page11">在贷人数</a></li>
+            </ul>
+        </div>
+        <!-- 左侧菜单结束 -->
+
+        <!-- 人数详情开始 -->
+        <div id="page1" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">人数详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page1" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="renshu" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 人数详情结束 -->
+
+        <div id="end" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">END</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="#" style="width: 1400px;height: 500px;">
+                    <img src="/static/build/img/end.png" alt="" style="margin-left: 330px;margin-top: 100px;">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- 月度数据专用js开始 -->
+    <script>
+        $(function () {
+            var alertMessage = $("#alert").text();
+            if (alertMessage) {
+                swal({
+                    title: alertMessage,
+                    text: "正在重定向至昨天的月度数据!",
+                    type: "warning"
+                }, function () {
+                    location.href = "/crm/monthly/";
+                });
+            }
+        })
+    </script>
+    <!-- 月度数据专用js结束 -->
+
+    <!-- 人数详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("renshu");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "人数概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['注册人数', '实名人数', '首充人数', '新增投资人数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '注册人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.zhu_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '实名人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.sm_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '首充人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.sc_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '新增投资人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.xz_tz_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#8064a2'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 人数详情js结束 -->
+{% endblock %}

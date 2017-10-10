@@ -21,6 +21,7 @@ class DailyForm(Form):
         }
     )
     section = fields.ChoiceField(
+        required=False,
         choices=[("8", 8), ("14", 14)],
         widget=widgets.Select()
     )

@@ -69,28 +69,36 @@ class DataStorage(View):
         :param kwargs:
         :return:
         """
-        base_info = self.get_info_dict("daily", "base_info.sql")  # 基础信息
+        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        zhu_info = self.get_info_dict("daily", "zhu_info.sql")  # 注册信息
+        sm_info = self.get_info_dict("daily", "sm_info.sql")  # 实名信息
+        sc_info = self.get_info_dict("daily", "sc_info.sql")  # 首充信息
+        xztz_info = self.get_info_dict("daily", "xztz_info.sql")  # 新增投资信息
+        cz_info = self.get_info_dict("daily", "cz_info.sql")  # 充值信息
+        tx_info = self.get_info_dict("daily", "tx_info.sql")  # 提现信息
+        tz_info = self.get_info_dict("daily", "tz_info.sql")  # 投资信息
+        hk_info = self.get_info_dict("daily", "hk_info.sql")  # 回款信息
         tz_dl_info = self.get_info_dict("daily", "tz_dl_info.sql")  # 投资登录人数信息
         balance_info = self.get_info_dict("daily", "zhangang.sql")  # 站岗信息
         zaidai_info = self.get_info_dict("daily", "zaidai.sql")  # 在贷信息
         # 增加基础数据信息
         models.BaseInfo.objects.using("default").create(
-            qdate=base_info.get("qdate"),  # 日期
-            zhu_r=base_info.get("zhu_r"),  # 注册人数
-            sm_r=base_info.get("sm_r"),  # 实名人数
-            sc_r=base_info.get("sc_r"),  # 首充人数
-            xztz_r=base_info.get("xztz_r"),  # 新增投资人数
-            xztz_j=base_info.get("xztz_j"),  # 新增投资金额
-            cz_r=base_info.get("cz_r"),  # 充值人数
-            cz_j=base_info.get("cz_j"),  # 充值金额
-            tx_r=base_info.get("tx_r"),  # 提现人数
-            tx_j=base_info.get("tx_j"),  # 提现金额
-            tz_r=base_info.get("tz_r"),  # 投资人数
-            tz_j=base_info.get("tz_j"),  # 投资金额
-            tz_b=base_info.get("tz_b"),  # 投资笔数
+            qdate=qdate,  # 日期
+            zhu_r=zhu_info.get("zhu_r"),  # 注册人数
+            sm_r=sm_info.get("sm_r"),  # 实名人数
+            sc_r=sc_info.get("sc_r"),  # 首充人数
+            xztz_r=xztz_info.get("xztz_r"),  # 新增投资人数
+            xztz_j=xztz_info.get("xztz_j"),  # 新增投资金额
+            cz_r=cz_info.get("cz_r"),  # 充值人数
+            cz_j=cz_info.get("cz_j"),  # 充值金额
+            tx_r=tx_info.get("tx_r"),  # 提现人数
+            tx_j=tx_info.get("tx_j"),  # 提现金额
+            tz_r=tz_info.get("tz_r"),  # 投资人数
+            tz_j=tz_info.get("tz_j"),  # 投资金额
+            tz_b=tz_info.get("tz_b"),  # 投资笔数
             tz_dl_r=tz_dl_info.get("tz_dl_r"),  # 投资登录人数
-            hk_r=base_info.get("hk_r"),  # 回款人数
-            hk_j=base_info.get("hk_j"),  # 回款金额
+            hk_r=hk_info.get("hk_r"),  # 回款人数
+            hk_j=hk_info.get("hk_j"),  # 回款金额
             zg_j=balance_info.get("zg_j"),  # 站岗金额
             zg_r=balance_info.get("zg_r"),  # 站岗人数
             zd_r=zaidai_info.get("zd_r"),  # 在贷人数
@@ -144,7 +152,6 @@ class DataStorage(View):
                 mb_ys=row.get("mb_ys")  # 满标用时
             )
         # 增加各端数据详情
-        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
         geduan_rw = self.get_info_list("daily", "geduan_rw.sql")  # 获取各端回款并提现数据
         geduan_rw_dic = {}  # 定义一个各端回款并提现字典
         for i in geduan_rw:

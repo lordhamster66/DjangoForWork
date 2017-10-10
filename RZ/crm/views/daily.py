@@ -31,7 +31,7 @@ class Daily(View):
             this = int(this)
             previous = int(previous)
             huanbi = round((this - previous) / previous * 100, 2)
-        except Exception as e:
+        except Exception:
             huanbi = 0
         return huanbi
 
@@ -65,6 +65,7 @@ class Daily(View):
         return info_list
 
     def get_info(self, qdate, section=8):
+        """获取日报所需数据"""
         alert_message = ""  # 定义错误提示信息
         base_dict = {}  # 存放平台概况
         tg_dict = {}  # 存放推广概况
@@ -156,7 +157,7 @@ class Daily(View):
 
                 base_dict["tz_r_list"].append(int(obj.tz_r))  # 投资人数
                 base_dict["tz_b_list"].append(int(obj.tz_b))  # 投资笔数
-                base_dict["tz_dl_r_list"].append(obj.tz_dl_r)  # 投资用户登录数
+                base_dict["tz_dl_r_list"].append(obj.tz_dl_r if obj.tz_dl_r is not None else 0)  # 投资用户登录数
 
                 this = datetime.strftime(obj.qdate, "%Y-%m-%d")
                 previous = datetime.strftime(datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-1), "%Y-%m-%d")
@@ -455,11 +456,11 @@ class Daily(View):
     def get(self, request, *args, **kwargs):
         """获取日报"""
         today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
-        daily_form = forms.DailyForm(initial={"qdate": today, "section": "8"})
+        daily_form = forms.DailyForm(initial={"qdate": today, "section": "8"})  # 生成DailyForm对象
         (
             alert_message, base_dict, tg_dict, operate_dict,
             invite_dict, asset_dict, geduan_dict, kefu_dict
-        ) = self.get_info(today)
+        ) = self.get_info(today)  # 获取日报所需数据
         return render(
             request, "daily.html",
             {
@@ -478,13 +479,14 @@ class Daily(View):
     def post(self, request, *args, **kwargs):
         """查询其他日期的日报"""
         qdate = request.POST.get("qdate")  # 获取用户输入的日期
-        daily_form = forms.DailyForm(request.POST)
-        if daily_form.is_valid():
-            section = int(daily_form.cleaned_data.get("section"))
+        daily_form = forms.DailyForm(request.POST)  # 生成DailyForm对象
+        if daily_form.is_valid():  # 对用户输入的日期格式进行检查
+            section = daily_form.cleaned_data.get("section", 8)  # 获取检查过的区间，没有则默认为8
+            section = int(section) if section != "" else 8  # 如果用户没有选择区间，则默认为8
             (
                 alert_message, base_dict, tg_dict, operate_dict,
                 invite_dict, asset_dict, geduan_dict, kefu_dict
-            ) = self.get_info(qdate, section)
+            ) = self.get_info(qdate, section)  # 获取日报所需数据
             return render(
                 request, "daily.html",
                 {
@@ -500,21 +502,44 @@ class Daily(View):
                 }
             )
         else:
-            (
-                alert_message, base_dict, tg_dict, operate_dict,
-                invite_dict, asset_dict, geduan_dict, kefu_dict
-            ) = self.get_info(qdate)
-            return render(
-                request, "daily.html",
-                {
-                    "base_dict": base_dict,
-                    "tg_dict": tg_dict,
-                    "operate_dict": operate_dict,
-                    "invite_dict": invite_dict,
-                    "asset_dict": asset_dict,
-                    "geduan_dict": geduan_dict,
-                    "kefu_dict": kefu_dict,
-                    "daily_form": daily_form,
-                    "alert_message": alert_message
-                }
+            return render(request, "daily.html", {"daily_form": daily_form})
+
+
+def monthly(request):
+    """月度数据"""
+
+    def monthly_get_info(qdate, section=60):
+        """获取月度数据"""
+        alert_message = ""  # 定义错误提示信息
+        monthly_base_dict = {}  # 存放平台概况
+        # 获取最近60天的基础数据
+        base_info = models.BaseInfo.objects.using("default").filter(
+            qdate__range=(
+                datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
+                datetime.strptime(qdate, "%Y-%m-%d")
             )
+        ).all().order_by("qdate")
+        monthly_base_dict["qdate_list"] = []  # 月度数据人数详情日期列表
+        monthly_base_dict["zhu_r_list"] = []  # 月度数据注册人数列表
+        monthly_base_dict["sm_r_list"] = []  # 月度数据实名人数列表
+        monthly_base_dict["sc_r_list"] = []  # 月度数据首充人数列表
+        monthly_base_dict["xz_tz_r_list"] = []  # 月度数据新增投资人数列表
+        for obj in base_info:
+            monthly_base_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
+            monthly_base_dict["zhu_r_list"].append(obj.zhu_r)
+            monthly_base_dict["sm_r_list"].append(obj.sm_r)
+            monthly_base_dict["sc_r_list"].append(obj.sc_r)
+            monthly_base_dict["xz_tz_r_list"].append(obj.xztz_r)
+        return alert_message, monthly_base_dict
+
+    if request.method == "GET":
+        today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        alert_message, monthly_base_dict = monthly_get_info(today)
+        return render(request, "monthly.html", {
+            "qdate": today,
+            "alert_message": alert_message,
+            "monthly_base_dict": monthly_base_dict
+        })
+    elif request.method == "POST":
+        qdate = request.POST.get("qdate")  # 获取用户输入的日期
+        return render(request, "monthly.html")

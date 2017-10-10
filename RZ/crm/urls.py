@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^ceshi/$', ceshi.ceshi),  # 测试
     url(r'^data_storage/$', storage.DataStorage.as_view()),  # 获取公司数据库信息
     url(r'^daily/$', daily.Daily.as_view()),  # 日报
+    url(r'^monthly/$', daily.monthly),  # 月度数据
     url(r'^get_wdzj_info/$', storage.get_wdzj_info),  # 爬取网贷之家数据信息
     url(r'^get_wdty_info/$', storage.get_wdty_info),  # 爬取网贷天眼数据信息
     url(r'^backup/$', db_backup.backup),  # 备份表
