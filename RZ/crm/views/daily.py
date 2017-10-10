@@ -512,34 +512,158 @@ def monthly(request):
         """获取月度数据"""
         alert_message = ""  # 定义错误提示信息
         monthly_base_dict = {}  # 存放平台概况
-        # 获取最近60天的基础数据
-        base_info = models.BaseInfo.objects.using("default").filter(
-            qdate__range=(
-                datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
-                datetime.strptime(qdate, "%Y-%m-%d")
-            )
-        ).all().order_by("qdate")
-        monthly_base_dict["qdate_list"] = []  # 月度数据人数详情日期列表
-        monthly_base_dict["zhu_r_list"] = []  # 月度数据注册人数列表
-        monthly_base_dict["sm_r_list"] = []  # 月度数据实名人数列表
-        monthly_base_dict["sc_r_list"] = []  # 月度数据首充人数列表
-        monthly_base_dict["xz_tz_r_list"] = []  # 月度数据新增投资人数列表
-        for obj in base_info:
-            monthly_base_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))
-            monthly_base_dict["zhu_r_list"].append(obj.zhu_r)
-            monthly_base_dict["sm_r_list"].append(obj.sm_r)
-            monthly_base_dict["sc_r_list"].append(obj.sc_r)
-            monthly_base_dict["xz_tz_r_list"].append(obj.xztz_r)
-        return alert_message, monthly_base_dict
+        monthly_other_dict = {}  # 存放其他信息概况
+        monthly_tg_dict = {}  # 存放推广信息概况
+        monthly_operate_dict = {}  # 存放运营信息概况
+        if models.BaseInfo.objects.using("default").filter(qdate=qdate).first():
+            # 获取最近几十天的基础数据
+            base_info = models.BaseInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all().order_by("qdate")
+            # 获取最近几十天的其他数据
+            other_info = models.OtherInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all().order_by("qdate")
+            # 获取最近几十天的推广数据
+            tg_info = models.TgInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all().order_by("qdate")
+            # 获取最近几十天的运营数据
+            operate_info = models.OperateInfo.objects.using("default").filter(
+                qdate__range=(
+                    datetime.strptime(qdate, "%Y-%m-%d") + timedelta(days=-(section - 1)),
+                    datetime.strptime(qdate, "%Y-%m-%d")
+                )
+            ).all().order_by("qdate")
+            # 定义人数详情字段
+            monthly_base_dict["qdate_list"] = []  # 月度数据人数详情日期列表
+            monthly_base_dict["zhu_r_list"] = []  # 月度数据注册人数列表
+            monthly_base_dict["sm_r_list"] = []  # 月度数据实名人数列表
+            monthly_base_dict["sc_r_list"] = []  # 月度数据首充人数列表
+            monthly_base_dict["xz_tz_r_list"] = []  # 月度数据新增投资人数列表
+            # 定义投资回款详情字段
+            monthly_base_dict["tz_j_list"] = []  # 月度数据投资金额列表
+            monthly_base_dict["hk_j_list"] = []  # 月度数据回款金额列表
+            monthly_base_dict["zg_j_list"] = []  # 月度数据站岗资金列表
+            # 定义充值提现详情字段
+            monthly_base_dict["cz_j_list"] = []  # 月度数据充值金额列表
+            monthly_base_dict["tx_j_list"] = []  # 月度数据提现金额列表
+            monthly_base_dict["income_list"] = []  # 月度数据净流入列表
+            # 定义充值手续费详情字段
+            monthly_other_dict["qdate_list"] = []  # 月度数据充值手续费详情日期列表
+            monthly_other_dict["cz_fee_list"] = []  # 月度数据充值手续费列表
+            # 定义投资人数笔数详情字段
+            monthly_base_dict["tz_r_list"] = []  # 月度数据投资人数列表
+            monthly_base_dict["tz_b_list"] = []  # 月度数据投资笔数列表
+            monthly_base_dict["tz_dl_r_list"] = []  # 月度数据投资用户登录数列表
+            # 定义人均投资金额详情字段
+            monthly_base_dict["avg_tz_j_list"] = []  # 月度数据人均投资金额列表
+            # 定义推广人数详情字段
+            monthly_tg_dict["qdate_list"] = []  # 月度数据推广详情日期列表
+            monthly_tg_dict["tg_zhu_r_list"] = []  # 月度数据推广注册人数列表
+            monthly_tg_dict["tg_sm_r_list"] = []  # 月度数据推广实名人数列表
+            monthly_tg_dict["tg_sc_r_list"] = []  # 月度数据推广首充人数列表
+            monthly_tg_dict["tg_xz_tz__r_list"] = []  # 月度数据推广新增投资人数列表
+            # 定义推广花费ROI字段
+            monthly_tg_dict["tg_cost_list"] = []  # 月度数据推广花费列表
+            monthly_tg_dict["tg_roi_list"] = []  # 月度数据推广ROI列表
+            # 定义各类充值详情字段
+            monthly_operate_dict["qdate_list"] = []  # 月度数据运营详情日期列表
+            monthly_operate_dict["xz_cz_list"] = []  # 月度数据新增充值列表
+            monthly_operate_dict["hk_cz_list"] = []  # 月度数据回款并充值列表
+            monthly_operate_dict["unhk_cz_list"] = []  # 月度数据非回款充值列表
+            # 定义在贷详情字段
+            monthly_base_dict["zd_j_list"] = []  # 月度数据在贷金额列表
+            monthly_base_dict["zd_r_list"] = []  # 月度数据在贷金额列表
+            # 几十天基础数据循环
+            for obj in base_info:
+                # 人数详情
+                monthly_base_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))  # 日期
+                monthly_base_dict["zhu_r_list"].append(obj.zhu_r)  # 注册人数
+                monthly_base_dict["sm_r_list"].append(obj.sm_r)  # 实名人数
+                monthly_base_dict["sc_r_list"].append(obj.sc_r)  # 首充人数
+                monthly_base_dict["xz_tz_r_list"].append(obj.xztz_r)  # 新增投资人数
+                # 投资回款详情
+                monthly_base_dict["tz_j_list"].append(round(int(obj.tz_j) / 10000, 2))  # 投资金额
+                monthly_base_dict["hk_j_list"].append(round(int(obj.hk_j) / 10000, 2))  # 回款金额
+                monthly_base_dict["zg_j_list"].append(round(int(obj.zg_j) / 10000, 2))  # 站岗资金
+                # 充值提现详情
+                monthly_base_dict["cz_j_list"].append(round(int(obj.cz_j) / 10000, 2))  # 充值金额
+                monthly_base_dict["tx_j_list"].append(round(int(obj.tx_j) / 10000, 2))  # 提现金额
+                monthly_base_dict["income_list"].append(round((int(obj.cz_j) - int(obj.tx_j)) / 10000, 2))  # 净流入
+                # 投资人数笔数详情
+                monthly_base_dict["tz_r_list"].append(obj.tz_r)  # 投资人数
+                monthly_base_dict["tz_b_list"].append(obj.tz_b)  # 资笔数
+                monthly_base_dict["tz_dl_r_list"].append(obj.tz_dl_r)  # 投资用户登录数
+                # 人均投资金额详情
+                monthly_base_dict["avg_tz_j_list"].append(round((int(obj.tz_j) / int(obj.tz_r)) / 10000, 1))  # 人均投资金额
+                # 在贷详情
+                monthly_base_dict["zd_j_list"].append(round(int(obj.zd_j) / 100000000, 2))  # 在贷金额
+                monthly_base_dict["zd_r_list"].append(round(int(obj.zd_r) / 10000, 2))  # 在贷人数
+            # 几十天其他数据循环
+            for obj in other_info:
+                monthly_other_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))  # 日期
+                monthly_other_dict["cz_fee_list"].append(round(int(obj.cz_fee) / 10000, 1))  # 充值手续费
+            # 几十天推广数据循环
+            for obj in tg_info:
+                # 推广人数详情
+                monthly_tg_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))  # 日期
+                monthly_tg_dict["tg_zhu_r_list"].append(obj.tg_zhu_r)  # 推广注册人数
+                monthly_tg_dict["tg_sm_r_list"].append(obj.tg_sm_r)  # 推广实名人数
+                monthly_tg_dict["tg_sc_r_list"].append(obj.tg_sc_r)  # 推广首充人数
+                monthly_tg_dict["tg_xz_tz__r_list"].append(obj.tg_xztz_r)  # 推广新增投资人数
+                # 推广花费ROI
+                monthly_tg_dict["tg_cost_list"].append(round(int(obj.tg_cost) / 10000, 1))  # 推广花费
+                monthly_tg_dict["tg_roi_list"].append(round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2))  # 推广ROI
+            # 几十天运营数据循环
+            for obj in operate_info:
+                monthly_operate_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))  # 日期
+                monthly_operate_dict["xz_cz_list"].append(round(int(obj.xz_cz) / 10000, 2))  # 新增充值金额
+                monthly_operate_dict["hk_cz_list"].append(round(int(obj.hk_cz) / 10000, 2))  # 回款并充值
+                monthly_operate_dict["unhk_cz_list"].append(round(int(obj.unhk_cz) / 10000, 2))  # 非回款充值
+        else:
+            alert_message = "没有该日期的数据!"
+        return alert_message, monthly_base_dict, monthly_other_dict, monthly_tg_dict, monthly_operate_dict
 
     if request.method == "GET":
         today = datetime.strftime(datetime.now() + timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
-        alert_message, monthly_base_dict = monthly_get_info(today)
+        (
+            alert_message, monthly_base_dict, monthly_other_dict, monthly_tg_dict, monthly_operate_dict
+        ) = monthly_get_info(today)
+        monthly_form = forms.MonthlyForm(initial={"qdate": today})  # 生成MonthlyForm对象
         return render(request, "monthly.html", {
             "qdate": today,
             "alert_message": alert_message,
-            "monthly_base_dict": monthly_base_dict
+            "monthly_form": monthly_form,
+            "monthly_base_dict": monthly_base_dict,  # 平台概况
+            "monthly_other_dict": monthly_other_dict,  # 其他信息概况
+            "monthly_tg_dict": monthly_tg_dict,  # 推广信息概况
+            "monthly_operate_dict": monthly_operate_dict,  # 运营信息概况
         })
     elif request.method == "POST":
         qdate = request.POST.get("qdate")  # 获取用户输入的日期
-        return render(request, "monthly.html")
+        monthly_form = forms.MonthlyForm(request.POST)  # 生成MonthlyForm对象
+        if monthly_form.is_valid():  # 对用户输入的日期格式进行检查
+            (
+                alert_message, monthly_base_dict, monthly_other_dict, monthly_tg_dict, monthly_operate_dict
+            ) = monthly_get_info(qdate)
+            return render(request, "monthly.html", {
+                "qdate": qdate,
+                "alert_message": alert_message,
+                "monthly_form": monthly_form,
+                "monthly_base_dict": monthly_base_dict,  # 平台概况
+                "monthly_other_dict": monthly_other_dict,  # 其他信息概况
+                "monthly_tg_dict": monthly_tg_dict,  # 推广信息概况
+                "monthly_operate_dict": monthly_operate_dict,  # 运营信息概况
+            })
+        else:
+            return render(request, "monthly.html", {"monthly_form": monthly_form})

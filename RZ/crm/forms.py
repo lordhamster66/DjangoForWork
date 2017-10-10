@@ -13,6 +13,7 @@ from datetime import datetime
 
 
 class DailyForm(Form):
+    """日报页面所属FORM"""
     qdate = fields.DateField(
         widget=widgets.TextInput(attrs={"class": "datepicker right search form-control"}),
         error_messages={
@@ -24,6 +25,17 @@ class DailyForm(Form):
         required=False,
         choices=[("8", 8), ("14", 14)],
         widget=widgets.Select()
+    )
+
+
+class MonthlyForm(Form):
+    """月度数据所需FORM"""
+    qdate = fields.DateField(
+        widget=widgets.TextInput(attrs={"class": "datepicker right search form-control"}),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
     )
 
 

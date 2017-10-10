@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="daily-content">
-        <span id="alert" style="display: none;">{{ alert_message }}</span>
+        <span id="alert" style="display: none;">{{ alert_message }}{{ monthly_form.qdate.errors.0 }}</span>
         <!-- 左侧菜单开始 -->
         <div class="subNavBox">
             <div class="subNav currentDd currentDt">月度数据</div>
@@ -51,6 +51,226 @@
             </div>
         </div>
         <!-- 人数详情结束 -->
+
+        <!-- 投资回款详情开始 -->
+        <div id="page2" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">投资回款详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page2" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="tz-hk-zg" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 投资回款详情结束 -->
+
+        <!-- 充值提现详情开始 -->
+        <div id="page3" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">充值提现详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page3" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="cz-tx" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 充值提现详情结束 -->
+
+        <!-- 充值手续费详情开始 -->
+        <div id="page4" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">充值手续费详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page4" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="cz-fee" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 充值手续费详情结束 -->
+
+        <!-- 投资人数笔数详情开始 -->
+        <div id="page5" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">投资人数笔数详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page5" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="tz-r-b" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 投资人数笔数详情结束 -->
+
+        <!-- 人均投资金额详情开始 -->
+        <div id="page6" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">人均投资金额详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page6" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="avg-tz-j" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 人均投资金额详情结束 -->
+
+        <!-- 推广人数详情开始 -->
+        <div id="page7" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">推广人数详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page7" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="tg-r" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 推广人数详情结束 -->
+
+        <!-- 推广花费ROI开始 -->
+        <div id="page8" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">推广花费ROI(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page8" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="tg-cost-roi" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 推广花费ROI结束 -->
+
+        <!-- 各类充值详情开始 -->
+        <div id="page9" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">各类充值详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page9" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="gl-cz" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 各类充值详情结束 -->
+
+        <!-- 在贷金额详情开始 -->
+        <div id="page10" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">在贷金额详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page10" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="zd-j" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 在贷金额详情结束 -->
+
+        <!-- 在贷人数详情开始 -->
+        <div id="page11" class="daily-container">
+            <div class="head">
+                <div class="daily-tag left">
+                    <img src="/static/build/img/daily_tag.png" alt="">
+                </div>
+                <h1 class="title left">人数详情(近两月)</h1>
+                <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                <form action="/crm/monthly/#page11" method="POST">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ qdate }}">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="body">
+                <div class="left echart" id="zd-r" style="width: 1400px;height: 500px"></div>
+            </div>
+        </div>
+        <!-- 在贷人数详情结束 -->
 
         <div id="end" class="daily-container">
             <div class="head">
@@ -204,4 +424,912 @@
         }
     </script>
     <!-- 人数详情js结束 -->
+
+    <!-- 投资回款详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("tz-hk-zg");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "投资回款概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['投资金额', '回款金额', '站岗资金']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '投资金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.tz_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '回款金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.hk_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '站岗资金',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.zg_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 投资回款详情js结束 -->
+
+    <!-- 充值提现详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("cz-tx");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "资金概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['充值金额', '提现金额', '净流入']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '充值金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.cz_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '提现金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.tx_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '净流入',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.income_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 充值提现详情js结束 -->
+
+    <!-- 充值手续费详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("cz-fee");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "充值手续费概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['充值手续费']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_other_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '充值手续费',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_other_dict.cz_fee_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b0f0'}
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}万',
+                            fontSize: 15,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 充值手续费详情js结束 -->
+
+    <!-- 投资人数笔数详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("tz-r-b");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "投资人数概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['投资人数', '投资笔数', '投资用户登录数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '投资人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.tz_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '投资笔数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.tz_b_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '投资用户登录数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.tz_dl_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 投资人数笔数详情js结束 -->
+
+    <!-- 人均投资金额详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("avg-tz-j");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "人均投资金额概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['人均投资金额']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '人均投资金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.avg_tz_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b0f0'}
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}万',
+                            fontSize: 15,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 人均投资金额详情js结束 -->
+
+    <!-- 推广人数详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("tg-r");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "推广人数概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['推广注册人数', '推广实名人数', '推广首充人数', '推广新增投资人数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_tg_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '推广注册人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_tg_dict.tg_zhu_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '推广实名人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_tg_dict.tg_sm_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '推广首充人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_tg_dict.tg_sc_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '推广新增投资人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_tg_dict.tg_xz_tz__r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#8064a2'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 推广人数详情js结束 -->
+
+    <!-- 推广花费ROIjs开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("tg-cost-roi");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "推广花费概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['花费金额', 'ROI']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_tg_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '花费金额',
+                    type: 'bar',
+                    barWidth: 10,//柱图宽度
+                    data: {{ monthly_tg_dict.tg_cost_list | safe }},
+                    itemStyle: {
+                        normal: {color: '#3399ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: 'ROI',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_tg_dict.tg_roi_list |safe }},
+                    itemStyle: {
+                        width: 100,//折线宽度
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 推广花费ROIjs结束 -->
+
+    <!-- 各类充值详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("gl-cz");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "各类充值概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['新增充值', '回款并充值', '非回款充值']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_operate_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '新增充值',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_operate_dict.xz_cz_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b050'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '回款并充值',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_operate_dict.hk_cz_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ffc000'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                },
+                {
+                    name: '非回款充值',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_operate_dict.unhk_cz_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 各类充值详情js结束 -->
+
+    <!-- 在贷金额详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("zd-j");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "在贷金额概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['在贷金额']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 亿'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '在贷金额',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.zd_j_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#00b0f0'}
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}亿',
+                            fontSize: 15,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 在贷金额详情js结束 -->
+
+    <!-- 在贷人数详情js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("zd-r");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "在贷人数概况" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: ['在贷人数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ monthly_base_dict.qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value} 人'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '在贷人数',
+                    type: 'line',
+                    smooth: true,  //平滑过渡
+                    symbol: 'pin',//拐点样式
+                    symbolSize: 10,//拐点大小
+                    data: {{ monthly_base_dict.zd_r_list |safe }},
+                    itemStyle: {
+                        normal: {color: '#ff99ff'}
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}亿',
+                            fontSize: 15,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 在贷人数详情js结束 -->
 {% endblock %}
