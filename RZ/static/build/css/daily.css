@@ -48,10 +48,12 @@ body {
     line-height: 48px;
     margin-top: 20px;
 }
+
 .daily-container .head #search-daily {
     width: 60px;
     line-height: 37px;
 }
+
 .clear {
     clear: both;
 }
@@ -87,6 +89,21 @@ body {
     text-align: center;
     font-weight: bold;
     color: #ffc000;
+}
+
+.daily-container .body .info .msg .little-block {
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.daily-container .body .info .msg .larger {
+    font-size: larger;
+}
+
+.daily-container .body .info .msg .small {
+    font-size: small;
 }
 
 .daily-container .body .info .msg .bold {

@@ -80,13 +80,15 @@ class Daily(View):
         operate_info = models.OperateInfo.objects.using("default").filter(qdate=qdate).first()  # 获取运营信息
         tg_info = models.TgInfo.objects.using("default").filter(qdate=qdate).first()  # 获取推广信息
         geduan_info = models.GeDuanInfo.objects.using("default").filter(qdate=qdate).all()  # 获取各端数据
-        other_info = models.OtherInfo.objects.using("default").filter(qdate=qdate).first()   # 获取其他数据
+        other_info = models.OtherInfo.objects.using("default").filter(qdate=qdate).first()  # 获取其他数据
         if base_info and timeslot_info and invite_info and operate_info and tg_info and geduan_info:
             base_dict["qdate"] = qdate  # 当前日期
             base_dict["tz_zh"] = round(int(base_info.xztz_r) / int(base_info.zhu_r) * 100, 2)  # 当日投资转化率
             base_dict["tz_j"] = round(int(base_info.tz_j) / 10000, 2)  # 投资金额
             base_dict["g_tz_j"] = round(int(other_info.g_tz_j) / 10000, 2)  # 供应链金融投资金额
+            base_dict["g_tz_j_zb"] = round(int(other_info.g_tz_j) / int(base_info.tz_j) * 100, 2)  # 供应链金融投资金额占比
             base_dict["x_tz_j"] = round(int(other_info.x_tz_j) / 10000, 2)  # 消费金融投资金额
+            base_dict["x_tz_j_zb"] = round(int(other_info.x_tz_j) / int(base_info.tz_j) * 100, 2)  # 消费金融投资金额占比
             base_dict["xztz_j"] = round(int(base_info.xztz_j) / 10000, 2)  # 新增投资金额
             base_dict["xztz_j_zb"] = round(int(base_info.xztz_j) / int(base_info.tz_j) * 100, 0)  # 新增投资金额占比
             base_dict["sm_r"] = int(base_info.sm_r)  # 实名人数

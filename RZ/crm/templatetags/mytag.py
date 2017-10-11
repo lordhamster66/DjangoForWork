@@ -23,3 +23,9 @@ def phone_filter(phone):
 def name_filter(name):
     """姓名后面几位隐藏"""
     return "%s%s" % (name[0:1], "*" * len(name[1:]))
+
+
+@register.filter
+def display_ratio(molecule, denominator):
+    """显示比率"""
+    return "%s%%" % round(int(molecule) / int(denominator) * 100, 2)

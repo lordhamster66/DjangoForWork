@@ -1,5 +1,5 @@
 {% extends "daily_layout.html" %}
-
+{% load mytag %}
 {% block title %}人众日报{% endblock %}
 
 {% block css %}{% endblock %}
@@ -91,21 +91,29 @@
                     <div class="msg left">
                         <h2 class="val">{{ base_dict.tz_j }}万</h2>
                         <p class="bold">当日投资金额</p>
-                        <p>
-                            (供应链金融<span class="val">{{ base_dict.g_tz_j }}万</span>，
-                            消费金融<span class="val">{{ base_dict.x_tz_j }}万</span>)
-                        </p>
                         <p>(新增投资金额{{ base_dict.xztz_j }}万，占比{{ base_dict.xztz_j_zb }}%)</p>
                         <p>平均每人投资<span class="val">{{ base_dict.pg_tz_j }}万</span></p>
                     </div>
                 </div>
-                <div class="left" style="width: 1400px;">
-                    <div class="info left" style="margin-left: 500px;">
-                        <img class="left" style="height: 70px;" src="/static/build/img/register.png" alt="">
-                        <div class="msg left">
-                            <h2 class="val">{{ base_dict.sm_r }}</h2>
-                            <p class="bold">当日新增实名人数</p>
-                        </div>
+                <div class="info left" style="margin-left: 100px;">
+                    <img class="left" style="height: 70px;" src="/static/build/img/register.png" alt="">
+                    <div class="msg left">
+                        <h2 class="val">{{ base_dict.sm_r }}</h2>
+                        <p class="bold">当日新增实名人数</p>
+                    </div>
+                </div>
+                <div class="info right" style="margin-right: 100px;">
+                    <img class="left" style="height: 60px;width: 90px;" src="/static/build/img/finance.png" alt="">
+                    <div class="msg left" style="margin-left: 50px;width: 200px;">
+                        <div class="left little-block larger">供应链金融</div>
+                        <div class="left val little-block larger">{{ base_dict.g_tz_j }}万</div>
+                        <div class="left little-block small">占比</div>
+                        <div class="left little-block small">{{ base_dict.g_tz_j_zb }}%</div>
+
+                        <div class="left little-block larger">消费金融</div>
+                        <div class="left val little-block larger">{{ base_dict.x_tz_j }}万</div>
+                        <div class="left little-block small">占比</div>
+                        <div class="left little-block small">{{ base_dict.x_tz_j_zb }}%</div>
                     </div>
                 </div>
                 <div class="info left" style="margin-left: 100px">
