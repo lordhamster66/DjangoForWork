@@ -182,6 +182,8 @@ class OtherInfo(models.Model):
     short_zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="30天以内短标待还总额", null=True)
     Rplan_account = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划投资金额", null=True)
     Rplan_recover_account = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划在贷金额", null=True)
+    g_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="供应链金融投资金额", default=0)
+    x_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="消费金融投资金额", default=0)
 
     class Meta:
         db_table = "rzjf_other_info"

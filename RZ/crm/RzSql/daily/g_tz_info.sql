@@ -1,5 +1,5 @@
-# 投资详情
-SELECT count(DISTINCT(a.uid)) tz_r,sum(a.account) tz_j,count(a.uid) tz_b
+# 供应链金融投资详情
+SELECT sum(a.account) g_tz_j
 from
 (
 SELECT a1.uid,a1.account
@@ -11,11 +11,6 @@ SELECT a2.user_id uid,a2.real_amount account
 from new_wd.borrow_tender a2
 where a2.status = 1
 and DATE(a2.add_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
-union all
-SELECT a3.user_id uid,a3.real_amount account
-from new_wd.rz_borrow_tender a3
-where a3.`status` = 1
-and DATE(a3.create_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
 ) a
 LEFT JOIN 01u_0info b on a.uid=b.uid
 where  b.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
