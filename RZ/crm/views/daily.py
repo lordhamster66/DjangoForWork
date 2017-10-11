@@ -251,7 +251,7 @@ class Daily(View):
 
                 tg_dict["tg_cost_list"].append(round(float(obj.tg_cost), 2) if obj.tg_cost is not None else 0)
                 tg_dict["tg_roi_list"].append(
-                    round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2) if obj.tg_cost is not None else 0
+                    round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2) if obj.tg_cost != 0 else 0
                 )
 
             # 获取最近8天的运营数据
@@ -623,7 +623,9 @@ def monthly(request):
                 monthly_tg_dict["tg_xz_tz__r_list"].append(obj.tg_xztz_r)  # 推广新增投资人数
                 # 推广花费ROI
                 monthly_tg_dict["tg_cost_list"].append(round(int(obj.tg_cost) / 10000, 1))  # 推广花费
-                monthly_tg_dict["tg_roi_list"].append(round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2))  # 推广ROI
+                monthly_tg_dict["tg_roi_list"].append(
+                    round(int(obj.tg_xztz_j) / int(obj.tg_cost), 2) if obj.tg_cost != 0 else 0
+                )  # 推广ROI
             # 几十天运营数据循环
             for obj in operate_info:
                 monthly_operate_dict["qdate_list"].append(datetime.strftime(obj.qdate, "%m-%d"))  # 日期
