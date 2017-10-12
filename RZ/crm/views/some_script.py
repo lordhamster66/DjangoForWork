@@ -9,7 +9,7 @@ import os
 from RZ import settings
 from crm import models
 from django.shortcuts import HttpResponse
-from datetime import timedelta, date
+from datetime import datetime
 from django.db import connections
 from crm import utils  # 常用功能及一些工具或一些常用变量
 
@@ -51,7 +51,10 @@ def get_insert_sql(sql_name):
     return insert_sql
 
 
-def get_base_insert_sql(sql, info_list, new_bid, name):
+def get_base_insert_sql(sql, info_list, new_bid, name, full_date):
+    year, month, day = full_date.split("-")  # 获取用户输入的年月日
+    reverify_time = info_list[0].get('reverify_time')  # 获取该标的的满标时间
+    reverify_time = reverify_time.replace(year=int(year), month=int(month), day=int(day))  # 替换满标日期
     base_insert_sql = sql.format(bid=new_bid, status=info_list[0].get('status'),
                                  curstate=info_list[0].get('curstate'), stoptrans=info_list[0].get('stoptrans'),
                                  diya_type=info_list[0].get('diya_type'), cid=info_list[0].get('cid'),
@@ -85,7 +88,7 @@ def get_base_insert_sql(sql, info_list, new_bid, name):
                                  repay_account_interest=info_list[0].get('repay_account_interest'),
                                  repay_account_other=info_list[0].get('repay_account_other'),
                                  verify_time=info_list[0].get('verify_time'),
-                                 reverify_time=info_list[0].get('reverify_time'),
+                                 reverify_time=reverify_time,
                                  borrow_jiangli=info_list[0].get('borrow_jiangli'),
                                  tend_jiangli_type=info_list[0].get('tend_jiangli_type'),
                                  app_jiangli=info_list[0].get('app_jiangli'), uid_add=info_list[0].get('uid_add'),
@@ -133,7 +136,8 @@ def get_tenderdetail_insert_sql(sql, info, new_bid):
                                          bid_cur_money=info.get('bid_cur_money'), is_auto=info.get('is_auto'),
                                          addtime=info.get('addtime'), addip=info.get('addip'),
                                          tender_auto_bianhao=info.get('tender_auto_bianhao'),
-                                         successtime=info.get('successtime') if info.get('successtime') is not None else "0000-00-00 00:00:00",
+                                         successtime=info.get('successtime') if info.get(
+                                             'successtime') is not None else "0000-00-00 00:00:00",
                                          time_h=info.get('time_h'),
                                          per=info.get('per'), pid=info.get('pid'), cid=info.get('cid'),
                                          ucid=info.get('ucid'), zqzr=info.get('zqzr'), t_c_no=info.get('t_c_no'),
@@ -157,7 +161,8 @@ def get_tenderfinal_insert_sql(sql, info, new_bid):
                                         recover_account_interest_wait=info.get('recover_account_interest_wait'),
                                         recover_account_capital_wait=info.get('recover_account_capital_wait'),
                                         recover_times=info.get('recover_times'), contents=info.get('contents'),
-                                        successtime=info.get('successtime') if info.get('successtime') is not None else "0000-00-00 00:00:00",
+                                        successtime=info.get('successtime') if info.get(
+                                            'successtime') is not None else "0000-00-00 00:00:00",
                                         time_h=info.get('time_h'),
                                         per=info.get('per'), pid=info.get('pid'), cid=info.get('cid'),
                                         at_1=info.get('at_1'), at_2=info.get('at_2'), at_4=info.get('at_4'),
@@ -170,10 +175,10 @@ def get_tenderfinal_insert_sql(sql, info, new_bid):
     return tenderfinal_insert_sql
 
 
-def create_fake_info(request, bid, new_bid, name):
+def create_fake_info(request, bid, new_bid, name, full_date):
     base_info_list = get_info_list(base.format(bid=bid))
     insert_sql = get_insert_sql("05b_0base_insert.sql")
-    base_insert_sql = get_base_insert_sql(insert_sql, base_info_list, new_bid, name)
+    base_insert_sql = get_base_insert_sql(insert_sql, base_info_list, new_bid, name, full_date)
     base_insert_sql = base_insert_sql.replace("'None'", 'NULL')
 
     base_run_info_list = get_info_list(base_run.format(bid=bid))
