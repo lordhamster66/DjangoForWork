@@ -142,10 +142,31 @@ class DataStorage(View):
             hb_s=invite_info.get("hb_s")  # 红包使用金额
         )
         # 增加资产数据详情
-        qixian_info = self.get_info_list("daily", "qixian_info.sql")  # 获取期限数据
+        qixian_info = self.get_info_list("daily", "qixian_info.sql")  # 获取所有资产期限数据
         for row in qixian_info:
             models.AssetInfo.objects.using("default").create(
                 qdate=row.get("qdate"),  # 日期
+                asset_type="所有",  # 资产类型
+                term=row.get("term"),  # 期限类型
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
+                mb_ys=row.get("mb_ys")  # 满标用时
+            )
+        g_qixian_info = self.get_info_list("daily", "g_qixian_info.sql")  # 获取供应链金融资产期限数据
+        for row in g_qixian_info:
+            models.AssetInfo.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                asset_type="供应链金融",  # 资产类型
+                term=row.get("term"),  # 期限类型
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
+                mb_ys=row.get("mb_ys")  # 满标用时
+            )
+        x_qixian_info = self.get_info_list("daily", "x_qixian_info.sql")  # 获取消费金融资产期限数据
+        for row in x_qixian_info:
+            models.AssetInfo.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                asset_type="消费金融",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
                 tz_j=row.get("tz_j"),  # 投资金额

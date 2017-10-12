@@ -120,6 +120,7 @@ class InviteInfo(models.Model):
 class AssetInfo(models.Model):
     """资产数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
+    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有")
     term = models.CharField(max_length=32, verbose_name='期限类型')
     tz_r = models.IntegerField(verbose_name='投资人数')
     tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')

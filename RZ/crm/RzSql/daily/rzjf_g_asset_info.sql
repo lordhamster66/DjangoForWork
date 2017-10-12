@@ -11,7 +11,7 @@ end term,tz_r,tz_j,mb_ys
 from rzjf_asset_info
 where unix_timestamp(qdate) >= unix_timestamp("{qdate}") - {section} * 86400 + 86400
 and unix_timestamp(qdate) < unix_timestamp("{qdate}")+86400
-and asset_type = "所有"
+and asset_type = "供应链金融"
 ) a
 GROUP BY a.qdate,a.term
 ORDER BY a.qdate

@@ -42,21 +42,27 @@
                 <li><a href="#page15">各期限投资人数</a></li>
                 <li><a href="#page16">各期限投资金额</a></li>
                 <li><a href="#page17">各期限满标时长</a></li>
-                <li><a href="#page18">30天以内短标详情</a></li>
-                <li><a href="#page19">R计划投资留存</a></li>
+                <li><a href="#page18">供应链期限投资人数</a></li>
+                <li><a href="#page19">供应链期限投资金额</a></li>
+                <li><a href="#page20">供应链期限满标时长</a></li>
+                <li><a href="#page21">消费期限投资人数</a></li>
+                <li><a href="#page22">消费期限投资金额</a></li>
+                <li><a href="#page23">消费期限满标时长</a></li>
+                <li><a href="#page24">30天以内短标详情</a></li>
+                <li><a href="#page25">R计划投资留存</a></li>
             </ul>
             <div class="subNav">各端概况</div>
             <ul class="navContent">
-                <li><a href="#page20">各端投资</a></li>
-                <li><a href="#page21">各端新增</a></li>
-                <li><a href="#page22">各端复投</a></li>
-                <li><a href="#page23">各端提现</a></li>
-                <li><a href="#page24">各端回款并提现</a></li>
+                <li><a href="#page26">各端投资</a></li>
+                <li><a href="#page27">各端新增</a></li>
+                <li><a href="#page28">各端复投</a></li>
+                <li><a href="#page29">各端提现</a></li>
+                <li><a href="#page30">各端回款并提现</a></li>
             </ul>
             <div class="subNav">客服概况</div>
             <ul class="navContent">
-                <li><a href="#page25">专属客服复投详情</a></li>
-                <li><a href="#page26">VIP客服流失详情</a></li>
+                <li><a href="#page31">专属客服复投详情</a></li>
+                <li><a href="#page32">VIP客服流失详情</a></li>
             </ul>
         </div>
         <!-- 左侧菜单结束 -->
@@ -654,9 +660,159 @@
         </div>
         <!-- 项目各期限满标时长结束 -->
 
-        <!-- 项目30天内短标详情开始 -->
+        <!-- 供应链金融项目各期限投资人数开始 -->
         <div id="page18" class="daily-container">
-            <form action="/crm/daily/#page18" method="POST">
+            <form action="/crm/daily/#page15" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="g_renshu_asset" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 供应链金融项目各期限投资人数结束 -->
+
+        <!-- 供应链金融项目各期限投资金额开始 -->
+        <div id="page19" class="daily-container">
+            <form action="/crm/daily/#page16" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="g_asset_tz_j" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 供应链金融项目各期限投资金额结束 -->
+
+        <!-- 供应链金融项目各期限满标时长开始 -->
+        <div id="page20" class="daily-container">
+            <form action="/crm/daily/#page17" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="g_asset_mb_ys" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 供应链金融项目各期限满标时长结束 -->
+
+        <!-- 消费金融项目各期限投资人数开始 -->
+        <div id="page21" class="daily-container">
+            <form action="/crm/daily/#page15" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="x_renshu_asset" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 消费金融项目各期限投资人数结束 -->
+
+        <!-- 消费金融项目各期限投资金额开始 -->
+        <div id="page22" class="daily-container">
+            <form action="/crm/daily/#page16" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="x_asset_tz_j" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 消费金融项目各期限投资金额结束 -->
+
+        <!-- 消费金融项目各期限满标时长开始 -->
+        <div id="page23" class="daily-container">
+            <form action="/crm/daily/#page17" method="POST">
+                <div class="head">
+                    <div class="daily-tag left">
+                        <img src="/static/build/img/daily_tag.png" alt="">
+                    </div>
+                    <h1 class="title left">项目概况</h1>
+                    <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
+                    {% csrf_token %}
+                    <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
+                    <input type="text" class="datepicker right search form-control" name="qdate"
+                           value="{{ base_dict.qdate }}">
+                    <div class="clear"></div>
+                </div>
+                <div class="body">
+                    <div style="position: relative;">
+                        <span id="section">最近{{ daily_form.section }}天</span>
+                        <div class="left echart" id="x_asset_mb_ys" style="width: 1400px;height: 500px"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 消费金融项目各期限满标时长结束 -->
+
+        <!-- 项目30天内短标详情开始 -->
+        <div id="page24" class="daily-container">
+            <form action="/crm/daily/#page24" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -680,8 +836,8 @@
         <!-- 项目30天内短标详情开始 -->
 
         <!-- 项目R计划投资留存开始 -->
-        <div id="page19" class="daily-container">
-            <form action="/crm/daily/#page19" method="POST">
+        <div id="page25" class="daily-container">
+            <form action="/crm/daily/#page25" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -705,8 +861,8 @@
         <!-- 项目R计划投资留存结束 -->
 
         <!-- 各端投资开始 -->
-        <div id="page20" class="daily-container">
-            <form action="/crm/daily/#page20" method="POST">
+        <div id="page26" class="daily-container">
+            <form action="/crm/daily/#page26" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -730,8 +886,8 @@
         <!-- 各端投资结束 -->
 
         <!-- 各端新增开始 -->
-        <div id="page21" class="daily-container">
-            <form action="/crm/daily/#page21" method="POST">
+        <div id="page27" class="daily-container">
+            <form action="/crm/daily/#page27" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -755,8 +911,8 @@
         <!-- 各端新增结束 -->
 
         <!-- 各端复投开始 -->
-        <div id="page22" class="daily-container">
-            <form action="/crm/daily/#page22" method="POST">
+        <div id="page28" class="daily-container">
+            <form action="/crm/daily/#page28" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -780,8 +936,8 @@
         <!-- 各端复投结束 -->
 
         <!-- 各端提现开始 -->
-        <div id="page23" class="daily-container">
-            <form action="/crm/daily/#page23" method="POST">
+        <div id="page29" class="daily-container">
+            <form action="/crm/daily/#page29" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -805,14 +961,14 @@
         <!-- 各端提现结束 -->
 
         <!-- 各端回款并提现开始 -->
-        <div id="page24" class="daily-container">
+        <div id="page30" class="daily-container">
             <div class="head">
                 <div class="daily-tag left">
                     <img src="/static/build/img/daily_tag.png" alt="">
                 </div>
                 <h1 class="title left">各端概况</h1>
                 <img class="rz-log right" src="/static/build/img/rz_log.png" alt="">
-                <form action="/crm/daily/#page24" method="POST">
+                <form action="/crm/daily/#page30" method="POST">
                     {% csrf_token %}
                     <input id="search-daily" type="submit" class="right search btn btn-primary" value="查询">
                     <input type="text" class="datepicker right search form-control" name="qdate"
@@ -827,8 +983,8 @@
         <!-- 各端回款并提现结束 -->
 
         <!-- 专属客服复投详情开始 -->
-        <div id="page25" class="daily-container">
-            <form action="/crm/daily/#page25" method="POST">
+        <div id="page31" class="daily-container">
+            <form action="/crm/daily/#page31" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -852,8 +1008,8 @@
         <!-- 专属客服复投详情结束 -->
 
         <!-- VIP客服流失详情开始 -->
-        <div id="page26" class="daily-container">
-            <form action="/crm/daily/#page26" method="POST">
+        <div id="page32" class="daily-container">
+            <form action="/crm/daily/#page32" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -2494,6 +2650,434 @@
         }
     </script>
     <!-- 项目各期限满标时长js结束 -->
+
+    <!-- 供应链金融项目各期限投资人数js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("g_renshu_asset");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "供应链金融各期限投资人数" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.g_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.g_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.g_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.tz_r | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 供应链金融项目各期限投资人数js结束 -->
+
+    <!-- 供应链金融项目各期限投资金额js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("g_asset_tz_j");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "供应链金融各期限投资金额" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.g_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.g_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.g_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.tz_j | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}万',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 供应链金融项目各期限投资金额js结束 -->
+
+    <!-- 供应链金融项目各期限满标时长js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("g_asset_mb_ys");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "供应链金融各期限满标时长" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.g_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.g_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '满标用时',
+                    axisLabel: {
+                        formatter: '{value} 时'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.g_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.mb_ys | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 供应链金融项目各期限满标时长js结束 -->
+
+    <!-- 消费金融项目各期限投资人数js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("x_renshu_asset");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "消费金融各期限投资人数" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.x_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.x_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.x_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.tz_r | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 消费金融项目各期限投资人数js结束 -->
+
+    <!-- 消费金融项目各期限投资金额js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("x_asset_tz_j");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "消费金融各期限投资金额" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.x_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.x_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '金额',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.x_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.tz_j | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}万',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 消费金融项目各期限投资金额js结束 -->
+
+    <!-- 消费金融项目各期限满标时长js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("x_asset_mb_ys");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "消费金融各期限满标时长" //正标题
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            legend: {
+                data: {{ asset_dict.x_term_title_list | safe }}
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{ asset_dict.x_qdate_list | safe }},
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '满标用时',
+                    axisLabel: {
+                        formatter: '{value} 时'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {% for row in asset_dict.x_term_list %}
+                    {
+                        name: '{{ row.term }}',
+                        type: 'bar',
+                        data: {{ row.mb_ys | safe }},
+                        itemStyle: {
+                            normal: {color: '{{ row.color }}'}
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                fontSize: 5,  //文字大小
+                                fontWeight: 'bold'  //文字粗细
+                            }
+                        }
+                    },
+                {% endfor %}
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 消费金融项目各期限满标时长js结束 -->
 
     <!-- 项目30天以内短标详情js开始 -->
     <script type="text/javascript">
