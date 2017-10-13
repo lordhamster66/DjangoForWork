@@ -2,15 +2,112 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/9/8
-# for i in range(32):
-#     f = open("temp/rz_borrow_tender_{i}.sql".format(i=i), "w")
-#     f.write("""insert into rz_borrow_tender_{i} select * from new_wd.rz_borrow_tender_{i}
-# where create_time > "2017-09-20 23:30:00 " and create_time <= "2017-09-21 23:30:00";
-# """.format(i=i))
-#     f.close()
-
-
 for i in range(32):
-    print("""insert into rz_borrow_tender_{i} select * from new_wd.rz_borrow_tender_{i}
-where create_time > "2017-09-20 23:30:00" and create_time <= "2017-09-21 23:30:00";
+    f = open("temp/rz_borrow_tender_{i}.sql".format(i=i), "w")
+    f.write("""insert into rz_borrow_tender_{i} (`id`,
+`user_id`,
+`parent_id`,
+`borrow_id`,
+`big_borrow_id`,
+`status`,
+`money`,
+`real_amount`,
+`repayment_account`,
+`interest`,
+`repayment_yes_amount`,
+`repayment_yes_interest`,
+`wait_amount`,
+`wait_interest`,
+`is_big`,
+`tender_type`,
+`add_ip`,
+`trx_id`,
+`flow`,
+`protocol_file_src`,
+`undertake_file_src`,
+`create_time`,
+`update_time`,
+`deleted`
+) select `id`,
+`user_id`,
+`parent_id`,
+`borrow_id`,
+`big_borrow_id`,
+`status`,
+`money`,
+`real_amount`,
+`repayment_account`,
+`interest`,
+`repayment_yes_amount`,
+`repayment_yes_interest`,
+`wait_amount`,
+`wait_interest`,
+`is_big`,
+`tender_type`,
+`add_ip`,
+`trx_id`,
+`flow`,
+`protocol_file_src`,
+`undertake_file_src`,
+`create_time`,
+`update_time`,
+`deleted`
+ from new_wd.rz_borrow_tender_{i}
+where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and create_time <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
 """.format(i=i))
+    f.close()
+
+'''
+for i in range(32):
+    print("""insert into rz_borrow_tender_{i} (`id`,
+`user_id`,
+`parent_id`,
+`borrow_id`,
+`big_borrow_id`,
+`status`,
+`money`,
+`real_amount`,
+`repayment_account`,
+`interest`,
+`repayment_yes_amount`,
+`repayment_yes_interest`,
+`wait_amount`,
+`wait_interest`,
+`is_big`,
+`tender_type`,
+`add_ip`,
+`trx_id`,
+`flow`,
+`protocol_file_src`,
+`undertake_file_src`,
+`create_time`,
+`update_time`,
+`deleted`
+) select `id`,
+`user_id`,
+`parent_id`,
+`borrow_id`,
+`big_borrow_id`,
+`status`,
+`money`,
+`real_amount`,
+`repayment_account`,
+`interest`,
+`repayment_yes_amount`,
+`repayment_yes_interest`,
+`wait_amount`,
+`wait_interest`,
+`is_big`,
+`tender_type`,
+`add_ip`,
+`trx_id`,
+`flow`,
+`protocol_file_src`,
+`undertake_file_src`,
+`create_time`,
+`update_time`,
+`deleted`
+ from new_wd.rz_borrow_tender_{i}
+where create_time > "2017-10-11 23:30:00" and create_time <= "2017-10-12 23:30:00";
+""".format(i=i))
+'''
