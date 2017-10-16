@@ -1,7 +1,7 @@
 # 提现详情
 SELECT count(DISTINCT (a.uid)) tx_r,sum(abs(a.money)) tx_j
 from 04a_3applyqueue a
-LEFT JOIN 01u_0info c on a.uid=c.uid
+INNER JOIN 01u_0info c on a.uid=c.uid
 where a.aptype=6                            #提现申请
 and a.uid_ty=1                              #投资人
 and c.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)

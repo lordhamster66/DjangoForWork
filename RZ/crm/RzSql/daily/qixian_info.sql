@@ -8,7 +8,7 @@ from
 				case when t1.days!=0 then t1.days else t1.borrow_period*30 end qixian,
 				a1.uid,a1.account,a1.time_h,a1.hbid
 				from 05b_1tenderfinal a1
-				LEFT JOIN 05b_0base t1 on a1.bid = t1.bid
+				INNER JOIN 05b_0base t1 on a1.bid = t1.bid
 				where a1.orguid = 0 and a1.bid <> 10000 and a1.status in (1,3)
 				and DATE(a1.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
 				union all
@@ -16,7 +16,7 @@ from
 				case when t2.borrow_time_type!=0 then t2.time_limit else t2.time_limit*30 end qixian,
 				a2.user_id uid,a2.real_amount account,a2.add_time time_h,'0' hbid
 				from new_wd.borrow_tender a2
-				LEFT JOIN new_wd.borrow t2 on a2.borrow_id = t2.id
+				INNER JOIN new_wd.borrow t2 on a2.borrow_id = t2.id
 				where a2.status = 1
 				and DATE(a2.add_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
 				union all
@@ -24,7 +24,7 @@ from
 				case when t3.borrow_time_type!=0 then t3.time_limit else t3.time_limit*30 end qixian,
 				a3.user_id uid,a3.real_amount account,a3.create_time time_h,'0' hbid
 				from new_wd.rz_borrow_tender a3
-				LEFT JOIN new_wd.rz_borrow_big t3 on a3.borrow_id = t3.id
+				INNER JOIN new_wd.rz_borrow_big t3 on a3.borrow_id = t3.id
 				where a3.`status` = 1
 				and DATE(a3.create_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
 		) a
@@ -84,7 +84,7 @@ from
 		GROUP BY DATE(h.max_time),h.qixian
 ) a
 GROUP BY a.qdate,a.qixian
-
+;
 
 
 

@@ -3,7 +3,7 @@ from
 (
 SELECT a.objid,sum(a.balance) balance
 from 04a_0base a
-LEFT JOIN 01u_0info b on a.objid = b.uid
+INNER JOIN 01u_0info b on a.objid = b.uid
 LEFT JOIN (SELECT uid from 01u_0info where mobile like "JM%") c on a.objid = c.uid      # 机密借款人注册
 where a.objtype = "uid"
 and a.atid <> 4

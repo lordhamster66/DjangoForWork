@@ -1,6 +1,6 @@
 SELECT DATE(a.time_h) qdate,sum(a.money) xz_cz
 from 04a_3applyqueue a
-LEFT JOIN 01u_0info b on a.uid=b.uid
+INNER JOIN 01u_0info b on a.uid=b.uid
 LEFT JOIN
 (
 	SELECT uid,min(time_h) min_time

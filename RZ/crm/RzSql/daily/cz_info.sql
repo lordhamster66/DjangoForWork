@@ -1,7 +1,7 @@
 # 充值详情
 SELECT  count(DISTINCT(a.uid)) cz_r,sum(a.money) cz_j
 from 04a_3applyqueue a
-LEFT JOIN 01u_0info b on a.uid=b.uid
+INNER JOIN 01u_0info b on a.uid=b.uid
 where a.aptype = 7
 and a.uid_ty = 1
 and a.`status` = 3
