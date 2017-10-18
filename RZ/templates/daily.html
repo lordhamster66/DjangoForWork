@@ -42,12 +42,12 @@
                 <li><a href="#page15">各期限投资人数</a></li>
                 <li><a href="#page16">各期限投资金额</a></li>
                 <li><a href="#page17">各期限满标时长</a></li>
-                <li><a href="#page18">供应链期限投资人数</a></li>
-                <li><a href="#page19">供应链期限投资金额</a></li>
-                <li><a href="#page20">供应链期限满标时长</a></li>
-                <li><a href="#page21">消费期限投资人数</a></li>
-                <li><a href="#page22">消费期限投资金额</a></li>
-                <li><a href="#page23">消费期限满标时长</a></li>
+                <li><a href="#page18">散标期限投资人数</a></li>
+                <li><a href="#page19">散标期限投资金额</a></li>
+                <li><a href="#page20">散标期限满标时长</a></li>
+                <li><a href="#page21">R计划期限投资人数</a></li>
+                <li><a href="#page22">R计划期限投资金额</a></li>
+                <li><a href="#page23">R计划期限满标时长</a></li>
                 <li><a href="#page24">30天以内短标详情</a></li>
                 <li><a href="#page25">R计划投资留存</a></li>
             </ul>
@@ -98,7 +98,8 @@
                         <h2 class="val">{{ base_dict.tz_j }}万</h2>
                         <p class="bold">当日投资金额</p>
                         <p>(新增投资金额{{ base_dict.xztz_j }}万，占比{{ base_dict.xztz_j_zb }}%)</p>
-                        <p>平均每人投资<span class="val">{{ base_dict.pg_tz_j }}万</span></p>
+                        <p>R计划续投<span class="val">&nbsp;{{ base_dict.Rplan_xt_j }}万</span></p>
+                        <p>平均每人投资<span class="val">&nbsp;{{ base_dict.pg_tz_j }}万</span></p>
                     </div>
                 </div>
                 <div class="info left" style="margin-left: 100px;">
@@ -660,9 +661,9 @@
         </div>
         <!-- 项目各期限满标时长结束 -->
 
-        <!-- 供应链金融项目各期限投资人数开始 -->
+        <!-- 散标项目各期限投资人数开始 -->
         <div id="page18" class="daily-container">
-            <form action="/crm/daily/#page15" method="POST">
+            <form action="/crm/daily/#page18" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -678,16 +679,16 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="g_renshu_asset" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="s_renshu_asset" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 供应链金融项目各期限投资人数结束 -->
+        <!-- 散标项目各期限投资人数结束 -->
 
-        <!-- 供应链金融项目各期限投资金额开始 -->
+        <!-- 散标项目各期限投资金额开始 -->
         <div id="page19" class="daily-container">
-            <form action="/crm/daily/#page16" method="POST">
+            <form action="/crm/daily/#page19" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -703,16 +704,16 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="g_asset_tz_j" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="s_asset_tz_j" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 供应链金融项目各期限投资金额结束 -->
+        <!-- 散标项目各期限投资金额结束 -->
 
-        <!-- 供应链金融项目各期限满标时长开始 -->
+        <!-- 散标项目各期限满标时长开始 -->
         <div id="page20" class="daily-container">
-            <form action="/crm/daily/#page17" method="POST">
+            <form action="/crm/daily/#page20" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -728,16 +729,16 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="g_asset_mb_ys" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="s_asset_mb_ys" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 供应链金融项目各期限满标时长结束 -->
+        <!-- 散标项目各期限满标时长结束 -->
 
-        <!-- 消费金融项目各期限投资人数开始 -->
+        <!-- R计划项目各期限投资人数开始 -->
         <div id="page21" class="daily-container">
-            <form action="/crm/daily/#page15" method="POST">
+            <form action="/crm/daily/#page21" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -753,16 +754,16 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="x_renshu_asset" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="r_renshu_asset" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 消费金融项目各期限投资人数结束 -->
+        <!-- R计划项目各期限投资人数结束 -->
 
-        <!-- 消费金融项目各期限投资金额开始 -->
+        <!-- R计划项目各期限投资金额开始 -->
         <div id="page22" class="daily-container">
-            <form action="/crm/daily/#page16" method="POST">
+            <form action="/crm/daily/#page22" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -778,16 +779,16 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="x_asset_tz_j" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="r_asset_tz_j" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 消费金融项目各期限投资金额结束 -->
+        <!-- R计划项目各期限投资金额结束 -->
 
-        <!-- 消费金融项目各期限满标时长开始 -->
+        <!-- R计划项目各期限满标时长开始 -->
         <div id="page23" class="daily-container">
-            <form action="/crm/daily/#page17" method="POST">
+            <form action="/crm/daily/#page23" method="POST">
                 <div class="head">
                     <div class="daily-tag left">
                         <img src="/static/build/img/daily_tag.png" alt="">
@@ -803,12 +804,12 @@
                 <div class="body">
                     <div style="position: relative;">
                         <span id="section">最近{{ daily_form.section }}天</span>
-                        <div class="left echart" id="x_asset_mb_ys" style="width: 1400px;height: 500px"></div>
+                        <div class="left echart" id="r_asset_mb_ys" style="width: 1400px;height: 500px"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- 消费金融项目各期限满标时长结束 -->
+        <!-- R计划项目各期限满标时长结束 -->
 
         <!-- 项目30天内短标详情开始 -->
         <div id="page24" class="daily-container">
@@ -2651,16 +2652,16 @@
     </script>
     <!-- 项目各期限满标时长js结束 -->
 
-    <!-- 供应链金融项目各期限投资人数js开始 -->
+    <!-- 散标项目各期限投资人数js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("g_renshu_asset");
+        var dom = document.getElementById("s_renshu_asset");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "供应链金融各期限投资人数" //正标题
+                text: "散标各期限投资人数" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -2672,12 +2673,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.g_term_title_list | safe }}
+                data: {{ asset_dict.s_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.g_qdate_list | safe }},
+                    data: {{ asset_dict.s_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -2696,7 +2697,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.g_term_list %}
+                {% for row in asset_dict.s_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -2720,18 +2721,18 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 供应链金融项目各期限投资人数js结束 -->
+    <!-- 散标项目各期限投资人数js结束 -->
 
-    <!-- 供应链金融项目各期限投资金额js开始 -->
+    <!-- 散标项目各期限投资金额js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("g_asset_tz_j");
+        var dom = document.getElementById("s_asset_tz_j");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "供应链金融各期限投资金额" //正标题
+                text: "散标各期限投资金额" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -2743,12 +2744,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.g_term_title_list | safe }}
+                data: {{ asset_dict.s_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.g_qdate_list | safe }},
+                    data: {{ asset_dict.s_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -2767,7 +2768,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.g_term_list %}
+                {% for row in asset_dict.s_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -2792,18 +2793,18 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 供应链金融项目各期限投资金额js结束 -->
+    <!-- 散标项目各期限投资金额js结束 -->
 
-    <!-- 供应链金融项目各期限满标时长js开始 -->
+    <!-- 散标项目各期限满标时长js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("g_asset_mb_ys");
+        var dom = document.getElementById("s_asset_mb_ys");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "供应链金融各期限满标时长" //正标题
+                text: "散标各期限满标时长" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -2815,12 +2816,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.g_term_title_list | safe }}
+                data: {{ asset_dict.s_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.g_qdate_list | safe }},
+                    data: {{ asset_dict.s_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -2839,7 +2840,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.g_term_list %}
+                {% for row in asset_dict.s_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -2863,18 +2864,18 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 供应链金融项目各期限满标时长js结束 -->
+    <!-- 散标项目各期限满标时长js结束 -->
 
-    <!-- 消费金融项目各期限投资人数js开始 -->
+    <!-- R计划项目各期限投资人数js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("x_renshu_asset");
+        var dom = document.getElementById("r_renshu_asset");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "消费金融各期限投资人数" //正标题
+                text: "R计划各期限投资人数" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -2886,12 +2887,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.x_term_title_list | safe }}
+                data: {{ asset_dict.r_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.x_qdate_list | safe }},
+                    data: {{ asset_dict.r_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -2910,7 +2911,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.x_term_list %}
+                {% for row in asset_dict.r_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -2934,18 +2935,18 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 消费金融项目各期限投资人数js结束 -->
+    <!-- R计划项目各期限投资人数js结束 -->
 
-    <!-- 消费金融项目各期限投资金额js开始 -->
+    <!-- R计划项目各期限投资金额js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("x_asset_tz_j");
+        var dom = document.getElementById("r_asset_tz_j");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "消费金融各期限投资金额" //正标题
+                text: "R计划各期限投资金额" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -2957,12 +2958,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.x_term_title_list | safe }}
+                data: {{ asset_dict.r_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.x_qdate_list | safe }},
+                    data: {{ asset_dict.r_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -2981,7 +2982,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.x_term_list %}
+                {% for row in asset_dict.r_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -3006,18 +3007,18 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 消费金融项目各期限投资金额js结束 -->
+    <!-- R计划项目各期限投资金额js结束 -->
 
-    <!-- 消费金融项目各期限满标时长js开始 -->
+    <!-- R计划项目各期限满标时长js开始 -->
     <script type="text/javascript">
-        var dom = document.getElementById("x_asset_mb_ys");
+        var dom = document.getElementById("r_asset_mb_ys");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         app.title = '折柱混合';
         option = {
             title: {
-                text: "消费金融各期限满标时长" //正标题
+                text: "R计划各期限满标时长" //正标题
             },
             tooltip: {
                 trigger: 'axis',
@@ -3029,12 +3030,12 @@
                 }
             },
             legend: {
-                data: {{ asset_dict.x_term_title_list | safe }}
+                data: {{ asset_dict.r_term_title_list | safe }}
             },
             xAxis: [
                 {
                     type: 'category',
-                    data: {{ asset_dict.x_qdate_list | safe }},
+                    data: {{ asset_dict.r_qdate_list | safe }},
                     axisPointer: {
                         type: 'shadow'
                     }
@@ -3053,7 +3054,7 @@
                 }
             ],
             series: [
-                {% for row in asset_dict.x_term_list %}
+                {% for row in asset_dict.r_term_list %}
                     {
                         name: '{{ row.term }}',
                         type: 'bar',
@@ -3077,7 +3078,7 @@
             myChart.setOption(option, true);
         }
     </script>
-    <!-- 消费金融项目各期限满标时长js结束 -->
+    <!-- R计划项目各期限满标时长js结束 -->
 
     <!-- 项目30天以内短标详情js开始 -->
     <script type="text/javascript">

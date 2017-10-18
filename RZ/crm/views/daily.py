@@ -133,6 +133,7 @@ class Daily(View):
             base_dict["x_tz_j"] = round(int(other_info.x_tz_j) / 10000, 2)  # 消费金融投资金额
             base_dict["x_tz_j_zb"] = round(int(other_info.x_tz_j) / int(base_info.tz_j) * 100, 2)  # 消费金融投资金额占比
             base_dict["xztz_j"] = round(int(base_info.xztz_j) / 10000, 2)  # 新增投资金额
+            base_dict["Rplan_xt_j"] = round(int(other_info.Rplan_xt) / 10000, 2)  # R计划续投金额
             base_dict["xztz_j_zb"] = round(int(base_info.xztz_j) / int(base_info.tz_j) * 100, 0)  # 新增投资金额占比
             base_dict["sm_r"] = int(base_info.sm_r)  # 实名人数
             base_dict["zhu_r"] = int(base_info.zhu_r)  # 注册人数
@@ -360,21 +361,21 @@ class Daily(View):
             )
 
             (
-                asset_dict["g_qdate_list"],  # 供应链金融最终去重日期列表
-                asset_dict["g_term_title_list"],  # 定义供应链金融期限名称列表
-                asset_dict["g_term_list"],  # 存放供应链金融期限对应的数据
+                asset_dict["s_qdate_list"],  # 散标最终去重日期列表
+                asset_dict["s_term_title_list"],  # 定义散标期限名称列表
+                asset_dict["s_term_list"],  # 存放散标期限对应的数据
             ) = self.get_asset_info(
-                # 获取供应链金融资产类型期限数据
-                self.get_info_list(self.get_sql("daily", "rzjf_g_asset_info.sql").format(qdate=qdate, section=section))
+                # 获取散标资产类型期限数据
+                self.get_info_list(self.get_sql("daily", "rzjf_s_asset_info.sql").format(qdate=qdate, section=section))
             )
 
             (
-                asset_dict["x_qdate_list"],  # 消费金融最终去重日期列表
-                asset_dict["x_term_title_list"],  # 消费金融期限名称列表
-                asset_dict["x_term_list"],  # 消费金融期限对应的数据
+                asset_dict["r_qdate_list"],  # R计划最终去重日期列表
+                asset_dict["r_term_title_list"],  # R计划期限名称列表
+                asset_dict["r_term_list"],  # R计划期限对应的数据
             ) = self.get_asset_info(
-                # 获取消费金融资产类型期限数据
-                self.get_info_list(self.get_sql("daily", "rzjf_x_asset_info.sql").format(qdate=qdate, section=section))
+                # 获取R计划资产类型期限数据
+                self.get_info_list(self.get_sql("daily", "rzjf_r_asset_info.sql").format(qdate=qdate, section=section))
             )
 
             # 获取最近8天其他数据

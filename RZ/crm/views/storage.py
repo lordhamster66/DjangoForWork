@@ -152,21 +152,21 @@ class DataStorage(View):
                 tz_j=row.get("tz_j"),  # 投资金额
                 mb_ys=row.get("mb_ys")  # 满标用时
             )
-        g_qixian_info = self.get_info_list("daily", "g_qixian_info.sql")  # 获取供应链金融资产期限数据
-        for row in g_qixian_info:
+        s_qixian_info = self.get_info_list("daily", "s_qixian_info.sql")  # 获取散标资产期限数据
+        for row in s_qixian_info:
             models.AssetInfo.objects.using("default").create(
                 qdate=row.get("qdate"),  # 日期
-                asset_type="供应链金融",  # 资产类型
+                asset_type="散标",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
                 tz_j=row.get("tz_j"),  # 投资金额
                 mb_ys=row.get("mb_ys")  # 满标用时
             )
-        x_qixian_info = self.get_info_list("daily", "x_qixian_info.sql")  # 获取消费金融资产期限数据
-        for row in x_qixian_info:
+        r_qixian_info = self.get_info_list("daily", "r_qixian_info.sql")  # 获取R计划资产期限数据
+        for row in r_qixian_info:
             models.AssetInfo.objects.using("default").create(
                 qdate=row.get("qdate"),  # 日期
-                asset_type="消费金融",  # 资产类型
+                asset_type="R计划",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
                 tz_j=row.get("tz_j"),  # 投资金额
@@ -216,6 +216,7 @@ class DataStorage(View):
         short_zd_info = self.get_info_dict("daily", "short_zd.sql")  # 获取短标在贷信息
         Rplan_tz_info = self.get_info_dict("daily", "Rplan_tz.sql")  # 获取R计划投资信息
         Rplan_zd_info = self.get_info_dict("daily", "Rplan_zd.sql")  # 获取R计划在贷信息
+        Rplan_xt_info = self.get_info_dict("daily", "Rplan_xt.sql")  # 获取R计划续投信息
         g_tz_info = self.get_info_dict("daily", "g_tz_info.sql")  # 获取供应链金融投资信息
         x_tz_info = self.get_info_dict("daily", "x_tz_info.sql")  # 获取消费金融投资信息
         models.OtherInfo.objects.using("default").create(
@@ -227,6 +228,7 @@ class DataStorage(View):
             Rplan_recover_account=Rplan_zd_info.get("Rplan_recover_account"),
             g_tz_j=g_tz_info.get("g_tz_j"),
             x_tz_j=x_tz_info.get("x_tz_j"),
+            Rplan_xt=Rplan_xt_info.get("Rplan_xt"),
         )
 
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
