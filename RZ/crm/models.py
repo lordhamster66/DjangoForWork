@@ -186,6 +186,7 @@ class OtherInfo(models.Model):
     g_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="供应链金融投资金额", default=0)
     x_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="消费金融投资金额", default=0)
     Rplan_xt = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划续投金额", default=0)
+    unRplan_xt_hk_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="非R计划自动续投金额", default=0)
 
     class Meta:
         db_table = "rzjf_other_info"

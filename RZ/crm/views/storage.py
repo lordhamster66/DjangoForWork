@@ -217,6 +217,7 @@ class DataStorage(View):
         Rplan_tz_info = self.get_info_dict("daily", "Rplan_tz.sql")  # 获取R计划投资信息
         Rplan_zd_info = self.get_info_dict("daily", "Rplan_zd.sql")  # 获取R计划在贷信息
         Rplan_xt_info = self.get_info_dict("daily", "Rplan_xt.sql")  # 获取R计划续投信息
+        unRplan_xt_hk_j = self.get_info_dict("daily", "unRplan_xt_hk_info.sql")  # 获取非R计划自动续投回款
         g_tz_info = self.get_info_dict("daily", "g_tz_info.sql")  # 获取供应链金融投资信息
         x_tz_info = self.get_info_dict("daily", "x_tz_info.sql")  # 获取消费金融投资信息
         models.OtherInfo.objects.using("default").create(
@@ -229,6 +230,7 @@ class DataStorage(View):
             g_tz_j=g_tz_info.get("g_tz_j"),
             x_tz_j=x_tz_info.get("x_tz_j"),
             Rplan_xt=Rplan_xt_info.get("Rplan_xt"),
+            unRplan_xt_hk_j=unRplan_xt_hk_j.get("unRplan_xt_hk_j"),
         )
 
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
