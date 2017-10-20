@@ -76,7 +76,7 @@ def tg_info(request):
     if request.method == "GET":
         start_time = request.session.get("smst_start_time", "")  # 获取上次查询的起始日期
         end_time = request.session.get("smst_end_time", "")  # 获取上次查询的终止日期
-        qudao_name = request.session.get("smst_qudao_name_id", "")  # 获取上次查询的渠道名称
+        qudao_name = request.session.get("smst_qudao_name_id", "APP 苹果")  # 获取上次查询的渠道名称
         data_type = request.session.get("smst_data_type_id", "1")  # 获取上次查询的是实名还是首投
         info_list = request.session.get("tg_info_list", [])  # 获取上次查询的信息,没有则置空
         smst_obj = SmStForm({
