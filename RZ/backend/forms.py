@@ -163,9 +163,15 @@ class SmStForm(Form):
         }
     )
 
-    qudao_name = fields.ChoiceField(
-        choices=[],
-        widget=widgets.Select()
+    qudao_name = fields.CharField(
+        widget=widgets.TextInput(attrs={
+            "class": "form-control",
+            "id": "qudao-name",
+            "placeholder": "请输入渠道名称"
+        }),
+        error_messages={
+            "required": "渠道名称不能为空!",
+        }
     )
 
     data_type = fields.ChoiceField(

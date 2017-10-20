@@ -137,6 +137,7 @@
 </div>
 <!-- 后台管理body结束 -->
 <script src="/static/plugins/jquery-1.12.4.js"></script>
+<script src="/static/plugins/jquery.cookie.js"></script>
 <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
@@ -156,7 +157,21 @@
                 text: "敬请期待！",
                 type: "warning"
             });
-        })
+        });
+        var csrftoken = $.cookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
     })
 </script>
 {% block js %}{% endblock %}

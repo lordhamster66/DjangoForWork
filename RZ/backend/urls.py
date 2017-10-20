@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^tg_info/$', manage.tg_info),
     url(r'^wdzj_jk/$', manage.wdzj_jk),  # 网贷之家接口
     url(r'^wdty_jk/$', manage.wdty_jk),  # 网贷天眼接口
+    url(r'^search_channel_name/$', manage.search_channel_name)  # 查询渠道名称
 ]

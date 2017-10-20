@@ -1,7 +1,26 @@
 {% extends 'backend_layout.html' %}
 {% load mytag %}
 {% block title %}实名首投数据{% endblock %}
-{% block css %}{% endblock %}
+{% block css %}
+    <style>
+        .search-container {
+            position: absolute;
+            width: 196px;
+            border: 1px #dddddd solid;
+            background-color: white;
+        }
+
+        .search-container .search-line {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .search-container .search-line:hover {
+            background-color: #2f72ab;
+            color: white;
+        }
+    </style>
+{% endblock %}
 {% block conent %}
     <ol class="breadcrumb">
         <li><a href="#">推广数据</a></li>
@@ -22,8 +41,11 @@
                         <span id="alert" style="display: none;">{{ alert_message }}</span>
                         <form class="form-inline pull-right" action="/backend/tg_info/" method="POST">
                             {% csrf_token %}
-                            <div class="checkbox">
+                            <div class="checkbox" style="position: relative;">
                                 {{ smst_obj.qudao_name }}
+                                <span style="display: none"
+                                      id="qudao-name-error">{{ smst_obj.qudao_name.errors.0 }}</span>
+                                <div id="search-cont" class="search-container"></div>
                             </div>
                             <div class="checkbox">
                                 {{ smst_obj.data_type }}
@@ -100,4 +122,70 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        $(function () {
+            // 检测是否有错误发生
+            var qudaoNameError = $("#qudao-name-error").text();
+            if (qudaoNameError) {
+                // 弹出错误提示
+                swal({
+                        title: "Oops...!",
+                        text: qudaoNameError,
+                        type: "error",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        location.href = "/backend/tg_info/";  //  重新加载此页面
+                    });
+            }
+            //等待用户不输入 1 秒后再去执行 loadData
+            var loseInputMillsecs = 1000;
+            var clocker = null;
+
+            function loadData() {
+                var qudaoName = $("#qudao-name").val();
+                if (qudaoName) {
+                    $.ajax({
+                        url: "/backend/search_channel_name/",
+                        type: "POST",
+                        data: {"qudaoName": qudaoName},
+                        dataType: "JSON",
+                        traditional: true,
+                        success: function (obj) {
+                            if (obj.status) {
+                                $("#search-cont").empty();
+                                for (var i = 0; i < obj.data.length; i++) {
+                                    $("#search-cont").append("<p class='search-line'>" + obj.data[i]["name"] + "</p>")
+                                }
+                            }
+                        }
+                    })
+                }
+                clocker = null;
+            }
+
+            function innerKeydown() {
+                if (null == clocker) {
+                    clocker = setTimeout(loadData, loseInputMillsecs);
+                }
+                else	//连续击键，重新开始计时
+                {
+                    clearTimeout(clocker);
+                    clocker = setTimeout(loadData, loseInputMillsecs);
+                }
+            }
+
+            // 监测用户键盘输入
+            $("#qudao-name").keydown(function () {
+                innerKeydown();
+            });
+            $("#search-cont").delegate(".search-line", "click", function () {
+                $("#search-cont").empty();
+                var qudaoName = $(this).text();
+                $("#qudao-name").val(qudaoName);
+            });
+
+        })
+    </script>
 {% endblock %}

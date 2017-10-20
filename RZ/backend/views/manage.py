@@ -7,6 +7,7 @@ import requests  # 爬虫专用
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponse
+from django.db import connections
 from crm import models
 from utils import db_connect
 from utils.pagination import Page
@@ -75,7 +76,7 @@ def tg_info(request):
     if request.method == "GET":
         start_time = request.session.get("smst_start_time", "")  # 获取上次查询的起始日期
         end_time = request.session.get("smst_end_time", "")  # 获取上次查询的终止日期
-        qudao_name = request.session.get("smst_qudao_name_id", "1")  # 获取上次查询的渠道名称
+        qudao_name = request.session.get("smst_qudao_name_id", "")  # 获取上次查询的渠道名称
         data_type = request.session.get("smst_data_type_id", "1")  # 获取上次查询的是实名还是首投
         info_list = request.session.get("tg_info_list", [])  # 获取上次查询的信息,没有则置空
         smst_obj = SmStForm({
@@ -98,38 +99,60 @@ def tg_info(request):
         if smst_obj.is_valid():  # 验证是否通过form认证
             start_time = datetime.strftime(smst_obj.cleaned_data.get("start_time"), "%Y-%m-%d")  # 格式化用户输入起始日期
             end_time = datetime.strftime(smst_obj.cleaned_data.get("end_time"), "%Y-%m-%d")  # 格式化用户输入终止日期
-            qudao_name_id = smst_obj.cleaned_data.get("qudao_name")  # 获取用户输入渠道名称
+            qudao_name = smst_obj.cleaned_data.get("qudao_name")  # 获取用户输入渠道名称
             data_type_id = smst_obj.cleaned_data.get("data_type")  # 获取用户输入的是实名还是首投
-            # 获取渠道名称对应的对象
-            tg_qudao_name_obj = models.TgQudaoName.objects.using("default").filter(id=qudao_name_id).first()
-            qudao_sign_list = ["'%s'" % i for i in tg_qudao_name_obj.sign.split(",")]  # 以逗号分隔渠道标识
-            qudao_sign = ",".join(qudao_sign_list)  # 重组渠道标识
-            # 获取sql语句
-            sql = db_connect.get_sql("crm", "RzSql", "tg", data_type_dict[data_type_id])
-            # 格式化sql语句
-            sql = sql.format(
-                start_time=start_time,
-                end_time=end_time,
-                name=qudao_sign
+            # 获取渠道名称对应的渠道标识
+            qudao_sign_list = db_connect.get_info_list(
+                "rz_bi",
+                "SELECT sign from rzjf_qudao_name where name = '%s'" % qudao_name
             )
-            info_list = db_connect.get_info_list("rz", sql)  # 获取查询结果
-            info_list = json.loads(json.dumps(info_list, cls=JsonCustomEncoder))
-            request.session["tg_info_list"] = info_list  # 将查询结果放入session
-            request.session["smst_start_time"] = start_time  # 将用户查询的日期，保存以便告诉用户刚才所查询的日期
-            request.session["smst_end_time"] = end_time
-            request.session["smst_qudao_name_id"] = qudao_name_id  # 存放这次查询的渠道名称id
-            request.session["smst_data_type_id"] = data_type_id  # 存放这次查询的是实名还是首投
-            page_obj = Page(1, len(info_list))  # 生成分页对象
-            info_list = info_list[page_obj.start:page_obj.end]  # 获取当前页的所有文章
-            page_str = page_obj.page_str("/backend/tg_info/")  # 获取分页html
-            return render(request, "backend_tg_info.html", {
-                "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
-                "smst_obj": smst_obj
-            })
+            if qudao_sign_list:  # 能获取到渠道名称对应的渠道标识
+                qudao_sign_list = ["'%s'" % i["sign"] for i in qudao_sign_list]  # 以逗号分隔渠道标识
+                qudao_sign = ",".join(qudao_sign_list)  # 重组渠道标识
+                # 获取sql语句
+                sql = db_connect.get_sql("crm", "RzSql", "tg", data_type_dict[data_type_id])
+                # 格式化sql语句
+                sql = sql.format(
+                    start_time=start_time,
+                    end_time=end_time,
+                    name=qudao_sign
+                )
+                info_list = db_connect.get_info_list("rz", sql)  # 获取查询结果
+                info_list = json.loads(json.dumps(info_list, cls=JsonCustomEncoder))
+                request.session["tg_info_list"] = info_list  # 将查询结果放入session
+                request.session["smst_start_time"] = start_time  # 将用户查询的日期，保存以便告诉用户刚才所查询的日期
+                request.session["smst_end_time"] = end_time
+                request.session["smst_qudao_name_id"] = qudao_name  # 存放这次查询的渠道名称
+                request.session["smst_data_type_id"] = data_type_id  # 存放这次查询的是实名还是首投
+                page_obj = Page(1, len(info_list))  # 生成分页对象
+                info_list = info_list[page_obj.start:page_obj.end]  # 获取当前页的所有文章
+                page_str = page_obj.page_str("/backend/tg_info/")  # 获取分页html
+                return render(request, "backend_tg_info.html", {
+                    "username": username, "userobj": userobj, "info_list": info_list, "page_str": page_str,
+                    "smst_obj": smst_obj
+                })
+            else:
+                smst_obj.add_error("qudao_name", "该渠道不存在，或者未添加！")  # 添加错误信息
+                return render(request, "backend_tg_info.html", {
+                    "username": username, "userobj": userobj, "smst_obj": smst_obj
+                })
         else:
             return render(request, "backend_tg_info.html", {
                 "username": username, "userobj": userobj, "smst_obj": smst_obj
             })
+
+
+def search_channel_name(request):
+    """查询渠道名称"""
+    ret = {"status": True, "errors": None, "data": None}
+    if request.method == "POST":
+        channel_name = request.POST.get("qudaoName")
+        info_list = db_connect.get_info_list(
+            'rz_bi',
+            "SELECT DISTINCT name from rzjf_qudao_name where name REGEXP '%s' limit 10" % channel_name
+        )
+        ret["data"] = info_list
+        return HttpResponse(json.dumps(ret))
 
 
 @login_decorate
