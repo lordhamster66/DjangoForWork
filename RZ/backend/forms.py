@@ -181,4 +181,3 @@ class SmStForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(SmStForm, self).__init__(*args, **kwargs)
-        self.fields['qudao_name'].choices = models.TgQudaoName.objects.using("default").values_list("id", "name")
