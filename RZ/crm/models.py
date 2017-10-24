@@ -73,17 +73,6 @@ class TgInfo(models.Model):
         verbose_name_plural = '推广数据'
 
 
-class TgQudaoName(models.Model):
-    """推广常用渠道名对应渠道标识"""
-    name = models.CharField(max_length=32, verbose_name='渠道名称')
-    sign = models.CharField(max_length=500, verbose_name='渠道标识')
-
-    class Meta:
-        db_table = "rzjf_tg_qudao_name"
-        verbose_name = '推广常用渠道'
-        verbose_name_plural = '推广常用渠道'
-
-
 class OperateInfo(models.Model):
     """运营数据"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
