@@ -25,8 +25,25 @@ LEFT JOIN
 			INNER JOIN new_wd.rz_borrow_big t3 on a3.borrow_id = t3.id
 			where a3.`status` = 1
 		) a
-		GROUP BY a.uid
-		ORDER BY a.time_h
+		INNER JOIN
+		(
+				SELECT h1.uid,ifnull(min(h1.time_h),0) min_time
+				from
+							(
+								SELECT a1.uid,a1.account,a1.time_h
+								from 05b_1tenderfinal a1
+								where a1.orguid = 0 and a1.bid <> 10000 and a1.status in (1,3)
+								union all
+								SELECT a2.user_id uid,a2.real_amount account,a2.add_time time_h
+								from new_wd.borrow_tender a2
+								where a2.status = 1
+								union all
+								select a3.user_id uid,a3.real_amount account,a3.create_time time_h
+								from new_wd.rz_borrow_tender a3
+								where a3.status = 1
+							) h1
+			 GROUP BY h1.uid
+		) t on a.uid = t.uid and a.time_h = t.min_time
 ) t on a.uid = t.uid
 where a.`status` = 1
 and a.is_authentication = 1
