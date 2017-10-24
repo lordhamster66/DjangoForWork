@@ -61,13 +61,10 @@ class DataStorage(View):
         info_list = [dict(zip(col_names, row)) for row in data]
         return info_list
 
-    def get(self, request, *args, **kwargs):
+    def daily_storage(self):
         """
-        通过get请求可以将公司数据库的信息存入BI专用数据库
-        :param request:
-        :param args:
-        :param kwargs:
-        :return:
+        日报数据存储
+        :return: 无返回值
         """
         qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
         zhu_info = self.get_info_dict("daily", "zhu_info.sql")  # 注册信息
@@ -234,6 +231,16 @@ class DataStorage(View):
         )
 
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
+
+    def get(self, request, *args, **kwargs):
+        """
+        通过get请求可以将公司数据库的信息存入BI专用数据库
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        self.daily_storage()  # 存储日报所需数据
         return HttpResponse("ok!")
 
     def post(self, request, *args, **kwargs):
