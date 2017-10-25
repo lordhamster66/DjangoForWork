@@ -144,14 +144,15 @@ def tg_info(request):
 
 def search_channel_name(request):
     """查询渠道名称"""
-    ret = {"status": True, "errors": None, "data": None}
+    ret = {"status": True, "errors": None, "data": None}  # 定义返回内容
     if request.method == "POST":
-        channel_name = request.POST.get("qudaoName")
+        channel_name = request.POST.get("qudaoName")  # 获取用户输入的渠道名称
+        # 通过用户输入的渠道名称查询对应的渠道标识
         info_list = db_connect.get_info_list(
             'rz_bi',
             "SELECT DISTINCT name from rzjf_qudao_name where name REGEXP '%s' limit 10" % channel_name
         )
-        ret["data"] = info_list
+        ret["data"] = info_list  # 返回给前端
         return HttpResponse(json.dumps(ret))
 
 

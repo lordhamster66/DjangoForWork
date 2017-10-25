@@ -166,6 +166,7 @@
                 clocker = null;
             }
 
+            // 此函数用来创建计时器，如果用户在规定时间内连续敲击键盘则清空计时器，重新计时
             function innerKeydown() {
                 if (null == clocker) {
                     clocker = setTimeout(loadData, loseInputMillsecs);
@@ -181,12 +182,13 @@
             $("#qudao-name").keydown(function () {
                 innerKeydown();
             });
+
+            // 用户选取下拉框内容
             $("#search-cont").delegate(".search-line", "click", function () {
                 $("#search-cont").empty();
                 var qudaoName = $(this).text();
                 $("#qudao-name").val(qudaoName);
             });
-
         })
     </script>
 {% endblock %}
