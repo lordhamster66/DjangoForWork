@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/8/29
-import requests  # 爬虫专用
+import requests
+
 url1 = "http://10.1.12.12:9008/crm/get_wdzj_info/"
 url2 = "http://10.1.12.12:9008/crm/get_wdty_info/"
 # 通过访问第一个接口获取网贷之家数据并填入数据库
