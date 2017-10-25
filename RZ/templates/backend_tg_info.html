@@ -124,6 +124,7 @@
 {% block js %}
     <script>
         $(function () {
+            $("#backend-tg").click();  // 打开推广数据下拉框,表示用户在当前分类下
             // 检测是否有错误发生
             var qudaoNameError = $("#qudao-name-error").text();
             if (qudaoNameError) {
