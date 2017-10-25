@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^wdzj/$', views.wdzj),  # 网贷之家
     url(r'^create_fake_info/(?P<bid>\d*)/(?P<new_bid>\d*)/(?P<name>\w*-\w*)/(?P<full_date>\w*-\w*-\w*)/$',
         some_script.create_fake_info),  # 创建虚假数据
+    url(r'^rzjf_recorde/$', storage.rzjf_recorde),  # 用于定时存储人众金服业务所产生的一些记录
 ]

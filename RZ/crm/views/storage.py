@@ -16,6 +16,7 @@ from crm import utils  # 常用功能及一些工具或一些常用变量
 from crm import models
 import datetime
 import requests  # 爬虫专用
+from utils import db_connect
 
 
 class DataStorage(View):
@@ -330,3 +331,11 @@ def get_wdty_info(request):
             )
         settings.action_logger.info("%s网贷天眼数据已经更新!" % (qdate,))
         return HttpResponse("网贷天眼数据填入完毕!")
+
+
+def rzjf_recorde(request):
+    """用于定时存储人众金服业务所产生的一些记录"""
+    rzjf_first_invest_recorde_sql = db_connect.get_sql("crm", "RzSql", "storage", "rzjf_first_invest_recorde.sql")
+    cursor = connections['rz_bi'].cursor()
+    cursor.execute(rzjf_first_invest_recorde_sql)
+    return HttpResponse("ok!")
