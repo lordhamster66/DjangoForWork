@@ -62,7 +62,30 @@ def base_info(request):
     username = request.session.get("username")  # 获取用户名
     userobj = models.User.objects.using("default").filter(username=username).first()  # 获取用户对象
     if request.method == "GET":
-        userform_obj = UserForm()
+        userform_obj = UserForm({"username": username, "qq": userobj.qq})
+        return render(request, "backend_base_info.html", {
+            "username": username, "userform_obj": userform_obj, "userobj": userobj
+        })
+    elif request.method == "POST":
+        userform_obj = UserForm(request.POST)
+        if userform_obj.is_valid():
+            new_username = userform_obj.cleaned_data.get("username")
+            new_qq = userform_obj.cleaned_data.get("qq")
+            obj1 = models.User.objects.filter(username=new_username).first()  # 通过用户输入用户名获取用户对象
+            obj2 = models.User.objects.filter(qq=new_qq).first()  # 通过用户输入qq号获取用户对象
+            if obj1:
+                if obj1.id != userobj.id:  # 用户输入的名称能获取到对象但不是该用户本身，则用户输入名称已经存在
+                    userform_obj.add_error("username", "用户名称已经存在！请重新输入!")
+            else:
+                userobj.username = new_username  # 用户输入名称没人用过，则直接更新用户名称, 并直接导向登录页面
+                userobj.save()
+                return redirect("/backend/login/")
+            if obj2:
+                if obj2.id != userobj.id:  # 用户输入的qq号能获取到对象但不是该用户本身，则用户输入qq号已经存在
+                    userform_obj.add_error("qq", "qq号已经存在！请重新输入!")
+            else:
+                userobj.qq = new_qq  # 用户输入qq号没人用过，则直接更新用户qq号
+                userobj.save()
         return render(request, "backend_base_info.html", {
             "username": username, "userform_obj": userform_obj, "userobj": userobj
         })

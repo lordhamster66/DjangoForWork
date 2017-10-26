@@ -44,29 +44,44 @@
     </ol>
     <div>
         <div class="row" style="position: relative;">
-            <form class="form-horizontal" action="/backend/base-info.html" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal" action="/backend/base_info/" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label class="col-xs-2 control-label">用户名</label>
-
-                        <div class="col-xs-5">
+                        <div class="col-xs-3">
                             <p class="form-control-static">{{ userform_obj.username }}</p>
+                        </div>
+                        <div class="col-xs-2" style="padding-left: 0;margin-top: -10px;">
+                            <div class="alert alert-danger hide" style="margin-top: 7px;">
+                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                                <span class="error_msg"
+                                      style="font-size: 12px;">{{ userform_obj.username.errors.0 }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-2 control-label">QQ</label>
 
-                        <div class="col-xs-5">
+                        <div class="col-xs-3">
                             <p class="form-control-static">{{ userform_obj.qq }}</p>
+                        </div>
+                        <div class="col-xs-2" style="padding-left: 0;margin-top: -10px;">
+                            <div class="alert alert-danger hide" style="margin-top: 7px;">
+                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                                <span class="error_msg" style="font-size: 12px;">{{ userform_obj.qq.errors.0 }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-offset-2 col-xs-10">
-                            <button type="submit" class="my-dev btn btn-primary">保 存</button>
+                        <div class="col-xs-offset-2 col-xs-1">
+                            <button type="submit" class="btn btn-primary">保 存</button>
                         </div>
                     </div>
-
                 </div>
             </form>
             <div style="position: absolute;" class="col-xs-offset-7 col-xs-5">
@@ -99,6 +114,11 @@
                     }
                 });
                 $("#fm1").submit();
+            });
+            $(".error_msg").each(function () {
+                if ($(this).text()) {
+                    $(this).parent().removeClass("hide");
+                }
             })
         })
     </script>
