@@ -230,7 +230,14 @@ class DataStorage(View):
             Rplan_xt=Rplan_xt_info.get("Rplan_xt"),
             unRplan_xt_hk_j=unRplan_xt_hk_j.get("unRplan_xt_hk_j"),
         )
-
+        # 增加每日每人在贷详情
+        user_recover_info = self.get_info_list("daily", "user_recover.sql")  # 获取每人在贷详情
+        cursor = connections['default'].cursor()  # 创建数据库游标
+        for row in user_recover_info:
+            sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`) 
+            VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
+            cursor.execute(sql)  # 执行SQL
+        cursor.close()  # 关闭游标
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
 
     def get(self, request, *args, **kwargs):
