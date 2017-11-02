@@ -121,6 +121,49 @@ class AssetInfo(models.Model):
         verbose_name_plural = '资产数据'
 
 
+class DailyAssetInfo(models.Model):
+    """日报所需资产数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    term = models.CharField(max_length=32, verbose_name='期限类型')
+    tz_r = models.IntegerField(verbose_name='投资人数')
+    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')
+    mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时', null=True)
+    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有")
+
+    class Meta:
+        db_table = "rzjf_daily_asset_info"
+        verbose_name = '日报资产数据'
+        verbose_name_plural = '日报资产数据'
+
+
+class DailyWithdrawClassify(models.Model):
+    """日报所需提现分类数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    term = models.CharField(max_length=32, verbose_name='提现分类')
+    tx_r = models.IntegerField(verbose_name='提现人数')
+    tx_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='提现金额')
+    withdraw_type = models.CharField(max_length=32, verbose_name='提现类型', default="所有")
+
+    class Meta:
+        db_table = "rzjf_daily_withdraw_classify"
+        verbose_name = '日报提现分类数据'
+        verbose_name_plural = '日报提现分类数据'
+
+
+class DailyCollectClassify(models.Model):
+    """日报所需待收分类数据详情"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    term = models.CharField(max_length=32, verbose_name='待收分类')
+    collect_r = models.IntegerField(verbose_name='待收人数')
+    collect_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='待收金额')
+    collect_type = models.CharField(max_length=32, verbose_name='待收类型', default="所有")
+
+    class Meta:
+        db_table = "rzjf_daily_collect_classify"
+        verbose_name = '日报待收分类数据'
+        verbose_name_plural = '日报待收分类数据'
+
+
 class KeFuInfo(models.Model):
     """客服数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)

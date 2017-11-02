@@ -234,10 +234,102 @@ class DataStorage(View):
         user_recover_info = self.get_info_list("daily", "user_recover.sql")  # 获取每人在贷详情
         cursor = connections['default'].cursor()  # 创建数据库游标
         for row in user_recover_info:
-            sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`) 
+            sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`)
             VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
             cursor.execute(sql)  # 执行SQL
         cursor.close()  # 关闭游标
+
+        # 增加EXCEL日报资产数据详情
+        daily_qixian_info = self.get_info_list("daily", "daily_qixian_info.sql")  # 获取所有资产期限数据
+        for row in daily_qixian_info:
+            models.DailyAssetInfo.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                asset_type="所有",  # 资产类型
+                term=row.get("term"),  # 期限类型
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
+                mb_ys=row.get("mb_ys")  # 满标用时
+            )
+        daily_s_qixian_info = self.get_info_list("daily", "daily_s_qixian_info.sql")  # 获取散标资产期限数据
+        for row in daily_s_qixian_info:
+            models.DailyAssetInfo.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                asset_type="散标",  # 资产类型
+                term=row.get("term"),  # 期限类型
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
+            )
+        daily_r_qixian_info = self.get_info_list("daily", "daily_r_qixian_info.sql")  # 获取R计划资产期限数据
+        for row in daily_r_qixian_info:
+            models.DailyAssetInfo.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                asset_type="R计划",  # 资产类型
+                term=row.get("term"),  # 期限类型
+                tz_r=row.get("tz_r"),  # 投资人数
+                tz_j=row.get("tz_j"),  # 投资金额
+            )
+
+        # 增加EXCEL日报提现分类数据详情
+        daily_withdraw_section = self.get_info_list("daily", "daily_withdraw_section.sql")  # 获取累计提现区间数据
+        for row in daily_withdraw_section:
+            models.DailyWithdrawClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                withdraw_type="提现区间",  # 提现类型
+                term=row.get("term"),  # 提现分类
+                tx_r=row.get("tx_r"),  # 提现人数
+                tx_j=row.get("tx_j"),  # 提现金额
+            )
+        # 获取累计提现投资时间间隔数据
+        daily_withdraw_investment_interval = self.get_info_list("daily", "daily_withdraw_investment_interval.sql")
+        for row in daily_withdraw_investment_interval:
+            models.DailyWithdrawClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                withdraw_type="投资时间间隔",  # 提现类型
+                term=row.get("term"),  # 提现分类
+                tx_r=row.get("tx_r"),  # 提现人数
+                tx_j=row.get("tx_j"),  # 提现金额
+            )
+        # 获取累计提现投资次数数据
+        daily_withdraw_investment_times = self.get_info_list("daily", "daily_withdraw_investment_times.sql")
+        for row in daily_withdraw_investment_times:
+            models.DailyWithdrawClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                withdraw_type="投资次数",  # 提现类型
+                term=row.get("term"),  # 提现分类
+                tx_r=row.get("tx_r"),  # 提现人数
+                tx_j=row.get("tx_j"),  # 提现金额
+            )
+
+        # 增加EXCEL日报待收分类数据详情
+        daily_collect_section = self.get_info_list("daily", "daily_collect_section.sql")  # 获取待收区间数据
+        for row in daily_collect_section:
+            models.DailyCollectClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                collect_type="待收区间",  # 待收类型
+                term=row.get("term"),  # 待收分类
+                collect_r=row.get("collect_r"),  # 待收人数
+                collect_j=row.get("collect_j"),  # 待收金额
+            )
+        # 获取待收投资时间间隔数据
+        daily_collect_investment_interval = self.get_info_list("daily", "daily_collect_investment_interval.sql")
+        for row in daily_collect_investment_interval:
+            models.DailyCollectClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                collect_type="待收投资时间间隔",  # 待收类型
+                term=row.get("term"),  # 待收分类
+                collect_r=row.get("collect_r"),  # 待收人数
+                collect_j=row.get("collect_j"),  # 待收金额
+            )
+        # 获取待收投资次数数据
+        daily_collect_investment_times = self.get_info_list("daily", "daily_collect_investment_times.sql")
+        for row in daily_collect_investment_times:
+            models.DailyCollectClassify.objects.using("default").create(
+                qdate=row.get("qdate"),  # 日期
+                collect_type="待收投资次数",  # 待收类型
+                term=row.get("term"),  # 待收分类
+                collect_r=row.get("collect_r"),  # 待收人数
+                collect_j=row.get("collect_j"),  # 待收金额
+            )
         settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
 
     def get(self, request, *args, **kwargs):
