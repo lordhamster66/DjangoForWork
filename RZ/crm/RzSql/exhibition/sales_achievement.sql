@@ -9,7 +9,7 @@ from
 			INNER JOIN 01u_0info b on a1.uid=b.uid
 			INNER JOIN 01u_2worker k on b.uid_kefu = k.uid
 			where a1.orguid = 0 and a1.bid <> 10000 and a1.status in (1,3)
-			and b.uid_kefu in (1285094,1285095,1285099,1285100)
+			and b.uid_kefu in ({kefu_id})
 			and a1.time_h >= "{start_time}"
 			and a1.time_h < DATE_ADD("{end_time}",INTERVAL 1 day)
 			UNION ALL
@@ -20,7 +20,7 @@ from
 			INNER JOIN 01u_0info b on a3.user_id=b.uid
 			INNER JOIN 01u_2worker k on b.uid_kefu = k.uid
 			where a3.`status` = 1
-			and b.uid_kefu in (1285094,1285095,1285099,1285100)
+			and b.uid_kefu in ({kefu_id})
 			and a3.create_time >= "{start_time}"
 			and a3.create_time < DATE_ADD("{end_time}",INTERVAL 1 day)
 			UNION ALL
@@ -30,7 +30,7 @@ from
 			INNER JOIN 01u_2worker k on b.uid_kefu = k.uid
 			where a1.bid <> 10000
 			and a1.recover_status in (0,1)
-			and b.uid_kefu in (1285094,1285095,1285099,1285100)
+			and b.uid_kefu in ({kefu_id})
 			and a1.time_h < DATE_ADD("{end_time}",INTERVAL 1 day)
 			and a1.recover_times >= DATE_ADD("{end_time}",INTERVAL 1 day)
 			UNION ALL
@@ -39,7 +39,7 @@ from
 			INNER JOIN 01u_0info b on a3.user_id=b.uid
 			INNER JOIN 01u_2worker k on b.uid_kefu = k.uid
 			where a3.`status` in (0,1)
-			and b.uid_kefu in (1285094,1285095,1285099,1285100)
+			and b.uid_kefu in ({kefu_id})
 			and a3.create_time < DATE_ADD("{end_time}",INTERVAL 1 day)
 			and a3.repayment_time >= DATE_ADD("{end_time}",INTERVAL 1 day)
 ) a
