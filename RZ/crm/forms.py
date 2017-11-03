@@ -128,3 +128,42 @@ class RegisterForm(Form):
         if pwd != pwd_again:
             raise ValidationError("两次输入的密码不一样！", "invalid")
         return pwd_again
+
+
+class SalesAchievementForm(Form):
+    """电销业绩Form"""
+    start_time = fields.DateField(
+        widget=widgets.TextInput(attrs={
+            "class": "datepicker form-control",
+            "id": "start_time",
+            "placeholder": "起始日期"
+        }),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
+    )
+
+    end_time = fields.DateField(
+        widget=widgets.TextInput(attrs={
+            "class": "datepicker form-control",
+            "id": "end_time",
+            "placeholder": "终止日期"
+        }),
+        error_messages={
+            "required": "日期不能为空!",
+            "invalid": "请输入正确的日期格式!"
+        }
+    )
+
+    kefu_id = fields.CharField(
+        widget=widgets.TextInput(attrs={
+            "class": "form-control",
+            "id": "kefu_id",
+            "placeholder": "客服ID"
+        }),
+        error_messages={
+            "required": "客服ID不能为空!",
+            "invalid": "请输入正确的客服ID!"
+        }
+    )

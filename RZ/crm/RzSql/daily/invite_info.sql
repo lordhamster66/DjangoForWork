@@ -210,10 +210,9 @@ union all
 			 ) a
 			LEFT JOIN
 			(
-					SELECT a.uid,a.time_h
-					from 01u_0info a
-					where a.tjr != ""
-					and DATE(a.time_h) < DATE(curdate())
+					SELECT a.uid
+					from  01u_9tjr a
+					where DATE(a.time_h) < DATE(curdate())
 			) z on a.uid = z.uid
 			LEFT JOIN
 			(
@@ -279,10 +278,9 @@ union all
 				LEFT JOIN 01u_0info b on a.uid = b.uid
 						 LEFT JOIN
 											(
-														SELECT a.uid,a.time_h
-														from 01u_0info a
-														where a.tjr != ""
-														and DATE(a.time_h) < DATE(curdate())
+														SELECT a.uid
+														from  01u_9tjr a
+														where DATE(a.time_h) < DATE(curdate())
 											) z on a.uid = z.uid
 				where DATE_FORMAT(a.time_h,"%Y-%m-%d") = DATE_FORMAT(t.min_time,"%Y-%m-%d")
 				AND a.uid=z.uid

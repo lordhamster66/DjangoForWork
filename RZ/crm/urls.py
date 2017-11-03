@@ -20,6 +20,7 @@ from .views import ceshi
 from .views import db_backup
 from .views import some_script
 from .views import storage
+from .views import exhibition
 
 urlpatterns = [
     url(r'^ceshi/$', ceshi.ceshi),  # 测试
@@ -37,4 +38,5 @@ urlpatterns = [
     url(r'^create_fake_info/(?P<bid>\d*)/(?P<new_bid>\d*)/(?P<name>\w*-\w*)/(?P<full_date>\w*-\w*-\w*)/$',
         some_script.create_fake_info),  # 创建虚假数据
     url(r'^rzjf_recorde/$', storage.rzjf_recorde),  # 用于定时存储人众金服业务所产生的一些记录
+    url(r'^sales_achievement/$', exhibition.sales_achievement),  # 展示电销业绩
 ]

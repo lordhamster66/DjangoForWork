@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>电销业绩展示</title>
+    <link rel="shortcut icon" href="/static/build/img/favicon.ico">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <style>
+        body {
+            background: url("/static/build/img/background.jpg");
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="height: 30px;line-height: 30px;">
+                        <span class="pull-left">电销业绩</span>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <!-- 工具栏开始 -->
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <form class="form-inline pull-right" action="/crm/sales_achievement/" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="kefu_id">客服ID</label>
+                                        {{ sales_achievement_obj.kefu_id }}
+                                        <span style="color: red;">{{ sales_achievement_obj.kefu_id.errors.0 }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="start_time">起始日期</label>
+                                        {{ sales_achievement_obj.start_time }}
+                                        <span style="color: red;">{{ sales_achievement_obj.start_time.errors.0 }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="end_time">终止日期</label>
+                                        {{ sales_achievement_obj.end_time }}
+                                        <span style="color: red;">{{ sales_achievement_obj.end_time.errors.0 }}</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">查询</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- 工具栏结束 -->
+
+                        <!-- 表格开始 -->
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>所属客服</th>
+                                        <th>投资金额</th>
+                                        <th>年化投资额</th>
+                                        <th>待收</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for info in sales_achievement_info_list %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ info.kefu }}</td>
+                                            <td>{{ info.tz_j }}</td>
+                                            <td>{{ info.nianhua }}</td>
+                                            <td>{{ info.recover_account }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 表格结束 -->
+
+                        <!-- 表格脚部开始 -->
+                        <div class="row">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {{ page_str }}
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- 表格脚部结束 -->
+                        <!-- 电销业绩图表展示区域开始 -->
+                        <div class="col-lg-12 echart" id="sales_achievement"
+                             style="height: 400px"></div>
+                        <!-- 电销业绩图表展示区域结束 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/plugins/jquery-1.12.4.js"></script>
+<script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/plugins/echarts.js"></script>
+<script src="/static/build/js/common.js"></script>
+<!-- 电销业绩展示js开始 -->
+<script type="text/javascript">
+    var dom = document.getElementById("sales_achievement");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '折柱混合';
+    option = {
+        title: {
+            text: "电销业绩展示" //正标题
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ["投资金额", "年化投资额", "待收"]
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ chart_display_dict.kefu_list | safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '{value} 万'
+                },
+                splitLine: {
+                    show: false
+                }
+            }
+        ],
+        series: [
+            {
+                name: '投资金额',
+                type: 'bar',
+                data: {{ chart_display_dict.tz_j_list | safe }},
+                itemStyle: {
+                    normal: {color: '#31859c'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
+                    }
+                }
+            },
+            {
+                name: '年化投资额',
+                type: 'bar',
+                data: {{ chart_display_dict.nianhua_list | safe }},
+                itemStyle: {
+                    normal: {color: '#d99694'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
+                    }
+                }
+            },
+            {
+                name: '待收',
+                type: 'bar',
+                data: {{ chart_display_dict.recover_account_list | safe }},
+                itemStyle: {
+                    normal: {color: '#00b050'}
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}',
+                        fontSize: 5,  //文字大小
+                        fontWeight: 'bold'  //文字粗细
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<!-- 电销业绩展示js结束 -->
+</body>
+</html>
