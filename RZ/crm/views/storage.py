@@ -129,15 +129,15 @@ class DataStorage(View):
         invite_info = self.get_info_dict("daily", "invite_info.sql")  # 获取邀请数据
         # 增加邀请数据信息
         models.InviteInfo.objects.using("default").create(
-            qdate=xz_cz_info.get("qdate"),  # 日期
+            qdate=qdate,  # 日期
             invite_r=invite_info.get("invite_r"),  # 邀请人数
             invited_r=invite_info.get("invited_r"),  # 被邀请人数
             invited_st_r=invite_info.get("invited_st_r"),  # 被邀请首投人数
             invited_st_j=invite_info.get("invited_st_j"),  # 被邀请首投金额
             cash_f=invite_info.get("cash_f"),  # 现金发放金额
-            cash_l=invite_info.get("cash_l"),  # 现金领取金额
-            hb_f=invite_info.get("hb_f"),  # 红包发放金额
-            hb_s=invite_info.get("hb_s")  # 红包使用金额
+            # cash_l=invite_info.get("cash_l"),  # 现金领取金额
+            # hb_f=invite_info.get("hb_f"),  # 红包发放金额
+            # hb_s=invite_info.get("hb_s")  # 红包使用金额
         )
         # 增加资产数据详情
         qixian_info = self.get_info_list("daily", "qixian_info.sql")  # 获取所有资产期限数据

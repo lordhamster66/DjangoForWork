@@ -96,9 +96,9 @@ class InviteInfo(models.Model):
     invited_st_r = models.IntegerField(verbose_name='被邀请首投人数')
     invited_st_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='被邀请首投金额')
     cash_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励发放金额')
-    cash_l = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励领取金额')
-    hb_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包发放金额')
-    hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额')
+    cash_l = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励领取金额', default=0)
+    hb_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包发放金额', default=0)
+    hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额', default=0)
 
     class Meta:
         db_table = "rzjf_invite_info"
