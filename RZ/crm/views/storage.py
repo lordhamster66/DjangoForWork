@@ -41,6 +41,8 @@ class DataStorage(View):
         cursor.execute(sql)
         row = cursor.fetchone()
         col_names = [desc[0] for desc in cursor.description]
+        if not row:
+            row = [None for i in col_names]
         info_dict = dict(zip(col_names, row))
         return info_dict
 
@@ -219,7 +221,7 @@ class DataStorage(View):
         g_tz_info = self.get_info_dict("daily", "g_tz_info.sql")  # 获取供应链金融投资信息
         x_tz_info = self.get_info_dict("daily", "x_tz_info.sql")  # 获取消费金融投资信息
         models.OtherInfo.objects.using("default").create(
-            qdate=short_tz_info.get("qdate"),
+            qdate=qdate,
             short_tz_r=short_tz_info.get("short_tz_r"),
             short_tz_j=short_tz_info.get("short_tz_j"),
             short_zd_j=short_zd_info.get("short_zd_j"),
