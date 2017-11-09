@@ -41,7 +41,7 @@ class DataStorage(View):
         cursor.execute(sql)
         row = cursor.fetchone()
         col_names = [desc[0] for desc in cursor.description]
-        if not row:
+        if not row:  # 如果获取不到数据，则全部置为空
             row = [None for i in col_names]
         info_dict = dict(zip(col_names, row))
         return info_dict
@@ -61,6 +61,8 @@ class DataStorage(View):
         cursor.execute(sql)
         data = cursor.fetchall()
         col_names = [i[0] for i in cursor.description]
+        if not data:  # 如果获取不到数据，则全部置为空
+            data = [[None for i in col_names]]
         info_list = [dict(zip(col_names, row)) for row in data]
         return info_list
 
@@ -107,7 +109,7 @@ class DataStorage(View):
         tg_info = self.get_info_dict("daily", "tg.sql")  # 获取昨日推广数据
         # 增加昨日推广数据信息
         models.TgInfo.objects.using("default").create(
-            qdate=tg_info.get("qdate"),  # 日期
+            qdate=qdate,  # 日期
             tg_zhu_r=tg_info.get("tg_zhu_r"),  # 推广注册人数
             tg_sm_r=tg_info.get("tg_sm_r"),  # 推广实名人数
             tg_sc_r=tg_info.get("tg_sc_r"),  # 推广首充人数
@@ -121,7 +123,7 @@ class DataStorage(View):
         rs_ft_lv_info = self.get_info_dict("daily", "rs_ft_lv.sql")  # 获取人数复投率数据
         # 增加运营数据信息
         models.OperateInfo.objects.using("default").create(
-            qdate=xz_cz_info.get("qdate"),  # 日期
+            qdate=qdate,  # 日期
             xz_cz=xz_cz_info.get("xz_cz"),  # 新增充值
             hk_cz=hk_cz_info.get("hk_cz"),  # 回款并充值
             unhk_cz=unhk_cz_info.get("unhk_cz"),  # 非回款充值
@@ -145,7 +147,7 @@ class DataStorage(View):
         qixian_info = self.get_info_list("daily", "qixian_info.sql")  # 获取所有资产期限数据
         for row in qixian_info:
             models.AssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="所有",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -155,7 +157,7 @@ class DataStorage(View):
         s_qixian_info = self.get_info_list("daily", "s_qixian_info.sql")  # 获取散标资产期限数据
         for row in s_qixian_info:
             models.AssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="散标",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -165,7 +167,7 @@ class DataStorage(View):
         r_qixian_info = self.get_info_list("daily", "r_qixian_info.sql")  # 获取R计划资产期限数据
         for row in r_qixian_info:
             models.AssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="R计划",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -237,7 +239,7 @@ class DataStorage(View):
         cursor = connections['default'].cursor()  # 创建数据库游标
         for row in user_recover_info:
             sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`)
-            VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
+            VALUES ('%s', '%s', '%s');""" % (qdate, row.get("uid"), row.get("recover_account"))
             cursor.execute(sql)  # 执行SQL
         cursor.close()  # 关闭游标
 
@@ -245,7 +247,7 @@ class DataStorage(View):
         daily_qixian_info = self.get_info_list("daily", "daily_qixian_info.sql")  # 获取所有资产期限数据
         for row in daily_qixian_info:
             models.DailyAssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="所有",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -255,7 +257,7 @@ class DataStorage(View):
         daily_s_qixian_info = self.get_info_list("daily", "daily_s_qixian_info.sql")  # 获取散标资产期限数据
         for row in daily_s_qixian_info:
             models.DailyAssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="散标",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -264,7 +266,7 @@ class DataStorage(View):
         daily_r_qixian_info = self.get_info_list("daily", "daily_r_qixian_info.sql")  # 获取R计划资产期限数据
         for row in daily_r_qixian_info:
             models.DailyAssetInfo.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 asset_type="R计划",  # 资产类型
                 term=row.get("term"),  # 期限类型
                 tz_r=row.get("tz_r"),  # 投资人数
@@ -275,7 +277,7 @@ class DataStorage(View):
         daily_withdraw_section = self.get_info_list("daily", "daily_withdraw_section.sql")  # 获取累计提现区间数据
         for row in daily_withdraw_section:
             models.DailyWithdrawClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 withdraw_type="提现区间",  # 提现类型
                 term=row.get("term"),  # 提现分类
                 tx_r=row.get("tx_r"),  # 提现人数
@@ -285,7 +287,7 @@ class DataStorage(View):
         daily_withdraw_investment_interval = self.get_info_list("daily", "daily_withdraw_investment_interval.sql")
         for row in daily_withdraw_investment_interval:
             models.DailyWithdrawClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 withdraw_type="投资时间间隔",  # 提现类型
                 term=row.get("term"),  # 提现分类
                 tx_r=row.get("tx_r"),  # 提现人数
@@ -295,7 +297,7 @@ class DataStorage(View):
         daily_withdraw_investment_times = self.get_info_list("daily", "daily_withdraw_investment_times.sql")
         for row in daily_withdraw_investment_times:
             models.DailyWithdrawClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 withdraw_type="投资次数",  # 提现类型
                 term=row.get("term"),  # 提现分类
                 tx_r=row.get("tx_r"),  # 提现人数
@@ -306,7 +308,7 @@ class DataStorage(View):
         daily_collect_section = self.get_info_list("daily", "daily_collect_section.sql")  # 获取待收区间数据
         for row in daily_collect_section:
             models.DailyCollectClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 collect_type="待收区间",  # 待收类型
                 term=row.get("term"),  # 待收分类
                 collect_r=row.get("collect_r"),  # 待收人数
@@ -316,7 +318,7 @@ class DataStorage(View):
         daily_collect_investment_interval = self.get_info_list("daily", "daily_collect_investment_interval.sql")
         for row in daily_collect_investment_interval:
             models.DailyCollectClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 collect_type="待收投资时间间隔",  # 待收类型
                 term=row.get("term"),  # 待收分类
                 collect_r=row.get("collect_r"),  # 待收人数
@@ -326,7 +328,7 @@ class DataStorage(View):
         daily_collect_investment_times = self.get_info_list("daily", "daily_collect_investment_times.sql")
         for row in daily_collect_investment_times:
             models.DailyCollectClassify.objects.using("default").create(
-                qdate=row.get("qdate"),  # 日期
+                qdate=qdate,  # 日期
                 collect_type="待收投资次数",  # 待收类型
                 term=row.get("term"),  # 待收分类
                 collect_r=row.get("collect_r"),  # 待收人数

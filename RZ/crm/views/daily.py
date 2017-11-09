@@ -7,15 +7,12 @@
 """
 import os
 from django.shortcuts import render
-from django.shortcuts import HttpResponse
-from django.shortcuts import redirect
 from django.views import View
 from crm import models
 from datetime import datetime, timedelta, date
 from crm import forms
 from django.db import connections
 from RZ import settings
-from crm import utils
 
 
 class Daily(View):
@@ -61,6 +58,8 @@ class Daily(View):
         cursor.execute(sql)
         data = cursor.fetchall()
         col_names = [i[0] for i in cursor.description]
+        if not data:  # 如果获取不到数据，则全部置为空
+            data = [[None for i in col_names]]
         info_list = [dict(zip(col_names, row)) for row in data]
         return info_list
 
@@ -95,9 +94,9 @@ class Daily(View):
             # 存放期限对应的数据
             for term_dict in term_list:
                 if temp_term == term_dict["term"]:  # 期限名称
-                    term_dict["tz_r"].append(int(row.get("tz_r")))
-                    term_dict["tz_j"].append(round(int(row.get("tz_j")) / 10000, 2))
-                    term_dict["mb_ys"].append(float(row.get("mb_ys")))
+                    term_dict["tz_r"].append(int(row.get("tz_r")) if row.get("tz_r") else 0)
+                    term_dict["tz_j"].append(round(int(row.get("tz_j")) / 10000, 2) if row.get("tz_j") else 0)
+                    term_dict["mb_ys"].append(float(row.get("mb_ys")) if row.get("mb_ys") else 0)
 
             # 获取本次循环渠道的日期
             temp_qdate = datetime.strftime(row.get("qdate"), "%m-%d")

@@ -20,22 +20,22 @@ class User(models.Model):
 class BaseInfo(models.Model):
     """基础数据"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    zhu_r = models.IntegerField(verbose_name='注册人数')
-    sm_r = models.IntegerField(verbose_name='实名人数')
-    sc_r = models.IntegerField(verbose_name='首充人数')
-    xztz_r = models.IntegerField(verbose_name='新增投资人数')
-    xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='新增投资金额')
-    cz_r = models.IntegerField(verbose_name='充值人数')
-    cz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='充值金额')
-    tx_r = models.IntegerField(verbose_name='提现人数')
-    tx_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='提现金额')
-    tz_r = models.IntegerField(verbose_name='投资人数')
-    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')
+    zhu_r = models.IntegerField(verbose_name='注册人数', null=True)
+    sm_r = models.IntegerField(verbose_name='实名人数', null=True)
+    sc_r = models.IntegerField(verbose_name='首充人数', null=True)
+    xztz_r = models.IntegerField(verbose_name='新增投资人数', null=True)
+    xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='新增投资金额', null=True)
+    cz_r = models.IntegerField(verbose_name='充值人数', null=True)
+    cz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='充值金额', null=True)
+    tx_r = models.IntegerField(verbose_name='提现人数', null=True)
+    tx_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='提现金额', null=True)
+    tz_r = models.IntegerField(verbose_name='投资人数', null=True)
+    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额', null=True)
     tz_b = models.IntegerField(verbose_name='投资笔数', null=True)
     tz_dl_r = models.IntegerField(verbose_name='投资登录人数', null=True)
-    hk_r = models.IntegerField(verbose_name='回款人数')
-    hk_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款金额')
-    zg_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='站岗金额')
+    hk_r = models.IntegerField(verbose_name='回款人数', null=True)
+    hk_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款金额', null=True)
+    zg_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='站岗金额', null=True)
     zg_r = models.IntegerField(verbose_name='站岗人数', null=True)
     zd_r = models.IntegerField(verbose_name='在贷人数', null=True)
     zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='在贷金额', null=True)
@@ -60,12 +60,12 @@ class QudaoName(models.Model):
 class TgInfo(models.Model):
     """推广数据"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    tg_zhu_r = models.IntegerField(verbose_name='推广注册人数')
-    tg_sm_r = models.IntegerField(verbose_name='推广实名人数')
-    tg_sc_r = models.IntegerField(verbose_name='推广首充人数')
-    tg_xztz_r = models.IntegerField(verbose_name='推广新增人数')
-    tg_xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广新增金额')
-    tg_cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广花费', default=0)
+    tg_zhu_r = models.IntegerField(verbose_name='推广注册人数', null=True)
+    tg_sm_r = models.IntegerField(verbose_name='推广实名人数', null=True)
+    tg_sc_r = models.IntegerField(verbose_name='推广首充人数', null=True)
+    tg_xztz_r = models.IntegerField(verbose_name='推广新增人数', null=True)
+    tg_xztz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广新增金额', null=True)
+    tg_cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='推广花费', default=0, null=True)
 
     class Meta:
         db_table = "rzjf_tg_info"
@@ -76,11 +76,11 @@ class TgInfo(models.Model):
 class OperateInfo(models.Model):
     """运营数据"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    xz_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='新增充值')
-    hk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款并充值')
-    unhk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='非回款充值')
-    zj_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='资金复投率')
-    rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='人数复投率')
+    xz_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='新增充值', null=True)
+    hk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款并充值', null=True)
+    unhk_cz = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='非回款充值', null=True)
+    zj_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='资金复投率', null=True)
+    rs_ft_lv = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='人数复投率', null=True)
 
     class Meta:
         db_table = "rzjf_operate_info"
@@ -91,14 +91,14 @@ class OperateInfo(models.Model):
 class InviteInfo(models.Model):
     """邀请数据"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    invite_r = models.IntegerField(verbose_name='邀请人数')
-    invited_r = models.IntegerField(verbose_name='被邀请人数')
-    invited_st_r = models.IntegerField(verbose_name='被邀请首投人数')
-    invited_st_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='被邀请首投金额')
-    cash_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励发放金额')
-    cash_l = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励领取金额', default=0)
-    hb_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包发放金额', default=0)
-    hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额', default=0)
+    invite_r = models.IntegerField(verbose_name='邀请人数', null=True)
+    invited_r = models.IntegerField(verbose_name='被邀请人数', null=True)
+    invited_st_r = models.IntegerField(verbose_name='被邀请首投人数', null=True)
+    invited_st_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='被邀请首投金额', null=True)
+    cash_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励发放金额', null=True)
+    cash_l = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='现金奖励领取金额', default=0, null=True)
+    hb_f = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包发放金额', default=0, null=True)
+    hb_s = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='邀请红包使用金额', default=0, null=True)
 
     class Meta:
         db_table = "rzjf_invite_info"
@@ -109,11 +109,11 @@ class InviteInfo(models.Model):
 class AssetInfo(models.Model):
     """资产数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有")
-    term = models.CharField(max_length=32, verbose_name='期限类型')
-    tz_r = models.IntegerField(verbose_name='投资人数')
-    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')
-    mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时')
+    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有", null=True)
+    term = models.CharField(max_length=32, verbose_name='期限类型', null=True)
+    tz_r = models.IntegerField(verbose_name='投资人数', null=True)
+    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额', null=True)
+    mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时', null=True)
 
     class Meta:
         db_table = "rzjf_asset_info"
@@ -124,11 +124,11 @@ class AssetInfo(models.Model):
 class DailyAssetInfo(models.Model):
     """日报所需资产数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    term = models.CharField(max_length=32, verbose_name='期限类型')
-    tz_r = models.IntegerField(verbose_name='投资人数')
-    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额')
+    term = models.CharField(max_length=32, verbose_name='期限类型', null=True)
+    tz_r = models.IntegerField(verbose_name='投资人数', null=True)
+    tz_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='投资金额', null=True)
     mb_ys = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='满标用时', null=True)
-    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有")
+    asset_type = models.CharField(max_length=32, verbose_name='资产类型', default="所有", null=True)
 
     class Meta:
         db_table = "rzjf_daily_asset_info"
@@ -139,10 +139,10 @@ class DailyAssetInfo(models.Model):
 class DailyWithdrawClassify(models.Model):
     """日报所需提现分类数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    term = models.CharField(max_length=32, verbose_name='提现分类')
-    tx_r = models.IntegerField(verbose_name='提现人数')
-    tx_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='提现金额')
-    withdraw_type = models.CharField(max_length=32, verbose_name='提现类型', default="所有")
+    term = models.CharField(max_length=32, verbose_name='提现分类', null=True)
+    tx_r = models.IntegerField(verbose_name='提现人数', null=True)
+    tx_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='提现金额', null=True)
+    withdraw_type = models.CharField(max_length=32, verbose_name='提现类型', default="所有", null=True)
 
     class Meta:
         db_table = "rzjf_daily_withdraw_classify"
@@ -153,10 +153,10 @@ class DailyWithdrawClassify(models.Model):
 class DailyCollectClassify(models.Model):
     """日报所需待收分类数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    term = models.CharField(max_length=32, verbose_name='待收分类')
-    collect_r = models.IntegerField(verbose_name='待收人数')
-    collect_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='待收金额')
-    collect_type = models.CharField(max_length=32, verbose_name='待收类型', default="所有")
+    term = models.CharField(max_length=32, verbose_name='待收分类', null=True)
+    collect_r = models.IntegerField(verbose_name='待收人数', null=True)
+    collect_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='待收金额', null=True)
+    collect_type = models.CharField(max_length=32, verbose_name='待收类型', default="所有", null=True)
 
     class Meta:
         db_table = "rzjf_daily_collect_classify"
@@ -167,10 +167,10 @@ class DailyCollectClassify(models.Model):
 class KeFuInfo(models.Model):
     """客服数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    st_ft_r = models.IntegerField(verbose_name='首投后复投人数')
-    st_r = models.IntegerField(verbose_name='首投人数')
-    ls_r = models.IntegerField(verbose_name='流失用户')
-    zt_r = models.IntegerField(verbose_name='在投用户')
+    st_ft_r = models.IntegerField(verbose_name='首投后复投人数', null=True)
+    st_r = models.IntegerField(verbose_name='首投人数', null=True)
+    ls_r = models.IntegerField(verbose_name='流失用户', null=True)
+    zt_r = models.IntegerField(verbose_name='在投用户', null=True)
 
     class Meta:
         db_table = "rzjf_kefu_info"
@@ -181,7 +181,7 @@ class KeFuInfo(models.Model):
 class GeDuanInfo(models.Model):
     """各端数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    geduan = models.CharField(max_length=32, verbose_name='各端类型')
+    geduan = models.CharField(max_length=32, verbose_name='各端类型', null=True)
     recover = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端已还", null=True)
     recover_withdraw = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端回款并提现", null=True)
     account = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="各端投资", null=True)
@@ -197,8 +197,8 @@ class GeDuanInfo(models.Model):
 class TimeSlot(models.Model):
     """各时间段详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True)
-    timeslot = models.IntegerField(verbose_name="时间段")
-    tz_r = models.IntegerField(verbose_name='投资人数')
+    timeslot = models.IntegerField(verbose_name="时间段", null=True)
+    tz_r = models.IntegerField(verbose_name='投资人数', null=True)
 
     class Meta:
         db_table = "rzjf_time_slot"
@@ -215,10 +215,10 @@ class OtherInfo(models.Model):
     short_zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="30天以内短标待还总额", null=True)
     Rplan_account = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划投资金额", null=True)
     Rplan_recover_account = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划在贷金额", null=True)
-    g_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="供应链金融投资金额", default=0)
-    x_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="消费金融投资金额", default=0)
-    Rplan_xt = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划续投金额", default=0)
-    unRplan_xt_hk_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="非R计划自动续投金额", default=0)
+    g_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="供应链金融投资金额", default=0, null=True)
+    x_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="消费金融投资金额", default=0, null=True)
+    Rplan_xt = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划续投金额", default=0, null=True)
+    unRplan_xt_hk_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="非R计划自动续投金额", default=0, null=True)
 
     class Meta:
         db_table = "rzjf_other_info"
