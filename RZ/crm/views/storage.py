@@ -71,7 +71,8 @@ class DataStorage(View):
         日报数据存储
         :return: 无返回值
         """
-        qdate = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(-1), "%Y-%m-%d")  # 获取昨天日期
+        qdate_dict = self.get_info_dict("daily", "get_qdate.sql")
+        qdate = qdate_dict.get("qdate")  # 获取昨天日期
         zhu_info = self.get_info_dict("daily", "zhu_info.sql")  # 注册信息
         sm_info = self.get_info_dict("daily", "sm_info.sql")  # 实名信息
         sc_info = self.get_info_dict("daily", "sc_info.sql")  # 首充信息
@@ -239,7 +240,7 @@ class DataStorage(View):
         cursor = connections['default'].cursor()  # 创建数据库游标
         for row in user_recover_info:
             sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`)
-            VALUES ('%s', '%s', '%s');""" % (qdate, row.get("uid"), row.get("recover_account"))
+            VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
             cursor.execute(sql)  # 执行SQL
         cursor.close()  # 关闭游标
 
