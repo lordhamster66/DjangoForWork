@@ -1,32 +1,36 @@
+import math
 from django.utils.safestring import mark_safe
 
 
-class Page:
+class Page(object):
+    """自定义分页插件"""
+
     def __init__(self, current_page, data_count, per_page_count=10, pager_num=7):
-        self.current_page = current_page
-        self.data_count = data_count
-        self.per_page_count = per_page_count
-        self.pager_num = pager_num
+        self.current_page = current_page  # 当前页码
+        self.data_count = data_count  # 数据总个数
+        self.per_page_count = per_page_count  # 每页显示几行数据
+        self.pager_num = pager_num  # 页面总共显示几个页码
 
     @property
     def start(self):
+        """获取数据起始位置"""
         return (self.current_page - 1) * self.per_page_count
 
     @property
     def end(self):
+        """获取数据终止位置"""
         return self.current_page * self.per_page_count
 
     @property
     def total_count(self):
-        v, y = divmod(self.data_count, self.per_page_count)
-        if y:
-            v += 1
-        return v
+        """获取总页数"""
+        return int(math.ceil(self.data_count / self.per_page_count))
 
     def page_str(self, base_url):
-        page_list = []
+        """获取分页HTML"""
+        page_list = []  # 存放html内容
 
-        if self.total_count < self.pager_num:
+        if self.total_count < self.pager_num:  # 如果总页数小于要显示的页码
             start_index = 1
             end_index = self.total_count + 1
         else:
