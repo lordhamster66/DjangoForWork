@@ -56,10 +56,10 @@ class Department(models.Model):
 class SQLRecord(models.Model):
     """SQL记录表"""
     user = models.ForeignKey("UserProfile", verbose_name="创建者")
-    sql_name = models.CharField(max_length=64, verbose_name="SQL名称")
+    sql_name = models.CharField(max_length=64, unique=True, verbose_name="SQL名称")
     department = models.ForeignKey("Department", blank=True, null=True, verbose_name="对应部门")
     sql_tags = models.ManyToManyField("SQLTag", blank=True, verbose_name="对应SQL标签")
-    sql_content = models.ForeignKey("SQLContent", verbose_name="对应SQL内容")
+    sql_content = models.ForeignKey("SQLContent", on_delete=models.CASCADE, verbose_name="对应SQL内容")
     date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
@@ -72,9 +72,6 @@ class SQLRecord(models.Model):
 class SQLContent(models.Model):
     """SQL内容表"""
     content = models.TextField(verbose_name="sql内容")
-
-    def __str__(self):
-        return self.sqlrecord_set.first().sql_name
 
     class Meta:
         verbose_name_plural = "SQL内容表"

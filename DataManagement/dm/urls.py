@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
+from .views import dm_index
+from .views import manager
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^dm/', include("dm.urls")),
+    url(r'^$', dm_index.index, name="dm_index"),
+    url(r'^add_sql.html$', manager.add_sql, name="add_sql"),
+    url(r'^view_sql.html$', manager.view_sql, name="view_sql"),
+    url(r'^edit_sql/(?P<sql_record_id>\d+)/$', manager.edit_sql, name="edit_sql"),
+    url(r'^del_sql/(?P<sql_record_id>\d+)/$', manager.del_sql, name="del_sql"),
 ]

@@ -1,0 +1,114 @@
+{% extends "index.html" %}
+{% load tags %}
+{% block right-container-content %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">查看SQL记录</h3>
+        </div>
+        <div class="panel-body">
+            <form method="get">
+                {% if admin_class.search_fields %}
+                    <div class="row" style="margin-left: 10px;margin-bottom: 20px;"><!-- DIV needed for valid HTML -->
+                        <label for="searchbar"><img src="/static/img/search.svg" alt="Search"></label>
+                        <input type="text" size="40" name="_q" value="{{ search_content }}" id="searchbar"
+                               placeholder="请输入查找内容">
+                        <input type="submit" value="Search">
+                        <span>
+                            (Tips:search by
+                            {% for search_field in admin_class.search_fields %}
+                                {{ search_field }},
+                            {% endfor %}
+                            )
+                        </span>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    {% if admin_class.list_filter %}
+                        {% for condition in admin_class.list_filter %}
+                            <div class="col-lg-2" style="text-align: center;">
+                                {% get_table_thead admin_class condition %}
+                                {% get_condition_ele condition admin_class condition_dict %}
+                            </div>
+                        {% endfor %}
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-primary" style="margin-top: 19px;">检索</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    {% get_head_name admin_class order_by_dict condition_dict %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in query_sets %}
+                    <tr>
+                        {% get_table_rows obj admin_class %}
+                        <td>
+                            <a class="btn btn-danger btn-xs delete-info" nid="{{ obj.id }}">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% get_page_ele query_sets condition_dict order_by_dict search_content %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            // 删除标签功能
+            $(".delete-info").click(function () {
+                    var nid = $(this).attr("nid");  // 获取要删除的标签ID
+                    swal({
+                            title: "确定删除吗?",
+                            text: "您将要删除该标签!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定!",
+                            cancelButtonText: "取消!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                $.ajax({
+                                    url: "/dm/del_sql/" + nid + "/",
+                                    type: "POST",
+                                    data: {'nid': nid},
+                                    dataType: "JSON",  // 内部会自动将返回的数据用JSON解析
+                                    success: function (obj) {
+                                        if (obj.status) {
+                                            swal({
+                                                    title: "删除成功!",
+                                                    text: "已成功删除该标签!",
+                                                    type: "success",
+                                                    confirmButtonText: "OK",
+                                                    closeOnConfirm: false
+                                                },
+                                                function () {
+                                                    location.href = "/dm/view_sql.html"
+                                                });
+                                        }
+                                    }
+                                });
+                            } else {
+                                swal("已取消", "祝您愉快 :)", "error");
+                            }
+                        });
+                }
+            );
+        })
+    </script>
+{% endblock %}
