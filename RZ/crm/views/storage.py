@@ -441,7 +441,9 @@ def rzjf_recorde(request):
     """用于定时存储人众金服业务所产生的一些记录"""
     # 获取更新用SQL
     rzjf_first_invest_recorde_sql = db_connect.get_sql("crm", "RzSql", "storage", "rzjf_first_invest_recorde.sql")
+    rzjf_user_memo_sql = db_connect.get_sql("crm", "RzSql", "storage", "rzjf_user_memo.sql")
     # 连接数据库并执行SQL
     cursor = connections['rz_bi'].cursor()
     cursor.execute(rzjf_first_invest_recorde_sql)
+    cursor.execute(rzjf_user_memo_sql)
     return HttpResponse("ok!")
