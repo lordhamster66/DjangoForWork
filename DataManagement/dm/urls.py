@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from .views import dm_index
 from .views import manager
+from .views import search
 
 urlpatterns = [
     url(r'^$', dm_index.index, name="dm_index"),
@@ -23,4 +24,6 @@ urlpatterns = [
     url(r'^view_sql.html$', manager.view_sql, name="view_sql"),
     url(r'^edit_sql/(?P<sql_record_id>\d+)/$', manager.edit_sql, name="edit_sql"),
     url(r'^del_sql/(?P<sql_record_id>\d+)/$', manager.del_sql, name="del_sql"),
+    url(r'^check_detail.html$', search.check_detail, name="check_detail"),
+    url(r'^search_channel_name/$', search.search_channel_name),
 ]

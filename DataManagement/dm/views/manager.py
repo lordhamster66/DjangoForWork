@@ -35,7 +35,7 @@ def add_sql(request):
                 # 为该SQL记录添加标签
                 sql_record.sql_tags.add(*[models.SQLTag.objects.filter(id=i).first() for i in sql_tags])
                 sql_record.save()  # 存储该SQL记录
-            return redirect("/dm/")
+            return redirect("/dm/view_sql.html")
         else:
             return render(request, "manager/add_sql.html", {
                 "add_sql_from": add_sql_from

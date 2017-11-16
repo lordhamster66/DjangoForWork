@@ -72,15 +72,19 @@ def get_table_rows(obj, admin_class):
 
 
 @register.simple_tag
-def get_page_ele(query_sets, condition_dict, order_by_dict, search_content):
+def get_page_ele(query_sets, condition_dict=None, order_by_dict=None, search_content=""):
     """生成想要显示的分页标签"""
     page_ele = ""  # 要返回的分页HTML
-    condition_str = get_condition_str(condition_dict)
+    condition_str = ""  # 过滤条件
+    current_order_by_key = ""  # 排序条件
+    if condition_dict:
+        condition_str = get_condition_str(condition_dict)
+    if order_by_dict:
+        current_order_by_key = order_by_dict.get("current_order_by_key", "")
     # 上一页
     if query_sets.has_previous():
         page_ele += '''<li><a href="?page=%s%s&o=%s&_q=%s">«</a></li>''' % (
-            query_sets.previous_page_number(), condition_str, order_by_dict.get("current_order_by_key", ""),
-            search_content
+            query_sets.previous_page_number(), condition_str, current_order_by_key, search_content
         )
     else:
         page_ele += '''<li><a href="#">«</a></li>'''
@@ -92,15 +96,14 @@ def get_page_ele(query_sets, condition_dict, order_by_dict, search_content):
             if loop_num == query_sets.number:
                 actived = "active"
             page_ele += '''<li class="%s"><a href="?page=%s%s&o=%s&_q=%s">%s</a></li>''' % (
-                actived, loop_num, condition_str, order_by_dict.get("current_order_by_key", ""), search_content,
-                loop_num
+                actived, loop_num, condition_str, current_order_by_key, search_content, loop_num
             )
         elif abs(loop_num - query_sets.number) == 2:
             page_ele += '''<li><a>...</a></li>'''
     # 下一页
     if query_sets.has_next():
         page_ele += '''<li><a href="?page=%s%s&o=%s&_q=%s">»</a></li>''' % (
-            query_sets.next_page_number(), condition_str, order_by_dict.get("current_order_by_key", ""), search_content
+            query_sets.next_page_number(), condition_str, current_order_by_key, search_content
         )
     else:
         page_ele += '''<li><a href="#">»</a></li>'''
@@ -120,3 +123,55 @@ def get_condition_ele(condition, admin_class, condition_dict):
         condition_ele += '''<option value="%s" %s>%s</option>''' % (choices_data[0], selected, choices_data[1])
     condition_ele += '''</select>'''
     return mark_safe(condition_ele)
+
+
+@register.simple_tag
+def check_detail_get_table_rows(request, item):
+    """查看详细页面的表中的每行"""
+    '''
+    {% for v in item.values %}
+        <td style="white-space:nowrap">{{ v }}</td>
+    {% endfor %}
+    '''
+    td_ele = ""
+    for k, v in item.items():
+        if isinstance(v, datetime):
+            v = datetime.strftime(v, "%Y-%m-%d %H:%M:%S")
+        if isinstance(v, date):
+            v = date.strftime(v, "%Y-%m-%d")
+        # print([i[0] for i in list(request.user.userprofile.roles.values_list("name"))])
+        if "数据组" not in [i[0] for i in list(request.user.userprofile.roles.values_list("name"))]:
+            if k in ["姓名", "uname", "用户名", "un"]:
+                v = "%s%s" % (v[:1], "*" * len(v[1:]))
+            if k in ["手机", "手机号", "mobile"]:
+                v = "%s%s%s" % (v[0:3], "****", v[7:])
+            if k in ["身份证"]:
+                v = "%s%s%s" % (v[0:5], "*" * 9, v[14:])
+        td_ele += '<td style="white-space:nowrap">%s</td>' % v
+    return mark_safe(td_ele)
+
+
+@register.simple_tag
+def check_detail_get_table_head(query_sets, condition_dict, order_by_dict):
+    """查看详细页面的表头"""
+    '''
+    {% for k in query_sets.0.keys %}
+        <th style="white-space:nowrap">{{ k }}</th>
+    {% endfor %}
+    '''
+    th_ele = ""
+    condition_str = get_condition_str(condition_dict)
+    for k in query_sets[0].keys():
+        if k in order_by_dict:
+            order_by_key = order_by_dict.get(k)
+            if order_by_key.startswith("-"):
+                sort_icon = '''<i class="fa fa-sort-up" aria-hidden="true"></i>'''
+            else:
+                sort_icon = '''<i class="fa fa-sort-desc" aria-hidden="true"></i>'''
+        else:
+            order_by_key = k
+            sort_icon = ""
+        th_ele += '<th style="white-space:nowrap"><a href="?o=%s%s">%s</a>%s</th>' % (
+            order_by_key, condition_str, k, sort_icon
+        )
+    return mark_safe(th_ele)

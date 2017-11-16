@@ -6,6 +6,30 @@
 from django.db.models import Q
 from django.db import connections
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from dm import models
+
+
+def get_sql_content(id):
+    """获取SQL内容"""
+    return models.SQLRecord.objects.filter(id=id).first().sql_content.content
+
+
+def get_qudao_sign(qudao_name):
+    """获取渠道名称对应的渠道标识"""
+    ret = {"status": False, "data": None}
+    if qudao_name:
+        qudao_sign_list = get_info_list(
+            "rz",
+            "SELECT sign from rzjf_bi.rzjf_qudao_name where name = '%s'" % qudao_name
+        )
+        if qudao_sign_list:  # 能获取到渠道名称对应的渠道标识
+            qudao_sign_list = ["'%s'" % i["sign"] for i in qudao_sign_list]  # 以逗号分隔渠道标识
+            ret["data"] = "and q.name in (%s)" % ",".join(qudao_sign_list)  # 重组渠道标识
+            ret["status"] = True
+    else:
+        ret["status"] = True
+        ret["data"] = ""
+    return ret
 
 
 def get_condition_dict(request):
@@ -47,13 +71,23 @@ def get_query_sets(request, contact_list, list_per_page):
     return query_sets
 
 
-def query_sets_sort(request, contact_list):
+def query_sets_sort(request, contact_list, data_type="query_sets"):
     """对query_sets进行排序"""
     order_by_dict = {}  # 返回排序所需字典
     order_by_key = request.GET.get("o", "")  # 通过关键字o获取排序方式
     if order_by_key:
         order_by_field = order_by_key.strip("-")  # 获取要排序的字段
-        contact_list = contact_list.order_by(order_by_key)  # 获取排序好的query_sets
+        if data_type == "query_sets":
+            contact_list = contact_list.order_by(order_by_key)  # 获取排序好的query_sets
+        else:  # 对于不是django自带query_sets对象的排序方式
+            if order_by_key.startswith("-"):
+                is_reverse = True
+            else:
+                is_reverse = False
+            try:
+                contact_list = sorted(contact_list, key=lambda i: i.get(order_by_field) or 0, reverse=is_reverse)
+            except Exception:
+                contact_list = sorted(contact_list, key=lambda i: str(i.get(order_by_field)) or '0', reverse=is_reverse)
         if order_by_key.startswith("-"):  # 表明此次是降序排列
             next_order_by_key = order_by_field  # 返回下次则是升序排列
         else:  # 表明此次是升序排列

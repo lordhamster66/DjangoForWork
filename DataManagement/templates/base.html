@@ -26,6 +26,7 @@
     <script src="/static/js/ie-emulation-modes-warning.js"></script>
     <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css"/>
     <link rel="stylesheet" type="text/css" href="/static/plugins/sweetalert-master/dist/sweetalert.css">
+    <link rel="stylesheet" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <style>
         .cycle-display {
             width: 200px;
@@ -51,6 +52,7 @@
 <script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/plugins/jquery.cookie.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript" src="/static/plugins/sweetalert-master/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="/static/plugins/echarts.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
@@ -71,6 +73,11 @@
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             }
+        });
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy-mm-dd"
         });
     })
 </script>

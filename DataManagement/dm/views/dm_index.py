@@ -1,15 +1,10 @@
 from django.shortcuts import render
-from dm import models
-from dm.utils import get_info_list
+from dm.utils import get_info_list, get_sql_content
 
 
 # Create your views here.
 def index(request):
     """dm首页"""
-
-    def get_sql_content(id):
-        """获取SQL内容"""
-        return models.SQLRecord.objects.filter(id=id).first().sql_content.content
 
     home_dict = {
         "zhu_r": None,
@@ -22,7 +17,7 @@ def index(request):
         "un_r_auto_recover_account_list": [],
     }
     tz_info = get_info_list("rz", get_sql_content(12))[0]
-    home_dict["zhu_r"] = get_info_list("rz", get_sql_content(10))[0].get("zhu_r")
+    home_dict["zhu_r"] = get_info_list("rz", get_sql_content(24))[0].get("zhu_r")
     home_dict["sm_r"] = get_info_list("rz", get_sql_content(11))[0].get("sm_r")
     home_dict["tz_r"] = tz_info.get("tz_r")
     home_dict["amount"] = tz_info.get("amount")
@@ -41,6 +36,6 @@ def index(request):
         float(get_info_list("rz", get_sql_content(22).format(date="DATE_ADD(CURDATE(),INTERVAL 1 day)"))[0].get(
             "un_r_auto_recover_account") or 0)
     )
-    return render(request, "index.html", {
+    return render(request, "dm_index.html", {
         "home_dict": home_dict
     })
