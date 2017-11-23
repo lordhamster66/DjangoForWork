@@ -25,7 +25,8 @@
         <div class="panel-heading">
             <h3 class="panel-title" style="height: 30px;line-height: 30px;">
                 <span class="pull-left">查看明细</span>
-                {#                <button type="button" class="my-dev btn btn-success pull-right">导出EXCEL</button>#}
+                <a class="btn btn-success pull-right" target="_blank"
+                   href="/dm/download_detail.html?{% get_all_condition_str condition_dict order_by_dict search_content %}">导出EXCEL</a>
             </h3>
         </div>
         <div class="panel-body">
@@ -33,27 +34,35 @@
                 <!-- 工具栏开始 -->
                 <div class="row">
                     <span id="alert" style="display: none;"></span>
-                    <form class="form-inline pull-right" method="get">
+                    <form class="form-inline" method="get">
                         {% csrf_token %}
-                        <div class="checkbox">
-                            {{ check_detail_form.data_type }}
+                        <div class="row" style="margin-left: 10px;margin-bottom: 20px;">
+                            <label for="searchbar"><img src="/static/img/search.svg" alt="Search"></label>
+                            <input type="text" size="40" name="_q" value="{{ search_content }}" id="searchbar"
+                                   placeholder="可根据UID和手机号搜索">
+                            <input type="submit" value="搜索">
                         </div>
-                        <div class="checkbox" style="position: relative;">
-                            {{ check_detail_form.qudao_name }}
-                            <span style="color: red;">{{ check_detail_form.qudao_name.errors.0 }}</span>
-                            <div id="search-cont" class="search-container"></div>
+                        <div class="row">
+                            <div class="checkbox" style="margin-left: 20px;">
+                                {{ check_detail_form.data_type }}
+                            </div>
+                            <div class="checkbox" style="position: relative;">
+                                {{ check_detail_form.qudao_name }}
+                                <span style="color: red;">{{ check_detail_form.qudao_name.errors.0 }}</span>
+                                <div id="search-cont" class="search-container"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="start_time">起始日期</label>
+                                {{ check_detail_form.start_time }}
+                                <span style="color: red;">{{ check_detail_form.start_time.errors.0 }}</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="end_time">终止日期</label>
+                                {{ check_detail_form.end_time }}
+                                <span style="color: red;">{{ check_detail_form.end_time.errors.0 }}</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">查询</button>
                         </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="start_time">起始日期</label>
-                            {{ check_detail_form.start_time }}
-                            <span style="color: red;">{{ check_detail_form.start_time.errors.0 }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="end_time">终止日期</label>
-                            {{ check_detail_form.end_time }}
-                            <span style="color: red;">{{ check_detail_form.end_time.errors.0 }}</span>
-                        </div>
-                        <button type="submit" class="btn btn-primary">查询</button>
                     </form>
                 </div>
                 <!-- 工具栏结束 -->
@@ -65,7 +74,7 @@
                             <thead>
                             <tr>
                                 {% if query_sets %}
-                                    {% check_detail_get_table_head query_sets condition_dict order_by_dict %}
+                                    {% check_detail_get_table_head query_sets condition_dict order_by_dict search_content %}
                                 {% endif %}
                             </tr>
                             </thead>
@@ -85,7 +94,7 @@
                 <div class="row">
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
-                            {% get_page_ele query_sets condition_dict order_by_dict %}
+                            {% get_page_ele query_sets condition_dict order_by_dict search_content %}
                         </ul>
                     </nav>
                 </div>

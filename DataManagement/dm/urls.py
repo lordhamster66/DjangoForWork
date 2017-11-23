@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^edit_sql/(?P<sql_record_id>\d+)/$', manager.edit_sql, name="edit_sql"),
     url(r'^del_sql/(?P<sql_record_id>\d+)/$', manager.del_sql, name="del_sql"),
     url(r'^check_detail.html$', search.check_detail, name="check_detail"),
+    url(r'^download_detail.html$', search.download_detail, name="download_detail"),
     url(r'^search_channel_name/$', search.search_channel_name),
 ]

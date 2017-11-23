@@ -43,6 +43,6 @@ class CheckDetailForm(Form):
     )
 
     data_type = fields.ChoiceField(
-        choices=[(23, "注册明细"), (25, "实名明细"), (26, "首投明细")],
+        choices=[(23, "注册明细"), (25, "实名明细"), (26, "首投明细"), (27, "投资明细")],
         widget=widgets.Select(attrs={"class": "form-control"})
     )

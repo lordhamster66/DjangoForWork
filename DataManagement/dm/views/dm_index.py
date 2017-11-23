@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from dm.utils import get_info_list, get_sql_content
+from dm.utils import get_info_list, get_sql_content, login_decorator
 
 
 # Create your views here.
+@login_decorator
 def index(request):
     """dm首页"""
-
     home_dict = {
         "zhu_r": None,
         "sm_r": None,

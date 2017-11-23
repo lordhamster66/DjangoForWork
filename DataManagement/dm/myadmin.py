@@ -29,7 +29,7 @@ def register(model_class, admin_class):
 
 class SQLRecordAdmin(BaseAdmin):
     list_display = ("id", "user", "sql_name", "department", "date")
-    list_filter = ("user", "department",)
+    list_filter = ("user", "department", "date")
     search_fields = ("sql_name", "department__name")
     list_per_page = 20
 

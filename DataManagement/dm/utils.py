@@ -3,10 +3,24 @@
 # __author__ = "Breakering"
 # Date: 2017/11/14
 """常用插件和函数"""
+from django.shortcuts import redirect
 from django.db.models import Q
 from django.db import connections
+from django.utils.timezone import datetime, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from dm import models
+
+
+def login_decorator(func):
+    """登录验证装饰器"""
+
+    def inner(request, *args, **kwargs):
+        if not request.user.username:
+            return redirect("/admin/")
+        ret = func(request, *args, **kwargs)
+        return ret
+
+    return inner
 
 
 def get_sql_content(id):
@@ -16,7 +30,7 @@ def get_sql_content(id):
 
 def get_qudao_sign(qudao_name):
     """获取渠道名称对应的渠道标识"""
-    ret = {"status": False, "data": None}
+    ret = {"status": False, "data": ""}
     if qudao_name:
         qudao_sign_list = get_info_list(
             "rz",
@@ -56,7 +70,38 @@ def query_sets_search(request, contact_list, admin_class):
     return contact_list
 
 
-def get_query_sets(request, contact_list, list_per_page):
+def get_query_sets(request, ret, condition_dict):
+    """
+    获取query_sets
+    :param request:
+    :param ret:
+    :param data_type:
+    :param start_time:
+    :param end_time:
+    :return:
+    """
+    data_type = condition_dict.get("data_type")
+    start_time = condition_dict.get("start_time")
+    end_time = condition_dict.get("end_time")
+    qudao_sign = ret["data"]  # 制造渠道名称查询条件
+    sql_content = get_sql_content(data_type)  # 动态获取SQL内容
+    search_content = request.GET.get("_q", "")  # search内容
+    if search_content:
+        uid_list = get_info_list("rz", """SELECT uid from 01u_0info where uid = '{search_content}' UNION
+                        SELECT uid from 01u_0info where mobile = '{search_content}'""".format(
+            search_content=search_content))
+        search_content = 'and info.uid in ("%s")' % ",".join([str(i["uid"]) for i in uid_list if i])
+    sql_content = sql_content.format(
+        start_date=start_time,
+        end_date=end_time,
+        q_name_query=qudao_sign,
+        search_content=search_content,
+    )
+    query_sets = get_info_list("rz", sql_content)
+    return query_sets
+
+
+def get_paginator_query_sets(request, contact_list, list_per_page):
     """获取封装分页功能的query_sets"""
     paginator = Paginator(contact_list, list_per_page)  # 获取分页对象
     page = request.GET.get('page')  # 获取当前页码

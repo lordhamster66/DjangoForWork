@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/11/14
-from datetime import datetime, date
+from datetime import date
+from django.utils.timezone import datetime, timedelta
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -18,13 +19,21 @@ def get_condition_str(condition_dict):
 
 
 @register.simple_tag
+def get_all_condition_str(condition_dict, order_by_dict, search_content):
+    """拼接所有条件"""
+    all_condition_str = "o=%s&_q=%s" % (order_by_dict.get("current_order_by_key", ""), search_content)
+    condition_str = get_condition_str(condition_dict)
+    return all_condition_str + condition_str
+
+
+@register.simple_tag
 def get_table_thead(admin_class, column):
     """获取表头的中文名称"""
     return admin_class.model._meta.get_field(column).verbose_name
 
 
 @register.simple_tag
-def get_head_name(admin_class, order_by_dict, condition_dict):
+def get_head_name(admin_class, order_by_dict, condition_dict, search_content=""):
     """获取表头"""
     th_ele = ""
     condition_str = get_condition_str(condition_dict)
@@ -38,9 +47,10 @@ def get_head_name(admin_class, order_by_dict, condition_dict):
         else:
             order_by_key = field
             sort_icon = ''
-        th_ele += '<th><a href="?o=%s%s">%s</a> %s</th>' % (
+        th_ele += '<th><a href="?o=%s%s&_q=%s">%s</a> %s</th>' % (
             order_by_key,
             condition_str,
+            search_content,
             admin_class.model._meta.get_field(field).verbose_name,
             sort_icon
         )
@@ -111,17 +121,34 @@ def get_page_ele(query_sets, condition_dict=None, order_by_dict=None, search_con
 
 
 @register.simple_tag
-def get_condition_ele(condition, admin_class, condition_dict):
+def get_condition_ele(filter_field, admin_class, condition_dict):
     """生成过滤select"""
-    condition_ele = '''<select class="form-control" name=%s>''' % condition
-    field_obj = admin_class.model._meta.get_field(condition)
-    choices = field_obj.get_choices()
+    condition_ele = '''<select class="form-control" name={filter_field}>'''
+    field_obj = admin_class.model._meta.get_field(filter_field)
+    if type(field_obj).__name__ in ["DateTimeField", "DateField"]:
+        filter_field = "%s__gte" % filter_field
+        today = datetime.now().date()
+        choices = [
+            ('', '---------'),
+            (today, '今天'),
+            (today - timedelta(days=1), '昨天至今天'),
+            (today - timedelta(days=7), '近7天'),
+            (today.replace(day=1), '本月'),
+            (today - timedelta(days=30), '近30天'),
+            (today - timedelta(days=90), '近90天'),
+            (today.replace(month=1, day=1), '本年'),
+            (today - timedelta(days=180), '近180天'),
+            (today - timedelta(days=365), '近365天'),
+        ]
+    else:
+        choices = field_obj.get_choices()  # 过滤选项
     for choices_data in choices:
         selected = ""
-        if condition_dict.get(condition) == str(choices_data[0]):
+        if condition_dict.get(filter_field) == str(choices_data[0]):
             selected = "selected"
         condition_ele += '''<option value="%s" %s>%s</option>''' % (choices_data[0], selected, choices_data[1])
     condition_ele += '''</select>'''
+    condition_ele = condition_ele.format(filter_field=filter_field)
     return mark_safe(condition_ele)
 
 
@@ -134,13 +161,16 @@ def check_detail_get_table_rows(request, item):
     {% endfor %}
     '''
     td_ele = ""
+    detaile_jurisdiction = ["数据组", "管理员"]  # 有详细信息查看权限的角色
+    user_roles_list = [i[0] for i in list(request.user.userprofile.roles.values_list("name")) if
+                       i[0] in detaile_jurisdiction]
     for k, v in item.items():
         if isinstance(v, datetime):
             v = datetime.strftime(v, "%Y-%m-%d %H:%M:%S")
         if isinstance(v, date):
             v = date.strftime(v, "%Y-%m-%d")
         # print([i[0] for i in list(request.user.userprofile.roles.values_list("name"))])
-        if "数据组" not in [i[0] for i in list(request.user.userprofile.roles.values_list("name"))]:
+        if len(user_roles_list) == 0:
             if k in ["姓名", "uname", "用户名", "un"]:
                 v = "%s%s" % (v[:1], "*" * len(v[1:]))
             if k in ["手机", "手机号", "mobile"]:
@@ -152,7 +182,7 @@ def check_detail_get_table_rows(request, item):
 
 
 @register.simple_tag
-def check_detail_get_table_head(query_sets, condition_dict, order_by_dict):
+def check_detail_get_table_head(query_sets, condition_dict, order_by_dict, search_content):
     """查看详细页面的表头"""
     '''
     {% for k in query_sets.0.keys %}
@@ -171,7 +201,7 @@ def check_detail_get_table_head(query_sets, condition_dict, order_by_dict):
         else:
             order_by_key = k
             sort_icon = ""
-        th_ele += '<th style="white-space:nowrap"><a href="?o=%s%s">%s</a>%s</th>' % (
-            order_by_key, condition_str, k, sort_icon
+        th_ele += '<th style="white-space:nowrap"><a href="?o=%s%s&_q=%s">%s</a>%s</th>' % (
+            order_by_key, condition_str, search_content, k, sort_icon
         )
     return mark_safe(th_ele)

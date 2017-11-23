@@ -10,9 +10,10 @@ from dm.forms.manager_form import AddSQLForm, EditSQLForm
 from dm import models
 from django.db import transaction
 from dm.myadmin import enabled_admin
-from dm.utils import get_condition_dict, get_query_sets, query_sets_sort, query_sets_search
+from dm.utils import get_condition_dict, get_paginator_query_sets, query_sets_sort, query_sets_search, login_decorator
 
 
+@login_decorator
 def add_sql(request):
     """添加sql功能"""
     if request.method == "GET":
@@ -42,6 +43,7 @@ def add_sql(request):
             })
 
 
+@login_decorator
 def view_sql(request):
     """查看所有的SQL记录"""
     if request.method == "GET":
@@ -51,7 +53,7 @@ def view_sql(request):
         contact_list = admin_class.model.objects.filter(**condition_dict)  # 获取过滤后的query_sets
         contact_list = query_sets_search(request, contact_list, admin_class)  # 获取search后的query_sets
         contact_list, order_by_dict = query_sets_sort(request, contact_list)  # 获取排序后的query_sets以及排序所要用到的字典
-        query_sets = get_query_sets(request, contact_list, admin_class.list_per_page)  # 获取带分页功能的query_sets
+        query_sets = get_paginator_query_sets(request, contact_list, admin_class.list_per_page)  # 获取带分页功能的query_sets
         return render(request, "manager/view_sql.html", {
             "admin_class": admin_class,
             "query_sets": query_sets,
@@ -61,6 +63,7 @@ def view_sql(request):
         })
 
 
+@login_decorator
 def edit_sql(request, sql_record_id):
     """编辑SQL记录"""
     sql_record_obj = models.SQLRecord.objects.filter(id=sql_record_id).first()  # 要返回的sql_record对象
@@ -93,6 +96,7 @@ def edit_sql(request, sql_record_id):
     })
 
 
+@login_decorator
 def del_sql(request, sql_record_id):
     """删除sql记录"""
     ret = {"status": False, "errors": None, "data": None}
