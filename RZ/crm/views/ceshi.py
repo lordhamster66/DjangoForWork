@@ -109,7 +109,7 @@ def ceshi(request):
     data = cursor.fetchall()
     col_names = [i[0] for i in cursor.description]
     info_list = [dict(zip(col_names, row)) for row in data]
-    with open("C:/Users/Administrator/Desktop/user_recover.txt", "w", encoding="utf-8") as f:
+    with open("/root/user_recover.txt", "w", encoding="utf-8") as f:
         f.write("uid\trecover_account\trecover_times\tcreate_time\tid\n")
         for item in info_list:
             f.write("%s\t%s\t%s\t%s\t%s\n" % (
