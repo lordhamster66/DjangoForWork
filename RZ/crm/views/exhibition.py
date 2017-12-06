@@ -18,7 +18,10 @@ def sales_achievement(request):
     if request.method == "GET":
         current_page = request.GET.get("p")  # 获取用户想看的页数，默认是第一页
         # 获取客服ID
-        kefu_id = request.session.get("sales_achievement_kefu_id", "1285094,1285095,1285099,1285100,1296124,1455368")
+        kefu_id = request.session.get(
+            "sales_achievement_kefu_id",
+            "1285094,1285095,1285099,1285100,1296124,1455368,1455369,1455375"
+        )
         if current_page:
             current_page = int(current_page)
             # 获取起始日期，默认为本月第一天
