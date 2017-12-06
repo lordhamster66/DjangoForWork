@@ -51,14 +51,14 @@ def get_insert_sql(sql_name):
     return insert_sql
 
 
-def get_base_insert_sql(sql, info_list, new_bid, name, full_date):
+def get_base_insert_sql(sql, info_list, new_bid, name, full_date, borrow_uid):
     year, month, day = full_date.split("-")  # 获取用户输入的年月日
     reverify_time = info_list[0].get('reverify_time')  # 获取该标的的满标时间
     reverify_time = reverify_time.replace(year=int(year), month=int(month), day=int(day))  # 替换满标日期
     base_insert_sql = sql.format(bid=new_bid, status=info_list[0].get('status'),
                                  curstate=info_list[0].get('curstate'), stoptrans=info_list[0].get('stoptrans'),
                                  diya_type=info_list[0].get('diya_type'), cid=info_list[0].get('cid'),
-                                 uid=info_list[0].get('uid'),
+                                 uid=borrow_uid if borrow_uid else info_list[0].get('uid'),
                                  aid=info_list[0].get('aid'), name=name, flag=info_list[0].get('flag'),
                                  account=info_list[0].get('account'), account_diya=info_list[0].get('account_diya'),
                                  account_diyafanhuan=info_list[0].get('account_diyafanhuan'),
@@ -178,7 +178,9 @@ def get_tenderfinal_insert_sql(sql, info, new_bid):
 def create_fake_info(request, bid, new_bid, name, full_date):
     base_info_list = get_info_list(base.format(bid=bid))
     insert_sql = get_insert_sql("05b_0base_insert.sql")
-    base_insert_sql = get_base_insert_sql(insert_sql, base_info_list, new_bid, name, full_date)
+    base_insert_sql = get_base_insert_sql(
+        insert_sql, base_info_list, new_bid, name, full_date, request.GET.get("borrow_uid")
+    )
     base_insert_sql = base_insert_sql.replace("'None'", 'NULL')
 
     base_run_info_list = get_info_list(base_run.format(bid=bid))
