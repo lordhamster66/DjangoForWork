@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block body %}
+    <div id="container" class="cls-container">
+
+        <!-- BACKGROUND IMAGE -->
+        <!--===================================================-->
+        <div id="bg-overlay" class="bg-img img-balloon"></div>
+
+
+        <!-- HEADER -->
+        <!--===================================================-->
+        <div class="cls-header cls-header-lg">
+            <div class="cls-brand">
+                <a class="box-inline" href="/">
+                    <!-- <img alt="Nifty Admin" src="img/logo.png" class="brand-icon"> -->
+                    <span class="brand-title">人众金服自动化后台<span class="text-thin">Admin</span></span>
+                </a>
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+        <!-- LOGIN FORM -->
+        <!--===================================================-->
+        <div class="cls-content">
+            <div class="cls-content-sm panel">
+                <div class="panel-body">
+                    <p class="pad-btm">请登录</p>
+                    <form method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                <input type="email" class="form-control" placeholder="请输入邮箱">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-asterisk"></i></div>
+                                <input type="password" class="form-control" placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 text-left checkbox">
+                                <label class="form-checkbox form-icon">
+                                    <input type="checkbox"> 记住我
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group text-right">
+                                    <button class="btn btn-success text-uppercase" type="submit">登录</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="pad-ver">
+                <a href="#" class="btn-link mar-rgt">忘记密码了 ?</a>
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+        <!-- DEMO PURPOSE ONLY -->
+        <!--===================================================-->
+        <div class="demo-bg">
+            <div id="demo-bg-list">
+                <div class="demo-loading"><i class="fa fa-refresh"></i></div>
+                <img class="demo-chg-bg bg-trans" src="/static/img/bg-img/thumbs/bg-trns.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-1.jpg" alt="Background Image">
+                <img class="demo-chg-bg active" src="/static/img/bg-img/thumbs/bg-img-2.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-3.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-4.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-5.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-6.jpg" alt="Background Image">
+                <img class="demo-chg-bg" src="/static/img/bg-img/thumbs/bg-img-7.jpg" alt="Background Image">
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+    </div>
+{% endblock %}
