@@ -1,16 +1,20 @@
 import json
 from django.shortcuts import render, redirect
 from kind_admin import kind_admin
-from kind_admin.utils import get_condition_dict, get_paginator_query_sets, query_sets_sort, query_sets_search
-from kind_admin.utils import count_related_objs
+from kind_admin.utils import (
+    get_condition_dict, get_paginator_query_sets, query_sets_sort, query_sets_search, count_related_objs
+)
 from kind_admin.forms import create_model_form
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def index(request):
     return render(request, "kind_admin/table_index.html", {"table_list": kind_admin.enabled_admins})
 
 
+@login_required
 def table_objs(request, app_name, table_name):
     """对每张表进行展示"""
     admin_class = kind_admin.enabled_admins[app_name][table_name]  # 获取admin_class
@@ -38,6 +42,7 @@ def table_objs(request, app_name, table_name):
     })
 
 
+@login_required
 def table_add(request, app_name, table_name):
     """
     添加表信息
@@ -71,6 +76,7 @@ def table_add(request, app_name, table_name):
     })
 
 
+@login_required
 def table_change(request, app_name, table_name, obj_id):
     """
     对表进行修改操作
@@ -106,6 +112,7 @@ def table_change(request, app_name, table_name, obj_id):
     })
 
 
+@login_required
 def table_delete(request, app_name, table_name, obj_ids):
     """
     删除某条记录
