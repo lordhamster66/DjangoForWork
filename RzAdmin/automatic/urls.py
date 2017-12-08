@@ -18,4 +18,5 @@ from automatic import views
 
 urlpatterns = [
     url(r'^$', views.index, name="automatic_index"),
+    url(r'^search_table_list/$', views.search_table_list, name="search_table_list"),
 ]

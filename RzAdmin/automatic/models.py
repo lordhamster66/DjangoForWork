@@ -156,3 +156,62 @@ class Menu(models.Model):
 
     class Meta:
         verbose_name_plural = "动态菜单表"
+
+
+class SQLTag(models.Model):
+    """sql标签"""
+    user = models.ForeignKey("UserProfile", verbose_name="创建者")
+    name = models.CharField(max_length=32, verbose_name="标签名称")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "sql标签表"
+
+
+class SQLFunc(models.Model):
+    """sql具备的功能表"""
+    name = models.CharField(max_length=32, verbose_name="功能名称")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "sql具备的功能表"
+
+
+class SQLRecord(models.Model):
+    """sql记录表"""
+    user = models.ForeignKey("UserProfile", verbose_name="创建者")
+    name = models.CharField(max_length=32, verbose_name="sql名称")
+    roles = models.ManyToManyField("Role", blank=True, verbose_name="所属角色", default=None)
+    tags = models.ManyToManyField("SQLTag", blank=True, verbose_name="标签", default=None)
+    content = models.TextField(verbose_name="sql内容")
+    func = models.ForeignKey("SQLFunc", blank=True, verbose_name="sql具备的功能")
+    query_page = models.BooleanField(default=False, verbose_name="是否生成查询页面")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "sql记录表"
+
+
+class DownloadRecord(models.Model):
+    """下载记录"""
+    user = models.ForeignKey("UserProfile", related_name="user_download", verbose_name="下载用户")
+    url = models.TextField(verbose_name="下载地址")
+    check_status_choices = ((0, "未审核"), (1, "审核通过"), (2, "审核不通过"))
+    check_status = models.SmallIntegerField(choices=check_status_choices, verbose_name="审核状态", default=0)
+    check_user = models.ForeignKey("UserProfile", related_name="user_check_download", verbose_name="审核用户")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    end_date = models.DateTimeField(verbose_name="过期时间", default="2099-12-31 00:00:00")
+
+    def __str__(self):
+        return self.url
+
+    class Meta:
+        verbose_name_plural = "下载记录表"

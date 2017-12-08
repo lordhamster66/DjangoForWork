@@ -6,41 +6,35 @@
     </ol>
 {% endblock %}
 {% block page-content %}
-    <div class="container-fluid" style="padding-left: 50px;padding-right: 50px;">
-        <div class="row">
-            {% block content %}
-                {% for app_name, tables in table_list.items %}
-                    <div class="panel panel-primary" style="margin-top: 50px;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{{ app_name }}</h3>
-                        </div>
-                        <div class="panel-body">
-                            <table class="table table-hover">
-                                <tbody>
-                                {% for table_name, admin_class in tables.items %}
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'table_objs' app_name table_name %}">
-                                                {% render_table_name admin_class %}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="/kind_admin/{{ app_name }}/{{ table_name }}/add/"
-                                               class="btn btn-success btn-xs">
-                                                <i class='fa fa-plus' aria-hidden='true'></i>
-                                                添加
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endblock %}
+    {% for app_name, tables in table_list.items %}
+        <div class="panel panel-bordered panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ app_name }}</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tbody>
+                    {% for table_name, admin_class in tables.items %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'table_objs' app_name table_name %}">
+                                    {% render_table_name admin_class %}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/kind_admin/{{ app_name }}/{{ table_name }}/add/"
+                                   class="btn btn-success btn-xs">
+                                    <i class='fa fa-plus' aria-hidden='true'></i>
+                                    添加
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    {% endfor %}
 {% endblock %}
 
 

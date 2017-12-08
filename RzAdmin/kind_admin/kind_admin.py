@@ -91,6 +91,27 @@ class MenuAdmin(BaseAdmin):
     list_display = ("name", "url_type", "url_name")
 
 
+class SQLTagAdmin(BaseAdmin):
+    list_display = ("user", "name", "date")
+
+
+class SQLFuncAdmin(BaseAdmin):
+    list_display = ("name",)
+
+
+class SQLRecordAdmin(BaseAdmin):
+    list_display = ("user", "name", "content", "query_page", "date")
+    filter_horizontal = ("roles", "tags")
+
+
+class DownloadRecordAdmin(BaseAdmin):
+    list_display = ("user", "url", "check_status", "check_user", "date", "end_date")
+
+
 register(models.UserProfile, UserProfileAdmin)
 register(models.Role, RoleAdmin)
 register(models.Menu, MenuAdmin)
+register(models.SQLTag, SQLTagAdmin)
+register(models.SQLFunc, SQLFuncAdmin)
+register(models.SQLRecord, SQLRecordAdmin)
+register(models.DownloadRecord, DownloadRecordAdmin)
