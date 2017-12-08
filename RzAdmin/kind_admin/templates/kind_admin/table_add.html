@@ -1,0 +1,12 @@
+{% extends "kind_admin/table_change.html" %}
+{% load tags %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/kind_admin/">APP库</a></li>
+        <li><a href="/kind_admin/{{ app_name }}/{{ table_name }}/">表信息</a></li>
+        <li class="active">添加信息</li>
+    </ol>
+{% endblock %}
+{% block table_action %}
+    添加{% render_table_name admin_class %}
+{% endblock %}

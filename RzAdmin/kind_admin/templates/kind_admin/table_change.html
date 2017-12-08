@@ -1,0 +1,327 @@
+{% extends "index.html" %}
+{% load tags %}
+{% block css %}
+    <style>
+        a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        a.active.selector-chooseall {
+            opacity: 1;
+        }
+
+        a.active.selector-clearall {
+            opacity: 1;
+        }
+
+        a.selector-chooseall {
+            padding: 0 18px 0 0;
+            background: url(/static/admin/img/selector-icons.svg) right -160px no-repeat;
+            cursor: pointer;
+            display: inline-block;
+            height: 16px;
+            text-align: left;
+            margin: 1px auto 3px;
+            overflow: hidden;
+            font-weight: bold;
+            line-height: 16px;
+            color: #666;
+            text-decoration: none;
+            opacity: 0.3;
+        }
+
+        a.selector-clearall {
+            padding: 0 0 0 18px;
+            background: url(/static/admin/img/selector-icons.svg) 0 -128px no-repeat;
+            cursor: pointer;
+            display: inline-block;
+            height: 16px;
+            text-align: left;
+            margin: 1px auto 3px;
+            overflow: hidden;
+            font-weight: bold;
+            line-height: 16px;
+            color: #666;
+            text-decoration: none;
+            opacity: 0.3;
+        }
+
+        .selector-chooser {
+            float: left;
+            width: 22px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin: 10em 5px 0 5px;
+            padding: 0;
+        }
+
+        .selector-chooser li {
+            list-style: none;
+            padding: 3px;
+        }
+
+        .selector-chooser .selector-add.active {
+            opacity: 1;
+        }
+
+        .selector-chooser .selector-remove.active {
+            opacity: 1;
+        }
+
+        .selector-chooser .selector-add {
+            background: url(/static/admin/img/selector-icons.svg) 0 -96px no-repeat;
+            width: 16px;
+            height: 16px;
+            display: block;
+            text-indent: -3000px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.3;
+        }
+
+        .selector-chooser .selector-remove {
+            background: url(/static/admin/img/selector-icons.svg) 0 -64px no-repeat;
+            width: 16px;
+            height: 16px;
+            display: block;
+            text-indent: -3000px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.3;
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/kind_admin/">APP库</a></li>
+        <li><a href="/kind_admin/{{ app_name }}/{{ table_name }}/">表信息</a></li>
+        <li class="active">对象信息</li>
+    </ol>
+{% endblock %}
+{% block page-content %}
+    <div class="row" style="margin-top: 20px;">
+        <h3>
+            {% block table_action %}
+                修改{% render_table_name admin_class %}
+            {% endblock %}
+        </h3>
+        <br>
+        <form id="base-form" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <span style="color: red;">{% get_all_error model_form_obj %}</span>
+                {% for field in model_form_obj %}
+                    <div class="row" style="margin-top: 10px;border-bottom: 1px solid #eeeeee">
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label"
+                                       style="font-weight:normal; text-align: left">
+                                    {% if field.field.required %}
+                                        <b>{{ field.label }}:</b>
+                                    {% else %}
+                                        {{ field.label }}:
+                                    {% endif %}
+                                </label>
+                                {# 如果字段在readonly字段里面且是修改页面或者字段不在filter_horizontal里面则不显示复选框界面 #}
+                                {% if field.name in admin_class.readonly_fields and admin_class.need_readonly or field.name not in admin_class.filter_horizontal %}
+                                    <div class="col-sm-8">
+                                        {{ field }}
+                                        {{ field.help_text }}
+                                        <span style="color: red;">{% get_field_error model_form_obj field %}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">可用 {{ field.label }}</div>
+                                            <div class="panel-body" style="padding: 0;">
+                                                {% get_m2m_available_objs admin_class field.name model_form_obj as m2m_available_objs %}
+                                                <select class="filter_horizontal form-control" multiple
+                                                        id="{{ field.name }}_move_from" field_name="{{ field.name }}"
+                                                        style="height: 300px;">
+                                                    {% for obj in m2m_available_objs %}
+                                                        <option tag="option" value="{{ obj.id }}">{{ obj }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <p style="text-align: center;">
+                                            {% if m2m_available_objs %}
+                                                <a class="add_all_link selector-chooseall active"
+                                                   id="{{ field.name }}_chooseall">全选</a>
+                                            {% else %}
+                                                <a class="add_all_link selector-chooseall"
+                                                   id="{{ field.name }}_chooseall">全选</a>
+                                            {% endif %}
+                                        </p>
+                                        <span style="font-size: smaller">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</span>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <ul class="selector-chooser">
+                                            <li>
+                                                <a title="选择" id="{{ field.name }}_add_link"
+                                                   field_name="{{ field.name }}"
+                                                   class="selector-add">选择</a>
+                                            </li>
+                                            <li>
+                                                <a title="删除" id="{{ field.name }}_remove_link"
+                                                   field_name="{{ field.name }}"
+                                                   class="selector-remove">删除</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">选中的 {{ field.label }}</h3>
+                                            </div>
+                                            <div class="panel-body" style="padding: 0;">
+                                                {% get_m2m_chosen_objs model_form_obj field.name as m2m_chosen_objs %}
+                                                <select class="filter_horizontal form-control move_to" multiple
+                                                        field_name="{{ field.name }}"
+                                                        name="{{ field.name }}" id="{{ field.name }}_move_to"
+                                                        style="height: 250px;">
+                                                    {% for obj in m2m_chosen_objs %}
+                                                        <option tag="option" value="{{ obj.id }}">{{ obj }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <p style="text-align: center;">
+                                            {% if m2m_chosen_objs %}
+                                                <a class="add_all_link selector-clearall active"
+                                                   id="{{ field.name }}_clearall">删除全部</a>
+                                            {% else %}
+                                                <a class="add_all_link selector-clearall"
+                                                   id="{{ field.name }}_clearall">删除全部</a>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                                {% foreignKey_add_button admin_class field %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if not admin_class.table_readonly %}
+                <div class="row" style="padding: 10px 50px;margin-bottom: 50px;">
+                    <div class="row" style="padding: 15px;background-color: #f8f8f8;border-radius: 4px;">
+                        {% if model_form_obj.instance.id %}
+                            <a href="{% url "table_delete" app_name table_name  model_form_obj.instance.id %}"
+                               class="btn btn-danger pull-left">删除</a>
+                        {% endif %}
+                        <input type="submit" value="保存" class="btn btn-primary pull-right" name="_save"
+                               style="margin-left: 10px;">
+                        <input type="submit" value="保存并继续编辑" class="btn btn-primary pull-right" name="_continue"
+                               style="margin-left: 10px;">
+                        <input type="submit" value="保存并增加新的" class="btn btn-primary pull-right" name="_addanother"
+                               style="margin-left: 10px;">
+                    </div>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            // 双击移动选项
+            $(".filter_horizontal").delegate("[tag='option']", "dblclick", function () {
+                var field_name = $(this).parent().attr("field_name");  // 获取字段名
+                var move_to_id = field_name + "_move_to";
+                var move_from_id = field_name + "_move_from";
+                var move_dict = {};
+                move_dict[move_to_id] = move_from_id;
+                move_dict[move_from_id] = move_to_id;
+                if ($(this).parent().children().length == 1) {
+                    $(this).parents(".panel").next().children("a").removeClass("active");
+                }
+                var current_ele = $(this);  // 当前标签
+                var parent_ele_id = $(this).parent().attr("id"); // 当前标签的父标签ID
+                $(this).remove();  // 移除该标签
+                $("#" + move_dict[parent_ele_id]).append(current_ele).parents(".panel").next().children("a").addClass("active");  // 移动选择的标签
+                $("#" + field_name + "_add_link").removeClass("active");
+                $("#" + field_name + "_remove_link").removeClass("active");
+            });
+            // 提交form表单之前自动全选复选框右边的所有选项
+            $(":submit").click(function () {
+                $(".move_to").children().each(function () {
+                    $(this).prop("selected", true);  // 将用户移动到已选择框中的选项全部选中
+                });
+                $("#base-form").find(":disabled").removeAttr("disabled");
+                return true;
+            });
+            // 全选和删除全部选项
+            $(".add_all_link").click(function () {
+                var field_name = $(this).parent().prev().children().find("select").attr("field_name");  // 获取字段名
+                var move_to_id = field_name + "_move_to";
+                var move_from_id = field_name + "_move_from";
+                var move_dict = {};
+                move_dict[move_to_id] = move_from_id;
+                move_dict[move_from_id] = move_to_id;
+                if ($(this).hasClass("active")) {
+                    var select_id = $(this).parent().prev().children().find(".filter_horizontal").attr("id");
+                    $("#" + move_dict[select_id]).append($(this).parent().prev().children().find("[tag='option']")).parent().parent().next().children("a").addClass("active");  // 移动选择的标签
+                    $(this).removeClass("active");
+                    $("#" + field_name + "_add_link").removeClass("active");
+                    $("#" + field_name + "_remove_link").removeClass("active");
+                }
+            });
+            // 单击选项
+            $(".filter_horizontal").delegate("[tag='option']", "click", function () {
+                var field_name = $(this).parent().attr("field_name");  // 获取字段名
+                var move_to_id = field_name + "_move_to";
+                var move_from_id = field_name + "_move_from";
+                var move_link_dict = {};
+                move_link_dict[move_from_id] = field_name + "_add_link";
+                move_link_dict[move_to_id] = field_name + "_remove_link";
+                var parent_ele_id = $(this).parent().attr("id"); // 当前标签的父标签ID
+                $("#" + move_link_dict[parent_ele_id]).addClass("active");
+            });
+            // 右移动选项
+            $(".selector-add").click(function () {
+                var field_name = $(this).attr("field_name");  // 获取字段名
+                if ($(this).hasClass("active")) {
+                    $("#" + field_name + "_move_to").append($("#" + field_name + "_move_from").children(":selected"));
+                    $(this).removeClass("active");
+                    $("#" + field_name + "_remove_link").removeClass("active");
+                    $("#" + field_name + "_clearall").addClass("active");
+                    if ($("#" + field_name + "_move_from").children().length == 0) {
+                        $("#" + field_name + "_chooseall").removeClass("active");
+                    }
+                }
+            });
+            //左移动选项
+            $(".selector-remove").click(function () {
+                var field_name = $(this).attr("field_name");  // 获取字段名
+                if ($(this).hasClass("active")) {
+                    $("#" + field_name + "_move_from").append($("#" + field_name + "_move_to").children(":selected"));
+                    $(this).removeClass("active");
+                    $("#" + field_name + "_add_link").removeClass("active");
+                    $("#" + field_name + "_chooseall").addClass("active");
+                    if ($("#" + field_name + "_move_to").children().length == 0) {
+                        $("#" + field_name + "_clearall").removeClass("active");
+                    }
+                }
+            });
+            // 添加外键编辑按钮
+            $("select[tag='foreignKey-edit']").each(function () {
+                var related_model_name = $(this).attr("related_model");
+                var field_id = $(this).val();
+                if (field_id) {
+                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                }
+            });
+            // 改变外键选项是指向链接也跟着改变
+            $("select[tag='foreignKey-edit']").change(function () {
+                $(this).parent().nextAll("#foreignKey-edit-btn").remove();
+                var related_model_name = $(this).attr("related_model");
+                var field_id = $(this).val();
+                if (field_id) {
+                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                }
+            })
+        })
+    </script>
+{% endblock %}

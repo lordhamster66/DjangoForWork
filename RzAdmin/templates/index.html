@@ -10,7 +10,7 @@
                 <!--Brand logo & name-->
                 <!--================================-->
                 <div class="navbar-header">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="/automatic/" class="navbar-brand">
                         <img src="/static/img/favicon.ico" alt="Nifty Logo" class="brand-icon">
                         <div class="brand-title">
                             <span class="brand-text">人众金服后台</span>
@@ -310,7 +310,7 @@
 									<img class="img-circle img-user media-object" src="/static/img/av1.png"
                                          alt="Profile Picture">
 								</span>
-                                <div class="username hidden-xs">Breakering</div>
+                                <div class="username hidden-xs">{{ request.user.name }}</div>
                             </a>
 
 
@@ -338,7 +338,7 @@
 
                                 <!-- Dropdown footer -->
                                 <div class="pad-all text-right">
-                                    <a href="pages-login.html" class="btn btn-primary">
+                                    <a href="/accounts/logout/" class="btn btn-primary">
                                         <i class="fa fa-sign-out fa-fw"></i> 注销
                                     </a>
                                 </div>
@@ -366,7 +366,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">Expanded Navigation</h1>
+                    <h1 class="page-header text-overflow">人众金服自动化后台</h1>
 
                     <!--Searchbox-->
                     <div class="searchbox">
@@ -384,11 +384,11 @@
 
                 <!--Breadcrumb-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Library</a></li>
-                    <li class="active">Data</li>
-                </ol>
+                {% block breadcrumb %}
+                    <ol class="breadcrumb">
+                        <li class="active">首页</li>
+                    </ol>
+                {% endblock %}
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End breadcrumb-->
 
@@ -448,12 +448,45 @@
                                     <li class="list-header">菜单列表</li>
 
                                     <!--Menu list item-->
-                                    <li class="active-link">
-                                        <a href="#">
-                                            <i class="fa fa-plane"></i>
-                                            <span class="menu-title">首页</span>
-                                        </a>
-                                    </li>
+                                    {% for role in request.user.roles.all %}
+                                        {#            <li class="active"><a href="http://v3.bootcss.com/examples/dashboard/#">Overview <span class="sr-only">(current)</span></a></li>#}
+                                        {% for menu in role.menus.all %}
+                                            {% if menu.url_type == 0 %}
+                                                {% url menu.url_name as url_path %}
+                                                {% if request.path == url_path %}
+                                                    <li class="active-link">
+                                                        <a href="{{ url_path }}">
+                                                            <i class="fa {{ menu.icon }}"></i>
+                                                            <span class="menu-title">{{ menu.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ url_path }}">
+                                                            <i class="fa {{ menu.icon }}"></i>
+                                                            <span class="menu-title">{{ menu.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if request.path == menu.url_name %}
+                                                    <li class="active-link">
+                                                        <a href="{{ menu.url_name }}">
+                                                            <i class="fa {{ menu.icon }}"></i>
+                                                            <span class="menu-title">{{ menu.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ menu.url_name }}">
+                                                            <i class="fa {{ menu.icon }}"></i>
+                                                            <span class="menu-title">{{ menu.name }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>

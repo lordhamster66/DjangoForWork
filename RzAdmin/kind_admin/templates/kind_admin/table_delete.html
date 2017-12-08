@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% load tags %}
+{% block css %}
+    <style>
+        h3, h4, p {
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/kind_admin/">APP库</a></li>
+        <li><a href="/kind_admin/{{ app_name }}/{{ table_name }}/">表信息</a></li>
+        <li class="active">删除对象信息</li>
+    </ol>
+{% endblock %}
+{% block page-content %}
+    <div class="container-fluid" style="margin-bottom: 50px;">
+        <h3>你确定吗？</h3>
+        <p>确认要删除选中的 {% render_table_name admin_class %} 吗？以下所有对象和它们相关的条目将都会被删除：</p>
+        <h4><b>概览</b></h4>
+        <ul>
+            {% for k, v in related_count_dict.items %}
+                <li>{{ k }}:{{ v }}</li>
+            {% endfor %}
+        </ul>
+        <h4><b>对象</b></h4>
+        {% render_related_objs objs %}
+        <form method="post" style="margin-top: 20px;">{% csrf_token %}
+            <input class="btn btn-danger pull-left" type="submit" value="是的，我确定">
+            <a href="{% url "table_objs" app_name table_name %}" class="btn btn-default pull-left"
+               style="margin-left: 20px;">不，返回</a>
+        </form>
+    </div>
+{% endblock %}

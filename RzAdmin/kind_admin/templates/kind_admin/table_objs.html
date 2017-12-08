@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+{% load tags %}
+{% block css %}
+    <style>
+        .selected {
+            background-color: #FFFFCC;
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/kind_admin/">APP库</a></li>
+        <li class="active">表信息</li>
+    </ol>
+{% endblock %}
+{% block page-content %}
+    <div class="panel panel-primary" style="margin-top: 50px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <div class="container-fluid">
+                    {% render_table_name admin_class %}
+                    {% if not admin_class.table_readonly %}
+                        <a class="btn btn-success pull-right" href="{{ request.path }}add"
+                           style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+                    {% endif %}
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <form method="get">
+                        {% if admin_class.search_fields %}
+                            <div class="row" style="margin-left: 10px;margin-bottom: 20px;">
+                                <!-- DIV needed for valid HTML -->
+                                <label for="searchbar"><img src="/static/img/search.svg"
+                                                            alt="Search"></label>
+                                <input type="text" size="40" name="_q" value="{{ search_content }}"
+                                       id="searchbar"
+                                       placeholder="请输入查找内容">
+                                <input type="submit" value="Search">
+                                <span>
+                                    (Tips:search by
+                                    {% for search_field in admin_class.search_fields %}
+                                        {{ search_field }},
+                                    {% endfor %}
+                                    )
+                                </span>
+                            </div>
+                        {% endif %}
+                        {% if admin_class.list_filter %}
+                            <div class="row">
+                                {% for filter_field in admin_class.list_filter %}
+                                    <div class="col-lg-2" style="text-align: center;">
+                                        {% get_column_name admin_class filter_field %}
+                                        {% get_condition_ele filter_field admin_class condition_dict %}
+                                    </div>
+                                {% endfor %}
+                                <div class="col-lg-2">
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 19px;">
+                                        检索
+                                    </button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </form>
+                    <div class="row">
+                        {% if query_sets %}
+                            <form method="post">{% csrf_token %}
+                                <div class="actions" style="margin: 20px 0;">
+                                    <div class="col-lg-2">
+                                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">动作</div>
+                                            <select class="form-control" name="action_select">
+                                                <option value="" selected>---------</option>
+                                                {% for action in admin_class.default_actions %}
+                                                    <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
+                                                {% endfor %}
+                                                {% for action in admin_class.actions %}
+                                                    <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="select_across" value="0" class="select-across">
+                                    <button id="do-action" type="submit" class="btn btn-info">执行</button>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="chose-all"></th>
+                            {% for column in admin_class.list_display %}
+                                {% get_table_thead admin_class column orderby_dict condition_dict search_content %}
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in query_sets %}
+                            <tr>
+                                <td><input type="checkbox" tag="table-row" value="{{ obj.id }}"></td>
+                                {% get_table_rows request obj admin_class %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                总计:{{ query_sets.paginator.count }}条
+                <div class="row">
+                    <ul class="pagination">
+                        {% get_page_ele query_sets condition_dict orderby_dict search_content %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $("#chose-all").click(function () {
+                if ($(this).prop("checked")) {
+                    $(":input[tag='table-row']").prop("checked", true).parent().parent().addClass("selected");
+                } else {
+                    $(":input[tag='table-row']").prop("checked", false).parent().parent().removeClass("selected");
+                }
+            });
+            $(":input[tag='table-row']").click(function () {
+                if ($(this).prop("checked")) {
+                    if ($(":input[tag='table-row']").length == $(":input[tag='table-row']:checked").length) {
+                        $("#chose-all").prop("checked", true)
+                    }
+                    $(this).parent().parent().addClass("selected");
+                } else {
+                    $(this).parent().parent().removeClass("selected");
+                    $("#chose-all").prop("checked", false)
+                }
+            });
+            $("#do-action").click(function () {
+                if ($("select[name='action_select']").val() == "") {
+                    swal({
+                        title: "必须选择一个动作!",
+                        type: "warning"
+                    });
+                    return false;
+                }
+                var selected_objs = [];
+                $(":input[tag='table-row']").each(function () {
+                    if ($(this).prop("checked")) {
+                        selected_objs.push($(this).val())
+                    }
+                });
+                console.log(selected_objs);
+                if (selected_objs.length == 0) {
+                    swal({
+                        title: "必须选择一条记录!",
+                        type: "warning"
+                    });
+                    return false;
+                }
+                var selected_objs_ele = "<input name='selected_ids' type='hidden' value=" + JSON.stringify(selected_objs) + " >";
+                $(".actions").append(selected_objs_ele);
+                return true;
+            })
+        })
+    </script>
+{% endblock %}
