@@ -11,9 +11,9 @@ def index(request):
 
 def acc_login(request):
     """登录接口"""
-    email = ""
-    password = ""
-    errors_dict = {}
+    email = ""  # 用户登录用邮箱
+    password = ""  # 用户密码
+    errors_dict = {}  # 要返回的错误信息
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -22,7 +22,7 @@ def acc_login(request):
             login(request, user)
             return redirect("/automatic/")
         else:
-            errors_dict["invalid"] = "邮箱或者密码错误！"
+            errors_dict["认证失败"] = "邮箱或者密码错误！"
     return render(request, "login.html", {"email": email, "password": password, "errors_dict": errors_dict})
 
 

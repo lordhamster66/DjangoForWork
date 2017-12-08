@@ -18,10 +18,10 @@ from django.contrib import admin
 from RzAdmin import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),  # django admin
     url(r'^$', views.index),
-    url(r'^accounts/login/$', views.acc_login),
-    url(r'^accounts/logout/$', views.acc_logout),
-    url(r'^automatic/', include("automatic.urls")),
-    url(r'^kind_admin/', include("kind_admin.urls")),
+    url(r'^accounts/login/$', views.acc_login),  # 登录
+    url(r'^accounts/logout/$', views.acc_logout),  # 注销
+    url(r'^automatic/', include("automatic.urls")),  # automatic App
+    url(r'^kind_admin/', include("kind_admin.urls")),  # kind_admin 插件
 ]
