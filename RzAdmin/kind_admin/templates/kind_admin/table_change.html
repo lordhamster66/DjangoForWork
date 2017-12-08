@@ -100,127 +100,136 @@
     </ol>
 {% endblock %}
 {% block page-content %}
-    <div class="container-fluid">
-        <h3>
-            {% block table_action %}
-                修改{% render_table_name admin_class %}
-            {% endblock %}
-        </h3>
-        <br>
-        <form id="base-form" class="form-horizontal" method="post">
-            {% csrf_token %}
-            <div class="container-fluid">
-                <span style="color: red;">{% get_all_error model_form_obj %}</span>
-                {% for field in model_form_obj %}
-                    <div class="row" style="margin-top: 10px;border-bottom: 1px solid #eeeeee">
-                        <div class="col-lg-7">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label"
-                                       style="font-weight:normal; text-align: left">
-                                    {% if field.field.required %}
-                                        <b>{{ field.label }}:</b>
+    <div class="panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                {% block table_action %}
+                    <b>修改{% render_table_name admin_class %}</b>
+                {% endblock %}
+            </h4>
+        </div>
+        <div class="panel-body">
+            <form id="base-form" class="form-horizontal" method="post">
+                {% csrf_token %}
+                <div class="container-fluid">
+                    <span style="color: red;">{% get_all_error model_form_obj %}</span>
+                    {% for field in model_form_obj %}
+                        <div class="row" style="margin-top: 10px;border-bottom: 1px solid #eeeeee">
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label"
+                                           style="font-weight:normal; text-align: left">
+                                        {% if field.field.required %}
+                                            <b>{{ field.label }}:</b>
+                                        {% else %}
+                                            {{ field.label }}:
+                                        {% endif %}
+                                    </label>
+                                    {# 如果字段在readonly字段里面且是修改页面或者字段不在filter_horizontal里面则不显示复选框界面 #}
+                                    {% if field.name in admin_class.readonly_fields and admin_class.need_readonly or field.name not in admin_class.filter_horizontal %}
+                                        <div class="col-sm-8">
+                                            {{ field }}
+                                            {{ field.help_text }}
+                                            <span style="color: red;">{% get_field_error model_form_obj field %}</span>
+                                        </div>
                                     {% else %}
-                                        {{ field.label }}:
+                                        <div class="col-lg-4">
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">可用 {{ field.label }}</h3>
+                                                </div>
+                                                <div class="panel-body" style="padding: 0;">
+                                                    {% get_m2m_available_objs admin_class field.name model_form_obj as m2m_available_objs %}
+                                                    <select class="filter_horizontal form-control" multiple
+                                                            id="{{ field.name }}_move_from"
+                                                            field_name="{{ field.name }}"
+                                                            style="height: 300px;">
+                                                        {% for obj in m2m_available_objs %}
+                                                            <option tag="option"
+                                                                    value="{{ obj.id }}">{{ obj }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <p style="text-align: center;">
+                                                {% if m2m_available_objs %}
+                                                    <a class="add_all_link selector-chooseall active"
+                                                       id="{{ field.name }}_chooseall">全选</a>
+                                                {% else %}
+                                                    <a class="add_all_link selector-chooseall"
+                                                       id="{{ field.name }}_chooseall">全选</a>
+                                                {% endif %}
+                                            </p>
+                                            <span style="font-size: smaller">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</span>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <ul class="selector-chooser">
+                                                <li>
+                                                    <a title="选择" id="{{ field.name }}_add_link"
+                                                       field_name="{{ field.name }}"
+                                                       class="selector-add">选择</a>
+                                                </li>
+                                                <li>
+                                                    <a title="删除" id="{{ field.name }}_remove_link"
+                                                       field_name="{{ field.name }}"
+                                                       class="selector-remove">删除</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">选中的 {{ field.label }}</h3>
+                                                </div>
+                                                <div class="panel-body" style="padding: 0;">
+                                                    {% get_m2m_chosen_objs model_form_obj field.name as m2m_chosen_objs %}
+                                                    <select class="filter_horizontal form-control move_to" multiple
+                                                            field_name="{{ field.name }}"
+                                                            name="{{ field.name }}" id="{{ field.name }}_move_to"
+                                                            style="height: 250px;">
+                                                        {% for obj in m2m_chosen_objs %}
+                                                            <option tag="option"
+                                                                    value="{{ obj.id }}">{{ obj }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <p style="text-align: center;">
+                                                {% if m2m_chosen_objs %}
+                                                    <a class="add_all_link selector-clearall active"
+                                                       id="{{ field.name }}_clearall">删除全部</a>
+                                                {% else %}
+                                                    <a class="add_all_link selector-clearall"
+                                                       id="{{ field.name }}_clearall">删除全部</a>
+                                                {% endif %}
+                                            </p>
+                                        </div>
                                     {% endif %}
-                                </label>
-                                {# 如果字段在readonly字段里面且是修改页面或者字段不在filter_horizontal里面则不显示复选框界面 #}
-                                {% if field.name in admin_class.readonly_fields and admin_class.need_readonly or field.name not in admin_class.filter_horizontal %}
-                                    <div class="col-sm-8">
-                                        {{ field }}
-                                        {{ field.help_text }}
-                                        <span style="color: red;">{% get_field_error model_form_obj field %}</span>
-                                    </div>
-                                {% else %}
-                                    <div class="col-lg-4">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">可用 {{ field.label }}</div>
-                                            <div class="panel-body" style="padding: 0;">
-                                                {% get_m2m_available_objs admin_class field.name model_form_obj as m2m_available_objs %}
-                                                <select class="filter_horizontal form-control" multiple
-                                                        id="{{ field.name }}_move_from" field_name="{{ field.name }}"
-                                                        style="height: 300px;">
-                                                    {% for obj in m2m_available_objs %}
-                                                        <option tag="option" value="{{ obj.id }}">{{ obj }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <p style="text-align: center;">
-                                            {% if m2m_available_objs %}
-                                                <a class="add_all_link selector-chooseall active"
-                                                   id="{{ field.name }}_chooseall">全选</a>
-                                            {% else %}
-                                                <a class="add_all_link selector-chooseall"
-                                                   id="{{ field.name }}_chooseall">全选</a>
-                                            {% endif %}
-                                        </p>
-                                        <span style="font-size: smaller">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</span>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <ul class="selector-chooser">
-                                            <li>
-                                                <a title="选择" id="{{ field.name }}_add_link"
-                                                   field_name="{{ field.name }}"
-                                                   class="selector-add">选择</a>
-                                            </li>
-                                            <li>
-                                                <a title="删除" id="{{ field.name }}_remove_link"
-                                                   field_name="{{ field.name }}"
-                                                   class="selector-remove">删除</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title">选中的 {{ field.label }}</h3>
-                                            </div>
-                                            <div class="panel-body" style="padding: 0;">
-                                                {% get_m2m_chosen_objs model_form_obj field.name as m2m_chosen_objs %}
-                                                <select class="filter_horizontal form-control move_to" multiple
-                                                        field_name="{{ field.name }}"
-                                                        name="{{ field.name }}" id="{{ field.name }}_move_to"
-                                                        style="height: 250px;">
-                                                    {% for obj in m2m_chosen_objs %}
-                                                        <option tag="option" value="{{ obj.id }}">{{ obj }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <p style="text-align: center;">
-                                            {% if m2m_chosen_objs %}
-                                                <a class="add_all_link selector-clearall active"
-                                                   id="{{ field.name }}_clearall">删除全部</a>
-                                            {% else %}
-                                                <a class="add_all_link selector-clearall"
-                                                   id="{{ field.name }}_clearall">删除全部</a>
-                                            {% endif %}
-                                        </p>
-                                    </div>
-                                {% endif %}
-                                {% foreignKey_add_button admin_class field %}
+                                    {% foreignKey_add_button admin_class field %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-            {% if not admin_class.table_readonly %}
-                <div class="row" style="padding: 10px 50px;margin-bottom: 50px;">
-                    <div class="row" style="padding: 15px;background-color: #f8f8f8;border-radius: 4px;">
-                        {% if model_form_obj.instance.id %}
-                            <a href="{% url "table_delete" app_name table_name  model_form_obj.instance.id %}"
-                               class="btn btn-danger pull-left">删除</a>
-                        {% endif %}
-                        <input type="submit" value="保存" class="btn btn-primary pull-right" name="_save"
-                               style="margin-left: 10px;">
-                        <input type="submit" value="保存并继续编辑" class="btn btn-primary pull-right" name="_continue"
-                               style="margin-left: 10px;">
-                        <input type="submit" value="保存并增加新的" class="btn btn-primary pull-right" name="_addanother"
-                               style="margin-left: 10px;">
-                    </div>
+                    {% endfor %}
                 </div>
-            {% endif %}
-        </form>
+                {% if not admin_class.table_readonly %}
+                    <div class="row" style="padding: 10px 50px;margin-bottom: 50px;">
+                        <div class="row" style="padding: 15px;background-color: #f8f8f8;border-radius: 4px;">
+                            {% if model_form_obj.instance.id %}
+                                <a href="{% url "table_delete" app_name table_name  model_form_obj.instance.id %}"
+                                   class="btn btn-danger pull-left">删除</a>
+                            {% endif %}
+                            <input type="submit" value="保存" class="btn btn-primary pull-right" name="_save"
+                                   style="margin-left: 10px;">
+                            <input type="submit" value="保存并继续编辑" class="btn btn-primary pull-right" name="_continue"
+                                   style="margin-left: 10px;">
+                            <input type="submit" value="保存并增加新的" class="btn btn-primary pull-right"
+                                   name="_addanother"
+                                   style="margin-left: 10px;">
+                        </div>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
     </div>
 {% endblock %}
 {% block js %}
@@ -310,7 +319,7 @@
                 var related_model_name = $(this).attr("related_model");
                 var field_id = $(this).val();
                 if (field_id) {
-                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
                 }
             });
             // 改变外键选项是指向链接也跟着改变
@@ -319,7 +328,7 @@
                 var related_model_name = $(this).attr("related_model");
                 var field_id = $(this).val();
                 if (field_id) {
-                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
                 }
             })
         })

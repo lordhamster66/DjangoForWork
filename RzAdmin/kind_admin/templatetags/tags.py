@@ -280,7 +280,7 @@ def foreignKey_add_button(admin_class, field):
     field_name = field.name  # 字段名
     field_obj = admin_class.model._meta.get_field(field_name)  # 字段对象
     if type(field_obj).__name__ in ["ForeignKey", "ManyToManyField"]:  # todo OneToOneField
-        btn_ele += "<a href='/kind_admin/%s/%s/add/' class='btn btn-success btn-xs' target='_blank' style='display:inline-block;margin-top:4px;'><i class='fa fa-plus' aria-hidden='true'></i>添加</a>" % (
+        btn_ele += "<a href='/kind_admin/%s/%s/add/' class='btn btn-success btn-xs btn-rounded' target='_blank' style='display:inline-block;margin-top:4px;'><i class='fa fa-plus' aria-hidden='true'></i>添加</a>" % (
             admin_class.model._meta.app_label,
             field_obj.related_model._meta.model_name
         )
