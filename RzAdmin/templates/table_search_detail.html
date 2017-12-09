@@ -1,5 +1,24 @@
 {% extends "index.html" %}
 {% load automatic_tags %}
+{% block css %}
+    <style>
+        .search-container {
+            position: absolute;
+            width: 100%;
+            background-color: white;
+        }
+
+        .search-container .search-line {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .search-container .search-line:hover {
+            background-color: #2f72ab;
+            color: white;
+        }
+    </style>
+{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="/automatic/search_table_list/">数据查询功能</a></li>
@@ -40,12 +59,22 @@
                 <div class="row" style="margin-top: 10px;">
                     {% for field in table_form_obj %}
                         {% if field.name != "search_q" and field.name != "list_per_page" %}
-                            <div class="col-sm-3" style="padding-left: 0;">
-                                <div class="form-group text-center">
-                                    <label class="control-label"><b>{{ field.label }}</b></label>
-                                    {{ field }}
+                            {% if field.name == "qudao_name" %}
+                                <div class="col-sm-3" style="padding: 0; margin-right: 10px;">
+                                    <div class="form-group text-center">
+                                        <label class="control-label"><b>{{ field.label }}</b></label>
+                                        {{ field }}
+                                        <div id="search-cont" class="search-container"></div>
+                                    </div>
                                 </div>
-                            </div>
+                            {% else %}
+                                <div class="col-sm-3" style="padding: 0; margin-right: 10px;">
+                                    <div class="form-group text-center">
+                                        <label class="control-label"><b>{{ field.label }}</b></label>
+                                        {{ field }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                     <input type="submit" class="btn btn-primary btn-rounded" value="查询" style="margin-top: 20px;">
@@ -89,7 +118,56 @@
         $(function () {
             $("#list_per_page").change(function () {
                 $("#base-form").submit();
-            })
+            });
+            //等待用户不输入 1 秒后再去执行 loadData
+            var loseInputMillsecs = 1000;
+            var clocker = null;
+
+            function loadData() {
+                var qudaoName = $("#qudao-name").val();
+                if (qudaoName) {
+                    $.ajax({
+                        url: "/automatic/search_channel_name/",
+                        type: "POST",
+                        data: {"qudaoName": qudaoName},
+                        dataType: "JSON",
+                        traditional: true,
+                        success: function (obj) {
+                            if (obj.status) {
+                                $("#search-cont").empty();
+                                for (var i = 0; i < obj.data.length; i++) {
+                                    $("#search-cont").append("<p class='search-line'>" + obj.data[i]["name"] + "</p>")
+                                }
+                            }
+                        }
+                    })
+                }
+                clocker = null;
+            }
+
+            // 此函数用来创建计时器，如果用户在规定时间内连续敲击键盘则清空计时器，重新计时
+            function innerKeydown() {
+                if (null == clocker) {
+                    clocker = setTimeout(loadData, loseInputMillsecs);
+                }
+                else	//连续击键，重新开始计时
+                {
+                    clearTimeout(clocker);
+                    clocker = setTimeout(loadData, loseInputMillsecs);
+                }
+            }
+
+            // 监测用户键盘输入
+            $("#qudao-name").keydown(function () {
+                innerKeydown();
+            });
+
+            // 用户选取下拉框内容
+            $("#search-cont").delegate(".search-line", "click", function () {
+                $("#search-cont").empty();
+                var qudaoName = $(this).text();
+                $("#qudao-name").val(qudaoName);
+            });
         })
     </script>
 {% endblock %}

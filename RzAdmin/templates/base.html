@@ -73,6 +73,7 @@
 
 <!--jQuery [ REQUIRED ]-->
 <script src="/static/js/jquery-2.1.1.min.js"></script>
+<script src="/static/plugins/jquery.cookie.js"></script>
 
 <!--BootstrapJS [ RECOMMENDED ]-->
 <script src="/static/js/bootstrap.min.js"></script>
@@ -93,14 +94,31 @@
 <!--sweetalert [ OPTIONAL ]-->
 <script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
 <script>
-    // 日期控件
-    $(".date-picker").datepicker({
-        autoclose: true,  // 自动关闭
-        todayHighlight: true,  // 今日日期高亮
-        todayBtn: 'linked',  // 显示今日
-        language: "zh-CN",//语言设置
-        format: "yyyy-mm-dd"//日期显示格式
-    });
+    $(function () {
+        // 跨站请求伪造
+        var csrftoken = $.cookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        // 日期控件
+        $(".date-picker").datepicker({
+            autoclose: true,  // 自动关闭
+            todayHighlight: true,  // 今日日期高亮
+            todayBtn: 'linked',  // 显示今日
+            language: "zh-CN",//语言设置
+            format: "yyyy-mm-dd"//日期显示格式
+        });
+    })
 </script>
 {% block js %}{% endblock %}
 <!--

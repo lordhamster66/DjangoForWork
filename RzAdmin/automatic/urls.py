@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^$', views.index, name="automatic_index"),
     url(r'^search_table_list/$', views.search_table_list, name="search_table_list"),
     url(r'^table_search_detail/(?P<sql_record_id>\d+)/$', views.table_search_detail),
+    url(r'^search_channel_name/$', views.search_channel_name),
 ]

@@ -34,7 +34,7 @@ def get_page_ele(query_sets, condition_dict=None, order_by_dict=None):
             query_sets.previous_page_number(), condition_str, current_order_by_key
         )
     else:
-        page_ele += '''<li><a href="#">«</a></li>'''
+        page_ele += '''<li class="paginate_button disabled"><a href="javascript:void(0);">«</a></li>'''
     # 显示的页数
     for loop_num in query_sets.paginator.page_range:
         if loop_num < 3 or loop_num > query_sets.paginator.num_pages - 2 or abs(
@@ -46,14 +46,14 @@ def get_page_ele(query_sets, condition_dict=None, order_by_dict=None):
                 actived, loop_num, condition_str, current_order_by_key, loop_num
             )
         elif abs(loop_num - query_sets.number) == 2:
-            page_ele += '''<li><a>...</a></li>'''
+            page_ele += '''<li class="paginate_button disabled"><a>...</a></li>'''
     # 下一页
     if query_sets.has_next():
         page_ele += '''<li><a href="?page=%s%s&o=%s">»</a></li>''' % (
             query_sets.next_page_number(), condition_str, current_order_by_key
         )
     else:
-        page_ele += '''<li><a href="#">»</a></li>'''
+        page_ele += '''<li class="paginate_button disabled"><a href="#">»</a></li>'''
     return mark_safe(page_ele)
 
 

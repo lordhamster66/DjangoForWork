@@ -1,9 +1,12 @@
 import logging
+import json
 from automatic import models
 from automatic.forms import create_table_form
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from automatic.utils import (get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort)
+from automatic.utils import (
+    get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list
+)
 
 # Create your views here.
 logger = logging.getLogger("__name__")  # 生成一个以当前模块名为名字的logger实例
@@ -45,3 +48,18 @@ def table_search_detail(request, sql_record_id):
         "condition_dict": condition_dict,
         "order_by_dict": order_by_dict
     })
+
+
+@login_required
+def search_channel_name(request):
+    """查询渠道名称"""
+    ret = {"status": True, "errors": None, "data": None}  # 定义返回内容
+    if request.method == "POST":
+        channel_name = request.POST.get("qudaoName")  # 获取用户输入的渠道名称
+        # 通过用户输入的渠道名称查询对应的渠道标识
+        info_list = get_info_list(
+            'rz',
+            "SELECT DISTINCT name from rzjf_bi.rzjf_qudao_name where name REGEXP '%s' limit 10" % channel_name
+        )
+        ret["data"] = info_list  # 返回给前端
+        return HttpResponse(json.dumps(ret))

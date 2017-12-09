@@ -32,6 +32,7 @@ class FunctionList(object):
         widget=widgets.TextInput(attrs={
             "class": "form-control",
             "id": "qudao-name",
+            "autocomplete": "off",
             "placeholder": "请输入渠道名称"
         })
     )
