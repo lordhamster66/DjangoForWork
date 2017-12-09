@@ -10,7 +10,33 @@
             <h3 class="panel-title">可用查询功能</h3>
         </div>
         <div class="panel-body">
-            <p>{{ sql_record_objs }}</p>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th>查询内容</th>
+                        <th>标签</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for sql_record_obj in sql_record_objs %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+                            <td><a href="/automatic/table_search_detail/{{ sql_record_obj.id }}/"
+                                   class="btn-link">{{ sql_record_obj.name }}</a></td>
+                            <td>
+                                {% if sql_record_obj.tags.all %}
+                                    {% for tag in sql_record_obj.tags.all %}
+                                        <span class="label label-info">{{ tag.name }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

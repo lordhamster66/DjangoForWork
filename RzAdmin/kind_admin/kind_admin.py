@@ -100,12 +100,12 @@ class SQLFuncAdmin(BaseAdmin):
 
 
 class SQLRecordAdmin(BaseAdmin):
-    list_display = ("user", "name", "content", "query_page", "date")
-    filter_horizontal = ("roles", "tags")
+    list_display = ("user", "name", "query_page", "date")
+    filter_horizontal = ("roles", "tags", "funcs")
 
 
 class DownloadRecordAdmin(BaseAdmin):
-    list_display = ("user", "url", "check_status", "check_user", "date", "end_date")
+    list_display = ("user", "download_detail", "check_status", "check_user", "date", "end_date")
 
 
 register(models.UserProfile, UserProfileAdmin)

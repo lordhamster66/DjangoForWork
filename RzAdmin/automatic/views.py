@@ -1,7 +1,9 @@
 import logging
 from automatic import models
+from automatic.forms import create_table_form
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from automatic.utils import (get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort)
 
 # Create your views here.
 logger = logging.getLogger("__name__")  # 生成一个以当前模块名为名字的logger实例
@@ -19,3 +21,27 @@ def search_table_list(request):
     user = request.user  # 获取用户对象
     sql_record_objs = models.SQLRecord.objects.filter(roles__in=user.roles.all(), query_page=True).all()
     return render(request, "search_table_list.html", {"sql_record_objs": sql_record_objs})
+
+
+@login_required
+def table_search_detail(request, sql_record_id):
+    """详细查询页面"""
+    query_sets = []  # 要返回的查询结果
+    order_by_dict = {}  # 排序相关字典
+    sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
+    table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
+    table_form_obj = table_form_class()  # 生成table_form对象
+    condition_dict = get_condition_dict(request)  # 获取查询条件
+    if condition_dict:  # 有查询条件时，才会进行from验证，否则为第一访问该地址不需要验证
+        table_form_obj = table_form_class(data=condition_dict)
+        if table_form_obj.is_valid():  # form验证
+            query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
+            query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
+    query_sets = get_paginator_query_sets(request, query_sets, request.GET.get("list_per_page", 10))
+    return render(request, "table_search_detail.html", {
+        "sql_record_obj": sql_record_obj,
+        "table_form_obj": table_form_obj,
+        "query_sets": query_sets,
+        "condition_dict": condition_dict,
+        "order_by_dict": order_by_dict
+    })
