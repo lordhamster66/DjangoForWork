@@ -109,3 +109,21 @@ def get_table_head(query_sets, condition_dict, order_by_dict):
                 sort_class, order_by_key, condition_str, k
             )
     return mark_safe(th_ele)
+
+
+@register.simple_tag
+def render_download_option(request, sql_record_obj, condition_dict, order_by_dict):
+    """展示下载EXCEL功能或者是提交下载审核功能"""
+    download_option_ele = ""
+    detaile_jurisdiction = ["数据组", "管理员"]  # 有详细信息查看权限的角色
+    user_roles_list = [i.name for i in request.user.roles.all() if i.name in detaile_jurisdiction]
+    if len(user_roles_list) == 0:
+        pass
+    else:
+        """<a class="btn btn-success btn-rounded pull-right btn-lg" style="margin-top: 3px;">导出EXCEL</a>"""
+        condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)
+        download_option_ele = """
+        <a href="/automatic/download_excel/%s/%s" target="_blank"
+        class="btn btn-success btn-rounded pull-right btn-lg" style="margin-top: 3px;">导出EXCEL</a>
+        """ % (sql_record_obj.id, condition_str)
+    return mark_safe(download_option_ele)

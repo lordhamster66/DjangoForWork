@@ -1,5 +1,9 @@
 import logging
 import json
+import xlwt
+import time
+from datetime import date
+from django.utils.timezone import datetime
 from automatic import models
 from automatic.forms import create_table_form
 from django.shortcuts import render, HttpResponse
@@ -63,3 +67,46 @@ def search_channel_name(request):
         )
         ret["data"] = info_list  # 返回给前端
         return HttpResponse(json.dumps(ret))
+
+
+@login_required
+def download_excel(request, sql_record_id):
+    """导出明细至EXCEL"""
+    sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
+    table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
+    condition_dict = get_condition_dict(request)  # 获取查询条件
+    table_form_obj = table_form_class(data=condition_dict)
+    if table_form_obj.is_valid():  # form验证
+        query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
+        query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=' + time.strftime('%Y%m%d-%H.%M.%S', time.localtime(
+            time.time())) + '.xls'
+        workbook = xlwt.Workbook(encoding='utf-8')  # 创建工作簿
+        sheet = workbook.add_sheet("sheet1")  # 创建工作页
+        style = xlwt.XFStyle()  # 创建格式style
+        font = xlwt.Font()  # 创建font，设置字体
+        font.name = 'Arial Unicode MS'  # 字体格式
+        style.font = font  # 将字体font，应用到格式style
+        alignment = xlwt.Alignment()  # 创建alignment，居中
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 居中
+        style.alignment = alignment  # 应用到格式style
+        style1 = xlwt.XFStyle()
+        font1 = xlwt.Font()
+        font1.name = 'Arial Unicode MS'
+        # font1.colour_index = 3                  #字体颜色（绿色）
+        font1.bold = True  # 字体加粗
+        style1.font = font1
+        style1.alignment = alignment
+        if query_sets:
+            for index, field in enumerate(query_sets[0].keys()):
+                sheet.write(0, index, field)
+            for index, item in enumerate(query_sets):
+                for value_index, value in enumerate(item.values()):
+                    if isinstance(value, datetime):
+                        value = value.strftime("%Y-%m-%d %H:%M:%S")
+                    if isinstance(value, date):
+                        value = value.strftime("%Y-%m-%d")
+                    sheet.write(index + 1, value_index, value)
+        workbook.save(response)
+        return response

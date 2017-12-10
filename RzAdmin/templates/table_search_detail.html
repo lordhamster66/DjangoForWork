@@ -28,7 +28,10 @@
 {% block page-content %}
     <div class="panel panel-bordered panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><b>{{ sql_record_obj.name }}查询</b></h3>
+            <h3 class="panel-title">
+                <b>{{ sql_record_obj.name }}查询</b>
+                {% render_download_option request sql_record_obj condition_dict order_by_dict %}
+            </h3>
         </div>
         <div class="panel-body">
             <form method="get" id="base-form">
