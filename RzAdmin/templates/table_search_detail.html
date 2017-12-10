@@ -87,12 +87,14 @@
                     <thead>
                     <tr role="row">
                         <!-- <th class="sorting_desc">Position</th> -->
+                        <th class="text-center">序号</th>
                         {% get_table_head query_sets condition_dict order_by_dict %}
                     </tr>
                     </thead>
                     <tbody>
                     {% for row in query_sets %}
                         <tr role="row">
+                            <td class="text-center">{{ forloop.counter }}</td>
                             {% get_table_rows request row %}
                         </tr>
                     {% endfor %}
