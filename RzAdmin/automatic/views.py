@@ -110,3 +110,9 @@ def download_excel(request, sql_record_id):
                     sheet.write(index + 1, value_index, value)
         workbook.save(response)
         return response
+
+
+@login_required
+def user_center(request):
+    """用户中心"""
+    return render(request, "user_center.html")

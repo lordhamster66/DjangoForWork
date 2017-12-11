@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="active">用户中心</li>
+    </ol>
+{% endblock %}
+{% block page-content %}
+    <div class="panel panel-success">
+
+        <!--Panel heading-->
+        <div class="panel-heading">
+            <div class="panel-control pull-left">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#tabs2-box-1" aria-expanded="true">
+                            <i class="fa fa-magic fa-lg"></i>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#tabs2-box-2" aria-expanded="false">
+                            <i class="fa fa-globe fa-lg"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--Panel Body-->
+        <div class="panel-body">
+            <div class="tab-content">
+                <div id="tabs2-box-1" class="tab-pane fade active in">
+                    <h4 class="text-thin"><i class="fa fa-magic fa-fw"></i>开发中</h4>
+                    <p>开发中</p>
+                </div>
+                <div id="tabs2-box-2" class="tab-pane fade">
+                    <h4 class="text-thin"><i class="fa fa-globe fa-fw"></i>开发中</h4>
+                    <p>开发中</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

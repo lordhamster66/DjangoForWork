@@ -30,6 +30,12 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <b>{{ sql_record_obj.name }}查询</b>
+                {% for func in sql_record_obj.funcs.all %}
+                    {% if func.name == "update_first_invest" %}
+                        <a class="btn btn-warning  btn-rounded" href="http://10.1.12.12:9008/crm/rzjf_recorde/"
+                           target="_blank">更新至实时首投记录</a>
+                    {% endif %}
+                {% endfor %}
                 {% render_download_option request sql_record_obj condition_dict order_by_dict %}
             </h3>
         </div>
