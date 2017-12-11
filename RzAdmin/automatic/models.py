@@ -95,7 +95,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         ("type-c/theme-yellow.min.css", "C类yellow"),
     )
     themes = models.CharField(max_length=64, choices=themes_choices, verbose_name="主题",
-                              default="type-c/theme-dark.min.css")
+                              default="type-c/theme-navy.min.css")
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
