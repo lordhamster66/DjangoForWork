@@ -6,7 +6,7 @@ from datetime import date
 from django.utils.timezone import datetime
 from automatic import models
 from automatic.forms import create_table_form
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from automatic.utils import (
     get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list
@@ -110,9 +110,49 @@ def download_excel(request, sql_record_id):
                     sheet.write(index + 1, value_index, value)
         workbook.save(response)
         return response
+    else:
+        return HttpResponse("没有数据!")
 
 
 @login_required
 def user_center(request):
     """用户中心"""
-    return render(request, "user_center.html")
+    download_objs = request.user.user_download.all().order_by('-date')
+    download_objs = get_paginator_query_sets(request, download_objs, request.GET.get("list_per_page", 10))
+    if request.method == "GET":
+        pass
+    return render(request, "user_center.html", {"download_objs": download_objs})
+
+
+@login_required
+def download_check(request, sql_record_id):
+    """下载审核页面"""
+    sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
+    table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
+    condition_dict = get_condition_dict(request)  # 获取查询条件
+    table_form_obj = table_form_class(data=condition_dict)
+    if request.method == "GET":
+        if table_form_obj.is_valid():
+            condition_str = ""
+            for k, v in request.GET.items():
+                condition_str += "&%s=%s" % (k, v)
+            download_record_obj = models.DownloadRecord.objects.create(
+                user=request.user,
+                download_detail="%s %s<br>%s至%s" % (
+                    request.GET.get("qudao_name", ""), sql_record_obj.name,
+                    request.GET.get("start_time", ""), request.GET.get("end_time", "")
+                ),
+                detail_url="/automatic/table_search_detail/%s/?%s" % (sql_record_id, condition_str),
+                download_url="/automatic/download_excel/%s/?%s" % (sql_record_id, condition_str),
+            )
+        else:
+            return redirect("/automatic/table_search_detail/%s/" % sql_record_id)
+    elif request.method == "POST":
+        pass
+    return render(request, "download_check.html")
+
+
+@login_required
+def delete_download_record(request, download_record_id):
+    """删除下载记录"""
+    pass

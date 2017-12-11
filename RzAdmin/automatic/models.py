@@ -203,7 +203,7 @@ class SQLRecord(models.Model):
 class DownloadRecord(models.Model):
     """下载记录"""
     user = models.ForeignKey("UserProfile", related_name="user_download", verbose_name="下载用户")
-    download_detail = models.CharField(max_length=32, verbose_name="下载信息")
+    download_detail = models.CharField(max_length=264, verbose_name="下载信息")
     detail_url = models.TextField(verbose_name="详细信息地址")
     download_url = models.TextField(verbose_name="下载地址")
     check_img = models.ImageField(blank=True, null=True, verbose_name="审核用图片")

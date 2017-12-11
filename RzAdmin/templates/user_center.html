@@ -1,24 +1,27 @@
 {% extends "index.html" %}
+{% load automatic_tags %}
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="active">用户中心</li>
     </ol>
 {% endblock %}
 {% block page-content %}
-    <div class="panel panel-success">
+    <div class="panel panel-success panel-bordered">
 
         <!--Panel heading-->
         <div class="panel-heading">
             <div class="panel-control pull-left">
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a data-toggle="tab" href="#tabs2-box-1" aria-expanded="true">
-                            <i class="fa fa-magic fa-lg"></i>
+                    <li class="">
+                        <a data-toggle="tab" href="#tabs2-box-1" aria-expanded="false">
+                            <i class="fa fa-user fa-lg"></i>
+                            个人信息
                         </a>
                     </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#tabs2-box-2" aria-expanded="false">
-                            <i class="fa fa-globe fa-lg"></i>
+                    <li class="active">
+                        <a data-toggle="tab" href="#tabs2-box-2" aria-expanded="true">
+                            <i class="fa fa-file-text fa-lg"></i>
+                            下载记录查看
                         </a>
                     </li>
                 </ul>
@@ -27,14 +30,54 @@
 
         <!--Panel Body-->
         <div class="panel-body">
-            <div class="tab-content">
-                <div id="tabs2-box-1" class="tab-pane fade active in">
-                    <h4 class="text-thin"><i class="fa fa-magic fa-fw"></i>开发中</h4>
+            <div class="tab-content container-fluid">
+                <div id="tabs2-box-1" class="tab-pane fade">
+                    <h4 class="text-thin"><i class="fa fa-user fa-fw"></i>开发中</h4>
                     <p>开发中</p>
                 </div>
-                <div id="tabs2-box-2" class="tab-pane fade">
-                    <h4 class="text-thin"><i class="fa fa-globe fa-fw"></i>开发中</h4>
-                    <p>开发中</p>
+                <div id="tabs2-box-2" class="tab-pane fade  active in">
+                    <div class="row">
+                        {% for download_obj in download_objs %}
+                            <div style="float: left;width: 150px;
+                            height: 200px;margin-right: 20px;margin-bottom: 20px;text-align: center;border: 1px solid #dddddd;position: relative;">
+                                <h5><b>{{ download_obj.download_detail | safe }}</b></h5>
+                                <a href="{{ download_obj.detail_url }}">
+                                    <img src="/static/img/excel.ico" alt="" style="width: 100px;height: 100px;">
+                                </a>
+                                <h5>
+                                    {{ download_obj.date|date:"Y-m-d H:i:s" }}
+                                    {% if download_obj.check_status == 1 %}
+                                        <a href="{{ download_obj.download_url }}"
+                                           class="btn btn-primary btn-rounded btn-xs" style="margin-top: 5px;">
+                                            下载
+                                        </a>
+                                    {% elif download_obj.check_status == 0 %}
+                                        <a class="btn btn-info btn-rounded btn-xs" disabled style="margin-top: 5px;">
+                                            未审核
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-danger btn-rounded btn-xs" disabled style="margin-top: 5px;">
+                                            审核不通过
+                                        </a>
+                                    {% endif %}
+                                </h5>
+                                <button class="demo-delete-row btn btn-danger btn-xs btn-icon fa fa-times"
+                                        style="position: absolute;top:-15px;right: -15px;"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        总计:{{ download_objs.paginator.count }}个下载记录
+                    </div>
+                    <!-- 表格脚部开始 -->
+                    <div class="row">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% get_page_ele download_objs %}
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- 表格脚部结束 -->
                 </div>
             </div>
         </div>

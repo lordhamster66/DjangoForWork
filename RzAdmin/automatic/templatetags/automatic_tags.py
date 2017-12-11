@@ -119,9 +119,9 @@ def render_download_option(request, sql_record_obj, condition_dict, order_by_dic
     if len(user_roles_list) == 0:
         condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)
         download_option_ele = """
-                <a href="/automatic/download_excel/%s/%s" target="_blank"
+                <a href="/automatic/download_check/%s/%s"
                 class="btn btn-success btn-rounded pull-right btn-lg" style="margin-top: 3px;">提交导出审核</a>
-                """
+                """ % (sql_record_obj.id, condition_str)
     else:
         """<a class="btn btn-success btn-rounded pull-right btn-lg" style="margin-top: 3px;">导出EXCEL</a>"""
         condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)
