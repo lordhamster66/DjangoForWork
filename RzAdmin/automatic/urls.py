@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^user_center.html$', views.user_center, name="user_center"),
     url(r'^download_check/(?P<sql_record_id>\d+)/$', views.download_check),
     url(r'^delete_download_record/(?P<download_record_id>\d+)/$', views.delete_download_record),
+    url(r'^upload_file.html$', views.upload_file),
 ]

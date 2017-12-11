@@ -2,14 +2,16 @@ import logging
 import json
 import xlwt
 import time
+import os
 from datetime import date
+from RzAdmin import settings
 from django.utils.timezone import datetime
 from automatic import models
 from automatic.forms import create_table_form
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from automatic.utils import (
-    get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list
+    get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list, create_id
 )
 
 # Create your views here.
@@ -132,24 +134,32 @@ def download_check(request, sql_record_id):
     condition_dict = get_condition_dict(request)  # 获取查询条件
     table_form_obj = table_form_class(data=condition_dict)
     if request.method == "GET":
-        if table_form_obj.is_valid():
-            condition_str = ""
-            for k, v in request.GET.items():
-                condition_str += "&%s=%s" % (k, v)
-            download_record_obj = models.DownloadRecord.objects.create(
-                user=request.user,
-                download_detail="%s %s<br>%s %s" % (
-                    request.GET.get("qudao_name", ""), sql_record_obj.name,
-                    request.GET.get("start_time", ""), request.GET.get("end_time", "")
-                ),
-                detail_url="/automatic/table_search_detail/%s/?%s" % (sql_record_id, condition_str),
-                download_url="/automatic/download_excel/%s/?%s" % (sql_record_id, condition_str),
-            )
+        if table_form_obj.is_valid():  # 进行form验证
+            pass
         else:
             return redirect("/automatic/table_search_detail/%s/" % sql_record_id)
     elif request.method == "POST":
-        pass
-    return render(request, "download_check.html")
+        condition_str = ""  # 下载条件
+        keywords = ["check_img", "sql_record_id"]
+        for k, v in request.POST.items():
+            if k in keywords:
+                continue
+            condition_str += "&%s=%s" % (k, v)
+        models.DownloadRecord.objects.create(
+            user=request.user,
+            check_img=request.POST.get("check_img", ""),
+            download_detail="%s %s<br>%s %s" % (
+                request.POST.get("qudao_name", ""), sql_record_obj.name,
+                request.POST.get("start_time", ""), request.POST.get("end_time", "")
+            ),
+            detail_url="/automatic/table_search_detail/%s/?%s" % (request.POST.get("sql_record_id", ""), condition_str),
+            download_url="/automatic/download_excel/%s/?%s" % (request.POST.get("sql_record_id", ""), condition_str),
+        )
+        return redirect("/automatic/user_center.html")
+    return render(request, "download_check.html", {
+        "sql_record_obj": sql_record_obj,
+        "table_form_obj": table_form_obj
+    })
 
 
 @login_required
@@ -162,4 +172,20 @@ def delete_download_record(request, download_record_id):
         ret["status"] = True
     else:
         ret["error"] = "下载记录不存在！"
+    return HttpResponse(json.dumps(ret))
+
+
+@login_required
+def upload_file(request):
+    """上传文件至服务器"""
+    ret = {"status": False, "error": None, "data": None}
+    file_obj = request.FILES.get("upload_file")
+    if file_obj:
+        upload_file_path = os.path.join(settings.BASE_DIR, "static", "img", "upload")
+        file_name = create_id()
+        with open(os.path.join(upload_file_path, file_name), "wb") as f:
+            for line in file_obj:
+                f.write(line)
+        ret["status"] = True
+        ret["data"] = "/static/img/upload/%s" % file_name
     return HttpResponse(json.dumps(ret))

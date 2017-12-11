@@ -1,9 +1,106 @@
 {% extends "index.html" %}
+{% block css %}
+    <style>
+        .check-container {
+            height: 200px;
+            width: 200px;
+            padding: 2px;
+            border: 1px solid #dddddd;
+            position: relative;
+        }
+
+        .check-container img {
+            height: 200px;
+            width: 200px;
+            border: 0;
+            overflow: hidden;
+        }
+
+        .check-container .text {
+            text-align: center;
+        }
+
+        .check-container .img-file {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            position: absolute;
+            z-index: 102;
+        }
+    </style>
+{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb">
-        <li class="active">下载审核页面</li>
+        <li><a href="/automatic/table_search_detail/{{ sql_record_obj.id }}/">详细查询页面</a></li>
+        <li class="active">提交导出审核页面</li>
     </ol>
 {% endblock %}
 {% block page-content %}
-    下载审核页面
+    <div class="panel panel-bordered panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">提交导出审核页面</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <h3>请提交审核图片</h3>
+                <div class="check-container">
+                    <form id="fm1" action="/automatic/upload_file.html"
+                          method="POST" target="ifm1" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <iframe id="ifm1" name="ifm1" style="display: none"></iframe>
+                        <img id="check-img" src="/static/img/check_default.jpg">
+                        <div class="text">点击图片更换(<a href="#">撤销</a>)</div>
+                        <input id="checkImg" type="file" class="img-file" name="upload_file"/>
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px;">
+                <h3>请检查以下查询信息</h3>
+                <div class="col-lg-5">
+                    <form method="post" id="check-form">{% csrf_token %}
+                        <input id="check_img_url" type="text" name="check_img" value="" hidden>
+                        <input type="text" name="sql_record_id" value="{{ sql_record_obj.id }}" hidden>
+                        {% for field in table_form_obj %}
+                            {% if field.name == "list_per_page" %}
+                                <input type="text" name="{{ field.name }}" value="{{ field.data }}" hidden>
+                            {% else %}
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"
+                                           for="demo-is-inputsmall">{{ field.label }}：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="{{ field.name }}"
+                                               value="{{ field.data }}" disabled>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <input id="check-submit" type="submit" class="btn btn-primary btn-rounded"
+                               style="margin-top: 20px;" value="确认提交">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $("#checkImg").change(function () {
+                $("#ifm1").load(function () {
+                    var text = $("#ifm1").contents().find("body").text();
+                    var obj = JSON.parse(text);
+                    if (obj.status) {
+                        $("#check-img").attr("src", obj.data);
+                        $("#check_img_url").val(obj.data);
+                    }
+                });
+                $("#fm1").submit();
+            });
+            $("#check-submit").click(function () {
+                $("#check-form").children().find(":disabled").removeAttr("disabled");
+            })
+        })
+    </script>
 {% endblock %}

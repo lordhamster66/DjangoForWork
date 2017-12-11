@@ -25,6 +25,8 @@ def create_model_form(admin_class):
             if type(model_field_obj).__name__ == "ForeignKey":
                 field_obj.widget.attrs["tag"] = "foreignKey-edit"
                 field_obj.widget.attrs["related_model"] = model_field_obj.related_model._meta.model_name
+            if type(model_field_obj).__name__ == "DateField":
+                field_obj.widget.attrs["class"] = "form-control date-picker"
         return ModelForm.__new__(cls)
 
     def clean(self):

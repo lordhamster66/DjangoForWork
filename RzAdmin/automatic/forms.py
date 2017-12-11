@@ -20,6 +20,7 @@ class FunctionList(object):
     )
     search_q = fields.IntegerField(
         required=False,
+        label="uid和手机号检索",
         widget=widgets.TextInput(attrs={
             "class": "form-control",
             "id": "search_q",

@@ -2,9 +2,18 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/12/9
+import uuid
 from django.db import connections
 from automatic import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+def create_id():
+    """
+    创建唯一标识
+    :return: 返回唯一标识
+    """
+    return str(uuid.uuid1())
 
 
 def get_info_list(db_name, sql):
