@@ -138,7 +138,7 @@ def download_check(request, sql_record_id):
                 condition_str += "&%s=%s" % (k, v)
             download_record_obj = models.DownloadRecord.objects.create(
                 user=request.user,
-                download_detail="%s %s<br>%s至%s" % (
+                download_detail="%s %s<br>%s %s" % (
                     request.GET.get("qudao_name", ""), sql_record_obj.name,
                     request.GET.get("start_time", ""), request.GET.get("end_time", "")
                 ),
@@ -155,4 +155,11 @@ def download_check(request, sql_record_id):
 @login_required
 def delete_download_record(request, download_record_id):
     """删除下载记录"""
-    pass
+    ret = {"status": False, "error": None, "data": None}
+    download_record_obj = models.DownloadRecord.objects.filter(id=download_record_id).first()
+    if download_record_obj:
+        download_record_obj.delete()
+        ret["status"] = True
+    else:
+        ret["error"] = "下载记录不存在！"
+    return HttpResponse(json.dumps(ret))

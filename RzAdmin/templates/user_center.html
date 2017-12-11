@@ -61,7 +61,8 @@
                                         </a>
                                     {% endif %}
                                 </h5>
-                                <button class="demo-delete-row btn btn-danger btn-xs btn-icon fa fa-times"
+                                <button download_record_id="{{ download_obj.id }}"
+                                        class="demo-delete-row btn btn-danger btn-xs btn-icon fa fa-times delete-download-record"
                                         style="position: absolute;top:-15px;right: -15px;"></button>
                             </div>
                         {% endfor %}
@@ -82,4 +83,52 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $(".delete-download-record").click(function () {
+                var download_record_id = $(this).attr("download_record_id");
+                var delete_download_record_url = "/automatic/delete_download_record/" + download_record_id + "/";
+                swal({
+                        title: "确定删除吗?",
+                        text: "您将要删除该下载记录!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定!",
+                        cancelButtonText: "取消!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                url: delete_download_record_url,
+                                type: "POST",
+                                dataType: "JSON",  // 内部会自动将返回的数据用JSON解析
+                                success: function (obj) {
+                                    if (obj.status) {
+                                        swal({
+                                                title: "删除成功!",
+                                                text: "已成功删除该下载记录!",
+                                                type: "success",
+                                                confirmButtonText: "OK",
+                                                closeOnConfirm: false
+                                            },
+                                            function () {
+                                                location.href = "/automatic/user_center.html"
+                                            });
+                                    } else {
+                                        swal("Ops!", obj.error, "warning");
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("已取消", "祝您愉快 :)", "error");
+                        }
+                    });
+            })
+        })
+    </script>
 {% endblock %}

@@ -106,6 +106,7 @@ class SQLRecordAdmin(BaseAdmin):
 
 class DownloadRecordAdmin(BaseAdmin):
     list_display = ("user", "download_detail", "check_status", "check_user", "date", "end_date")
+    list_filter = ("user", "check_status", "date")
 
 
 register(models.UserProfile, UserProfileAdmin)
