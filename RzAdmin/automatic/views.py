@@ -29,6 +29,7 @@ def search_table_list(request):
     """可用查询页面"""
     user = request.user  # 获取用户对象
     sql_record_objs = models.SQLRecord.objects.filter(roles__in=user.roles.all(), query_page=True).all()
+    sql_record_objs = get_paginator_query_sets(request, sql_record_objs, request.GET.get("list_per_page", 10))
     return render(request, "search_table_list.html", {"sql_record_objs": sql_record_objs})
 
 

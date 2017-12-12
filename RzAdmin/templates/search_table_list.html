@@ -1,4 +1,5 @@
 {% extends "index.html" %}
+{% load automatic_tags %}
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="active">数据查询功能</li>
@@ -10,33 +11,47 @@
             <h3 class="panel-title">可用查询功能</h3>
         </div>
         <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="text-center">序号</th>
-                        <th>查询内容</th>
-                        <th>标签</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for sql_record_obj in sql_record_objs %}
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td class="text-center">{{ forloop.counter }}</td>
-                            <td><a href="/automatic/table_search_detail/{{ sql_record_obj.id }}/"
-                                   class="btn-link">{{ sql_record_obj.name }}</a></td>
-                            <td>
-                                {% if sql_record_obj.tags.all %}
-                                    {% for tag in sql_record_obj.tags.all %}
-                                        <span class="label label-info">{{ tag.name }}</span>
-                                    {% endfor %}
-                                {% endif %}
-                            </td>
+                            <th class="text-center">序号</th>
+                            <th>查询内容</th>
+                            <th>标签</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for sql_record_obj in sql_record_objs %}
+                            <tr>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td><a href="/automatic/table_search_detail/{{ sql_record_obj.id }}/"
+                                       class="btn-link">{{ sql_record_obj.name }}</a></td>
+                                <td>
+                                    {% if sql_record_obj.tags.all %}
+                                        {% for tag in sql_record_obj.tags.all %}
+                                            <span class="label label-info">{{ tag.name }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div class="row" style="margin-top: 20px;">
+                总计:{{ sql_record_objs.paginator.count }}个可用查询功能
+            </div>
+            <!-- 表格脚部开始 -->
+            <div class="row">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        {% get_page_ele sql_record_objs %}
+                    </ul>
+                </nav>
+            </div>
+            <!-- 表格脚部结束 -->
         </div>
     </div>
 {% endblock %}
