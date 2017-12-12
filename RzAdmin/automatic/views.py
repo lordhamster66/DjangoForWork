@@ -185,7 +185,7 @@ def upload_file(request):
     file_obj = request.FILES.get("upload_file")
     if file_obj:
         upload_file_path = os.path.join(settings.BASE_DIR, "static", "img", "upload")
-        file_name = create_id()
+        file_name = "%s&%s" % (create_id(), file_obj._name)
         with open(os.path.join(upload_file_path, file_name), "wb") as f:
             for line in file_obj:
                 f.write(line)
