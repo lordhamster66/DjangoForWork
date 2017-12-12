@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 50px;">
-                <h3>请检查以下查询信息</h3>
+                <h3>请检查以下{{ sql_record_obj.name }}查询信息：</h3>
                 <div class="col-lg-5">
                     <form method="post" id="check-form">{% csrf_token %}
                         <input id="check_img_url" type="text" name="check_img" value="" hidden>
