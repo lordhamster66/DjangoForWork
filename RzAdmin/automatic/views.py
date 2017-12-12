@@ -168,8 +168,11 @@ def delete_download_record(request, download_record_id):
     ret = {"status": False, "error": None, "data": None}
     download_record_obj = models.DownloadRecord.objects.filter(id=download_record_id).first()
     if download_record_obj:
-        download_record_obj.delete()
-        ret["status"] = True
+        if download_record_obj.check_status == 1:
+            ret["error"] = "审核通过的下载记录将作为历史记录，您无法删除！"
+        else:
+            download_record_obj.delete()
+            ret["status"] = True
     else:
         ret["error"] = "下载记录不存在！"
     return HttpResponse(json.dumps(ret))
