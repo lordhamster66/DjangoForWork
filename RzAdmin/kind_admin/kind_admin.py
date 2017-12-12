@@ -21,6 +21,7 @@ class BaseAdmin(object):
     need_readonly = False  # 是否需要显示为只读
     table_readonly = False  # 整张表是否只读
     modelform_exclude_fields = ()  # model_form表单要剔除的字段
+    dynamic_default_fields = ()  # 动态默认字段,在修改对象时动态生成
 
     def delete_selected(self, request, querysets):
         """
@@ -107,6 +108,13 @@ class SQLRecordAdmin(BaseAdmin):
 class DownloadRecordAdmin(BaseAdmin):
     list_display = ("user", "download_detail", "check_status", "check_user", "date", "end_date")
     list_filter = ("user", "check_status", "date")
+    readonly_fields = ("user", "check_user")  # 只读字段
+    modelform_exclude_fields = ("detail_url", "download_url")
+    dynamic_default_fields = ("check_user",)
+
+    def dynamic_default_check_user(self):
+        """动态默认字段设置默认值"""
+        return self.request.user
 
 
 register(models.UserProfile, UserProfileAdmin)

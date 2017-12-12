@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/11/18
+from automatic import models
 from django.forms import ModelForm, widgets, PasswordInput
 
 

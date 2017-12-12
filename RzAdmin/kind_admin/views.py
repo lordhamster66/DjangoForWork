@@ -91,6 +91,11 @@ def table_change(request, app_name, table_name, obj_id):
     admin_class.need_readonly = True  # 对对象进行修改时，需要有readonly的需求
     model_form_class = create_model_form(admin_class)  # 获取ModelForm
     obj = admin_class.model.objects.filter(id=obj_id).first()  # 获取要修改的对象
+    admin_class.request = request  # 在admin_class封装request对象
+    for field in admin_class.dynamic_default_fields:
+        if hasattr(admin_class, "dynamic_default_%s" % field):
+            dynamic_default_func = getattr(admin_class, "dynamic_default_%s" % field)
+            setattr(obj, field, dynamic_default_func(admin_class))
     if request.method == "GET":
         model_form_obj = model_form_class(instance=obj)
     elif request.method == "POST":
