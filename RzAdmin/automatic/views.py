@@ -89,30 +89,51 @@ def download_excel(request, sql_record_id):
             time.time())) + '.xls'
         workbook = xlwt.Workbook(encoding='utf-8')  # 创建工作簿
         sheet = workbook.add_sheet("sheet1")  # 创建工作页
-        style = xlwt.XFStyle()  # 创建格式style
-        font = xlwt.Font()  # 创建font，设置字体
-        font.name = 'Arial Unicode MS'  # 字体格式
-        style.font = font  # 将字体font，应用到格式style
-        alignment = xlwt.Alignment()  # 创建alignment，居中
-        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 居中
-        style.alignment = alignment  # 应用到格式style
-        style1 = xlwt.XFStyle()
-        font1 = xlwt.Font()
-        font1.name = 'Arial Unicode MS'
-        # font1.colour_index = 3                  #字体颜色（绿色）
-        font1.bold = True  # 字体加粗
-        style1.font = font1
-        style1.alignment = alignment
+        style_heading = xlwt.easyxf("""
+                font:
+                    name Arial,
+                    colour_index white,
+                    bold on,
+                    height 0xA0;
+                align:
+                    wrap off,
+                    vert center,
+                    horiz center;
+                pattern:
+                    pattern solid,
+                    fore-colour 0x19;
+                borders:
+                    left THIN,
+                    right THIN,
+                    top THIN,
+                    bottom THIN;
+                """
+                                    )
+        style_body = xlwt.easyxf("""
+                font:
+                    name Arial,
+                    bold off,
+                    height 0XA0;
+                align:
+                    vert center,
+                    horiz left;
+                borders:
+                    left THIN,
+                    right THIN,
+                    top THIN,
+                    bottom THIN;
+                """
+                                 )
         if query_sets:
             for index, field in enumerate(query_sets[0].keys()):
-                sheet.write(0, index, field)
+                sheet.write(0, index, field, style_heading)
             for index, item in enumerate(query_sets):
                 for value_index, value in enumerate(item.values()):
                     if isinstance(value, datetime):
                         value = value.strftime("%Y-%m-%d %H:%M:%S")
                     if isinstance(value, date):
                         value = value.strftime("%Y-%m-%d")
-                    sheet.write(index + 1, value_index, value)
+                    sheet.write(index + 1, value_index, value, style_body)
         workbook.save(response)
         return response
     else:
