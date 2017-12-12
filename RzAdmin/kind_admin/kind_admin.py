@@ -107,7 +107,7 @@ class SQLRecordAdmin(BaseAdmin):
 
 class DownloadRecordAdmin(BaseAdmin):
     list_display = ("user", "download_detail", "check_status", "check_user", "date", "end_date")
-    list_filter = ("user", "check_status", "date")
+    list_filter = ("user", "check_status", "check_user", "date")
     readonly_fields = ("user", "check_user")  # 只读字段
     modelform_exclude_fields = ("detail_url", "download_url")
     dynamic_default_fields = ("check_user",)
