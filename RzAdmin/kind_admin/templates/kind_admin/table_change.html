@@ -130,7 +130,7 @@
                                         <div class="col-sm-8">
                                             {% if field.name in admin_class.only_display_img_field %}
                                                 <a href="{{ field.initial }}">
-                                                    <div style="width: 550px;height: 400px;background:url({{ field.initial }});
+                                                    <div style="width: 550px;height: 400px;background:url('{{ field.initial }}');
                                                             background-size: cover;background-position: center center;">
                                                     </div>
                                                 </a>
