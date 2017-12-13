@@ -60,7 +60,8 @@
                 <h3>请检查以下{{ sql_record_obj.name }}查询信息：</h3>
                 <div class="col-lg-5">
                     <form method="post" id="check-form">{% csrf_token %}
-                        <input id="check_img_url" type="text" name="check_img" value="" hidden>
+                        <input id="check_img_url" type="text" name="check_img" value="/static/img/check_default.jpg"
+                               hidden>
                         <input type="text" name="sql_record_id" value="{{ sql_record_obj.id }}" hidden>
                         {% for field in table_form_obj %}
                             {% if field.name == "list_per_page" %}
