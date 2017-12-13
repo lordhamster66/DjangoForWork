@@ -171,7 +171,7 @@ def download_check(request, sql_record_id):
             condition_str += "&%s=%s" % (k, v)
         models.DownloadRecord.objects.create(
             user=request.user,
-            check_img=request.POST.get("check_img", ""),
+            check_img=request.POST.get("check_img", "/static/img/check_default.jpg"),
             download_detail="%s %s<br>%s %s" % (
                 request.POST.get("qudao_name", ""), sql_record_obj.name,
                 request.POST.get("start_time", ""), request.POST.get("end_time", "")
