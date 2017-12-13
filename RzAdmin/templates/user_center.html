@@ -44,6 +44,7 @@
                                 <a href="{{ download_obj.detail_url }}">
                                     <img src="/static/img/excel.ico" alt="" style="width: 100px;height: 100px;">
                                 </a>
+                                <h5>记录生成时间</h5>
                                 <h5>
                                     {{ download_obj.date|date:"Y-m-d H:i:s" }}
                                     {% if download_obj.check_status == 1 %}

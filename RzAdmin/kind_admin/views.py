@@ -145,3 +145,31 @@ def table_delete(request, app_name, table_name, obj_ids):
         if not admin_class.table_readonly:  # 不是只读的表才会进行删除操作
             objs.delete()  # 删除所有对象
         return redirect("/kind_admin/%s/%s" % (app_name, table_name))
+
+
+@login_required
+def change_password(request, app_name, table_name, obj_id):
+    """
+    修改用户密码
+    :param request:
+    :param app_name:
+    :param table_name:
+    :param obj_id:
+    :return:
+    """
+    errors_dict = {}  # 要返回的错误信息
+    admin_class = kind_admin.enabled_admins[app_name][table_name]  # 获取admin_class
+    obj = admin_class.model.objects.filter(id=obj_id).first()  # 获取要修改的对象
+    if request.method == "POST":
+        pwd1 = request.POST.get("password1")
+        pwd2 = request.POST.get("password2")
+        if pwd1 and pwd2:
+            if pwd1 == pwd2:
+                obj.set_password(pwd1)
+                obj.save()
+                return redirect("/accounts/login/")
+            else:
+                errors_dict["error"] = "两次输入密码不一致!"
+        else:
+            errors_dict["invalid"] = "密码不能为空！"
+    return render(request, "kind_admin/change_password.html", {"errors_dict": errors_dict})

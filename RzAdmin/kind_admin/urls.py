@@ -20,6 +20,9 @@ urlpatterns = [
     url(r'^$', views.index, name="table_index"),
     url(r'^(?P<app_name>\w+)/(?P<table_name>\w+)/$', views.table_objs, name="table_objs"),
     url(r'^(?P<app_name>\w+)/(?P<table_name>\w+)/(?P<obj_id>\w+)/change/$', views.table_change, name="table_change"),
+    url(r'^(?P<app_name>\w+)/(?P<table_name>\w+)/(?P<obj_id>\w+)/change/password/$',
+        views.change_password, name="change_password"
+        ),
     url(r'^(?P<app_name>\w+)/(?P<table_name>\w+)/(?P<obj_ids>.*)/delete/$', views.table_delete, name="table_delete"),
     url(r'^(?P<app_name>\w+)/(?P<table_name>\w+)/add/$', views.table_add, name="table_add"),
 ]
