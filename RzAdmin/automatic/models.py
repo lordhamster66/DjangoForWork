@@ -206,8 +206,7 @@ class DownloadRecord(models.Model):
     download_detail = models.CharField(max_length=264, verbose_name="下载信息")
     detail_url = models.TextField(verbose_name="详细信息地址")
     download_url = models.TextField(verbose_name="下载地址")
-    check_img = models.ImageField(upload_to="upload", blank=True, null=True, verbose_name="审核用图片",
-                                  default="/static/img/check_default.jpg")
+    check_img = models.ImageField(upload_to="upload", default="/static/img/check_default.jpg", verbose_name="审核用图片")
     check_status_choices = ((0, "未审核"), (1, "审核通过"), (2, "审核不通过"))
     check_status = models.SmallIntegerField(choices=check_status_choices, verbose_name="审核状态", default=0)
     check_user = models.ForeignKey("UserProfile", related_name="user_check_download", blank=True, null=True,
