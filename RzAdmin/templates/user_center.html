@@ -39,7 +39,7 @@
                     <div class="row">
                         {% for download_obj in download_objs %}
                             <div style="float: left;width: 150px;
-                            height: 200px;margin-right: 20px;margin-bottom: 20px;text-align: center;border: 1px solid #dddddd;position: relative;">
+                            margin-right: 20px;margin-bottom: 20px;text-align: center;border: 1px solid #dddddd;position: relative;">
                                 <h5><b>{{ download_obj.download_detail | safe }}</b></h5>
                                 <a href="{{ download_obj.detail_url }}">
                                     <img src="/static/img/excel.ico" alt="" style="width: 100px;height: 100px;">
