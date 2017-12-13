@@ -22,6 +22,7 @@ class BaseAdmin(object):
     table_readonly = False  # 整张表是否只读
     modelform_exclude_fields = ()  # model_form表单要剔除的字段
     dynamic_default_fields = ()  # 动态默认字段,在修改对象时动态生成
+    only_display_img_field = ()  # 只显示图片的字段
 
     def delete_selected(self, request, querysets):
         """
@@ -111,6 +112,7 @@ class DownloadRecordAdmin(BaseAdmin):
     readonly_fields = ("user", "check_user")  # 只读字段
     modelform_exclude_fields = ("detail_url", "download_url")
     dynamic_default_fields = ("check_user",)
+    only_display_img_field = ("check_img",)
 
     def dynamic_default_check_user(self):
         """动态默认字段设置默认值"""

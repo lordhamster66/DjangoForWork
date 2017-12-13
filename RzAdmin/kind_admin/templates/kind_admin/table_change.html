@@ -128,7 +128,15 @@
                                     {# 如果字段在readonly字段里面且是修改页面或者字段不在filter_horizontal里面则不显示复选框界面 #}
                                     {% if field.name in admin_class.readonly_fields and admin_class.need_readonly or field.name not in admin_class.filter_horizontal %}
                                         <div class="col-sm-8">
-                                            {{ field }}
+                                            {% if field.name in admin_class.only_display_img_field %}
+                                                <a href="{{ field.initial }}">
+                                                    <img src="{{ field.initial }}" style="width: 550px;height: 400px;">
+                                                </a>
+                                                <input type="text" hidden value="{{ field.initial }}"
+                                                       name="{{ field.name }}">
+                                            {% else %}
+                                                {{ field }}
+                                            {% endif %}
                                             {{ field.help_text }}
                                             <span style="color: red;">{% get_field_error model_form_obj field %}</span>
                                         </div>
