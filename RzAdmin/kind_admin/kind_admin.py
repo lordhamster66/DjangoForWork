@@ -102,7 +102,7 @@ class SQLFuncAdmin(BaseAdmin):
 
 
 class SQLRecordAdmin(BaseAdmin):
-    list_display = ("user", "name", "query_page", "date")
+    list_display = ("id", "user", "name", "query_page", "date")
     filter_horizontal = ("roles", "tags", "funcs")
 
 

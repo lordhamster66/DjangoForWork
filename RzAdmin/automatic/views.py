@@ -21,7 +21,14 @@ c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger�
 
 @login_required
 def index(request):
-    return render(request, "index.html")
+    data_dict = {}  # 用来存放首页数据
+    data_dict["registered_num"] = get_info_list("rz", models.SQLRecord.objects.get(id=20).content)[0]["注册人数"]
+    data_dict["real_names_num"] = get_info_list("rz", models.SQLRecord.objects.get(id=21).content)[0]["实名人数"]
+    un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
+    data_dict["un_R_xt_person_num"] = un_R_xt_amount["投资人数"]
+    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount["投资金额"]) / 10000)
+    data_dict["amount"] = float(get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0]["投资金额"]) / 10000
+    return render(request, "index.html", {"data_dict": data_dict})
 
 
 @login_required
