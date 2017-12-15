@@ -52,8 +52,8 @@ def table_search_detail(request, sql_record_id):
     if condition_dict:  # 有查询条件时，才会进行from验证，否则为第一访问该地址不需要验证
         table_form_obj = table_form_class(data=condition_dict)
         if table_form_obj.is_valid():  # form验证
-            # 添加查询日志
-            logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
+            if not request.GET.get("page") and not request.GET.get("o"):  # 用户没有进行翻页和排序操作才会记录查询日志
+                logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
             query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
             query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
     query_sets = get_paginator_query_sets(request, query_sets, request.GET.get("list_per_page", 10))
