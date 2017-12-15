@@ -91,15 +91,13 @@ def download_excel(request, sql_record_id):
     table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
     condition_dict = get_condition_dict(request)  # 获取查询条件
     table_form_obj = table_form_class(data=condition_dict)
-    download_record_obj = models.DownloadRecord.objects.filter(
-        user=request.user, download_url=request.get_full_path()
-    ).first()
-    # if len(user_roles_list) == 0:  # 没有直接下载权限则需要进行下载认证
-    #     if download_record_obj:
-    #         if download_record_obj.check_status != 1:
-    #             return HttpResponse("该下载记录未审核通过,您无权下载!")
-    #     else:
-    #         return HttpResponse("您未申请该下载记录!")
+    download_record_obj = models.DownloadRecord.objects.filter(id=request.GET.get("download_record_id")).first()
+    if len(user_roles_list) == 0:  # 没有直接下载权限则需要进行下载认证
+        if download_record_obj:
+            if download_record_obj.check_status != 1:
+                return HttpResponse("该下载记录未审核通过,您无权下载!")
+        else:
+            return HttpResponse("您未申请该下载记录!")
     if table_form_obj.is_valid():  # form验证
         query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
         query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
@@ -188,7 +186,7 @@ def download_check(request, sql_record_id):
             if k in keywords:
                 continue
             condition_str += "&%s=%s" % (k, v)
-        models.DownloadRecord.objects.create(
+        download_record_obj = models.DownloadRecord.objects.create(
             user=request.user,
             check_img=request.POST.get("check_img", "/static/img/check_default.jpg"),
             download_detail="%s %s<br>%s %s" % (
@@ -198,6 +196,10 @@ def download_check(request, sql_record_id):
             detail_url="/automatic/table_search_detail/%s/?%s" % (request.POST.get("sql_record_id", ""), condition_str),
             download_url="/automatic/download_excel/%s/?%s" % (request.POST.get("sql_record_id", ""), condition_str),
         )
+        download_record_obj.download_url = "%s&download_record_id=%s" % (
+            download_record_obj.download_url, download_record_obj.id
+        )
+        download_record_obj.save()
         return redirect("/automatic/user_center.html")
     return render(request, "download_check.html", {
         "sql_record_obj": sql_record_obj,

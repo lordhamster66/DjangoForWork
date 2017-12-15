@@ -29,7 +29,7 @@ def get_info_list(db_name, sql):
 def get_condition_dict(request):
     """获取查询条件"""
     condition_dict = {}
-    keywords = ["o", "page"]  # 保留关键字
+    keywords = ["o", "page", "download_record_id"]  # 保留关键字
     for k, v in request.GET.items():
         if k in keywords:
             continue
