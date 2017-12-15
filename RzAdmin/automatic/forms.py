@@ -97,26 +97,27 @@ class FunctionList(object):
         return uids
 
     def clean(self):
-        invite_user = self.cleaned_data.pop("invite_user")  # 用户输入的邀请人信息
-        invited_user = self.cleaned_data.pop("invited_user")  # 用户输入的被邀请人信息
-        if not invite_user and not invited_user:
-            self.add_error("__all__", "不能同时为空！")
-        invite_user_uids = FunctionList.get_uids(invite_user)
-        invited_user_uids = FunctionList.get_uids(invited_user)
-        self.cleaned_data["invite_user"] = ""
-        self.cleaned_data["invited_user"] = ""
-        if invite_user:
-            if invite_user_uids:
-                self.cleaned_data["invite_user"] = 'invite.uid in ("%s")' % invite_user_uids
-            else:
-                self.add_error("invite_user", "该邀请用户不存在！")
-        if invited_user:
-            if invited_user_uids:
-                self.cleaned_data["invited_user"] = 'invited.uid in ("%s")' % invited_user_uids
-            else:
-                self.add_error("invited_user", "该被邀请用户不存在！")
-        if invite_user and invited_user:
-            self.cleaned_data["invited_user"] = "and %s" % self.cleaned_data["invited_user"]
+        if "invite_user" in self.cleaned_data.keys() or "invited_user" in self.cleaned_data.keys():
+            invite_user = self.cleaned_data.get("invite_user")  # 用户输入的邀请人信息
+            invited_user = self.cleaned_data.get("invited_user")  # 用户输入的被邀请人信息
+            if not invite_user and not invited_user:
+                self.add_error("__all__", "不能同时为空！")
+            invite_user_uids = FunctionList.get_uids(invite_user)
+            invited_user_uids = FunctionList.get_uids(invited_user)
+            self.cleaned_data["invite_user"] = ""
+            self.cleaned_data["invited_user"] = ""
+            if invite_user:
+                if invite_user_uids:
+                    self.cleaned_data["invite_user"] = 'invite.uid in ("%s")' % invite_user_uids
+                else:
+                    self.add_error("invite_user", "该邀请用户不存在！")
+            if invited_user:
+                if invited_user_uids:
+                    self.cleaned_data["invited_user"] = 'invited.uid in ("%s")' % invited_user_uids
+                else:
+                    self.add_error("invited_user", "该被邀请用户不存在！")
+            if invite_user and invited_user:
+                self.cleaned_data["invited_user"] = "and %s" % self.cleaned_data["invited_user"]
         return self.cleaned_data
 
     def clean_qudao_name(self):
