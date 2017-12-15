@@ -94,12 +94,12 @@ def download_excel(request, sql_record_id):
     download_record_obj = models.DownloadRecord.objects.filter(
         user=request.user, download_url=request.get_full_path()
     ).first()
-    if len(user_roles_list) == 0:  # 没有直接下载权限则需要进行下载认证
-        if download_record_obj:
-            if download_record_obj.check_status != 1:
-                return HttpResponse("该下载记录未审核通过,您无权下载!")
-        else:
-            return HttpResponse("您未申请该下载记录!")
+    # if len(user_roles_list) == 0:  # 没有直接下载权限则需要进行下载认证
+    #     if download_record_obj:
+    #         if download_record_obj.check_status != 1:
+    #             return HttpResponse("该下载记录未审核通过,您无权下载!")
+    #     else:
+    #         return HttpResponse("您未申请该下载记录!")
     if table_form_obj.is_valid():  # form验证
         query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
         query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
