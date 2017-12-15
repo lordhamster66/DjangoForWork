@@ -64,6 +64,61 @@ class FunctionList(object):
         }
     )
 
+    invite_user = fields.CharField(
+        required=False,
+        label="邀请人",
+        widget=widgets.TextInput(attrs={
+            "class": "form-control",
+            "id": "invite-user",
+            "placeholder": "请输入邀请人ID或者手机号"
+        })
+    )
+
+    invited_user = fields.CharField(
+        required=False,
+        label="被邀请人",
+        widget=widgets.TextInput(attrs={
+            "class": "form-control",
+            "id": "invited-user",
+            "placeholder": "请输入被邀请人ID或者手机号"
+        })
+    )
+
+    @staticmethod
+    def get_uids(search_content):
+        """返回搜索到的所有用户ID"""
+        uids = ""
+        if search_content:
+            uid_list = get_info_list("rz", """SELECT uid from 01u_0info where uid = '{search_content}' UNION
+                                                SELECT uid from 01u_0info where mobile = '{search_content}'""".format(
+                search_content=search_content))
+            if uid_list:
+                uids = ",".join([str(i["uid"]) for i in uid_list if i])
+        return uids
+
+    def clean(self):
+        invite_user = self.cleaned_data.pop("invite_user")  # 用户输入的邀请人信息
+        invited_user = self.cleaned_data.pop("invited_user")  # 用户输入的被邀请人信息
+        if not invite_user and not invited_user:
+            self.add_error("__all__", "不能同时为空！")
+        invite_user_uids = FunctionList.get_uids(invite_user)
+        invited_user_uids = FunctionList.get_uids(invited_user)
+        self.cleaned_data["invite_user"] = ""
+        self.cleaned_data["invited_user"] = ""
+        if invite_user:
+            if invite_user_uids:
+                self.cleaned_data["invite_user"] = 'invite.uid in ("%s")' % invite_user_uids
+            else:
+                self.add_error("invite_user", "该邀请用户不存在！")
+        if invited_user:
+            if invited_user_uids:
+                self.cleaned_data["invited_user"] = 'invited.uid in ("%s")' % invited_user_uids
+            else:
+                self.add_error("invited_user", "该被邀请用户不存在！")
+        if invite_user and invited_user:
+            self.cleaned_data["invited_user"] = "and %s" % self.cleaned_data["invited_user"]
+        return self.cleaned_data
+
     def clean_qudao_name(self):
         """验证渠道名称是否存在"""
         qudao_name = self.cleaned_data.pop("qudao_name", "")
@@ -99,7 +154,7 @@ class FunctionList(object):
 
 def create_table_form(sql_record_obj):
     """动态生成table_form"""
-    attrs = {"list_per_page": FunctionList.list_per_page}  # 要生成的字段
+    attrs = {"list_per_page": FunctionList.list_per_page, "clean": FunctionList.clean}  # 要生成的字段
     func_name_list = [i.name for i in sql_record_obj.funcs.all()]
     for func_name in func_name_list:
         if hasattr(FunctionList, func_name):
