@@ -8,7 +8,7 @@ from django import template
 from django.utils.safestring import mark_safe
 
 register = template.Library()
-detaile_jurisdiction = ["数据组", "管理员", "财务部"]  # 有详细信息查看权限的角色
+detaile_jurisdiction = ["数据组", "管理员", "财务部"]  # 有详细信息查看权限的角色 todo 希望做成数据库里面可以自定义的
 
 
 def get_condition_str(condition_dict):
@@ -67,6 +67,7 @@ def get_table_rows(request, row):
     {% endfor %}
     """
     td_ele = ""
+    # todo 希望做成数据库里面可以自定义的
     user_roles_list = [i.name for i in request.user.roles.all() if i.name in detaile_jurisdiction]
     for field, data in row.items():
         if isinstance(data, datetime):
@@ -114,6 +115,7 @@ def get_table_head(query_sets, condition_dict, order_by_dict):
 @register.simple_tag
 def render_download_option(request, sql_record_obj, condition_dict, order_by_dict):
     """展示下载EXCEL功能或者是提交下载审核功能"""
+    # todo 希望做成数据库里面可以自定义的
     user_roles_list = [i.name for i in request.user.roles.all() if i.name in detaile_jurisdiction]
     if len(user_roles_list) == 0:
         condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)

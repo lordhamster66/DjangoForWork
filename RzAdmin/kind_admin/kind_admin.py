@@ -78,7 +78,7 @@ def register(model_class, admin_class=None):
 #         pass
 
 class UserProfileAdmin(BaseAdmin):
-    list_display = ("email", "name", 'is_admin', "is_active")
+    list_display = ("email", "name", "last_login", 'is_admin', "is_active")
     readonly_fields = ("email", "password",)
     filter_horizontal = ("roles",)
     modelform_exclude_fields = ("is_superuser", "last_login", "groups", "user_permissions")

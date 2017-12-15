@@ -84,10 +84,22 @@ def search_channel_name(request):
 @login_required
 def download_excel(request, sql_record_id):
     """导出明细至EXCEL"""
+    detaile_jurisdiction = ["数据组", "管理员", "财务部"]  # 有详细信息查看权限的角色 todo 希望做成数据库里面可以自定义的
+    # todo 希望做成数据库里面可以自定义的
+    user_roles_list = [i.name for i in request.user.roles.all() if i.name in detaile_jurisdiction]
     sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
     table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
     condition_dict = get_condition_dict(request)  # 获取查询条件
     table_form_obj = table_form_class(data=condition_dict)
+    download_record_obj = models.DownloadRecord.objects.filter(
+        user=request.user, download_url=request.get_full_path()
+    ).first()
+    if len(user_roles_list) == 0:  # 没有直接下载权限则需要进行下载认证
+        if download_record_obj:
+            if download_record_obj.check_status != 1:
+                return HttpResponse("该下载记录未审核通过,您无权下载!")
+        else:
+            return HttpResponse("您未申请该下载记录!")
     if table_form_obj.is_valid():  # form验证
         query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
         query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
@@ -123,7 +135,7 @@ def download_excel(request, sql_record_id):
                     height 0XA0;
                 align:
                     vert center,
-                    horiz left;
+                    horiz center;
                 borders:
                     left THIN,
                     right THIN,
