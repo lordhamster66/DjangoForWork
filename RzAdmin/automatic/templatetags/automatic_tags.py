@@ -75,9 +75,9 @@ def get_table_rows(request, row):
         if isinstance(data, date):
             data = date.strftime(data, "%Y-%m-%d")
         if len(user_roles_list) == 0:
-            if field in ["姓名", "uname", "用户名", "un"]:
+            if field in ["姓名", "uname", "用户名", "un", "用户姓名", "被邀请人姓名"]:
                 data = "%s%s" % (data[:1], "*" * len(data[1:]))
-            if field in ["手机", "手机号", "mobile"]:
+            if field in ["手机", "手机号", "mobile", "被邀请人手机号"]:
                 data = "%s%s%s" % (data[0:3], "****", data[7:])
             if field in ["身份证", "personid"]:
                 data = "%s%s%s" % (data[0:5], "*" * 9, data[14:])
