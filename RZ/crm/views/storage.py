@@ -65,7 +65,10 @@ class DataStorage(View):
             :param sql_file: sql文件名
             :return:
             """
-            setattr(self, sql_file.replace(".sql", ""), self.get_info_list("daily", sql_file))
+            try:
+                setattr(self, sql_file.replace(".sql", ""), self.get_info_list("daily", sql_file))
+            except Exception as e:
+                settings.action_logger.warning("%s信息查询出错!出错信息如下\n%s" % (sql_file.replace(".sql", ""), e))
             settings.action_logger.info("%s信息查询完毕!" % (sql_file.replace(".sql", ""),))
 
         g_list = []  # 存放协程任务的列表
