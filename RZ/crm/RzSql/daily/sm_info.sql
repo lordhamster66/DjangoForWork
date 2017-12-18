@@ -2,7 +2,7 @@
 SELECT count(DISTINCT(a.uid)) sm_r
 from rz_cg_user_ext a
 LEFT JOIN 01u_0info b on a.uid = b.uid
-where DATE(a.update_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+where DATE(a.update_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 and a.`status` = 1
 and a.is_authentication = 1
 and a.is_tied_card = 1

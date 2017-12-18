@@ -293,7 +293,7 @@ INNER JOIN
 							) h1
 							GROUP BY h1.uid
 		) t on a.uid = t.uid
-		where t.min_time >= date_add(curdate(), interval - day(curdate()) + 1 day)
+		where t.min_time >= date_add(CURDATE(), interval - day(CURDATE()) + 1 day)
 ) t10 on a.nid = t10.nid
 INNER JOIN
 (
@@ -343,7 +343,7 @@ INNER JOIN
 						) h1
 						GROUP BY h1.uid
 		) t on a.uid = t.uid
-		where t.min_time >= date_add(curdate(), interval - day(curdate()) + 1 day)
+		where t.min_time >= date_add(CURDATE(), interval - day(CURDATE()) + 1 day)
 ) t11 on a.nid = t11.nid
 INNER JOIN
 (

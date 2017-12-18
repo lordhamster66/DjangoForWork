@@ -44,19 +44,19 @@ from
 																from 05b_1tenderfinal a1
 																LEFT JOIN 05b_0base t1 on a1.bid = t1.bid
 																where a1.orguid = 0 and a1.bid <> 10000 and a1.status in (1,3)
-																and DATE(a1.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+																and DATE(a1.time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 																union all
 																SELECT a2.borrow_id bid,a2.user_id uid,a2.real_amount account,a2.add_time time_h,'0' hbid
 																from new_wd.borrow_tender a2
 																LEFT JOIN new_wd.borrow t2 on a2.borrow_id = t2.id
 																where a2.status = 1
-																and DATE(a2.add_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+																and DATE(a2.add_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 																union all
 																SELECT a3.borrow_id bid,a3.user_id uid,a3.real_amount account,a3.create_time time_h,'0' hbid
 																from new_wd.rz_borrow_tender a3
 																LEFT JOIN new_wd.rz_borrow_big t3 on a3.borrow_id = t3.id
 																where a3.`status` = 1
-																and DATE(a3.create_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+																and DATE(a3.create_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
                                ) a
 													LEFT JOIN 01u_0base b on a.uid=b.uid
 													LEFT JOIN 01u_0info c on a.uid=c.uid

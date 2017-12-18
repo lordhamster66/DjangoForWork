@@ -10,7 +10,7 @@ from
 		and b.uid is null  # 剔除机密借款人
     and a.tjr = ""
 		and y.buid is null
-		and DATE(a.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(a.time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 推广实名详情
@@ -18,7 +18,7 @@ from
 		from rz_cg_user_ext a
 		INNER JOIN 01u_0info b on a.uid = b.uid
 		LEFT JOIN rz_invite_user y on a.uid = y.buid
-		where DATE(a.update_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		where DATE(a.update_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		and a.`status` = 1
 		and a.is_authentication = 1
 		and a.is_tied_card = 1
@@ -41,7 +41,7 @@ from
 		and y.buid is null
 		and b.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
 		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and DATE(a.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(a.time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		GROUP BY DATE(a.time_h)
 		UNION ALL
 		# 推广新增详情
@@ -51,17 +51,17 @@ from
 		SELECT uid,time_h,account
 		from 05b_1tenderfinal
 		where orguid=0 and bid <> 10000 and status in (1,3)
-		and DATE(time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		UNION ALL
 		SELECT user_id,add_time,real_amount
 		from new_wd.borrow_tender
 		where status = 1
-		and DATE(add_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(add_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		UNION ALL
 		SELECT user_id,create_time,real_amount
 		from new_wd.rz_borrow_tender
 		where `status` = 1
-		and DATE(create_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(create_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		) a
 		LEFT JOIN (
 								SELECT h1.uid,min(h1.time_h) min_time

@@ -63,7 +63,7 @@
                                                                                 select b1.uid 用户ID,"平台总部" 所属部门 FROM 01u_0base b1 JOIN 02c_1r_uid_rid e ON b1.uid = e.uid WHERE e.rid = 12 and SUBSTR(UPPER(b1.un) FROM 1 FOR 2 ) = "ZZ") bu
                                                                                 on c.uid_kefu=bu.用户ID
                                                                                 where a.aptype=6 and a.uid_ty=1
-                                                                                and DATE(a.time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+                                                                                and DATE(a.time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
                                                                                 and c.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
                                                                                 and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
                                                             ) t1

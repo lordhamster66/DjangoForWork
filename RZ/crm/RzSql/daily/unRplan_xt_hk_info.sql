@@ -4,19 +4,19 @@ from
 		SELECT a1.uid,a1.recover_account,a1.recover_times
 		from 05b_2list_recover a1
 		where a1.bid <> 10000 and a1.recover_status in (0,1)
-		and DATE(a1.recover_times) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(a1.recover_times) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		UNION ALL
 		SELECT r.user_id uid,r.real_total recover_account,DATE_ADD(t1.review_time,INTERVAL t1.time_limit DAY )as recover_times
 		from new_wd.borrow_collection r
 		LEFT JOIN new_wd.borrow t1 on r.borrow_id = t1.id
 		where r.`status` in (0,1)
-		and DATE(DATE_ADD(t1.review_time,INTERVAL t1.time_limit DAY )) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(DATE_ADD(t1.review_time,INTERVAL t1.time_limit DAY )) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 		and r.real_total > 0
 		UNION ALL
 		SELECT a3.user_id uid,a3.repayment_amount recover_account,a3.repayment_time recover_times
 		from new_wd.rz_borrow_collection a3
 		where a3.status in (0,1)
-		and DATE(a3.repayment_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+		and DATE(a3.repayment_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 
 ) h
 INNER JOIN 01u_0info c on h.uid = c.uid

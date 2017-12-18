@@ -13,15 +13,15 @@ LEFT JOIN
 	(
 			SELECT uid,time_h,account from 05b_1tenderfinal
 			where orguid=0 and bid <> 10000 and status in (1,3)
-			and DATE(time_h) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+			and DATE(time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 			UNION ALL
 			SELECT user_id,add_time,real_amount from new_wd.borrow_tender
 			where status = 1
-			and DATE(add_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+			and DATE(add_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 			UNION ALL
 			SELECT a3.user_id,a3.create_time,a3.real_amount from new_wd.rz_borrow_tender a3
 			where a3.`status` = 1
-			and DATE(a3.create_time) = DATE_SUB(curdate(),INTERVAL 1 DAY)
+			and DATE(a3.create_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
 	) a
 	INNER JOIN 01u_0info c on a.uid=c.uid
 	where  c.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
