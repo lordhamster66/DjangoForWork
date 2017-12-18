@@ -35,7 +35,7 @@ class BaseInfo(models.Model):
     tz_dl_r = models.IntegerField(verbose_name='投资登录人数', null=True)
     hk_r = models.IntegerField(verbose_name='回款人数', null=True)
     hk_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='回款金额', null=True)
-    zg_j = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='站岗金额', null=True)
+    zg_j = models.DecimalField(max_digits=30, decimal_places=2, verbose_name='站岗金额', null=True)
     zg_r = models.IntegerField(verbose_name='站岗人数', null=True)
     zd_r = models.IntegerField(verbose_name='在贷人数', null=True)
     zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='在贷金额', null=True)
