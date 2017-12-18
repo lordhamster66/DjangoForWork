@@ -84,7 +84,7 @@ def search_channel_name(request):
 @login_required
 def download_excel(request, sql_record_id):
     """导出明细至EXCEL"""
-    detaile_jurisdiction = ["数据组", "管理员", "财务部", "运营部"]  # 有详细信息查看权限的角色 todo 希望做成数据库里面可以自定义的
+    detaile_jurisdiction = ["数据组", "管理员", "财务部"]  # 有详细信息查看权限的角色 todo 希望做成数据库里面可以自定义的
     # todo 希望做成数据库里面可以自定义的
     user_roles_list = [i.name for i in request.user.roles.all() if i.name in detaile_jurisdiction]
     sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
