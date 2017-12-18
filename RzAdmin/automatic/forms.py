@@ -10,7 +10,6 @@ from automatic.utils import get_info_list
 
 
 class FunctionList(object):
-    yesterday = datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d")  # 获取昨天的日期
     list_per_page = fields.ChoiceField(
         choices=(("10", "10"), ("25", "25"), ("50", "50"), ("100", "100")),
         widget=widgets.Select(attrs={
@@ -42,7 +41,7 @@ class FunctionList(object):
         widget=widgets.TextInput(attrs={
             "class": "form-control date-picker",
             "id": "start_time",
-            "value": yesterday,
+            "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
             "placeholder": "起始日期"
         }),
         error_messages={
@@ -55,7 +54,7 @@ class FunctionList(object):
         widget=widgets.TextInput(attrs={
             "class": "form-control date-picker",
             "id": "end_time",
-            "value": yesterday,
+            "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
             "placeholder": "终止日期"
         }),
         error_messages={
