@@ -11,9 +11,8 @@
         .avatar-container .avatar-img {
             width: 200px;
             height: 200px;
-            background: url('{{ request.user.avatar }}');
-            background-size: cover;
-            background-position: center center;
+            border: 0;
+            overflow: hidden;
         }
 
         .avatar-container .upload-avatar {
@@ -65,7 +64,7 @@
                               method="POST" target="avatar-ifm" enctype="multipart/form-data">
                             {% csrf_token %}
                             <iframe id="avatar-ifm" name="avatar-ifm" style="display: none;"></iframe>
-                            <div id="avatar-img" class="avatar-img"></div>
+                            <img id="avatar-img" class="avatar-img" src="{{ request.user.avatar }}">
                             <div class="">点击图片更换</div>
                             <input id="upload-avatar" class="upload-avatar" type="file" name="upload_file"/>
                         </form>
@@ -183,9 +182,14 @@
                     var text = $("#avatar-ifm").contents().find("body").text();
                     var obj = JSON.parse(text);
                     if (obj.status) {
-                        $("#avatar-img").css("background", "url('" + obj.data + "') center");
-                        $("#avatar-img").css("background-size", "cover");
-                        console.log($("#avatar-img").css("background"));
+                        var avatarUrl = $("#avatar-img").attr("src");
+                        var reg = new RegExp("\\?", "g"); //创建正则RegExp对象
+                        // console.log(avatarUrl.replace(reg, ""));
+                        if (avatarUrl.replace(reg, "") == obj.data) {
+                            $("#avatar-img").attr("src", avatarUrl + "?")
+                        } else {
+                            $("#avatar-img").attr("src", obj.data)
+                        }
                     }
                 });
                 $("#avatar-fm").submit();
