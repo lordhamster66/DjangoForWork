@@ -214,6 +214,11 @@ def delete_download_record(request, download_record_id):
         if download_record_obj.check_status == 1:
             ret["error"] = "审核通过的下载记录将作为历史记录，您无法删除！"
         else:
+            check_img = download_record_obj.check_img  # 获取审核图片相对路径
+            if check_img != "/static/img/check_default.jpg":  # 不是默认图片的话
+                check_img_file = os.path.join(settings.BASE_DIR, check_img)  # 获取审核图片绝对路径
+                if os.path.isfile(check_img_file):  # 如果是文件的话
+                    os.remove(check_img_file)  # 删除该审核图片
             download_record_obj.delete()
             ret["status"] = True
     else:
