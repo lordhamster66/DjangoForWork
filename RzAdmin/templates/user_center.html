@@ -1,5 +1,32 @@
 {% extends "index.html" %}
 {% load automatic_tags %}
+{% block css %}
+    <style>
+        .avatar-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .avatar-container .avatar-img {
+            width: 200px;
+            height: 200px;
+            background: url('{{ request.user.avatar }}');
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .avatar-container .upload-avatar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 108;
+        }
+    </style>
+{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="active">用户中心</li>
@@ -32,8 +59,17 @@
         <div class="panel-body">
             <div class="tab-content container-fluid">
                 <div id="tabs2-box-1" class="tab-pane fade">
-                    <h4 class="text-thin"><i class="fa fa-user fa-fw"></i>开发中</h4>
-                    <p>开发中</p>
+                    <h4 class="text-thin"><b>修改头像</b></h4>
+                    <div class="avatar-container text-center">
+                        <form id="avatar-fm" action="/accounts/change_avatar/"
+                              method="POST" target="avatar-ifm" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <iframe id="avatar-ifm" name="avatar-ifm" style="display: none;"></iframe>
+                            <div id="avatar-img" class="avatar-img"></div>
+                            <div class="">点击图片更换</div>
+                            <input id="upload-avatar" class="upload-avatar" type="file" name="upload_file"/>
+                        </form>
+                    </div>
                 </div>
                 <div id="tabs2-box-2" class="tab-pane fade  active in">
                     <div class="row">
@@ -141,6 +177,18 @@
                             swal("已取消", "祝您愉快 :)", "error");
                         }
                     });
+            });
+            $("#upload-avatar").change(function () {
+                $("#avatar-ifm").load(function () {
+                    var text = $("#avatar-ifm").contents().find("body").text();
+                    var obj = JSON.parse(text);
+                    if (obj.status) {
+                        $("#avatar-img").css("background", "url('" + obj.data + "') center");
+                        $("#avatar-img").css("background-size", "cover");
+                        console.log($("#avatar-img").css("background"));
+                    }
+                });
+                $("#avatar-fm").submit();
             })
         })
     </script>

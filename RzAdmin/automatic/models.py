@@ -96,6 +96,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     )
     themes = models.CharField(max_length=64, choices=themes_choices, verbose_name="主题",
                               default="type-c/theme-navy.min.css")
+
+    avatar = models.ImageField(upload_to="upload", verbose_name="用户头像", default="/static/img/av1.png")
+
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'

@@ -240,3 +240,4 @@ def upload_file(request):
         ret["status"] = True
         ret["data"] = "/static/img/upload/%s" % file_name
     return HttpResponse(json.dumps(ret))
+

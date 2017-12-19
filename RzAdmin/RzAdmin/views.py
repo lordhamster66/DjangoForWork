@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+import json, os
+from RzAdmin import settings
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
@@ -30,3 +32,24 @@ def acc_logout(request):
     """注销接口"""
     logout(request)
     return redirect("/accounts/login/")
+
+
+@login_required
+def change_avatar(request):
+    """修改用户头像"""
+    ret = {"status": False, "data": None, "error": None}
+    if request.method == "POST":
+        avatar_file = request.FILES.get("upload_file")
+        avatar_imge_file_path = os.path.join(
+            settings.BASE_DIR, "static", "img", "avatar", request.user.email
+        )
+        os.makedirs(avatar_imge_file_path, exist_ok=True)
+        with open(os.path.join(avatar_imge_file_path, "avatar.jpg"), "wb") as f:
+            for line in avatar_file:
+                f.write(line)
+        avatar = "/static/img/avatar/%s/avatar.jpg" % request.user.email
+        request.user.avatar = avatar
+        request.user.save()
+        ret["status"] = True
+        ret["data"] = avatar
+    return HttpResponse(json.dumps(ret))
