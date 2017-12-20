@@ -15,81 +15,82 @@
 {% endblock %}
 {% block page-content %}
     <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <div class="container-fluid">
-                    {% render_table_name admin_class %}
-                    {% if not admin_class.table_readonly %}
-                        <a class="btn btn-success pull-right" href="{{ request.path }}add"
-                           style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <div class="container-fluid">
+                {% render_table_name admin_class %}
+                {% if not admin_class.table_readonly %}
+                    <a class="btn btn-success pull-right" href="{{ request.path }}add"
+                       style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+                {% endif %}
+            </div>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                <form method="get">
+                    {% if admin_class.search_fields %}
+                        <div class="row" style="margin-left: 10px;margin-bottom: 20px;">
+                            <!-- DIV needed for valid HTML -->
+                            <label for="searchbar"><img src="/static/img/search.svg"
+                                                        alt="Search"></label>
+                            <input type="text" size="40" name="_q" value="{{ search_content }}"
+                                   id="searchbar"
+                                   placeholder="请输入查找内容">
+                            <input type="submit" value="Search">
+                            <span>
+                                    (Tips:search by
+                                {% for search_field in admin_class.search_fields %}
+                                    {{ search_field }},
+                                {% endfor %}
+                                )
+                                </span>
+                        </div>
+                    {% endif %}
+                    {% if admin_class.list_filter %}
+                        <div class="row">
+                            {% for filter_field in admin_class.list_filter %}
+                                <div class="col-lg-2" style="text-align: center;">
+                                    {% get_column_name admin_class filter_field %}
+                                    {% get_condition_ele filter_field admin_class condition_dict %}
+                                </div>
+                            {% endfor %}
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-primary" style="margin-top: 19px;">
+                                    检索
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+                </form>
+                <div class="row">
+                    {% if query_sets %}
+                        <form method="post">{% csrf_token %}
+                            <div class="actions" style="margin: 20px 0;">
+                                <div class="col-lg-2">
+                                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">动作</div>
+                                        <select class="form-control" name="action_select">
+                                            <option value="" selected>---------</option>
+                                            {% for action in admin_class.default_actions %}
+                                                <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
+                                            {% endfor %}
+                                            {% for action in admin_class.actions %}
+                                                <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="select_across" value="0" class="select-across">
+                                <button id="do-action" type="submit" class="btn btn-info">执行</button>
+                            </div>
+                        </form>
                     {% endif %}
                 </div>
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <form method="get">
-                        {% if admin_class.search_fields %}
-                            <div class="row" style="margin-left: 10px;margin-bottom: 20px;">
-                                <!-- DIV needed for valid HTML -->
-                                <label for="searchbar"><img src="/static/img/search.svg"
-                                                            alt="Search"></label>
-                                <input type="text" size="40" name="_q" value="{{ search_content }}"
-                                       id="searchbar"
-                                       placeholder="请输入查找内容">
-                                <input type="submit" value="Search">
-                                <span>
-                                    (Tips:search by
-                                    {% for search_field in admin_class.search_fields %}
-                                        {{ search_field }},
-                                    {% endfor %}
-                                    )
-                                </span>
-                            </div>
-                        {% endif %}
-                        {% if admin_class.list_filter %}
-                            <div class="row">
-                                {% for filter_field in admin_class.list_filter %}
-                                    <div class="col-lg-2" style="text-align: center;">
-                                        {% get_column_name admin_class filter_field %}
-                                        {% get_condition_ele filter_field admin_class condition_dict %}
-                                    </div>
-                                {% endfor %}
-                                <div class="col-lg-2">
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 19px;">
-                                        检索
-                                    </button>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </form>
-                    <div class="row">
-                        {% if query_sets %}
-                            <form method="post">{% csrf_token %}
-                                <div class="actions" style="margin: 20px 0;">
-                                    <div class="col-lg-2">
-                                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">动作</div>
-                                            <select class="form-control" name="action_select">
-                                                <option value="" selected>---------</option>
-                                                {% for action in admin_class.default_actions %}
-                                                    <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
-                                                {% endfor %}
-                                                {% for action in admin_class.actions %}
-                                                    <option value="{{ action }}">{% render_action_display_name admin_class action %}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="select_across" value="0" class="select-across">
-                                    <button id="do-action" type="submit" class="btn btn-info">执行</button>
-                                </div>
-                            </form>
-                        {% endif %}
-                    </div>
-                </div>
+            </div>
+            <form method="post"> {% csrf_token %}
                 <div class="row">
                     <table class="table table-hover">
                         <thead>
@@ -116,7 +117,15 @@
                         {% get_page_ele query_sets condition_dict orderby_dict search_content %}
                     </ul>
                 </div>
-            </div>
+                {% if admin_class.list_editable %}
+                    <div class="row" style="padding: 10px 50px;margin-bottom: 50px;">
+                        <div class="row" style="padding: 15px;background-color: #f8f8f8;border-radius: 4px;">
+                            <input type="submit" value="保存" class="btn btn-primary pull-right"
+                                   style="margin-left: 10px;">
+                        </div>
+                    </div>
+                {% endif %}
+            </form>
         </div>
     </div>
 {% endblock %}

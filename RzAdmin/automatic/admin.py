@@ -80,4 +80,10 @@ class UserProfileAdmin(BaseUserAdmin):
     filter_horizontal = ("groups", "user_permissions")
 
 
+class DownloadRecordAdmin(admin.ModelAdmin):
+    list_display = ("user", "download_detail", "check_status", "check_user", "date", "end_date")
+    list_editable = ("check_status", "download_detail")
+
+
 admin.site.register(models.UserProfile, UserProfileAdmin)
+admin.site.register(models.DownloadRecord, DownloadRecordAdmin)

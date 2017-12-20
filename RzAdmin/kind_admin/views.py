@@ -20,12 +20,25 @@ def table_objs(request, app_name, table_name):
     admin_class = kind_admin.enabled_admins[app_name][table_name]  # 获取admin_class
     if request.method == "POST":
         selected_ids = request.POST.get("selected_ids")  # 获取用户选择的对象ID
-        selected_ids = json.loads(selected_ids)
-        action_name = request.POST.get("action_select")  # 获取动作的名称
-        querysets = admin_class.model.objects.filter(id__in=selected_ids).all()
-        if hasattr(admin_class, action_name):  # 检测admin_class是否有该动作的函数
-            func = getattr(admin_class, action_name)
-            return func(admin_class, request, querysets)  # 有则直接运行该函数并返回
+        if selected_ids:  # 说明是action动作
+            selected_ids = json.loads(selected_ids)
+            action_name = request.POST.get("action_select")  # 获取动作的名称
+            querysets = admin_class.model.objects.filter(id__in=selected_ids).all()
+            if hasattr(admin_class, action_name):  # 检测admin_class是否有该动作的函数
+                func = getattr(admin_class, action_name)
+                return func(admin_class, request, querysets)  # 有则直接运行该函数并返回
+        else:  # 说明是行内编辑
+            update_obj_dict = {}  # 更新对象用字典
+            keywords_list = ["csrfmiddlewaretoken"]  # 关键字列表
+            for k, v in request.POST.items():
+                if k in keywords_list:
+                    continue
+                field_name, obj_id = k.split("&")
+                if obj_id not in update_obj_dict:
+                    update_obj_dict[obj_id] = {}
+                update_obj_dict[obj_id][field_name] = v
+            for obj_id, kwargs in update_obj_dict.items():  # 更新所有对象
+                admin_class.model.objects.filter(id=obj_id).update(**kwargs)
     condition_dict = get_condition_dict(request)  # 获取过滤条件
     contact_list = admin_class.model.objects.filter(**condition_dict).order_by(
         admin_class.ordering or "-%s" % admin_class.model._meta.auto_field.name  # 默认按照主键降序排列

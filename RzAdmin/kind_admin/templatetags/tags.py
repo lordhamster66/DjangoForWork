@@ -6,7 +6,7 @@ from datetime import date
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.timezone import datetime, timedelta
-from django.core.exceptions import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist, ValidationError
 
 register = template.Library()
 
@@ -49,7 +49,7 @@ def get_table_thead(admin_class, column, orderby_dict, condition_dict, search_co
         th_ele += '<th><a href="?o=%s%s&_q=%s">%s</a>%s</th>' % (
             orderby_key, condition_str, search_content, column_name, sorte_icon
         )
-    except FieldDoesNotExist as e:
+    except FieldDoesNotExist as e:  # 说明此字段不在model类里面,为用户自定义字段
         column_name = column
         if hasattr(admin_class, column):
             func = getattr(admin_class, column)
@@ -66,7 +66,7 @@ def get_table_rows(request, obj, admin_class):
     for index, column in enumerate(admin_class.list_display):
         try:
             field_obj = obj._meta.get_field(column)
-            if field_obj.choices:
+            if field_obj.choices:  # 外键或者是内置choices字段
                 column_data = getattr(obj, "get_%s_display" % column)()
             else:
                 column_data = getattr(obj, column)
@@ -75,12 +75,34 @@ def get_table_rows(request, obj, admin_class):
             if isinstance(column_data, date):
                 column_data = column_data.strftime("%Y-%m-%d")
             if index == 0:  # 表示是第一列，加上跳转至修改页面的a标签
+                if column in admin_class.list_editable:
+                    error = """The value of 'list_editable[0]' refers to the first field in 'list_display' ('%s'), which cannot be used unless 'list_display_links' is set.""" % column
+                    raise ValidationError(error)
                 column_data = '<a href="{request_path}{obj_id}/change/">{column_data}</a>'.format(
                     request_path=request.path,
                     obj_id=getattr(obj, admin_class.model._meta.auto_field.name),
                     column_data=column_data,
                 )
-        except FieldDoesNotExist as e:
+            else:
+                if column in admin_class.list_editable:
+                    if field_obj.choices:  # 外键或者是内置choices字段
+                        select_ele = '''<select class="form-control" name={filter_field}>'''
+                        choices = field_obj.get_choices()[1:]  # 过滤选项
+                        for choices_data in choices:
+                            selected = ""
+                            if str(getattr(obj, column)) == str(choices_data[0]):
+                                selected = "selected"
+                            select_ele += '''<option value="%s" %s>%s</option>''' % (
+                                choices_data[0], selected, choices_data[1])
+                        select_ele += '''</select>'''
+                        column_data = select_ele.format(filter_field="%s&%s" % (column, obj.id))
+                    else:
+                        if type(field_obj).__name__ in ["DateTimeField", "DateField"]:  # 日期时间字段不做行内编辑
+                            raise ValidationError("日期时间字段不支持行内编辑!")
+                        column_data = '''
+                            <input type="text" name="%s&%s" value="%s" class="form-control">
+                        ''' % (column, obj.id, column_data)
+        except FieldDoesNotExist as e:  # 说明此字段不在model类里面,为用户自定义字段
             column_data = column
             admin_class.instance = obj  # 在admin_class里封装实例对象
             admin_class.request = request  # 在admin_class里封装请求内容
