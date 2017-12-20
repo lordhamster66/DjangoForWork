@@ -68,7 +68,7 @@ def get_table_rows(request, row):
     {% endfor %}
     """
     td_ele = ""
-    detaile_jurisdiction_flag = True  # 有没有详细信息查看权限
+    detaile_jurisdiction_flag = True  # 有详细信息查看权限
     user_roles_list = [i.name for i in request.user.roles.all()]  # 用户所属角色
     if len(set(settings.DetaileJurisdiction) & set(user_roles_list)) == 0:
         detaile_jurisdiction_flag = False  # 用户没有一个角色在详细信息查看权限角色列表里面则将权限改为False
@@ -81,7 +81,13 @@ def get_table_rows(request, row):
             if field in ["姓名", "uname", "用户名", "un", "用户姓名", "被邀请人姓名"]:
                 data = "%s%s" % (data[:1], "*" * len(data[1:]))
             if field in ["手机", "手机号", "mobile", "被邀请人手机号"]:
-                data = "%s%s%s" % (data[0:3], "****", data[7:])
+                real_data = re.findall("<a .*>(.*)</a>", data)  # 如果有a标签则获取a标签包起来的数据
+                if len(real_data) == 0:
+                    data = "%s%s%s" % (data[0:3], "*" * 4, data[7:])
+                else:
+                    real_data = real_data[0]  # a标签包起来的数据
+                    # todo 希望做到只替换a标签包起来的数据
+                    data = data.replace(real_data, "%s%s%s" % (real_data[0:3], "*" * 4, real_data[7:]))
             if field in ["身份证", "personid"]:
                 data = "%s%s%s" % (data[0:5], "*" * 9, data[14:])
         td_ele += "<td style='white-space:nowrap'>%s</td>" % data
