@@ -327,18 +327,24 @@
             // 添加外键编辑按钮
             $("select[tag='foreignKey-edit']").each(function () {
                 var related_model_name = $(this).attr("related_model");
+                var need_foreignKey_edit = $(this).attr("need_foreignKey_edit");
                 var field_id = $(this).val();
                 if (field_id) {
-                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    if (need_foreignKey_edit == "true") {
+                        $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    }
                 }
             });
             // 改变外键选项是指向链接也跟着改变
             $("select[tag='foreignKey-edit']").change(function () {
                 $(this).parent().nextAll("#foreignKey-edit-btn").remove();
                 var related_model_name = $(this).attr("related_model");
+                var need_foreignKey_edit = $(this).attr("need_foreignKey_edit");
                 var field_id = $(this).val();
                 if (field_id) {
-                    $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    if (need_foreignKey_edit == "true") {
+                        $(this).parent().after("<a id='foreignKey-edit-btn' class='btn btn-warning btn-xs btn-rounded' target='_blank' href='/kind_admin/{{ app_name }}/" + related_model_name + "/" + field_id + "/change/' style='display: inline-block;margin-top: 4px;'><i class='fa fa-edit' aria-hidden='true'></i>编辑</a>")
+                    }
                 }
             })
         })

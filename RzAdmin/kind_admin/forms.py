@@ -4,6 +4,7 @@
 # Date: 2017/11/18
 from automatic import models
 from django.forms import ModelForm, widgets, PasswordInput
+from kind_admin.kind_admin import enabled_admins
 
 
 # from crm import models
@@ -24,8 +25,12 @@ def create_model_form(admin_class):
             if field_name in admin_class.readonly_fields and need_readonly:
                 field_obj.widget.attrs["disabled"] = "disabled"
             if type(model_field_obj).__name__ == "ForeignKey":
+                field_obj.widget.attrs["need_foreignKey_edit"] = "false"
                 field_obj.widget.attrs["tag"] = "foreignKey-edit"
-                field_obj.widget.attrs["related_model"] = model_field_obj.related_model._meta.model_name
+                related_model = model_field_obj.related_model._meta.model_name  # 外键关联的model
+                field_obj.widget.attrs["related_model"] = related_model
+                if related_model in enabled_admins.get(admin_class.model._meta.app_label):
+                    field_obj.widget.attrs["need_foreignKey_edit"] = "true"
             if type(model_field_obj).__name__ == "DateField":
                 field_obj.widget.attrs["class"] = "form-control date-picker"
         return ModelForm.__new__(cls)

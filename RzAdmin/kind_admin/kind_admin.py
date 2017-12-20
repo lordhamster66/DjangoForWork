@@ -82,7 +82,7 @@ class UserProfileAdmin(BaseAdmin):
     list_display = ("email", "name", "last_login", 'is_admin', "is_active")
     readonly_fields = ("email", "password",)
     filter_horizontal = ("roles",)
-    modelform_exclude_fields = ("is_superuser", "last_login", "groups", "user_permissions")
+    modelform_exclude_fields = ("is_superuser", "last_login", "avatar", "groups", "user_permissions")
 
 
 class RoleAdmin(BaseAdmin):

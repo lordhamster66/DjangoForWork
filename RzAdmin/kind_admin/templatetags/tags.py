@@ -7,6 +7,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.utils.timezone import datetime, timedelta
 from django.core.exceptions import FieldDoesNotExist, ValidationError
+from kind_admin.kind_admin import enabled_admins
 
 register = template.Library()
 
@@ -304,9 +305,11 @@ def foreignKey_add_button(admin_class, field):
     btn_ele = ""
     field_name = field.name  # 字段名
     field_obj = admin_class.model._meta.get_field(field_name)  # 字段对象
+    models = enabled_admins.get(admin_class.model._meta.app_label)
     if type(field_obj).__name__ in ["ForeignKey", "ManyToManyField"]:  # todo OneToOneField
-        btn_ele += "<a href='/kind_admin/%s/%s/add/' class='btn btn-success btn-xs btn-rounded' target='_blank' style='display:inline-block;margin-top:4px;'><i class='fa fa-plus' aria-hidden='true'></i>添加</a>" % (
-            admin_class.model._meta.app_label,
-            field_obj.related_model._meta.model_name
-        )
+        if field_obj.related_model._meta.model_name in models:  # 如果对应外键的model注册到enabled_admins里面了则显示添加按钮
+            btn_ele += "<a href='/kind_admin/%s/%s/add/' class='btn btn-success btn-xs btn-rounded' target='_blank' style='display:inline-block;margin-top:4px;'><i class='fa fa-plus' aria-hidden='true'></i>添加</a>" % (
+                admin_class.model._meta.app_label,
+                field_obj.related_model._meta.model_name
+            )
     return mark_safe(btn_ele)
