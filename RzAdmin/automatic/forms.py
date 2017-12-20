@@ -10,78 +10,103 @@ from automatic.utils import get_info_list
 
 
 class FunctionList(object):
-    list_per_page = fields.ChoiceField(
-        choices=(("10", "10"), ("25", "25"), ("50", "50"), ("100", "100")),
-        widget=widgets.Select(attrs={
-            "class": "form-control input-sm",
-            "id": "list_per_page",
-        })
-    )
-    search_q = fields.IntegerField(
-        required=False,
-        label="uid和手机号检索",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control",
-            "id": "search_q",
-            "placeholder": "可根据UID和手机号搜索"
-        })
-    )
-    qudao_name = fields.CharField(
-        required=False,
-        label="渠道名称",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control",
-            "id": "qudao-name",
-            "autocomplete": "off",
-            "placeholder": "请输入渠道名称"
-        })
-    )
-    start_time = fields.DateField(
-        label="起始日期",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control date-picker",
-            "id": "start_time",
-            "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
-            "placeholder": "起始日期"
-        }),
-        error_messages={
-            "required": "日期不能为空!",
-            "invalid": "请输入正确的日期格式!"
-        }
-    )
-    end_time = fields.DateField(
-        label="终止日期",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control date-picker",
-            "id": "end_time",
-            "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
-            "placeholder": "终止日期"
-        }),
-        error_messages={
-            "required": "日期不能为空!",
-            "invalid": "请输入正确的日期格式!"
-        }
-    )
+    @classmethod
+    def list_per_page(cls):
+        field = fields.ChoiceField(
+            choices=(("10", "10"), ("25", "25"), ("50", "50"), ("100", "100")),
+            widget=widgets.Select(attrs={
+                "class": "form-control input-sm",
+                "id": "list_per_page",
+            })
+        )
+        return field
 
-    invite_user = fields.CharField(
-        required=False,
-        label="邀请人",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control",
-            "id": "invite-user",
-            "placeholder": "请输入邀请人ID或者手机号"
-        })
-    )
+    @classmethod
+    def search_q(cls):
+        field = fields.IntegerField(
+            required=False,
+            label="uid和手机号检索",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control",
+                "id": "search_q",
+                "placeholder": "可根据UID和手机号搜索"
+            })
+        )
+        return field
 
-    invited_user = fields.CharField(
-        required=False,
-        label="被邀请人",
-        widget=widgets.TextInput(attrs={
-            "class": "form-control",
-            "id": "invited-user",
-            "placeholder": "请输入被邀请人ID或者手机号"
-        })
-    )
+    @classmethod
+    def qudao_name(cls):
+        field = fields.CharField(
+            required=False,
+            label="渠道名称",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control",
+                "id": "qudao-name",
+                "autocomplete": "off",
+                "placeholder": "请输入渠道名称"
+            })
+        )
+        return field
+
+    @classmethod
+    def start_time(cls):
+        field = fields.DateField(
+            label="起始日期",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control date-picker",
+                "id": "start_time",
+                "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
+                "placeholder": "起始日期"
+            }),
+            error_messages={
+                "required": "日期不能为空!",
+                "invalid": "请输入正确的日期格式!"
+            }
+        )
+        return field
+
+    @classmethod
+    def end_time(cls):
+        field = fields.DateField(
+            label="终止日期",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control date-picker",
+                "id": "end_time",
+                "value": datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"),
+                "placeholder": "终止日期"
+            }),
+            error_messages={
+                "required": "日期不能为空!",
+                "invalid": "请输入正确的日期格式!"
+            }
+        )
+        return field
+
+    @classmethod
+    def invite_user(cls):
+        field = fields.CharField(
+            required=False,
+            label="邀请人",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control",
+                "id": "invite-user",
+                "placeholder": "请输入邀请人ID或者手机号"
+            })
+        )
+        return field
+
+    @classmethod
+    def invited_user(cls):
+        field = fields.CharField(
+            required=False,
+            label="被邀请人",
+            widget=widgets.TextInput(attrs={
+                "class": "form-control",
+                "id": "invited-user",
+                "placeholder": "请输入被邀请人ID或者手机号"
+            })
+        )
+        return field
 
     @staticmethod
     def get_uids(search_content):
@@ -154,11 +179,12 @@ class FunctionList(object):
 
 def create_table_form(sql_record_obj):
     """动态生成table_form"""
-    attrs = {"list_per_page": FunctionList.list_per_page, "clean": FunctionList.clean}  # 要生成的字段
+    attrs = {"list_per_page": FunctionList.list_per_page(), "clean": FunctionList.clean}  # 要生成的字段
     func_name_list = [i.name for i in sql_record_obj.funcs.all()]
     for func_name in func_name_list:
         if hasattr(FunctionList, func_name):
-            attrs[func_name] = getattr(FunctionList, func_name)
+            func = getattr(FunctionList, func_name)
+            attrs[func_name] = func()
             if hasattr(FunctionList, "clean_%s" % func_name):
                 attrs["clean_%s" % func_name] = getattr(FunctionList, "clean_%s" % func_name)
     dynamic_form = type("DynamicTableFomr", (Form,), attrs)
