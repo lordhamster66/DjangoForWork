@@ -186,9 +186,11 @@
                         var reg = new RegExp("\\?", "g"); //创建正则RegExp对象
                         // console.log(avatarUrl.replace(reg, ""));
                         if (avatarUrl.replace(reg, "") == obj.data) {
-                            $("#avatar-img").attr("src", avatarUrl + "?")
+                            $("#avatar-img").attr("src", avatarUrl + "?");
+                            $("#index-user-avatar").attr("src", avatarUrl + "?")
                         } else {
-                            $("#avatar-img").attr("src", obj.data)
+                            $("#avatar-img").attr("src", obj.data);
+                            $("#index-user-avatar").attr("src", obj.data)
                         }
                     }
                 });

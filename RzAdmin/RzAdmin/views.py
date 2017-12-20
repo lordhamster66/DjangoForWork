@@ -44,10 +44,10 @@ def change_avatar(request):
             settings.BASE_DIR, "static", "img", "avatar", request.user.email
         )
         os.makedirs(avatar_imge_file_path, exist_ok=True)
-        with open(os.path.join(avatar_imge_file_path, "avatar.jpg"), "wb") as f:
+        with open(os.path.join(avatar_imge_file_path, avatar_file.name), "wb") as f:
             for line in avatar_file:
                 f.write(line)
-        avatar = "/static/img/avatar/%s/avatar.jpg" % request.user.email
+        avatar = "/static/img/avatar/%s/%s" % (request.user.email, avatar_file.name)
         request.user.avatar = avatar
         request.user.save()
         ret["status"] = True
