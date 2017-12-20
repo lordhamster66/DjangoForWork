@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/12/9
+import re
 from RzAdmin import settings
 from datetime import date
 from django.utils.timezone import datetime
@@ -67,13 +68,16 @@ def get_table_rows(request, row):
     {% endfor %}
     """
     td_ele = ""
+    detaile_jurisdiction_flag = True  # 有没有详细信息查看权限
     user_roles_list = [i.name for i in request.user.roles.all()]  # 用户所属角色
-    for field, data in row.items():
+    if len(set(settings.DetaileJurisdiction) & set(user_roles_list)) == 0:
+        detaile_jurisdiction_flag = False  # 用户没有一个角色在详细信息查看权限角色列表里面则将权限改为False
+    for field, data in row.items():  # 循环每一行的数据
         if isinstance(data, datetime):
             data = datetime.strftime(data, "%Y-%m-%d %H:%M:%S")
         if isinstance(data, date):
             data = date.strftime(data, "%Y-%m-%d")
-        if len(set(settings.DetaileJurisdiction) & set(user_roles_list)) == 0:
+        if not detaile_jurisdiction_flag:
             if field in ["姓名", "uname", "用户名", "un", "用户姓名", "被邀请人姓名"]:
                 data = "%s%s" % (data[:1], "*" * len(data[1:]))
             if field in ["手机", "手机号", "mobile", "被邀请人手机号"]:
