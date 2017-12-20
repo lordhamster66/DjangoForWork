@@ -85,9 +85,12 @@ def get_table_rows(request, obj, admin_class):
                 )
             else:
                 if column in admin_class.list_editable:
-                    if field_obj.choices:  # 外键或者是内置choices字段
+                    if field_obj.choices or type(field_obj).__name__ == "BooleanField":  # 外键或者是内置choices字段
                         select_ele = '''<select class="form-control" name={filter_field}>'''
-                        choices = field_obj.get_choices()[1:]  # 过滤选项
+                        if type(field_obj).__name__ == "BooleanField":
+                            choices = (("False", "False"), ("True", "True"))
+                        else:
+                            choices = field_obj.get_choices()[1:]  # 过滤选项
                         for choices_data in choices:
                             selected = ""
                             if str(getattr(obj, column)) == str(choices_data[0]):
