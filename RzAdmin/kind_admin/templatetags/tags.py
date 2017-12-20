@@ -85,10 +85,18 @@ def get_table_rows(request, obj, admin_class):
                     column_data=column_data,
                 )
             else:
-                if column in admin_class.list_editable:
-                    if field_obj.choices or type(field_obj).__name__ == "BooleanField":  # 外键或者是内置choices字段
+                if column in admin_class.list_editable:  # 字段在行内编辑列表里面
+                    if type(field_obj).__name__ in ["DateTimeField", "DateField"]:  # 日期时间字段不做行内编辑
+                        raise ValidationError("日期时间字段不支持行内编辑!")
+
+                    # 不是外键布尔值或者是有choices的字段则显示为input框
+                    if type(field_obj).__name__ not in ["ForeignKey", "BooleanField"] and len(field_obj.choices) == 0:
+                        column_data = '''<input type="text" name="%s&%s" value="%s" class="form-control">
+                        ''' % (column, obj.id, column_data)
+
+                    else:  # 外键布尔值或者是有choices的字段
                         select_ele = '''<select class="form-control" name={filter_field}>'''
-                        if type(field_obj).__name__ == "BooleanField":
+                        if type(field_obj).__name__ == "BooleanField":  # 外键
                             choices = (("False", "False"), ("True", "True"))
                         else:
                             choices = field_obj.get_choices()[1:]  # 过滤选项
@@ -100,12 +108,6 @@ def get_table_rows(request, obj, admin_class):
                                 choices_data[0], selected, choices_data[1])
                         select_ele += '''</select>'''
                         column_data = select_ele.format(filter_field="%s&%s" % (column, obj.id))
-                    else:
-                        if type(field_obj).__name__ in ["DateTimeField", "DateField"]:  # 日期时间字段不做行内编辑
-                            raise ValidationError("日期时间字段不支持行内编辑!")
-                        column_data = '''
-                            <input type="text" name="%s&%s" value="%s" class="form-control">
-                        ''' % (column, obj.id, column_data)
         except FieldDoesNotExist as e:  # 说明此字段不在model类里面,为用户自定义字段
             column_data = column
             admin_class.instance = obj  # 在admin_class里封装实例对象
