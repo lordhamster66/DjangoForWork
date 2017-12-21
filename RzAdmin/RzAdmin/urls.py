@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^accounts/login/$', views.acc_login),  # 登录
     url(r'^accounts/logout/$', views.acc_logout),  # 注销
-    url(r'^accounts/change_avatar/$', views.change_avatar),  # 修改用户头像
+    url(r'^accounts/change_avatar/$', views.change_avatar, name="change_avatar"),  # 修改用户头像
     url(r'^automatic/', include("automatic.urls")),  # automatic App
     url(r'^kind_admin/', include("kind_admin.urls")),  # kind_admin 插件
 ]

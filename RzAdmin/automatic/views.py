@@ -13,12 +13,14 @@ from django.contrib.auth.decorators import login_required
 from automatic.utils import (
     get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list, create_id
 )
+from automatic.permissions.permission import check_permission_decorate
 
 # Create your views here.
 logger = logging.getLogger("__name__")  # 生成一个以当前模块名为名字的logger实例
 c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger实例，用于收集一些需要特殊记录的日志
 
 
+@check_permission_decorate
 @login_required
 def index(request):
     data_dict = {}  # 用来存放首页数据
@@ -28,9 +30,10 @@ def index(request):
     data_dict["un_R_xt_person_num"] = un_R_xt_amount["投资人数"]
     data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount["投资金额"]) / 10000)
     data_dict["amount"] = float(get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0]["投资金额"]) / 10000
-    return render(request, "index.html", {"data_dict": data_dict})
+    return render(request, "automatic_index.html", {"data_dict": data_dict})
 
 
+@check_permission_decorate
 @login_required
 def search_table_list(request):
     """可用查询页面"""
@@ -40,6 +43,7 @@ def search_table_list(request):
     return render(request, "search_table_list.html", {"sql_record_objs": sql_record_objs})
 
 
+@check_permission_decorate
 @login_required
 def table_search_detail(request, sql_record_id):
     """详细查询页面"""
@@ -66,12 +70,13 @@ def table_search_detail(request, sql_record_id):
     })
 
 
+@check_permission_decorate
 @login_required
 def search_channel_name(request):
     """查询渠道名称"""
     ret = {"status": True, "errors": None, "data": None}  # 定义返回内容
-    if request.method == "POST":
-        channel_name = request.POST.get("qudaoName")  # 获取用户输入的渠道名称
+    if request.method == "GET":
+        channel_name = request.GET.get("qudaoName")  # 获取用户输入的渠道名称
         # 通过用户输入的渠道名称查询对应的渠道标识
         info_list = get_info_list(
             'rz',
@@ -81,6 +86,7 @@ def search_channel_name(request):
         return HttpResponse(json.dumps(ret))
 
 
+@check_permission_decorate
 @login_required
 def download_excel(request, sql_record_id):
     """导出明细至EXCEL"""
@@ -155,6 +161,7 @@ def download_excel(request, sql_record_id):
         return HttpResponse("没有数据!")
 
 
+@check_permission_decorate
 @login_required
 def user_center(request):
     """用户中心"""
@@ -165,6 +172,7 @@ def user_center(request):
     return render(request, "user_center.html", {"download_objs": download_objs})
 
 
+@check_permission_decorate
 @login_required
 def download_check(request, sql_record_id):
     """下载审核页面"""
@@ -205,22 +213,26 @@ def download_check(request, sql_record_id):
     })
 
 
+@check_permission_decorate
 @login_required
-def delete_download_record(request, download_record_id):
+def delete_download_record(request):
     """删除下载记录"""
     ret = {"status": False, "error": None, "data": None}
-    download_record_obj = models.DownloadRecord.objects.filter(id=download_record_id).first()
-    if download_record_obj:
-        if download_record_obj.check_status == 1:
-            ret["error"] = "审核通过的下载记录将作为历史记录，您无法删除！"
+    if request.method == "POST":
+        download_record_id = request.POST.get("download_record_id")
+        download_record_obj = models.DownloadRecord.objects.filter(id=download_record_id).first()
+        if download_record_obj:
+            if download_record_obj.check_status == 1:
+                ret["error"] = "审核通过的下载记录将作为历史记录，您无法删除！"
+            else:
+                download_record_obj.delete()
+                ret["status"] = True
         else:
-            download_record_obj.delete()
-            ret["status"] = True
-    else:
-        ret["error"] = "下载记录不存在！"
-    return HttpResponse(json.dumps(ret))
+            ret["error"] = "下载记录不存在！"
+        return HttpResponse(json.dumps(ret))
 
 
+@check_permission_decorate
 @login_required
 def upload_file(request):
     """上传文件至服务器"""

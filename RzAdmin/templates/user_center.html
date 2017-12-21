@@ -137,7 +137,7 @@
         $(function () {
             $(".delete-download-record").click(function () {
                 var download_record_id = $(this).attr("download_record_id");
-                var delete_download_record_url = "/automatic/delete_download_record/" + download_record_id + "/";
+                var delete_download_record_url = "/automatic/delete_download_record/";
                 swal({
                         title: "确定删除吗?",
                         text: "您将要删除该下载记录!",
@@ -154,6 +154,7 @@
                             $.ajax({
                                 url: delete_download_record_url,
                                 type: "POST",
+                                data: {"download_record_id": download_record_id},
                                 dataType: "JSON",  // 内部会自动将返回的数据用JSON解析
                                 success: function (obj) {
                                     if (obj.status) {
@@ -180,6 +181,7 @@
             $("#upload-avatar").change(function () {
                 $("#avatar-ifm").load(function () {
                     var text = $("#avatar-ifm").contents().find("body").text();
+                    console.log(text);
                     var obj = JSON.parse(text);
                     if (obj.status) {
                         var avatarUrl = $("#avatar-img").attr("src");

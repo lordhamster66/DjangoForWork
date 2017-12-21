@@ -81,8 +81,8 @@ def register(model_class, admin_class=None):
 class UserProfileAdmin(BaseAdmin):
     list_display = ("email", "name", "last_login", 'is_admin', "is_active")
     readonly_fields = ("email", "password",)
-    filter_horizontal = ("roles",)
-    modelform_exclude_fields = ("is_superuser", "last_login", "avatar", "groups", "user_permissions")
+    filter_horizontal = ("roles", "groups", "user_permissions")
+    modelform_exclude_fields = ("is_superuser", "last_login", "avatar",)
 
 
 class RoleAdmin(BaseAdmin):
@@ -115,7 +115,7 @@ class DownloadRecordAdmin(BaseAdmin):
     modelform_exclude_fields = ("detail_url", "download_url")
     dynamic_default_fields = ("check_user",)
     only_display_img_field = ("check_img",)
-    list_editable = ("check_status", "download_detail")
+    list_editable = ("check_status",)
 
     def dynamic_default_check_user(self):
         """动态默认字段设置默认值"""

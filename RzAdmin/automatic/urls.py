@@ -17,13 +17,14 @@ from django.conf.urls import url
 from automatic import views
 
 urlpatterns = [
-    url(r'^$', views.index, name="automatic_index"),
-    url(r'^search_table_list/$', views.search_table_list, name="search_table_list"),
-    url(r'^table_search_detail/(?P<sql_record_id>\d+)/$', views.table_search_detail),
-    url(r'^search_channel_name/$', views.search_channel_name),
-    url(r'^download_excel/(?P<sql_record_id>\d+)/$', views.download_excel),
-    url(r'^user_center.html$', views.user_center, name="user_center"),
-    url(r'^download_check/(?P<sql_record_id>\d+)/$', views.download_check),
-    url(r'^delete_download_record/(?P<download_record_id>\d+)/$', views.delete_download_record),
-    url(r'^upload_file.html$', views.upload_file),
+    url(r'^$', views.index, name="automatic_index"),  # 自动化后台首
+    url(r'^search_table_list/$', views.search_table_list, name="search_table_list"),  # 可用数据查询功能展示
+    url(r'^table_search_detail/(?P<sql_record_id>\d+)/$', views.table_search_detail,
+        name="table_search_detail"),  # 详细数据查询
+    url(r'^search_channel_name/$', views.search_channel_name, name="search_channel_name"),  # 查询渠道名称
+    url(r'^download_excel/(?P<sql_record_id>\d+)/$', views.download_excel, name="download_excel"),  # 下载EXCEL
+    url(r'^user_center.html$', views.user_center, name="user_center"),  # 用户中心
+    url(r'^download_check/(?P<sql_record_id>\d+)/$', views.download_check, name="download_check"),  # 下载审核
+    url(r'^delete_download_record/$', views.delete_download_record, name="delete_download_record"),  # 删除下载记录
+    url(r'^upload_file.html$', views.upload_file, name="upload_file"),  # 上传文件
 ]

@@ -6,14 +6,17 @@ from kind_admin.utils import (
 )
 from kind_admin.forms import create_model_form
 from django.contrib.auth.decorators import login_required
+from automatic.permissions.permission import check_permission_decorate
 
 
 # Create your views here.
+@check_permission_decorate
 @login_required
 def index(request):
     return render(request, "kind_admin/table_index.html", {"table_list": kind_admin.enabled_admins})
 
 
+@check_permission_decorate
 @login_required
 def table_objs(request, app_name, table_name):
     """对每张表进行展示"""
@@ -55,6 +58,7 @@ def table_objs(request, app_name, table_name):
     })
 
 
+@check_permission_decorate
 @login_required
 def table_add(request, app_name, table_name):
     """
@@ -89,6 +93,7 @@ def table_add(request, app_name, table_name):
     })
 
 
+@check_permission_decorate
 @login_required
 def table_change(request, app_name, table_name, obj_id):
     """
@@ -130,6 +135,7 @@ def table_change(request, app_name, table_name, obj_id):
     })
 
 
+@check_permission_decorate
 @login_required
 def table_delete(request, app_name, table_name, obj_ids):
     """
@@ -160,6 +166,7 @@ def table_delete(request, app_name, table_name, obj_ids):
         return redirect("/kind_admin/%s/%s" % (app_name, table_name))
 
 
+@check_permission_decorate
 @login_required
 def change_password(request, app_name, table_name, obj_id):
     """

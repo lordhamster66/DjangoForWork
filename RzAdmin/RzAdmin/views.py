@@ -3,6 +3,7 @@ from RzAdmin import settings
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from automatic.permissions.permission import check_permission_decorate  # 通用权限管理
 
 
 # Create your views here.
@@ -34,6 +35,7 @@ def acc_logout(request):
     return redirect("/accounts/login/")
 
 
+@check_permission_decorate
 @login_required
 def change_avatar(request):
     """修改用户头像"""
