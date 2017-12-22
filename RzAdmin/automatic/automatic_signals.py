@@ -43,5 +43,5 @@ def model_instance_save_callback(sender, **kwargs):
         print(" [x] Sent %r:%r" % (severity, message))
         connection.close()
 
-        post_save.connect(model_instance_save_callback)
-        # xxoo指上述导入的内容
+post_save.connect(model_instance_save_callback)
+# xxoo指上述导入的内容
