@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/12/13
+import pika
+import json
 from django.core.signals import request_finished  # 请求结束后
 from django.core.signals import request_started  # 请求到来前
 from django.core.signals import got_request_exception  # 请求异常后
@@ -19,10 +21,27 @@ from django.test.signals import template_rendered  # 使用test测试渲染模�
 from django.db.backends.signals import connection_created  # 创建数据库连接时
 
 
-def callback(sender, **kwargs):
-    print("xxoo_callback")
-    print(sender, kwargs)
+def model_instance_save_callback(sender, **kwargs):
+    """model对象保存时的回调函数"""
+    if sender._meta.model_name == "downloadrecord":  # 说明有人在更新下载记录，即审核
+        download_record_obj = kwargs.get("instance")  # 用户下载记录对象
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        channel = connection.channel()
+        channel.exchange_declare(exchange='direct_logs', exchange_type="direct")
+        severity = download_record_obj.user.email  # 下载用户邮箱，唯一标识
+        message = json.dumps({
+            "status": True, "error": None, "data": json.dumps({
+                "title": download_record_obj.download_detail,
+                "message": "已经审核完毕，请去用户中心下载!", "alert_type": "success"
+            })
+        })
+        channel.basic_publish(
+            exchange='direct_logs',
+            routing_key=download_record_obj.user.email,
+            body=message
+        )
+        print(" [x] Sent %r:%r" % (severity, message))
+        connection.close()
 
-
-post_save.connect(callback)
-# xxoo指上述导入的内容
+        post_save.connect(model_instance_save_callback)
+        # xxoo指上述导入的内容

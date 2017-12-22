@@ -137,6 +137,41 @@
 
 <!--sweetalert [ OPTIONAL ]-->
 <script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
+
+<script>
+    if ("WebSocket" in window) {
+        // alert("您的浏览器支持 WebSocket!");
+        socket = new WebSocket("ws://10.1.12.12:9007/");
+        // 可以一直接收消息
+        socket.onmessage = function (info) {
+            var obj = JSON.parse(info.data);
+            var alert_type = obj["alert_type"];  // alert类型
+            var title = obj["title"];  // alert标题
+            var message = obj["message"];  // alert内容
+            // GROW-LIKE / FLOATING ALERTS
+            // =================================================================
+            // Require Nifty Admin Javascript
+            // http://www.themeon.net/
+            // =================================================================
+            var contentHTML = '<button class="close" type="button"><i class="fa fa-times-circle"></i></button><div class="media"><h4 class="alert-title">' + title + '</h4><p class="alert-message">' + message + '</p></div>';
+            $.niftyNoty({
+                type: alert_type,
+                container: 'floating',
+                html: contentHTML,
+                timer: false ? 3000 : 0
+            });
+        };
+        // 发送消息
+        socket.onopen = function () {
+            socket.send('{{ request.user.email }}');
+        };
+        // Call onopen directly if socket is already open
+        if (socket.readyState == WebSocket.OPEN) socket.onopen();
+    } else {
+        // 浏览器不支持 WebSocket
+        alert("您的浏览器不支持 WebSocket!");
+    }
+</script>
 <script>
     $(function () {
         // 跨站请求伪造
