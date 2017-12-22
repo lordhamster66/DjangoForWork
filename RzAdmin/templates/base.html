@@ -141,7 +141,7 @@
 <script>
     if ("WebSocket" in window) {
         // alert("您的浏览器支持 WebSocket!");
-        socket = new WebSocket("ws://10.1.1.105:9009/");
+        socket = new WebSocket("ws://10.1.12.12:9007/");
         // 可以一直接收消息
         socket.onmessage = function (info) {
             var obj = JSON.parse(info.data);

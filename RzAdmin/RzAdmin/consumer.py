@@ -47,8 +47,9 @@ def ws_connect(message):
 # 将发来的信息原样返回
 def ws_message(message):
     """将发来的信息原样返回"""
-    t = threading.Thread(target=receive, args=(message,))  # 用户连接服务器则启动一个线程用来监测rabbitmq
-    t.start()  # 启动线程
+    pass
+    # t = threading.Thread(target=receive, args=(message,))  # 用户连接服务器则启动一个线程用来监测rabbitmq
+    # t.start()  # 启动线程
 
 
 # 断开连接时发送一个disconnect字符串，当然，他已经收不到了
