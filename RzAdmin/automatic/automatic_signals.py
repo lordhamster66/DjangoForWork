@@ -20,13 +20,20 @@ from django.test.signals import template_rendered  # 使用test测试渲染模�
 
 from django.db.backends.signals import connection_created  # 创建数据库连接时
 
+username = 'breakering'
+password = 'dmc19930417'
+host = '10.1.1.105'
+credentials = pika.PlainCredentials(username, password)
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host=host, credentials=credentials, port=5672)
+)
+channel = connection.channel()
+
 
 def model_instance_save_callback(sender, **kwargs):
     """model对象保存时的回调函数"""
     if sender._meta.model_name == "downloadrecord":  # 说明有人在更新下载记录，即审核
         download_record_obj = kwargs.get("instance")  # 用户下载记录对象
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-        channel = connection.channel()
         channel.exchange_declare(exchange='direct_logs', exchange_type="direct")
         severity = download_record_obj.user.email  # 下载用户邮箱，唯一标识
         message = json.dumps({
@@ -38,8 +45,6 @@ def model_instance_save_callback(sender, **kwargs):
             routing_key=download_record_obj.user.email,
             body=message
         )
-        print(" [x] Sent %r:%r" % (severity, message))
-        connection.close()
 
 
 post_save.connect(model_instance_save_callback)
