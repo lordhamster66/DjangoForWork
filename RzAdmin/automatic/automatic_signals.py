@@ -30,10 +30,8 @@ def model_instance_save_callback(sender, **kwargs):
         channel.exchange_declare(exchange='direct_logs', exchange_type="direct")
         severity = download_record_obj.user.email  # 下载用户邮箱，唯一标识
         message = json.dumps({
-            "status": True, "error": None, "data": json.dumps({
-                "title": download_record_obj.download_detail,
-                "message": "已经审核完毕，请去用户中心下载!", "alert_type": "success"
-            })
+            "title": download_record_obj.download_detail,
+            "message": "已有更新，请去用户中心查看!", "alert_type": "success"
         })
         channel.basic_publish(
             exchange='direct_logs',
@@ -42,6 +40,7 @@ def model_instance_save_callback(sender, **kwargs):
         )
         print(" [x] Sent %r:%r" % (severity, message))
         connection.close()
+
 
 post_save.connect(model_instance_save_callback)
 # xxoo指上述导入的内容
