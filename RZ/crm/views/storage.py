@@ -17,7 +17,6 @@ from crm import models
 import datetime
 import requests  # 爬虫专用
 from utils import db_connect
-import gevent  # 协程模块
 
 
 class DataStorage(View):
@@ -66,20 +65,16 @@ class DataStorage(View):
             :return:
             """
             try:
-                setattr(self, sql_file.replace(".sql", ""), self.get_info_list("daily", sql_file))
+                ret = self.get_info_list("daily", sql_file)
+                setattr(self, sql_file.replace(".sql", ""), ret)
             except Exception as e:
                 settings.action_logger.warning("%s信息查询出错!出错信息如下\n%s" % (sql_file.replace(".sql", ""), e))
             settings.action_logger.info("%s信息查询完毕!" % (sql_file.replace(".sql", ""),))
 
-        g_list = []  # 存放协程任务的列表
         for sql_file in os.listdir(daily_sql_path):
             if sql_file in ignore_sql_file:
                 continue
-            g_list.append(gevent.spawn(set_sql_file_name_attr, self, sql_file))
-            if len(g_list) == 5:  # 正好启动了5个协程
-                gevent.joinall(g_list)  # 等待所有协程执行完毕
-                g_list.clear()  # 所有协程执行完毕，则清空存放协程任务的列表，重新放入新的协程任务
-        gevent.joinall(g_list)  # 等待剩余的协程任务
+            set_sql_file_name_attr(self, sql_file)
         qdate = getattr(self, "get_qdate")[0].get("qdate")  # 获取昨天日期
         with transaction.atomic():
             # 增加基础数据信息
@@ -105,6 +100,7 @@ class DataStorage(View):
                 zd_r=getattr(self, "zaidai_info")[0].get("zd_r"),  # 在贷人数
                 zd_j=getattr(self, "zaidai_info")[0].get("zd_j"),  # 在贷金额
             )
+            settings.action_logger.info("%s基础数据信息增加完毕!" % qdate)
             # 增加昨日推广数据信息
             models.TgInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
@@ -114,6 +110,7 @@ class DataStorage(View):
                 tg_xztz_r=getattr(self, "tg_info")[0].get("tg_xztz_r"),  # 推广新增人数
                 tg_xztz_j=getattr(self, "tg_info")[0].get("tg_xztz_j")  # 推广新增金额
             )
+            settings.action_logger.info("%s推广数据信息增加完毕!" % qdate)
             # 增加运营数据信息
             models.OperateInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
@@ -123,6 +120,7 @@ class DataStorage(View):
                 zj_ft_lv=getattr(self, "zj_ft_lv_info")[0].get("zj_ft_lv"),  # 资金复投率
                 rs_ft_lv=getattr(self, "rs_ft_lv_info")[0].get("rs_ft_lv")  # 人数复投率
             )
+            settings.action_logger.info("%s运营数据信息增加完毕!" % qdate)
             # 增加邀请数据信息
             models.InviteInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
@@ -135,6 +133,7 @@ class DataStorage(View):
                 # hb_f=invite_info.get("hb_f"),  # 红包发放金额
                 # hb_s=invite_info.get("hb_s")  # 红包使用金额
             )
+            settings.action_logger.info("%s邀请数据信息增加完毕!" % qdate)
             # 增加资产数据详情
             asset_info_obj_list = []
             for row in getattr(self, "qixian_info"):
@@ -165,6 +164,7 @@ class DataStorage(View):
                     mb_ys=row.get("mb_ys")  # 满标用时
                 ))
             models.AssetInfo.objects.using("default").bulk_create(asset_info_obj_list)
+            settings.action_logger.info("%s资产数据详情增加完毕!" % qdate)
             # 增加各端数据详情
             geduan_rw = getattr(self, "geduan_rw")  # 获取各端回款并提现数据
             geduan_rw_dic = {}  # 定义一个各端回款并提现字典
@@ -196,6 +196,7 @@ class DataStorage(View):
                     withdraw=geduan_withdraw_dic.get(gd, {"withdraw": 0}).get("withdraw")
                 ))
             models.GeDuanInfo.objects.using("default").bulk_create(geduan_info_obj_list)
+            settings.action_logger.info("%s各端数据详情增加完毕!" % qdate)
 
             # 增加时间段数据详情
             time_slot_obj_list = []
@@ -206,20 +207,22 @@ class DataStorage(View):
                     tz_r=row.get("tz_r")  # 投资人数
                 ))
             models.TimeSlot.objects.using("default").bulk_create(time_slot_obj_list)
-
+            settings.action_logger.info("%s时间段数据详情增加完毕!" % qdate)
             # 增加其他数据详情
             models.OtherInfo.objects.using("default").create(
                 qdate=qdate,
-                short_tz_r=getattr(self, "short_tz_info")[0].get("short_tz_r"),
-                short_tz_j=getattr(self, "short_tz_info")[0].get("short_tz_j"),
-                short_zd_j=getattr(self, "short_zd_info")[0].get("short_zd_j"),
-                Rplan_account=getattr(self, "Rplan_tz_info")[0].get("Rplan_account"),
-                Rplan_recover_account=getattr(self, "Rplan_zd_info")[0].get("Rplan_recover_account"),
-                g_tz_j=getattr(self, "g_tz_info")[0].get("g_tz_j"),
-                x_tz_j=getattr(self, "x_tz_info")[0].get("x_tz_j"),
-                Rplan_xt=getattr(self, "Rplan_xt_info")[0].get("Rplan_xt"),
-                unRplan_xt_hk_j=getattr(self, "unRplan_xt_hk_info")[0].get("unRplan_xt_hk_j"),
+                short_tz_r=getattr(self, "short_tz_info")[0].get("short_tz_r") or None,
+                short_tz_j=getattr(self, "short_tz_info")[0].get("short_tz_j") or None,
+                short_zd_j=getattr(self, "short_zd_info")[0].get("short_zd_j") or None,
+                Rplan_account=getattr(self, "Rplan_tz_info")[0].get("Rplan_account") or None,
+                Rplan_recover_account=getattr(self, "Rplan_zd_info")[0].get("Rplan_recover_account") or None,
+                g_tz_j=getattr(self, "g_tz_info")[0].get("g_tz_j") or None,
+                x_tz_j=getattr(self, "x_tz_info")[0].get("x_tz_j") or None,
+                Rplan_xt=getattr(self, "Rplan_xt_info")[0].get("Rplan_xt") or None,
+                unRplan_xt_hk_j=getattr(self, "unRplan_xt_hk_info")[0].get("unRplan_xt_hk_j") or None,
             )
+            settings.action_logger.info("%s其他数据详情增加完毕!" % qdate)
+
             # 增加每日每人在贷详情
             user_recover_info = getattr(self, "user_recover")  # 获取每人在贷详情
             cursor = connections['default'].cursor()  # 创建数据库游标
@@ -228,6 +231,7 @@ class DataStorage(View):
                 VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
                 cursor.execute(sql)  # 执行SQL
             cursor.close()  # 关闭游标
+            settings.action_logger.info("%s每日每人在贷详情增加完毕!" % qdate)
 
             # 增加EXCEL日报资产数据详情
             daily_asset_info_obj_list = []
@@ -257,6 +261,7 @@ class DataStorage(View):
                     tz_j=row.get("tz_j"),  # 投资金额
                 ))
             models.DailyAssetInfo.objects.using("default").bulk_create(daily_asset_info_obj_list)
+            settings.action_logger.info("%sEXCEL日报资产数据详情增加完毕!" % qdate)
 
             # 增加EXCEL日报提现分类数据详情
             daily_withdraw_classify_obj_list = []
@@ -287,6 +292,7 @@ class DataStorage(View):
                     tx_j=row.get("tx_j"),  # 提现金额
                 ))
             models.DailyWithdrawClassify.objects.using("default").bulk_create(daily_withdraw_classify_obj_list)
+            settings.action_logger.info("%sEXCEL日报提现分类数据详情增加完毕!" % qdate)
 
             # 增加EXCEL日报待收分类数据详情
             daily_collect_classify_obj_list = []
@@ -317,6 +323,7 @@ class DataStorage(View):
                     collect_j=row.get("collect_j"),  # 待收金额
                 ))
             models.DailyCollectClassify.objects.using("default").bulk_create(daily_collect_classify_obj_list)
+            settings.action_logger.info("%sEXCEL日报待收分类数据详情增加完毕!" % qdate)
 
             settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
 
