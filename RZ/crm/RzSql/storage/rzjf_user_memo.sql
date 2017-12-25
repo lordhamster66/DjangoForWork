@@ -1,4 +1,3 @@
-INSERT INTO rzjf_user_memo (uid,memo)
 SELECT t2.uid,
 			 case when (t2.qudao is null or t2.qudao="") and t2.register_url like "%app%" then "APP 官网"
 			 when (t2.qudao is null or t2.qudao="") and t2.register_url not like "%app%" and t2.register_url not like "%wx%" and t2.way=3 then "APP 官网"

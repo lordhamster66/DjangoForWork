@@ -435,5 +435,11 @@ def rzjf_recorde(request):
     # 连接数据库并执行SQL
     cursor = connections['rz_bi'].cursor()
     cursor.execute(rzjf_first_invest_recorde_sql)
-    cursor.execute(rzjf_user_memo_sql)
+    rzjf_user_memo_list = db_connect.get_info_list("rz_bi", rzjf_user_memo_sql)
+    for info in rzjf_user_memo_list:
+        cursor.execute(
+            "INSERT INTO `rzjf_bi`.`rzjf_user_memo` (`uid`, `memo`) VALUES ('%s', '%s');" % (
+                info.get("uid"), info.get("memo")
+            )
+        )
     return HttpResponse("ok!")
