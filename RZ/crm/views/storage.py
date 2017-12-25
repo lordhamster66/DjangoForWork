@@ -80,55 +80,55 @@ class DataStorage(View):
             # 增加基础数据信息
             models.BaseInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
-                zhu_r=getattr(self, "zhu_info")[0].get("zhu_r"),  # 注册人数
-                sm_r=getattr(self, "sm_info")[0].get("sm_r"),  # 实名人数
-                sc_r=getattr(self, "sc_info")[0].get("sc_r"),  # 首充人数
-                xztz_r=getattr(self, "xztz_info")[0].get("xztz_r"),  # 新增投资人数
-                xztz_j=getattr(self, "xztz_info")[0].get("xztz_j"),  # 新增投资金额
-                cz_r=getattr(self, "cz_info")[0].get("cz_r"),  # 充值人数
-                cz_j=getattr(self, "cz_info")[0].get("cz_j"),  # 充值金额
-                tx_r=getattr(self, "tx_info")[0].get("tx_r"),  # 提现人数
-                tx_j=getattr(self, "tx_info")[0].get("tx_j"),  # 提现金额
-                tz_r=getattr(self, "tz_info")[0].get("tz_r"),  # 投资人数
-                tz_j=getattr(self, "tz_info")[0].get("tz_j"),  # 投资金额
-                tz_b=getattr(self, "tz_info")[0].get("tz_b"),  # 投资笔数
-                tz_dl_r=getattr(self, "tz_dl_info")[0].get("tz_dl_r"),  # 投资登录人数
-                hk_r=getattr(self, "hk_info")[0].get("hk_r"),  # 回款人数
-                hk_j=getattr(self, "hk_info")[0].get("hk_j"),  # 回款金额
-                zg_j=getattr(self, "balance_info")[0].get("zg_j"),  # 站岗金额
-                zg_r=getattr(self, "balance_info")[0].get("zg_r"),  # 站岗人数
-                zd_r=getattr(self, "zaidai_info")[0].get("zd_r"),  # 在贷人数
-                zd_j=getattr(self, "zaidai_info")[0].get("zd_j"),  # 在贷金额
+                zhu_r=getattr(self, "zhu_info")[0].get("zhu_r") or None,  # 注册人数
+                sm_r=getattr(self, "sm_info")[0].get("sm_r") or None,  # 实名人数
+                sc_r=getattr(self, "sc_info")[0].get("sc_r") or None,  # 首充人数
+                xztz_r=getattr(self, "xztz_info")[0].get("xztz_r") or None,  # 新增投资人数
+                xztz_j=getattr(self, "xztz_info")[0].get("xztz_j") or None,  # 新增投资金额
+                cz_r=getattr(self, "cz_info")[0].get("cz_r") or None,  # 充值人数
+                cz_j=getattr(self, "cz_info")[0].get("cz_j") or None,  # 充值金额
+                tx_r=getattr(self, "tx_info")[0].get("tx_r") or None,  # 提现人数
+                tx_j=getattr(self, "tx_info")[0].get("tx_j") or None,  # 提现金额
+                tz_r=getattr(self, "tz_info")[0].get("tz_r") or None,  # 投资人数
+                tz_j=getattr(self, "tz_info")[0].get("tz_j") or None,  # 投资金额
+                tz_b=getattr(self, "tz_info")[0].get("tz_b") or None,  # 投资笔数
+                tz_dl_r=getattr(self, "tz_dl_info")[0].get("tz_dl_r") or None,  # 投资登录人数
+                hk_r=getattr(self, "hk_info")[0].get("hk_r") or None,  # 回款人数
+                hk_j=getattr(self, "hk_info")[0].get("hk_j") or None,  # 回款金额
+                zg_j=getattr(self, "balance_info")[0].get("zg_j") or None,  # 站岗金额
+                zg_r=getattr(self, "balance_info")[0].get("zg_r") or None,  # 站岗人数
+                zd_r=getattr(self, "zaidai_info")[0].get("zd_r") or None,  # 在贷人数
+                zd_j=getattr(self, "zaidai_info")[0].get("zd_j") or None,  # 在贷金额
             )
             settings.action_logger.info("%s基础数据信息增加完毕!" % qdate)
             # 增加昨日推广数据信息
             models.TgInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
-                tg_zhu_r=getattr(self, "tg_info")[0].get("tg_zhu_r"),  # 推广注册人数
-                tg_sm_r=getattr(self, "tg_info")[0].get("tg_sm_r"),  # 推广实名人数
-                tg_sc_r=getattr(self, "tg_info")[0].get("tg_sc_r"),  # 推广首充人数
-                tg_xztz_r=getattr(self, "tg_info")[0].get("tg_xztz_r"),  # 推广新增人数
-                tg_xztz_j=getattr(self, "tg_info")[0].get("tg_xztz_j")  # 推广新增金额
+                tg_zhu_r=getattr(self, "tg_info")[0].get("tg_zhu_r") or None,  # 推广注册人数
+                tg_sm_r=getattr(self, "tg_info")[0].get("tg_sm_r") or None,  # 推广实名人数
+                tg_sc_r=getattr(self, "tg_info")[0].get("tg_sc_r") or None,  # 推广首充人数
+                tg_xztz_r=getattr(self, "tg_info")[0].get("tg_xztz_r") or None,  # 推广新增人数
+                tg_xztz_j=getattr(self, "tg_info")[0].get("tg_xztz_j") or None  # 推广新增金额
             )
             settings.action_logger.info("%s推广数据信息增加完毕!" % qdate)
             # 增加运营数据信息
             models.OperateInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
-                xz_cz=getattr(self, "xz_cz_info")[0].get("xz_cz"),  # 新增充值
-                hk_cz=getattr(self, "hk_cz_info")[0].get("hk_cz"),  # 回款并充值
-                unhk_cz=getattr(self, "unhk_cz_info")[0].get("unhk_cz"),  # 非回款充值
-                zj_ft_lv=getattr(self, "zj_ft_lv_info")[0].get("zj_ft_lv"),  # 资金复投率
-                rs_ft_lv=getattr(self, "rs_ft_lv_info")[0].get("rs_ft_lv")  # 人数复投率
+                xz_cz=getattr(self, "xz_cz_info")[0].get("xz_cz") or None,  # 新增充值
+                hk_cz=getattr(self, "hk_cz_info")[0].get("hk_cz") or None,  # 回款并充值
+                unhk_cz=getattr(self, "unhk_cz_info")[0].get("unhk_cz") or None,  # 非回款充值
+                zj_ft_lv=getattr(self, "zj_ft_lv_info")[0].get("zj_ft_lv") or None,  # 资金复投率
+                rs_ft_lv=getattr(self, "rs_ft_lv_info")[0].get("rs_ft_lv") or None  # 人数复投率
             )
             settings.action_logger.info("%s运营数据信息增加完毕!" % qdate)
             # 增加邀请数据信息
             models.InviteInfo.objects.using("default").create(
                 qdate=qdate,  # 日期
-                invite_r=getattr(self, "invite_info")[0].get("invite_r"),  # 邀请人数
-                invited_r=getattr(self, "invite_info")[0].get("invited_r"),  # 被邀请人数
-                invited_st_r=getattr(self, "invite_info")[0].get("invited_st_r"),  # 被邀请首投人数
-                invited_st_j=getattr(self, "invite_info")[0].get("invited_st_j"),  # 被邀请首投金额
-                cash_f=getattr(self, "invite_info")[0].get("cash_f"),  # 现金发放金额
+                invite_r=getattr(self, "invite_info")[0].get("invite_r") or None,  # 邀请人数
+                invited_r=getattr(self, "invite_info")[0].get("invited_r") or None,  # 被邀请人数
+                invited_st_r=getattr(self, "invite_info")[0].get("invited_st_r") or None,  # 被邀请首投人数
+                invited_st_j=getattr(self, "invite_info")[0].get("invited_st_j") or None,  # 被邀请首投金额
+                cash_f=getattr(self, "invite_info")[0].get("cash_f") or None,  # 现金发放金额
                 # cash_l=invite_info.get("cash_l"),  # 现金领取金额
                 # hb_f=invite_info.get("hb_f"),  # 红包发放金额
                 # hb_s=invite_info.get("hb_s")  # 红包使用金额
@@ -140,28 +140,28 @@ class DataStorage(View):
                 asset_info_obj_list.append(models.AssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="所有",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
-                    mb_ys=row.get("mb_ys")  # 满标用时
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
+                    mb_ys=row.get("mb_ys") or None  # 满标用时
                 ))
             for row in getattr(self, "s_qixian_info"):
                 asset_info_obj_list.append(models.AssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="散标",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
-                    mb_ys=row.get("mb_ys")  # 满标用时
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
+                    mb_ys=row.get("mb_ys") or None  # 满标用时
                 ))
             for row in getattr(self, "r_qixian_info"):
                 asset_info_obj_list.append(models.AssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="R计划",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
-                    mb_ys=row.get("mb_ys")  # 满标用时
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
+                    mb_ys=row.get("mb_ys") or None  # 满标用时
                 ))
             models.AssetInfo.objects.using("default").bulk_create(asset_info_obj_list)
             settings.action_logger.info("%s资产数据详情增加完毕!" % qdate)
@@ -189,11 +189,11 @@ class DataStorage(View):
                 geduan_info_obj_list.append(models.GeDuanInfo(
                     qdate=qdate,
                     geduan=gd,
-                    recover=geduan_rw_dic.get(gd, {"recover": 0}).get("recover"),
-                    recover_withdraw=geduan_rw_dic.get(gd, {"recover_withdraw": 0}).get("recover_withdraw"),
-                    account=geduan_account_dic.get(gd, {"account": 0}).get("account"),
-                    xztz_j=geduan_xztz_dic.get(gd, {"xztz_j": 0}).get("xztz_j"),
-                    withdraw=geduan_withdraw_dic.get(gd, {"withdraw": 0}).get("withdraw")
+                    recover=geduan_rw_dic.get(gd, {"recover": 0}).get("recover") or None,
+                    recover_withdraw=geduan_rw_dic.get(gd, {"recover_withdraw": 0}).get("recover_withdraw") or None,
+                    account=geduan_account_dic.get(gd, {"account": 0}).get("account") or None,
+                    xztz_j=geduan_xztz_dic.get(gd, {"xztz_j": 0}).get("xztz_j") or None,
+                    withdraw=geduan_withdraw_dic.get(gd, {"withdraw": 0}).get("withdraw") or None
                 ))
             models.GeDuanInfo.objects.using("default").bulk_create(geduan_info_obj_list)
             settings.action_logger.info("%s各端数据详情增加完毕!" % qdate)
@@ -203,8 +203,8 @@ class DataStorage(View):
             for row in getattr(self, "timeslot_info"):
                 time_slot_obj_list.append(models.TimeSlot(
                     qdate=qdate,  # 日期
-                    timeslot=row.get("timeslot"),  # 时间段
-                    tz_r=row.get("tz_r")  # 投资人数
+                    timeslot=row.get("timeslot") or None,  # 时间段
+                    tz_r=row.get("tz_r") or None  # 投资人数
                 ))
             models.TimeSlot.objects.using("default").bulk_create(time_slot_obj_list)
             settings.action_logger.info("%s时间段数据详情增加完毕!" % qdate)
@@ -239,26 +239,26 @@ class DataStorage(View):
                 daily_asset_info_obj_list.append(models.DailyAssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="所有",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
-                    mb_ys=row.get("mb_ys")  # 满标用时
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
+                    mb_ys=row.get("mb_ys") or None  # 满标用时
                 ))
             for row in getattr(self, "daily_s_qixian_info"):
                 daily_asset_info_obj_list.append(models.DailyAssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="散标",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
                 ))
             for row in getattr(self, "daily_r_qixian_info"):
                 daily_asset_info_obj_list.append(models.DailyAssetInfo(
                     qdate=qdate,  # 日期
                     asset_type="R计划",  # 资产类型
-                    term=row.get("term"),  # 期限类型
-                    tz_r=row.get("tz_r"),  # 投资人数
-                    tz_j=row.get("tz_j"),  # 投资金额
+                    term=row.get("term") or None,  # 期限类型
+                    tz_r=row.get("tz_r") or None,  # 投资人数
+                    tz_j=row.get("tz_j") or None,  # 投资金额
                 ))
             models.DailyAssetInfo.objects.using("default").bulk_create(daily_asset_info_obj_list)
             settings.action_logger.info("%sEXCEL日报资产数据详情增加完毕!" % qdate)
@@ -269,27 +269,27 @@ class DataStorage(View):
                 daily_withdraw_classify_obj_list.append(models.DailyWithdrawClassify(
                     qdate=qdate,  # 日期
                     withdraw_type="提现区间",  # 提现类型
-                    term=row.get("term"),  # 提现分类
-                    tx_r=row.get("tx_r"),  # 提现人数
-                    tx_j=row.get("tx_j"),  # 提现金额
+                    term=row.get("term") or None,  # 提现分类
+                    tx_r=row.get("tx_r") or None,  # 提现人数
+                    tx_j=row.get("tx_j") or None,  # 提现金额
                 ))
             # 获取累计提现投资时间间隔数据
             for row in getattr(self, "daily_withdraw_investment_interval"):
                 daily_withdraw_classify_obj_list.append(models.DailyWithdrawClassify(
                     qdate=qdate,  # 日期
                     withdraw_type="投资时间间隔",  # 提现类型
-                    term=row.get("term"),  # 提现分类
-                    tx_r=row.get("tx_r"),  # 提现人数
-                    tx_j=row.get("tx_j"),  # 提现金额
+                    term=row.get("term") or None,  # 提现分类
+                    tx_r=row.get("tx_r") or None,  # 提现人数
+                    tx_j=row.get("tx_j") or None,  # 提现金额
                 ))
             # 获取累计提现投资次数数据
             for row in getattr(self, "daily_withdraw_investment_times"):
                 daily_withdraw_classify_obj_list.append(models.DailyWithdrawClassify(
                     qdate=qdate,  # 日期
                     withdraw_type="投资次数",  # 提现类型
-                    term=row.get("term"),  # 提现分类
-                    tx_r=row.get("tx_r"),  # 提现人数
-                    tx_j=row.get("tx_j"),  # 提现金额
+                    term=row.get("term") or None,  # 提现分类
+                    tx_r=row.get("tx_r") or None,  # 提现人数
+                    tx_j=row.get("tx_j") or None,  # 提现金额
                 ))
             models.DailyWithdrawClassify.objects.using("default").bulk_create(daily_withdraw_classify_obj_list)
             settings.action_logger.info("%sEXCEL日报提现分类数据详情增加完毕!" % qdate)
@@ -300,27 +300,27 @@ class DataStorage(View):
                 daily_collect_classify_obj_list.append(models.DailyCollectClassify(
                     qdate=qdate,  # 日期
                     collect_type="待收区间",  # 待收类型
-                    term=row.get("term"),  # 待收分类
-                    collect_r=row.get("collect_r"),  # 待收人数
-                    collect_j=row.get("collect_j"),  # 待收金额
+                    term=row.get("term") or None,  # 待收分类
+                    collect_r=row.get("collect_r") or None,  # 待收人数
+                    collect_j=row.get("collect_j") or None,  # 待收金额
                 ))
             # 获取待收投资时间间隔数据
             for row in getattr(self, "daily_collect_investment_interval"):
                 daily_collect_classify_obj_list.append(models.DailyCollectClassify(
                     qdate=qdate,  # 日期
                     collect_type="待收投资时间间隔",  # 待收类型
-                    term=row.get("term"),  # 待收分类
-                    collect_r=row.get("collect_r"),  # 待收人数
-                    collect_j=row.get("collect_j"),  # 待收金额
+                    term=row.get("term") or None,  # 待收分类
+                    collect_r=row.get("collect_r") or None,  # 待收人数
+                    collect_j=row.get("collect_j") or None,  # 待收金额
                 ))
             # 获取待收投资次数数据
             for row in getattr(self, "daily_collect_investment_times"):
                 daily_collect_classify_obj_list.append(models.DailyCollectClassify(
                     qdate=qdate,  # 日期
                     collect_type="待收投资次数",  # 待收类型
-                    term=row.get("term"),  # 待收分类
-                    collect_r=row.get("collect_r"),  # 待收人数
-                    collect_j=row.get("collect_j"),  # 待收金额
+                    term=row.get("term") or None,  # 待收分类
+                    collect_r=row.get("collect_r") or None,  # 待收人数
+                    collect_j=row.get("collect_j") or None,  # 待收金额
                 ))
             models.DailyCollectClassify.objects.using("default").bulk_create(daily_collect_classify_obj_list)
             settings.action_logger.info("%sEXCEL日报待收分类数据详情增加完毕!" % qdate)
