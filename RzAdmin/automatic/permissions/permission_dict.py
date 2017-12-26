@@ -327,9 +327,11 @@ PermissionDict = {
 
 def only_change_own_password(request, *args, **kwargs):
     """验证只能修改自己的密码"""
-    ret = False  # 最后要返回的验证结果
+    ret = {"status": False, "errors": [], "data": None}  # 要返回的内容
     matched_ret = re.match("/kind_admin/automatic/userprofile/(?P<user_id>\d+)/change/password/$", request.path)
     if matched_ret:
         if matched_ret.groupdict().get("user_id") == str(request.user.id):
-            ret = True
+            ret["status"] = True
+        else:
+            ret["errors"].append("因为，您只能修改自己的用户密码！")
     return ret
