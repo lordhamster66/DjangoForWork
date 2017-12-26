@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block body %}
+    <div id="container" class="cls-container">
+
+        <!-- HEADER -->
+        <!--===================================================-->
+        <div class="cls-header">
+            <div class="cls-brand">
+                <a class="box-inline" href="/automatic/">
+                    <!-- <img alt="Nifty Admin" src="images/logo.png" class="brand-icon"> -->
+                    <span class="brand-title">人众金服后台<span class="text-thin">Admin</span></span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <!--===================================================-->
+        <div class="cls-content">
+            <h1 class="error-code text-warning">403</h1>
+            {% for error_message in errors %}
+                <p class="h4 text-thin pad-btm mar-btm">
+                    <i class="fa fa-exclamation-circle fa-fw"></i>
+                    {{ error_message }}
+                </p>
+            {% endfor %}
+            <br>
+            <div class="pad-top"><a class="btn-link" href="/automatic/">回到首页</a></div>
+        </div>
+
+
+    </div>
+    <!--===================================================-->
+    <!-- END OF CONTAINER -->
+{% endblock %}
