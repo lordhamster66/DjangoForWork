@@ -347,17 +347,17 @@ INNER JOIN
 ) t11 on a.nid = t11.nid
 INNER JOIN
 (
-		SELECT 1 nid,(sum(a.`10元红包`)+sum(a.`50元现金`)+sum(a.`90元红包`)+sum(a.`佣金`)) '首投花费(新版)'
+		SELECT 1 nid,(sum(a.`首投佣金`)+sum(a.`首投10元红包`)+sum(a.`首投90元红包`)+sum(a.`首投50元现金`)) '首投花费(新版)'
 		FROM
 		(
-				SELECT sum(case when a.money = 10 then a.money else null end)'10元红包'
-				,sum(case when a.money = 90 then a.money else null end)'90元红包',0 '50元现金',0 '佣金'
+				SELECT sum(case when a.money = 10 then a.money else 0 end)'首投10元红包'
+				,sum(case when a.money = 90 then a.money else 0 end)'首投90元红包',0 '首投50元现金',0 '首投佣金'
 				FROM
 				(
 						SELECT a.*
 						from rz_invite_flow a
-						where a.`status` = 1 and a.brokerage = 0
-						and a.ctime >= DATE_SUB(CURDATE(),INTERVAL 1 day)
+						where a.`status` = 1 and a.brokerage = 0 and a.type = 1
+						and a.ctime >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 						and a.ctime < CURDATE()
 						and a.buid in
 						(
@@ -370,9 +370,7 @@ INNER JOIN
 				(
 						SELECT a.buid,min(a.ctime)ctime
 						from rz_invite_flow a
-						where a.`status` = 1 and a.brokerage = 0
-						and a.ctime >= DATE_SUB(CURDATE(),INTERVAL 1 day)
-						and a.ctime < CURDATE()
+						where a.`status` = 1 and a.brokerage = 0 and a.type = 1
 						GROUP BY 1
 				) b on a.buid = b.buid and a.ctime = b.ctime
 				INNER JOIN
@@ -383,13 +381,13 @@ INNER JOIN
 						and a.time_use >=  DATE_SUB(CURDATE(),INTERVAL 1 day)
 						and a.time_use < CURDATE()
 				) c on a.htid = c.hbid
-				union all
-				SELECT 0,0,sum(case when a.money = 50 then a.money else null end)'50元现金',0
+				UNION ALL
+				SELECT 0 '首投10元红包',0 '首投90元红包',sum(case when a.money = 50 then a.money else 0 end)'首投50元现金',0 '首投佣金'
 				FROM
 				(
 						SELECT a.*
 						from rz_invite_flow a
-						where a.`status` = 1 and a.brokerage = 0
+						where a.`status` in (1,2) and a.brokerage = 0 and a.type in (1,2)
 						and a.ctime >= DATE_SUB(CURDATE(),INTERVAL 1 day)
 						and a.ctime < CURDATE()
 						and a.buid in
@@ -403,73 +401,31 @@ INNER JOIN
 				(
 						SELECT a.buid,min(a.ctime)ctime
 						from rz_invite_flow a
-						where a.`status` = 1 and a.brokerage = 0
-						and a.ctime >= DATE_SUB(CURDATE(),INTERVAL 1 day)
-						and a.ctime < CURDATE()
+						where a.`status` in (1,2) and a.brokerage = 0 and a.type in (1,2)
 						GROUP BY 1
 				) b on a.buid = b.buid and a.ctime = b.ctime
-		union all
-				SELECT 0,0,0,sum(a.money)佣金
-					FROM
-					(
-								SELECT a.uid,a.account,a.borrow_apr,a.qixian,(ROUND((a.borrow_apr/100*a.qixian/365*a.account),2)*0.1)money
-								from
-								(
-												SELECT a1.bid,t1.name,t1.borrow_apr,a1.aprplus,
-												case when t1.days!=0 then t1.days else t1.borrow_period*30 end qixian,
-												case when t1.days!=0 then a1.account*t1.days/360 else a1.account*t1.borrow_period/12 end nianhua,
-												a1.uid,a1.account,a1.time_h,a1.hbid
-												from 05b_1tenderfinal a1
-												INNER JOIN 05b_0base t1 on a1.bid = t1.bid
-												where a1.orguid = 0 and a1.bid <> 10000 and a1.status in (1,3)
-												and a1.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
-												and a1.time_h < CURDATE()
-												union all
-												SELECT a2.borrow_id bid,t2.name,t2.apr,'0' aprplus,
-												case when t2.borrow_time_type!=0 then t2.time_limit else t2.time_limit*30 end qixian,
-												case when t2.borrow_time_type!=0 then a2.real_amount*t2.time_limit/360 else a2.real_amount*t2.time_limit/12 end nianhua,
-												a2.user_id uid,a2.real_amount account,a2.add_time time_h,'0' hbid
-												from new_wd.borrow_tender a2
-												INNER JOIN new_wd.borrow t2 on a2.borrow_id = t2.id
-												where a2.status = 1
-												and a2.add_time >= DATE_SUB(CURDATE(),INTERVAL 1 day)
-												and a2.add_time < CURDATE()
-												union all
-												SELECT a3.borrow_id bid,t3.name,t3.apr,'0' aprplus,
-												case when t3.borrow_time_type!=0 then t3.time_limit else t3.time_limit*30 end qixian,
-												case when t3.borrow_time_type!=0 then a3.real_amount*t3.time_limit/360 else a3.real_amount*t3.time_limit/12 end nianhua,
-												a3.user_id uid,a3.real_amount account,a3.create_time time_h,'0' hbid
-												from new_wd.rz_borrow_tender a3
-												INNER JOIN new_wd.rz_borrow_big t3 on a3.borrow_id = t3.id
-												where a3.`status` = 1
-												and a3.create_time >= DATE_SUB(CURDATE(),INTERVAL 1 day)
-												and a3.create_time < CURDATE()
-								) a
-								INNER JOIN
-								(
-												SELECT h1.uid,min(h1.time_h) min_time
-												from
-												(
-												SELECT a1.uid,a1.account,a1.time_h
-												from 05b_1tenderfinal a1
-												where a1.orguid = 0 and a1.status in (1,3) and a1.bid <> 10000
-												union all
-												SELECT a2.user_id uid,a2.real_amount account,a2.add_time time_h
-												from new_wd.borrow_tender a2
-												where a2.status = 1
-												union all
-												select a3.user_id uid,a3.real_amount account,a3.create_time time_h
-												from new_wd.rz_borrow_tender a3
-												where a3.status = 1
-												) h1
-												GROUP BY h1.uid
-								) t on a.uid = t.uid and a.time_h = t.min_time
-								INNER JOIN
-								(
-												SELECT DISTINCT a.buid uid
-												from  rz_invite_user a
-												where a.reg_time < CURDATE()
-								) z on a.uid = z.uid
-					) a
+				UNION ALL
+				SELECT 0 '首投10元红包',0 '首投90元红包',0 '首投50元现金',sum(a.money) 首投佣金
+				FROM
+				(
+						SELECT a.*
+						from rz_invite_flow a
+						where a.`status` in (1,2) and a.brokerage <> 0
+						and a.ctime >= DATE_SUB(CURDATE(),INTERVAL 1 day)
+						and a.ctime < CURDATE()
+						and a.buid in
+						(
+						SELECT a.buid
+						from  rz_invite_user a
+						where a.reg_time < CURDATE()
+						)
+				) a
+				INNER JOIN
+				(
+						SELECT a.buid,min(a.id)id
+						from rz_invite_flow a
+						where a.`status` in (1,2) and a.brokerage <> 0
+						GROUP BY 1
+				) b on a.id = b.id and a.buid = b.buid
 		) a
 ) t12 on a.nid = t12.nid
