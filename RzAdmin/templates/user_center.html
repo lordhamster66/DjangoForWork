@@ -24,6 +24,30 @@
             opacity: 0;
             z-index: 108;
         }
+
+        .download-container {
+            float: left;
+            width: 150px;
+            height: 245px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #dddddd;
+            position: relative;
+        }
+
+        .download-container .download-btn {
+            position: absolute;
+            margin-top: 5px;
+            bottom: 0;
+            left: 39%;
+        }
+
+        .download-container .delete-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+        }
     </style>
 {% endblock %}
 {% block breadcrumb %}
@@ -85,8 +109,7 @@
                             </div>
                         </div>
                         {% for download_obj in download_objs %}
-                            <div style="float: left;width: 150px;
-                            margin-right: 20px;margin-bottom: 20px;text-align: center;border: 1px solid #dddddd;position: relative;">
+                            <div class="download-container">
                                 <h5><b>{{ download_obj.download_detail | safe }}</b></h5>
                                 <a href="{{ download_obj.detail_url }}">
                                     <img src="/static/img/excel.ico" alt="" style="width: 100px;height: 100px;">
@@ -96,22 +119,23 @@
                                     {{ download_obj.date|date:"Y-m-d H:i:s" }}
                                     {% if download_obj.check_status == 1 %}
                                         <a href="{{ download_obj.download_url }}"
-                                           class="btn btn-primary btn-rounded btn-xs" style="margin-top: 5px;">
+                                           class="btn btn-primary btn-rounded btn-xs download-btn"
+                                           style="margin-top: 5px;">
                                             下载
                                         </a>
                                     {% elif download_obj.check_status == 0 %}
-                                        <a class="btn btn-info btn-rounded btn-xs" disabled style="margin-top: 5px;">
-                                            未审核
+                                        <a class="btn btn-info btn-rounded btn-xs download-btn" disabled">
+                                        未审核
                                         </a>
                                     {% else %}
-                                        <a class="btn btn-danger btn-rounded btn-xs" disabled style="margin-top: 5px;">
-                                            审核不通过
+                                        <a class="btn btn-danger btn-rounded btn-xs download-btn" disabled">
+                                        审核不通过
                                         </a>
                                     {% endif %}
                                 </h5>
                                 <button download_record_id="{{ download_obj.id }}"
-                                        class="demo-delete-row btn btn-danger btn-xs btn-icon fa fa-times delete-download-record"
-                                        style="position: absolute;top:-15px;right: -15px;"></button>
+                                        class="demo-delete-row btn btn-danger btn-xs btn-icon fa fa-times delete-download-record delete-btn">
+                                </button>
                             </div>
                         {% endfor %}
                     </div>
