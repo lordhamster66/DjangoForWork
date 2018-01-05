@@ -39,4 +39,5 @@ urlpatterns = [
         some_script.create_fake_info),  # 创建虚假数据
     url(r'^rzjf_recorde/$', storage.rzjf_recorde),  # 用于定时存储人众金服业务所产生的一些记录
     url(r'^sales_achievement/$', exhibition.sales_achievement),  # 展示电销业绩
+    url(r'^rzjf_invest_rank/$', storage.rzjf_invest_rank),  # 存储投资次数
 ]

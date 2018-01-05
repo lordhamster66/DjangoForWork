@@ -445,3 +445,22 @@ def rzjf_recorde(request):
             )
         )
     return HttpResponse("ok!")
+
+
+def rzjf_invest_rank(request):
+    """存储投资次数，用于获取第几次投资"""
+    # 获取昨天的所有投资用户uid对应sql
+    yesterday_invest_uid_sql = db_connect.get_sql("crm", "RzSql", "storage", "yesterday_invest_uid.sql")
+    # 获取存储投资次数的sql
+    rzjf_invest_rank_sql = db_connect.get_sql("crm", "RzSql", "storage", "rzjf_invest_rank.sql")
+    # 获取昨天的所有投资用户uid
+    yesterday_invest_uid = db_connect.get_info_list("rz", yesterday_invest_uid_sql)
+    yesterday_invest_uid_list = []
+    if yesterday_invest_uid:
+        for item in yesterday_invest_uid:
+            yesterday_invest_uid_list.append(str(item.get("uid")))
+    # 更新存储投资次数的sql
+    rzjf_invest_rank_sql = rzjf_invest_rank_sql.format(uid=",".join(yesterday_invest_uid_list))
+    cursor = connections['rz_bi'].cursor()
+    cursor.execute(rzjf_invest_rank_sql)  # 执行存储投资次数的sql语句
+    return HttpResponse("ok!")
