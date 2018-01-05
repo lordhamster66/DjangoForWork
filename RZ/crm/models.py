@@ -39,6 +39,8 @@ class BaseInfo(models.Model):
     zg_r = models.IntegerField(verbose_name='站岗人数', null=True)
     zd_r = models.IntegerField(verbose_name='在贷人数', null=True)
     zd_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='在贷金额', null=True)
+    xt_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='续投金额', null=True)
+    cz_tz = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='充值并投资', null=True)
 
     class Meta:
         db_table = "rzjf_base_info"

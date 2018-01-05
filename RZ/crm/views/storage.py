@@ -99,6 +99,8 @@ class DataStorage(View):
                 zg_r=getattr(self, "balance_info")[0].get("zg_r") or None,  # 站岗人数
                 zd_r=getattr(self, "zaidai_info")[0].get("zd_r") or None,  # 在贷人数
                 zd_j=getattr(self, "zaidai_info")[0].get("zd_j") or None,  # 在贷金额
+                xt_j=getattr(self, "xt_info")[0].get("xt_j") or None,  # 续投金额
+                cz_tz=getattr(self, "cz_tz_info")[0].get("cz_tz") or None,  # 充值并投资金额
             )
             settings.action_logger.info("%s基础数据信息增加完毕!" % qdate)
             # 增加昨日推广数据信息
