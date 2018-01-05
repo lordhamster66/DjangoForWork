@@ -124,11 +124,11 @@
                                             下载
                                         </a>
                                     {% elif download_obj.check_status == 0 %}
-                                        <a class="btn btn-info btn-rounded btn-xs download-btn" disabled">
+                                        <a class="btn btn-info btn-rounded btn-xs download-btn" disabled>
                                         未审核
                                         </a>
                                     {% else %}
-                                        <a class="btn btn-danger btn-rounded btn-xs download-btn" disabled">
+                                        <a class="btn btn-danger btn-rounded btn-xs download-btn" disabled>
                                         审核不通过
                                         </a>
                                     {% endif %}
@@ -160,8 +160,8 @@
     <script>
         $(function () {
             $(".delete-download-record").click(function () {
-                var download_record_id = $(this).attr("download_record_id");
-                var delete_download_record_url = "/automatic/delete_download_record/";
+                var download_record_id = $(this).attr("download_record_id");  // 获取下载记录的ID
+                var delete_download_record_url = "/automatic/delete_download_record/"; // 删除下载记录的接口url
                 swal({
                         title: "确定删除吗?",
                         text: "您将要删除该下载记录!",
