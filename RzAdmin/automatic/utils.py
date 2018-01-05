@@ -45,7 +45,7 @@ def get_contact_list(sql_record_obj, condition_dict):
         if func_name not in condition_dict:
             condition_dict[func_name] = ""
     sql_record_content = sql_record_obj.content.format(**condition_dict)
-    contact_list = get_info_list("rz", sql_record_content)
+    contact_list = get_info_list(sql_record_obj.get_db_name_display(), sql_record_content)
     return contact_list
 
 
