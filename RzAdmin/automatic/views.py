@@ -21,7 +21,7 @@ c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger�
 
 
 @check_permission_decorate
-@login_requiredd
+@login_required
 def index(request):
     data_dict = {}  # 用来存放首页数据
     data_dict["registered_num"] = get_info_list("rz", models.SQLRecord.objects.get(id=20).content)[0]["注册人数"]
