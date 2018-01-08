@@ -115,7 +115,7 @@ def get_table_head(query_sets, condition_dict, order_by_dict):
             else:
                 order_by_key = k
                 sort_class = "sorting"
-            th_ele += '<th class="%s" style="white-space:nowrap"><a href="?o=%s%s">%s</a></th>' % (
+            th_ele += '<th class="%s" style="white-space:nowrap"><a href="?o=%s%s" style="display: block;">%s</a></th>' % (
                 sort_class, order_by_key, condition_str, k
             )
     return mark_safe(th_ele)
