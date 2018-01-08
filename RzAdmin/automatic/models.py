@@ -235,9 +235,10 @@ class SQLRecord(models.Model):
     content = models.TextField(verbose_name="sql内容")
     funcs = models.ManyToManyField("SQLFunc", blank=True, verbose_name="sql具备的功能")
     query_page = models.BooleanField(default=False, verbose_name="是否生成查询页面")
-    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     db_name_choices = ((0, "rz"), (1, "rzjf"), (2, "default"))
     db_name = models.SmallIntegerField(choices=db_name_choices, default=0, verbose_name="对应库名")
+    directly_download_status = models.BooleanField(default=False, verbose_name="是否可以直接下载")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
         return self.name

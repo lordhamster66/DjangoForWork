@@ -125,7 +125,8 @@ def get_table_head(query_sets, condition_dict, order_by_dict):
 def render_download_option(request, sql_record_obj, condition_dict, order_by_dict):
     """展示下载EXCEL功能或者是提交下载审核功能"""
     user_roles_list = [i.name for i in request.user.roles.all() if i.name]  # 用户所属角色
-    if len(set(settings.DetaileJurisdiction) & set(user_roles_list)) == 0:
+    if len(set(settings.DetaileJurisdiction) & set(
+            user_roles_list)) == 0 and not sql_record_obj.directly_download_status:
         condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)
         download_option_ele = """
                 <a href="/automatic/download_check/%s/%s"
