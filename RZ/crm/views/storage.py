@@ -327,6 +327,23 @@ class DataStorage(View):
             models.DailyCollectClassify.objects.using("default").bulk_create(daily_collect_classify_obj_list)
             settings.action_logger.info("%sEXCEL日报待收分类数据详情增加完毕!" % qdate)
 
+            # 增加日报专属客服复投数据
+            re_casting_obj_list = []
+            # 获取专属客服复投数据
+            for row in getattr(self, "re_casting_info"):
+                re_casting_obj_list.append(models.ReCasting(
+                    qdate=qdate,  # 日期
+                    kefuname=row.get("kefuname") or None,  # 客服姓名
+                    ft_r=row.get("ft_r") or None,  # 首投后复投人数
+                    st_r=row.get("st_r") or None,  # 首投人数
+                    ft_lv=row.get("ft_lv") or None,  # 复投率
+                    ft_j=row.get("ft_j") or None,  # 复投金额
+                    day_t_j=row.get("day_t_j") or None,  # 当日投资金额
+                    month_t_j=row.get("month_t_j") or None,  # 当月投资金额
+                ))
+            models.ReCasting.objects.using("default").bulk_create(re_casting_obj_list)
+            settings.action_logger.info("%sEXCEL日报专属客服复投数据详情增加完毕!" % qdate)
+
             settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
 
     def get(self, request, *args, **kwargs):

@@ -220,12 +220,30 @@ class OtherInfo(models.Model):
     g_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="供应链金融投资金额", default=0, null=True)
     x_tz_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="消费金融投资金额", default=0, null=True)
     Rplan_xt = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="R计划续投金额", default=0, null=True)
-    unRplan_xt_hk_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="非R计划自动续投金额", default=0, null=True)
+    unRplan_xt_hk_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="非R计划自动续投金额", default=0,
+                                          null=True)
 
     class Meta:
         db_table = "rzjf_other_info"
         verbose_name = "其他数据"
         verbose_name_plural = "其他数据"
+
+
+class ReCasting(models.Model):
+    """专属客服复投数据"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    kefuname = models.CharField(max_length=64, verbose_name="客服姓名", null=True)
+    ft_r = models.IntegerField(verbose_name="首投后复投人数", null=True)
+    st_r = models.IntegerField(verbose_name="首投人数", null=True)
+    ft_lv = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="复投率", null=True)
+    ft_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="复投金额", null=True)
+    day_t_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当日投资金额", null=True)
+    month_t_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当月投资金额", null=True)
+
+    class Meta:
+        db_table = "rzjf_re_casting"
+        verbose_name = "专属客服复投数据"
+        verbose_name_plural = "专属客服复投数据"
 
 
 class WDZJ_Info(models.Model):
