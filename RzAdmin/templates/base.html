@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>人众金服自动化后台</title>
-
+    {% block head_refresh %}{% endblock %}
     <link rel="shortcut icon" href="/static/img/favicon.ico">
     <!--STYLESHEET-->
     <!--=================================================-->
@@ -137,6 +137,9 @@
 
 <!--sweetalert [ OPTIONAL ]-->
 <script src="/static/plugins/sweetalert-master/dist/sweetalert-dev.js"></script>
+
+<!--echarts [ OPTIONAL ]-->
+<script src="/static/plugins/echarts.js"></script>
 
 <script>
     if ("WebSocket" in window) {

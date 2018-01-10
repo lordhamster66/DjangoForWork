@@ -1,214 +1,332 @@
 {% extends "index.html" %}
+{% block head_refresh %}
+    <meta http-equiv="Refresh" Content="300"/>
+{% endblock %}
 {% block page-content %}
-    <div class="row">
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Registered User-->
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-            <div class="panel media pad-all">
-                <div class="media-left">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                    <!--Registered User-->
+                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <div class="panel media pad-all">
+                        <div class="media-left">
 									<span class="icon-wrap icon-wrap-sm icon-circle bg-success">
-									<i class="fa fa-user fa-2x"></i>
+									<i class="fa fa-calendar-o fa-2x"></i>
 									</span>
+                        </div>
+
+                        <div class="media-body">
+                            <h3 class="mar-no text-thin"><b>{{ data_dict.now }}</b></h3>
+                            <p class="text-muted mar-no">当前时间</p>
+                        </div>
+                    </div>
+                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 </div>
-
-                <div class="media-body">
-                    <p class="text-2x mar-no text-thin">{{ data_dict.registered_num }}</p>
-                    <p class="text-muted mar-no">注册人数</p>
-                </div>
-            </div>
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--New Order-->
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-            <div class="panel media pad-all">
-                <div class="media-left">
-									<span class="icon-wrap icon-wrap-sm icon-circle bg-info">
-									<i class="fa fa-user fa-2x"></i>
-									</span>
-                </div>
-
-                <div class="media-body">
-                    <p class="text-2x mar-no text-thin">{{ data_dict.real_names_num }}</p>
-                    <p class="text-muted mar-no">实名人数</p>
-                </div>
-            </div>
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Comments-->
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-            <div class="panel media pad-all">
-                <div class="media-left">
-									<span class="icon-wrap icon-wrap-sm icon-circle bg-warning">
-									<i class="fa fa-user fa-2x"></i>
-									</span>
-                </div>
-
-                <div class="media-body">
-                    <p class="text-2x mar-no text-thin">{{ data_dict.un_R_xt_person_num }}</p>
-                    <p class="text-muted mar-no">非自动续投投资人数</p>
-                </div>
-            </div>
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Sales-->
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-            <div class="panel media pad-all">
-                <div class="media-left">
+                <div class="col-sm-6 col-lg-4">
+                    <!--Sales-->
+                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <div class="panel media pad-all">
+                        <div class="media-left">
 									<span class="icon-wrap icon-wrap-sm icon-circle bg-danger">
 									<i class="fa fa-dollar fa-2x"></i>
 									</span>
-                </div>
-
-                <div class="media-body">
-                    <p class="text-2x mar-no text-thin">{{ data_dict.un_R_xt_amount }}</p>
-                    <p class="text-muted mar-no">非自动续投投资金额</p>
-                </div>
-            </div>
-            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="eq-height">
-            <div class="col-md-12 col-lg-4 eq-box-lg">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-control panel-control-component">
-                            <small class="text-muted">Auto update</small>
-                            <input type="checkbox" data-size="switchery-md" id="demo-auto-gauge">
                         </div>
-                        <h3 class="panel-title">总计投资金额</h3>
-                    </div>
-
-                    <!-- Gauge JS -->
-                    <!--===================================================-->
-                    <div class="panel-body">
-                        <div class="text-center">
-
-                            <!--Gauge placeholder-->
-                            <canvas id="demo-gauge" height="70" class="canvas-responsive"></canvas>
-
-                            <p class="h4">
-                                <span id="demo-gauge-txt" class="label label-primary"></span>
-                            </p>
+                        <div class="media-body">
+                            <p class="text-2x mar-no text-thin">{{ data_dict.un_R_xt_amount }}</p>
+                            <p class="text-muted mar-no">非自动续投投资金额</p>
                         </div>
                     </div>
-                    <!--===================================================-->
-                    <!-- End Gauge JS -->
-
+                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-4 eq-box-lg">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">待定</h3>
-                    </div>
-                    <div class="panel-body text-center">
-
-                        <!--Easy Pie Chart-->
-                        <!--===================================================-->
-                        <div id="demo-pie-1" class="pie-title-center mar-rgt" data-percent="35">
-                            <span class="pie-value text-thin"></span>
+            <hr>
+            <div class="row">
+                <div id="people-info" class="pull-left" style="width: 700px;height: 400px;margin: 20px;"></div>
+                <div id="invest-info" class="pull-left" style="width: 700px;height: 400px;margin: 20px;"></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="eq-height">
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">总待收金额(亿)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="pending-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="pending-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
                         </div>
-                        <!--===================================================-->
-                        <!-- End Easy Pie Chart -->
-
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 eq-box-lg">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">待定</h3>
-                    </div>
-                    <div class="panel-body text-center">
-
-                        <!--Easy Pie Chart-->
-                        <!--===================================================-->
-                        <div id="demo-pie-2" class="pie-title-center" data-percent="83">
-                            <span class="pie-value text-thin"></span>
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">总投资金额(万)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="invest-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="invest-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
                         </div>
-                        <!--===================================================-->
-                        <!-- End Easy Pie Chart -->
-
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Sparkline Area Chart-->
-            <div class="panel panel-success panel-colorful text-center">
-                <div class="panel-body">
-
-                    <!--Placeholder-->
-                    <div id="demo-sparkline-area"></div>
-
-                </div>
-                <div class="bg-light pad-ver">
-                    <h4 class="text-thin">待定</h4> 待定
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Sparkline Line Chart-->
-            <div class="panel panel-info panel-colorful text-center">
-                <div class="panel-body">
-
-                    <!--Placeholder-->
-                    <div id="demo-sparkline-line"></div>
-
-                </div>
-                <div class="bg-light pad-ver">
-                    <h4 class="text-thin">待定</h4> 待定
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Sparkline Bar Chart-->
-            <div class="panel panel-purple panel-colorful text-center">
-                <div class="panel-body">
-
-                    <!--Placeholder-->
-                    <div id="demo-sparkline-bar" class="box-inline"></div>
-
-                </div>
-                <div class="bg-light pad-ver">
-                    <h4 class="text-thin">待定</h4> 待定
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-
-            <!--Sparkline Pie Chart-->
-            <div class="panel panel-mint panel-colorful text-center">
-                <div class="panel-body">
-
-                    <!--Placeholder-->
-                    <div id="demo-sparkline-pie" class="box-inline "></div>
-                </div>
-                <div class="bg-light pad-ver">
-                    <h4 class="text-thin">待定</h4> 待定
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">总充值金额(万)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="recharge-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="recharge-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">总提现金额(万)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="withdraw-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="withdraw-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">总收益(万)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="income-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="income-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4 eq-box-lg">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">站岗资金(万)</h3>
+                            </div>
+                            <!-- Gauge JS -->
+                            <!--===================================================-->
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <!--Gauge placeholder-->
+                                    <canvas id="balance-gauge" height="70" class="canvas-responsive"></canvas>
+                                    <p class="h4">
+                                        <span id="balance-gauge-txt" class="label label-primary"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Gauge JS -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block js %}
+    <!-- 用户数据统计js开始 -->
+    <script>
+        var dom = document.getElementById("people-info");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '用户数据统计';
+
+        option = {
+            title: {
+                text: '用户数据统计',
+                subtext: '当天实时'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            xAxis: {
+                type: 'value',
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: ['投资用户数', '充值用户数', '绑卡用户数', '实名用户数', '注册用户数']
+            },
+            series: [
+                {
+                    type: 'bar',
+                    data: [
+                        {
+                            value: {{ data_dict.un_R_xt_person_num }},
+                            itemStyle: {
+                                normal: {color: '#239b22'}
+                            }
+                        }, {
+                            value: {{ data_dict.recharge_num }},
+                            itemStyle: {
+                                normal: {color: '#009789'}
+                            }
+                        }, {
+                            value: {{ data_dict.real_names_num }},
+                            itemStyle: {
+                                normal: {color: '#e51b23'}
+                            }
+                        }, {
+                            value: {{ data_dict.real_names_num }},
+                            itemStyle: {
+                                normal: {color: '#fd4081'}
+                            }
+                        },
+                        {
+                            value: {{ data_dict.registered_num }},
+                            itemStyle: {
+                                normal: {color: '#3e50b5'}
+                            }
+                        }],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{c}人',
+                            fontSize: 13,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 用户数据统计js结束 -->
+
+    <!-- 投资金额统计js开始 -->
+    <script type="text/javascript">
+        var dom = document.getElementById("invest-info");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '折柱混合';
+        option = {
+            title: {
+                text: "投资金额统计", //正标题
+                subtext: '当天实时'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['供应链金融', '消费金融'],
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} 万'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    type: 'bar',
+                    barWidth: 100,//柱图宽度
+                    data: [{
+                        value: {{ data_dict.supply_chain_amount }},
+                        itemStyle: {
+                            normal: {color: '#ed4832'}
+                        }
+                    }, {
+                        value: {{ data_dict.consumer_amount }},
+                        itemStyle: {
+                            normal: {color: '#369dc9'}
+                        }
+                    }],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}万',
+                            fontSize: 15,  //文字大小
+                            fontWeight: 'bold'  //文字粗细
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
+    <!-- 投资金额统计js结束 -->
+
+    <!-- 底部仪表数据js开始 -->
     <script>
         $(function () {
             // GAUGE JS
@@ -217,7 +335,53 @@
             // -----------------------------------------------------------------
             // http://bernii.github.io/gauge.js/
             // =================================================================
-            var opts = {
+            // 总待收金额
+            var pendingTarget = document.getElementById('pending-gauge'); // your canvas element
+            var pendingGauge = new Gauge(pendingTarget).setOptions({
+                lines: 10, // The number of lines to draw
+                angle: 0, // The length of each line
+                lineWidth: 0.3, // The line thickness
+                pointer: {
+                    length: 0.45, // The radius of the inner circle
+                    strokeWidth: 0.035, // The rotation offset
+                    color: '#242d3c' // Fill color
+                },
+                limitMax: 'true', // If true, the pointer will not go past the end of the gauge
+                colorStart: '#9cc96b', // Colors
+                colorStop: '#9cc96b', // just experiment with them
+                strokeColor: '#ddd', // to see which ones work best for you
+                generateGradient: true
+            }); // create sexy gauge!
+            pendingGauge.maxValue = {{data_dict.amount}}+20; // set max gauge value
+            pendingGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            pendingGauge.set({{data_dict.amount}}); // set actual value
+            pendingGauge.setTextField(document.getElementById("pending-gauge-txt"));
+
+            // 总投资金额
+            var investTarget = document.getElementById('invest-gauge'); // your canvas element
+            var investGauge = new Gauge(investTarget).setOptions({
+                lines: 10, // The number of lines to draw
+                angle: 0, // The length of each line
+                lineWidth: 0.3, // The line thickness
+                pointer: {
+                    length: 0.45, // The radius of the inner circle
+                    strokeWidth: 0.035, // The rotation offset
+                    color: '#242d3c' // Fill color
+                },
+                limitMax: 'true', // If true, the pointer will not go past the end of the gauge
+                colorStart: '#f76c51', // Colors
+                colorStop: '#f76c51', // just experiment with them
+                strokeColor: '#ddd', // to see which ones work best for you
+                generateGradient: true
+            }); // create sexy gauge!
+            investGauge.maxValue = {{data_dict.amount}}+2000; // set max gauge value
+            investGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            investGauge.set({{data_dict.amount}}); // set actual value
+            investGauge.setTextField(document.getElementById("invest-gauge-txt"));
+
+            // 总充值金额
+            var rechargeTarget = document.getElementById('recharge-gauge'); // your canvas element
+            var rechargeGauge = new Gauge(rechargeTarget).setOptions({
                 lines: 10, // The number of lines to draw
                 angle: 0, // The length of each line
                 lineWidth: 0.3, // The line thickness
@@ -229,155 +393,80 @@
                 limitMax: 'true', // If true, the pointer will not go past the end of the gauge
                 colorStart: '#177bbb', // Colors
                 colorStop: '#177bbb', // just experiment with them
-                strokeColor: '#ddd', // to see which ones work best for you
+                strokeColor: '#ddd', // to see which ones work best for     you
                 generateGradient: true
-            };
+            }); // create sexy gauge!
+            rechargeGauge.maxValue = {{ data_dict.recharge_money }}+1000; // set max gauge value
+            rechargeGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            rechargeGauge.set({{ data_dict.recharge_money }}); // set actual value
+            rechargeGauge.setTextField(document.getElementById("recharge-gauge-txt"));
 
-
-            var target = document.getElementById('demo-gauge'); // your canvas element
-            var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-            gauge.maxValue = 6000; // set max gauge value
-            gauge.animationSpeed = 32; // set animation speed (32 is default value)
-            gauge.set({{data_dict.amount}}); // set actual value
-            gauge.setTextField(document.getElementById("demo-gauge-txt"));
-
-
-            // REALTIME SAMPLE
-            // =================================================================
-            var updateGauge;
-            var gaugeSwitch = document.getElementById('demo-auto-gauge');
-            gaugeSwitch.checked = false;
-            new Switchery(gaugeSwitch);
-
-            gaugeSwitch.onchange = function () {
-                if (gaugeSwitch.checked) {
-                    updateGauge = setInterval(function () {
-                        gauge.set(nifty.randomInt(1, 1500));
-                    }, 2000)
-                } else {
-                    clearInterval(updateGauge);
-                }
-            };
-
-            // EASY PIE CHART
-            // =================================================================
-            // Require easyPieChart
-            // -----------------------------------------------------------------
-            // http://rendro.github.io/easy-pie-chart/
-            // =================================================================
-            $('#demo-pie-1').easyPieChart({
-                barColor: '#68b828',
-                scaleColor: false,
-                trackColor: '#eee',
-                lineCap: 'round',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.el).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-            $('#demo-pie-2').easyPieChart({
-                barColor: '#8465d4',
-                scaleColor: false,
-                trackColor: '#eee',
-                lineCap: 'butt',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.el).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            // SPARKLINE AREA CHART
-            // =================================================================
-            // Require sparkline
-            // -----------------------------------------------------------------
-            // http://omnipotent.net/jquery.sparkline/#s-about
-            // =================================================================
-            $("#demo-sparkline-area").sparkline([57, 69, 70, 68, 73, 76, 75, 79, 73, 76, 77, 73], {
-                type: 'line',
-                width: '130',
-                height: '75',
-                spotRadius: 2.5,
-                lineWidth: 1.5,
-                lineColor: 'rgba(255,255,255,.5)',
-                fillColor: 'rgba(0,0,0,0.2)',
-                spotColor: 'rgba(255,255,255,.5)',
-                minSpotColor: 'rgba(255,255,255,.5)',
-                maxSpotColor: 'rgba(255,255,255,.5)',
-                highlightLineColor: '#ffffff',
-                highlightSpotColor: '#ffffff',
-                tooltipChartTitle: 'Usage',
-                tooltipSuffix: ' %'
-            });
-
-
-            // SPARKLINE LINE CHART
-            // =================================================================
-            // Require sparkline
-            // -----------------------------------------------------------------
-            // http://omnipotent.net/jquery.sparkline/#s-about
-            // =================================================================
-            $("#demo-sparkline-line").sparkline([345, 404, 305, 455, 378, 767], {
-                type: 'line',
-                width: '130',
-                height: '75',
-                spotRadius: 2.5,
-                lineWidth: 1.5,
-                lineColor: '#ffffff',
-                fillColor: false,
-                minSpotColor: false,
-                maxSpotColor: false,
-                highlightLineColor: '#ffffff',
-                highlightSpotColor: '#ffffff',
-                tooltipChartTitle: 'Earning',
-                tooltipPrefix: '$ ',
-                spotColor: '#ffffff',
-                valueSpots: {
-                    '0:': '#ffffff'
-                }
-            });
-
-
-            // SPARKLINE BAR CHART
-            // =================================================================
-            // Require sparkline
-            // -----------------------------------------------------------------
-            // http://omnipotent.net/jquery.sparkline/#s-about
-            // =================================================================
-            $("#demo-sparkline-bar").sparkline([40, 32, 53, 45, 67, 45, 56, 34, 67, 76], {
-                    type: 'bar',
-                    height: '75',
-                    barWidth: 9,
-                    barSpacing: 3,
-                    zeroAxis: false,
-                    tooltipChartTitle: 'Daily Sales',
-                    tooltipSuffix: ' Sales',
-                    barColor: '#fff'
-                }
-            );
-
-
-            // SPARKLINE PIE CHART
-            // =================================================================
-            // Require sparkline
-            // -----------------------------------------------------------------
-            // http://omnipotent.net/jquery.sparkline/#s-about
-            // =================================================================
-            $("#demo-sparkline-pie").sparkline([5, 12, 17, 55], {
-                type: 'pie',
-                width: '75',
-                height: '75',
-                tooltipChartTitle: 'Top Movies',
-                tooltipValueLookups: {
-                    'offset': {
-                        0: 'Drama',
-                        1: 'Action',
-                        2: 'Comedy',
-                        3: 'Adventure'
-                    }
+            // 总提现金额
+            var withdrawTarget = document.getElementById('withdraw-gauge'); // your canvas element
+            var withdrawGauge = new Gauge(withdrawTarget).setOptions({
+                lines: 10, // The number of lines to draw
+                angle: 0, // The length of each line
+                lineWidth: 0.3, // The line thickness
+                pointer: {
+                    length: 0.45, // The radius of the inner circle
+                    strokeWidth: 0.035, // The rotation offset
+                    color: '#242d3c' // Fill color
                 },
-                sliceColors: ['#2d4859', '#fe7211', '#7ad689', '#128376'],
-            });
+                limitMax: 'true', // If true, the pointer will not go past the end of the gauge
+                colorStart: '#ebaa4b', // Colors
+                colorStop: '#ebaa4b', // just experiment with them
+                strokeColor: '#ddd', // to see which ones work best for     you
+                generateGradient: true
+            }); // create sexy gauge!
+            withdrawGauge.maxValue = {{data_dict.withdraw_money}}+1000; // set max gauge value
+            withdrawGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            withdrawGauge.set({{data_dict.withdraw_money}}); // set actual value
+            withdrawGauge.setTextField(document.getElementById("withdraw-gauge-txt"));
 
+            // 总收益
+            var incomeTarget = document.getElementById('income-gauge'); // your canvas element
+            var incomeGauge = new Gauge(incomeTarget).setOptions({
+                lines: 10, // The number of lines to draw
+                angle: 0, // The length of each line
+                lineWidth: 0.3, // The line thickness
+                pointer: {
+                    length: 0.45, // The radius of the inner circle
+                    strokeWidth: 0.035, // The rotation offset
+                    color: '#242d3c' // Fill color
+                },
+                limitMax: 'true', // If true, the pointer will not go past the end of the gauge
+                colorStart: '#4ebcda', // Colors
+                colorStop: '#4ebcda', // just experiment with them
+                strokeColor: '#ddd', // to see which ones work best for     you
+                generateGradient: true
+            }); // create sexy gauge!
+            incomeGauge.maxValue = 6000; // set max gauge value
+            incomeGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            incomeGauge.set({{data_dict.amount}}); // set actual value
+            incomeGauge.setTextField(document.getElementById("income-gauge-txt"));
+
+            // 站岗资金
+            var balanceTarget = document.getElementById('balance-gauge'); // your canvas element
+            var balanceGauge = new Gauge(balanceTarget).setOptions({
+                lines: 10, // The number of lines to draw
+                angle: 0, // The length of each line
+                lineWidth: 0.3, // The line thickness
+                pointer: {
+                    length: 0.45, // The radius of the inner circle
+                    strokeWidth: 0.035, // The rotation offset
+                    color: '#242d3c' // Fill color
+                },
+                limitMax: 'true', // If true, the pointer will not go past the end of the gauge
+                colorStart: '#bb85a0', // Colors
+                colorStop: '#bb85a0', // just experiment with them
+                strokeColor: '#ddd', // to see which ones work best for     you
+                generateGradient: true
+            }); // create sexy gauge!
+            balanceGauge.maxValue = 6000; // set max gauge value
+            balanceGauge.animationSpeed = 32; // set animation speed (32 is default value)
+            balanceGauge.set({{data_dict.amount}}); // set actual value
+            balanceGauge.setTextField(document.getElementById("balance-gauge-txt"));
         })
     </script>
+    <!-- 底部仪表数据js结束 -->
 {% endblock %}

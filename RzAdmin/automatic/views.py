@@ -5,7 +5,7 @@ import time
 import os
 from datetime import date
 from RzAdmin import settings
-from django.utils.timezone import datetime
+from django.utils.timezone import datetime, now
 from automatic import models
 from automatic.forms import create_table_form
 from django.shortcuts import render, HttpResponse, redirect
@@ -24,12 +24,31 @@ c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger�
 @login_required
 def index(request):
     data_dict = {}  # 用来存放首页数据
-    data_dict["registered_num"] = get_info_list("rz", models.SQLRecord.objects.get(id=20).content)[0]["注册人数"]
-    data_dict["real_names_num"] = get_info_list("rz", models.SQLRecord.objects.get(id=21).content)[0]["实名人数"]
+    data_dict["now"] = datetime.strftime(now(), "%Y-%m-%d %H:%M:%S")  # 当前时间
+    # 当天注册人数
+    data_dict["registered_num"] = get_info_list(
+        "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num", 0)
+    # 当天实名绑卡人数
+    data_dict["real_names_num"] = get_info_list(
+        "rz", models.SQLRecord.objects.get(id=21).content)[0].get("real_names_num", 0)
+    # 当天供应链消费投资详情
+    supply_chain_and_consumer_info = get_info_list("rz", models.SQLRecord.objects.get(id=33).content)[0]
+    data_dict["supply_chain_amount"] = float(supply_chain_and_consumer_info.get("supply_chain_amount", 0)) / 10000
+    data_dict["consumer_amount"] = float(supply_chain_and_consumer_info.get("consumer_amount", 0)) / 10000
+    # 当天非自动续投投资详情
     un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
-    data_dict["un_R_xt_person_num"] = un_R_xt_amount["投资人数"]
-    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount["投资金额"]) / 10000)
-    data_dict["amount"] = float(get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0]["投资金额"]) / 10000
+    data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num", 0)
+    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount", 0)) / 10000)
+    # 当天充值详情
+    recharge_info = get_info_list("rz", models.SQLRecord.objects.get(id=31).content)[0]
+    data_dict["recharge_num"] = recharge_info.get("recharge_num", 0)
+    data_dict["recharge_money"] = float(recharge_info.get("recharge_money", 0)) / 10000
+    # 当天提现详情
+    withdraw_info = get_info_list("rz", models.SQLRecord.objects.get(id=32).content)[0]
+    data_dict["withdraw_money"] = float(withdraw_info.get("withdraw_money", 0)) / 10000
+    # 当天总计投资详情
+    data_dict["amount"] = float(
+        get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0].get("amount", 0)) / 10000
     return render(request, "automatic_index.html", {"data_dict": data_dict})
 
 
