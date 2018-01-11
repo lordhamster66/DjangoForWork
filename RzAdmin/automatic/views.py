@@ -27,28 +27,28 @@ def index(request):
     data_dict["now"] = datetime.strftime(now(), "%Y-%m-%d %H:%M:%S")  # 当前时间
     # 当天注册人数
     data_dict["registered_num"] = get_info_list(
-        "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num", 0)
+        "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num") or 0
     # 当天实名绑卡人数
     data_dict["real_names_num"] = get_info_list(
-        "rz", models.SQLRecord.objects.get(id=21).content)[0].get("real_names_num", 0)
+        "rz", models.SQLRecord.objects.get(id=21).content)[0].get("real_names_num") or 0
     # 当天供应链消费投资详情
     supply_chain_and_consumer_info = get_info_list("rz", models.SQLRecord.objects.get(id=33).content)[0]
-    data_dict["supply_chain_amount"] = float(supply_chain_and_consumer_info.get("supply_chain_amount", 0)) / 10000
-    data_dict["consumer_amount"] = float(supply_chain_and_consumer_info.get("consumer_amount", 0)) / 10000
+    data_dict["supply_chain_amount"] = float(supply_chain_and_consumer_info.get("supply_chain_amount") or 0) / 10000
+    data_dict["consumer_amount"] = float(supply_chain_and_consumer_info.get("consumer_amount") or 0) / 10000
     # 当天非自动续投投资详情
     un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
-    data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num", 0)
-    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount", 0)) / 10000)
+    data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num") or 0
+    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount") or 0) / 10000)
     # 当天充值详情
     recharge_info = get_info_list("rz", models.SQLRecord.objects.get(id=31).content)[0]
-    data_dict["recharge_num"] = recharge_info.get("recharge_num", 0)
-    data_dict["recharge_money"] = float(recharge_info.get("recharge_money", 0)) / 10000
+    data_dict["recharge_num"] = recharge_info.get("recharge_num") or 0
+    data_dict["recharge_money"] = float(recharge_info.get("recharge_money") or 0) / 10000
     # 当天提现详情
     withdraw_info = get_info_list("rz", models.SQLRecord.objects.get(id=32).content)[0]
-    data_dict["withdraw_money"] = float(withdraw_info.get("withdraw_money", 0)) / 10000
+    data_dict["withdraw_money"] = float(withdraw_info.get("withdraw_money") or 0) / 10000
     # 当天总计投资详情
     data_dict["amount"] = float(
-        get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0].get("amount", 0)) / 10000
+        get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0].get("amount") or 0) / 10000
     return render(request, "automatic_index.html", {"data_dict": data_dict})
 
 
@@ -174,6 +174,9 @@ def download_excel(request, sql_record_id):
                         value = value.strftime("%Y-%m-%d %H:%M:%S")
                     if isinstance(value, date):
                         value = value.strftime("%Y-%m-%d")
+                    if isinstance(value, str):
+                        if value.isdigit() and len(value) == 11:  # 是数字且为11位，可以初步判断为手机号
+                            value = int(value)
                     sheet.write(index + 1, value_index, value, style_body)
         workbook.save(response)
         return response
