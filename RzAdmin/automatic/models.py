@@ -238,6 +238,8 @@ class SQLRecord(models.Model):
     db_name_choices = ((0, "rz"), (1, "rzjf"), (2, "default"))
     db_name = models.SmallIntegerField(choices=db_name_choices, default=0, verbose_name="对应库名")
     directly_download_status = models.BooleanField(default=False, verbose_name="是否可以直接下载")
+    list_per_page_choices = ((10, "10"), (25, "25"), (50, "50"), (100, "100"))
+    list_per_page = models.SmallIntegerField(choices=list_per_page_choices, default='10', verbose_name="每页显示多少条")
     date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):

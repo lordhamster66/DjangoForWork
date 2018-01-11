@@ -179,7 +179,16 @@ class FunctionList(object):
 
 def create_table_form(sql_record_obj):
     """动态生成table_form"""
-    attrs = {"list_per_page": FunctionList.list_per_page(), "clean": FunctionList.clean}  # 要生成的字段
+
+    def __new__(cls, *args, **kwargs):
+        cls.base_fields.get("list_per_page").initial = [sql_record_obj.list_per_page]  # 设置默认每页显示多少条
+        return Form.__new__(cls)
+
+    attrs = {
+        "list_per_page": FunctionList.list_per_page(),
+        "clean": FunctionList.clean,
+        "__new__": __new__
+    }  # 要生成的字段
     func_name_list = [i.name for i in sql_record_obj.funcs.all()]
     for func_name in func_name_list:
         if hasattr(FunctionList, func_name):
@@ -187,5 +196,5 @@ def create_table_form(sql_record_obj):
             attrs[func_name] = func()
             if hasattr(FunctionList, "clean_%s" % func_name):
                 attrs["clean_%s" % func_name] = getattr(FunctionList, "clean_%s" % func_name)
-    dynamic_form = type("DynamicTableFomr", (Form,), attrs)
+    dynamic_form = type("DynamicTableForm", (Form,), attrs)
     return dynamic_form

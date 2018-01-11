@@ -79,7 +79,8 @@ def table_search_detail(request, sql_record_id):
                 logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
             query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
             query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
-    query_sets = get_paginator_query_sets(request, query_sets, request.GET.get("list_per_page", 10))
+    query_sets = get_paginator_query_sets(request, query_sets,
+                                          request.GET.get("list_per_page", sql_record_obj.list_per_page))
     return render(request, "table_search_detail.html", {
         "sql_record_obj": sql_record_obj,
         "table_form_obj": table_form_obj,
