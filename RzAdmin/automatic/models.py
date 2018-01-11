@@ -226,6 +226,19 @@ class SQLFunc(models.Model):
         verbose_name_plural = "sql具备的功能表"
 
 
+class SQLUsage(models.Model):
+    """SQL记录的用途"""
+    user = models.ForeignKey("UserProfile", verbose_name="创建者")
+    name = models.CharField(max_length=64, verbose_name="SQL记录用途")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "SQL记录用途表"
+
+
 class SQLRecord(models.Model):
     """sql记录表"""
     user = models.ForeignKey("UserProfile", verbose_name="创建者")
@@ -240,6 +253,7 @@ class SQLRecord(models.Model):
     directly_download_status = models.BooleanField(default=False, verbose_name="是否可以直接下载")
     list_per_page_choices = ((10, "10"), (25, "25"), (50, "50"), (100, "100"))
     list_per_page = models.SmallIntegerField(choices=list_per_page_choices, default='10', verbose_name="每页显示多少条")
+    usage = models.ForeignKey("SQLUsage", blank=True, null=True, verbose_name="SQL记录的用途")
     date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
