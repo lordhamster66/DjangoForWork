@@ -109,7 +109,7 @@ class SQLUsageAdmin(BaseAdmin):
 class SQLRecordAdmin(BaseAdmin):
     list_display = ("id", "user", "name", "query_page", "date")
     search_fields = ("name",)
-    list_filter = ("user", "usage", "tags", "roles", "date")
+    list_filter = ("usage", "tags", "roles", "db_name", "date")
     filter_horizontal = ("roles", "tags", "funcs")
     list_editable = ("query_page",)
 
