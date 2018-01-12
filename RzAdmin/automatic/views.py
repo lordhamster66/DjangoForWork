@@ -5,7 +5,7 @@ import time
 import os
 from datetime import date
 from RzAdmin import settings
-from django.utils.timezone import datetime, now
+from django.utils.timezone import datetime, now, timedelta
 from automatic import models
 from automatic.forms import create_table_form
 from django.shortcuts import render, HttpResponse, redirect
@@ -38,6 +38,12 @@ def index(request):
     un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
     data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num") or 0
     data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount") or 0) / 10000)
+    # 昨天截止同一时刻非自动续投投资详情
+    yesterday_un_R_xt_amount_info = get_info_list("rz", models.SQLRecord.objects.get(id=34).content)[0]
+    yesterday_un_R_xt_amount = float(yesterday_un_R_xt_amount_info.get("yesterday_un_R_xt_amount") or 0)
+    data_dict["amount_compare"] = round(((
+                                             float(un_R_xt_amount.get("un_R_xt_amount") or 0) - yesterday_un_R_xt_amount
+                                         ) / yesterday_un_R_xt_amount) * 100, 2)
     # 当天充值详情
     recharge_info = get_info_list("rz", models.SQLRecord.objects.get(id=31).content)[0]
     data_dict["recharge_num"] = recharge_info.get("recharge_num") or 0

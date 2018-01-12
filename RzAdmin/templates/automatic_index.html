@@ -33,8 +33,34 @@
 									</span>
                         </div>
                         <div class="media-body">
-                            <p class="text-2x mar-no text-thin">{{ data_dict.un_R_xt_amount }}</p>
-                            <p class="text-muted mar-no">非自动续投投资金额</p>
+                            <div class="col-lg-6">
+                                <p class="text-2x mar-no text-thin">{{ data_dict.un_R_xt_amount }}</p>
+                                <p class="text-muted mar-no">非自动续投投资金额</p>
+                            </div>
+                            <div class="col-lg-6">
+                                {% if data_dict.amount_compare > 0 %}
+                                    <div class="pull-left"
+                                         style="color: green;font-size: larger;margin-top: 13px;margin-right: 10px;">
+                                        <b>+{{ data_dict.amount_compare }}%</b>
+                                    </div>
+                                    <div class="pull-left" style="color: green;margin-top: 5px;">
+                                        <i class="fa fa-toggle-up fa-3x" aria-hidden="true"></i>
+                                    </div>
+                                {% elif data_dict.amount_compare < 0 %}
+                                    <div class="pull-left"
+                                         style="color: red;font-size: larger;margin-top: 13px;margin-right: 10px;">
+                                        <b>{{ data_dict.amount_compare }}%</b>
+                                    </div>
+                                    <div class="pull-left" style="color: red;margin-top: 5px;">
+                                        <i class="fa fa-toggle-down fa-3x" aria-hidden="true"></i>
+                                    </div>
+                                {% else %}
+                                    <div class="pull-left"
+                                         style="color: green;font-size: larger;margin-top: 13px;margin-right: 10px;">
+                                        <b>持平</b>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
