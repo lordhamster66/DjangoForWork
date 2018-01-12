@@ -102,10 +102,6 @@ class SQLFuncAdmin(BaseAdmin):
     list_display = ("name",)
 
 
-class SQLUsageAdmin(BaseAdmin):
-    list_display = ("user", "name", "date")
-
-
 class SQLRecordAdmin(BaseAdmin):
     list_display = ("id", "user", "name", "query_page", "date")
     search_fields = ("name",)
@@ -133,6 +129,5 @@ register(models.Role, RoleAdmin)
 register(models.Menu, MenuAdmin)
 register(models.SQLTag, SQLTagAdmin)
 register(models.SQLFunc, SQLFuncAdmin)
-register(models.SQLUsage, SQLUsageAdmin)
 register(models.SQLRecord, SQLRecordAdmin)
 register(models.DownloadRecord, DownloadRecordAdmin)
