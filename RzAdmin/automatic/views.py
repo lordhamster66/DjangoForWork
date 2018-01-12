@@ -24,7 +24,6 @@ c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger�
 @login_required
 def index(request):
     data_dict = {}  # 用来存放首页数据
-    data_dict["now"] = datetime.strftime(now(), "%Y-%m-%d %H:%M:%S")  # 当前时间
     # 当天注册人数
     data_dict["registered_num"] = get_info_list(
         "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num") or 0
