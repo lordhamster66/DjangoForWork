@@ -4,7 +4,7 @@ from
 (
 				SELECT uname
 				from 01u_2worker
-				where uid in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+				where uid in (156955,319032,933452,1037495,1465540,1468495,1468496)
 ) n
 LEFT JOIN
 (
@@ -91,14 +91,14 @@ LEFT JOIN
 								LEFT JOIN 01u_0info c on b.uid_kefu = c.uid
 								LEFT JOIN 01u_0base e on b.uid_kefu = e.uid
 								LEFT JOIN 01u_0qudao q on a.uid = q.uid
-								where b.uid_kefu in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+								where b.uid_kefu in (156955,319032,933452,1037495,1465540,1468495,1468496)
 								and b.tjr = ""
 								and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
 								and a.time_h = t.min_time
 								and b.kefu_settime < DATE_SUB(DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 MONTH),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 								GROUP BY a.uid
 					) s on a.uid = s.uid  # 限定人数为本月加前两月首投用户
-					where b.uid_kefu in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+					where b.uid_kefu in (156955,319032,933452,1037495,1465540,1468495,1468496)
 					and a.time_h <> t.min_time  # 限定复投
 					GROUP BY c.uname
 ) f on n.uname = f.uname
@@ -146,7 +146,7 @@ LEFT JOIN
 		LEFT JOIN 01u_0info c on b.uid_kefu = c.uid
 		LEFT JOIN 01u_0base e on b.uid_kefu = e.uid
 		LEFT JOIN 01u_0qudao q on a.uid = q.uid
-		where b.uid_kefu in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+		where b.uid_kefu in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and b.tjr = ""
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
 		and a.time_h = t.min_time
@@ -170,7 +170,7 @@ LEFT JOIN
 		LEFT JOIN 01u_0info b on a.uid=b.uid
 		LEFT JOIN 01u_0info c on b.uid_kefu = c.uid
 		LEFT JOIN 01u_0qudao q on a.uid = q.uid
-		where b.uid_kefu in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+		where b.uid_kefu in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and a.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
@@ -194,7 +194,7 @@ LEFT JOIN
 		LEFT JOIN 01u_0info b on a.uid=b.uid
 		LEFT JOIN 01u_0info c on b.uid_kefu = c.uid
 		LEFT JOIN 01u_0qudao q on a.uid = q.uid
-		where b.uid_kefu in (156955,194266,277387,319021,799219,319032,933452,1037495,1465540,1468495,1468496)
+		where b.uid_kefu in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and a.time_h >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
