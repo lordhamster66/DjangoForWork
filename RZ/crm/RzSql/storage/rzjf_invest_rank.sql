@@ -5,16 +5,16 @@ from
 		SELECT niu.uid,niu.time_h,count(*) as rank
 		FROM
 		(
-		SELECT uid,time_h
-		from 05b_1tenderfinal where orguid=0 and bid <> 10000 and `status` in (1,3) and uid in ({uid})
+		SELECT user_id uid,create_time time_h
+		from rz_borrow.rz_borrow_tender  where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0 and user_id in ({uid})
 		UNION ALL
 		SELECT user_id,add_time from new_wd.borrow_tender  where user_id in ({uid})
 		UNION ALL
 		SELECT user_id,create_time from new_wd.rz_borrow_tender where user_id in ({uid})
 		) niu
 		JOIN (
-		SELECT uid,time_h
-		from 05b_1tenderfinal where orguid=0 and bid <> 10000 and `status` in (1,3) and uid in ({uid})
+		SELECT user_id uid,create_time time_h
+		from rz_borrow.rz_borrow_tender where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0 and user_id in ({uid})
 		UNION ALL
 		SELECT user_id,add_time from new_wd.borrow_tender where user_id in ({uid})
 		UNION ALL

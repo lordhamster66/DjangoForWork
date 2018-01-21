@@ -476,8 +476,9 @@ def rzjf_invest_rank(request):
     if yesterday_invest_uid:
         for item in yesterday_invest_uid:
             yesterday_invest_uid_list.append(str(item.get("uid")))
-    # 更新存储投资次数的sql
-    rzjf_invest_rank_sql = rzjf_invest_rank_sql.format(uid=",".join(yesterday_invest_uid_list))
-    cursor = connections['rz_bi'].cursor()
-    cursor.execute(rzjf_invest_rank_sql)  # 执行存储投资次数的sql语句
+    with transaction.atomic():
+        # 更新存储投资次数的sql
+        rzjf_invest_rank_sql = rzjf_invest_rank_sql.format(uid=",".join(yesterday_invest_uid_list))
+        cursor = connections['rz_bi'].cursor()
+        cursor.execute(rzjf_invest_rank_sql)  # 执行存储投资次数的sql语句
     return HttpResponse("ok!")

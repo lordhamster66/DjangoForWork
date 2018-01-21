@@ -2,33 +2,37 @@
 SELECT sj.shijian timeslot,case when sx.renshu is null then 0 else sx.renshu end tz_r
 from
 (
-	SELECT substring(aa.time_h,12,2) shijian
-	from 05b_1tenderfinal aa
-	GROUP BY substring(aa.time_h,12,2)
+	SELECT DATE_FORMAT(aa.create_time,"%H") shijian
+	from rz_borrow.rz_borrow_tender aa
+	GROUP BY DATE_FORMAT(aa.create_time,"%H")
 ) sj
 LEFT JOIN
 (
-	SELECT substring(a.time_h,12,2) shijian,count(DISTINCT(a.uid)) renshu
+	SELECT DATE_FORMAT(a.time_h,"%H") shijian,count(DISTINCT(a.uid)) renshu
 	from
 	(
-			SELECT uid,time_h,account from 05b_1tenderfinal
-			where orguid=0 and bid <> 10000 and status in (1,3)
-			and DATE(time_h) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+			SELECT user_id uid,create_time time_h,real_amount account
+			from rz_borrow.rz_borrow_tender
+			where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0  # 记录没被删除
+			and create_time >= DATE_SUB(CURDATE(),INTERVAL 1 day)
+			and create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 			UNION ALL
-			SELECT user_id,add_time,real_amount from new_wd.borrow_tender
+			SELECT user_id,add_time,real_amount
+			from new_wd.borrow_tender
 			where status = 1
-			and DATE(add_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+			and add_time >= DATE_SUB(CURDATE(),INTERVAL 1 day)
+			and add_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 			UNION ALL
-			SELECT a3.user_id,a3.create_time,a3.real_amount from new_wd.rz_borrow_tender a3
+			SELECT a3.user_id,a3.create_time,a3.real_amount
+			from new_wd.rz_borrow_tender a3
 			where a3.`status` = 1
-			and DATE(a3.create_time) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+			and a3.create_time >= DATE_SUB(CURDATE(),INTERVAL 1 day)
+			and a3.create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 	) a
-	INNER JOIN 01u_0info c on a.uid=c.uid
-	where  c.uid_kefu not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
+	INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
+	where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
 	and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-	GROUP BY substring(a.time_h,12,2)
+	GROUP BY DATE_FORMAT(a.time_h,"%H")
 ) sx
 on sj.shijian=sx.shijian
 ;
-
-

@@ -113,8 +113,8 @@ class FunctionList(object):
         """返回搜索到的所有用户ID"""
         uids = ""
         if search_content:
-            uid_list = get_info_list("rz", """SELECT uid from 01u_0info where uid = '{search_content}' UNION
-                                                SELECT uid from 01u_0info where mobile = '{search_content}'""".format(
+            uid_list = get_info_list("rz", """SELECT uid from rz_user.rz_user where uid = '{search_content}' UNION
+                                                SELECT uid from rz_user.rz_user where reg_mobile = '{search_content}'""".format(
                 search_content=search_content))
             if uid_list:
                 uids = ",".join([str(i["uid"]) for i in uid_list if i])
@@ -165,11 +165,9 @@ class FunctionList(object):
         """验证检索内容"""
         search_q = self.cleaned_data.pop("search_q", "")
         if search_q:
-            uid_list = get_info_list("rz", """SELECT uid from 01u_0info where uid = '{search_content}' UNION
-                                    SELECT uid from 01u_0info where mobile = '{search_content}'""".format(
-                search_content=search_q))
-            if uid_list:
-                search_q = 'and info.uid in ("%s")' % ",".join([str(i["uid"]) for i in uid_list if i])
+            uids = FunctionList.get_uids(search_q)
+            if uids:
+                search_q = 'and info.uid in ("%s")' % uids
             else:
                 self.add_error("search_q", "该用户不存在！")
         else:

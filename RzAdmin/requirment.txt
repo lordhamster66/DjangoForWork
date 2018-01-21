@@ -5,3 +5,4 @@ Pillow==4.3.0
 PyMySQL==0.7.11
 pytz==2017.2
 xlwt==1.3.0
+requests==2.18.4
