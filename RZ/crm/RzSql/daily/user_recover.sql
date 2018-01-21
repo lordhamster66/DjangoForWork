@@ -1,4 +1,3 @@
-# 用户在贷
 SELECT a.uid,sum(a.recover_account) recover_account
 from
 (
@@ -96,8 +95,5 @@ from
 				SELECT a.* from new_wd.rz_borrow_collection_31 a INNER JOIN new_wd.rz_borrow_big b on a.big_borrow_id=b.id INNER JOIN new_wd.rz_borrow c on a.borrow_id=c.id where a.`status` in (0,1,66) and b.product_id=10020 and c.full_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day) and c.full_time != "0000-00-00 00:00:00" and a.repayment_time >= DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 		) a
 ) a
-INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
-where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
 GROUP BY a.uid
 ;

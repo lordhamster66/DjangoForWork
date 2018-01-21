@@ -38,6 +38,4 @@ from
 INNER JOIN new_wd.rz_borrow_big t3 on a3.big_borrow_id = t3.id
 INNER JOIN rz_user.rz_user_base_info b on a3.user_id = b.user_id
 where t3.product_id = 10020  # 限定R计划
-and b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-and a3.user_id not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
 ;

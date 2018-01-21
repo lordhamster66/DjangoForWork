@@ -1,6 +1,6 @@
 # 邀友详情
 SELECT sum(a.invite_r) invite_r,sum(a.invited_r) invited_r,sum(a.invited_st_r) invited_st_r,sum(a.invited_st_j) invited_st_j,
-sum(a.cost) cash_f
+sum(a.cost) cost
 from
 (
 		SELECT count(DISTINCT i.invite_user) invite_r,count(DISTINCT(a.uid)) invited_r,0 invited_st_r,0 invited_st_j,0 cost
@@ -8,9 +8,7 @@ from
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		INNER JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and j.uid is null  # 剔除机密借款人
+		where j.uid is null  # 剔除机密借款人
 		and a.deleted = 0  # 记录没被删除
 		and a.create_time >=  DATE_SUB(CURDATE(),INTERVAL 1 day)
 		and a.create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
@@ -58,8 +56,6 @@ from
 								) h1
 					GROUP BY h1.uid
 		) t on a.uid = t.uid and a.time_h = t.min_invest_time  # 限定首投
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
+		where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
 ) a
 ;

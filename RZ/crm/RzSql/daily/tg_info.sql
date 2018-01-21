@@ -7,9 +7,7 @@ from
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and j.uid is null  # 剔除机密借款人
+		where j.uid is null  # 剔除机密借款人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
 		and a.create_time >=  DATE_SUB(CURDATE(),INTERVAL 1 day)
@@ -21,9 +19,7 @@ from
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and a.real_name_status = 1
+		where a.real_name_status = 1
 		and j.uid is null  # 剔除机密借款人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
@@ -36,9 +32,7 @@ from
 		INNER JOIN rz_user.rz_user_base_info b on a.user_id = b.user_id
 		INNER JOIN (SELECT user_id,min(id) min_id from rz_account.rz_account_recharge where status = 1 and deleted = 0 GROUP BY user_id) c on a.user_id = c.user_id and a.id = c.min_id  # 限定是首次充值
 		LEFT JOIN rz_user.rz_user_invite i on a.user_id = i.user_id
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.user_id not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and a.status = 1  # 充值成功
+		where a.status = 1  # 充值成功
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
 		and a.create_time >=  DATE_SUB(CURDATE(),INTERVAL 1 day)
@@ -88,9 +82,7 @@ from
 					GROUP BY h1.uid
 		) t on a.uid = t.uid and DATE(a.time_h) = DATE(t.min_invest_time)  # 限定新增
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-		and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-		and c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
+		where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
 		and i.user_id is null # 剔除邀请
 ) a
 ;
