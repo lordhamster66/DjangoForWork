@@ -2,7 +2,7 @@ INSERT INTO rzjf_bi.rzjf_first_invest_recorde (uid,first_time,first_account,bid,
 SELECT  a.uid,a.time_h first_time,a.account first_account,a.bid,a.name,a.qixian time_limit,a.borrow_apr apr,a.db
 from
 (
-		SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h,
+		SELECT a1.user_id uid,a1.money account,a1.create_time time_h,
 		case when t1.borrow_time_type!=0 then concat(t1.time_limit,"天") else concat(t1.time_limit,"月") end qixian,
 		t1.name,t1.apr borrow_apr,a1.borrow_id bid,"老库" db
 		from rz_borrow.rz_borrow_tender a1
@@ -29,7 +29,7 @@ INNER JOIN
 			SELECT h1.uid,min(h1.time_h) min_invest_time
 			from
 						(
-							SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
+							SELECT a1.user_id uid,a1.money account,a1.create_time time_h
 							from rz_borrow.rz_borrow_tender a1
 							where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
 							union all
@@ -44,9 +44,7 @@ INNER JOIN
 			GROUP BY h1.uid
 ) t on a.uid = t.uid and a.time_h = t.min_invest_time
 LEFT JOIN rzjf_bi.rzjf_old_invest_uid c on a.uid = c.uid
-where b.customer_user_id not in (145854,73170,73195,73721,112103,244848,276009,304525,1,181135,757996,910859)
-and a.uid not in (740,181,827,1008,1444,1451,1435,1452,6420,7127,11336,11350,11353,11871,12135,5528,18710,19104,19103,27632,6094,12668,14288)
-and c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
+where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
 and a.uid not in
 (
 SELECT uid

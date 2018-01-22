@@ -89,7 +89,7 @@ LEFT JOIN
 												 ) t on a.uid = t.uid
 								INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 								INNER JOIN rz_user.rz_user c on b.customer_user_id = c.uid
-								LEFT JOIN rz_article.rz_channel q on b.utm_source = q.`code`
+								LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 								LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 								where b.customer_user_id in (156955,319032,933452,1037495,1465540,1468495,1468496)
 								and i.user_id is null # 剔除邀请
@@ -144,7 +144,7 @@ LEFT JOIN
 		) t on a.uid = t.uid
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		INNER JOIN rz_user.rz_user c on b.customer_user_id = c.uid
-		LEFT JOIN rz_article.rz_channel q on b.utm_source = q.`code`
+		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		where b.customer_user_id in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and i.user_id is null # 剔除邀请
@@ -170,7 +170,7 @@ LEFT JOIN
 				 ) a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		INNER JOIN rz_user.rz_user c on b.customer_user_id = c.uid
-		LEFT JOIN rz_article.rz_channel q on b.utm_source = q.`code`
+		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		where b.customer_user_id in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and a.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
@@ -196,7 +196,7 @@ LEFT JOIN
 				 ) a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		INNER JOIN rz_user.rz_user c on b.customer_user_id = c.uid
-		LEFT JOIN rz_article.rz_channel q on b.utm_source = q.`code`
+		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		where b.customer_user_id in (156955,319032,933452,1037495,1465540,1468495,1468496)
 		and a.time_h >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)

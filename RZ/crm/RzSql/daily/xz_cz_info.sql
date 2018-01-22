@@ -12,6 +12,6 @@ INNER JOIN
 ) c on a.user_id = c.user_id and DATE(a.create_time) = DATE(c.min_recharge_time)
 where a.status = 1  # 充值成功
 and a.deleted = 0  # 记录没被删除
-and a.create_time >=  DATE_SUB(CURDATE(),INTERVAL 1 day)
-and a.create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
+and a.create_time >=  "{qdate}"
+and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 ;

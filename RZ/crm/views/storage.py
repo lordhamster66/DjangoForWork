@@ -12,6 +12,7 @@ from RZ import settings
 from django.views import View
 from django.shortcuts import HttpResponse
 from django.db import connections, transaction
+from django.utils.timezone import datetime, now, timedelta
 from crm import utils  # 常用功能及一些工具或一些常用变量
 from crm import models
 import datetime
@@ -38,7 +39,7 @@ class DataStorage(View):
         sql = f.read()
         f.close()
         cursor = connections['rz'].cursor()
-        cursor.execute(sql)
+        cursor.execute(sql.format(qdate=datetime.datetime.strftime(now() - timedelta(days=1), "%Y-%m-%d")))
         data = cursor.fetchall()
         col_names = [i[0] for i in cursor.description]
         if not data:  # 如果获取不到数据，则全部置为空
@@ -56,6 +57,7 @@ class DataStorage(View):
             "rzjf_s_asset_info.sql", "rzjf_x_asset_info.sql"
         ]
         daily_sql_path = os.path.join(settings.BASE_DIR, "crm", "RzSql", "daily")
+        qdate = datetime.datetime.strftime(now() - timedelta(days=1), "%Y-%m-%d")  # 获取昨天日期
 
         def set_sql_file_name_attr(self, sql_file):
             """
@@ -75,7 +77,6 @@ class DataStorage(View):
             if sql_file in ignore_sql_file:
                 continue
             set_sql_file_name_attr(self, sql_file)
-        qdate = getattr(self, "get_qdate")[0].get("qdate")  # 获取昨天日期
         with transaction.atomic():
             # 增加基础数据信息
             models.BaseInfo.objects.using("default").create(

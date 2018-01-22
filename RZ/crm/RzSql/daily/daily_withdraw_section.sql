@@ -16,7 +16,7 @@ from
 		where c.user_type = 1 # 投资人
 		and a.status in (1,3)  # 包含提交成功和审核通过
 		and a.deleted = 0  # 记录没被删除
-		and a.create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
+		and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 		GROUP BY a.user_id
 ) a
 GROUP BY a.lei
