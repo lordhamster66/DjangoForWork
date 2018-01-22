@@ -62,7 +62,7 @@ from
 				) a3
 		) a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
-		LEFT JOIN rz_article.rz_channel q on b.utm_source = q.`code`
+		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		GROUP BY a.uid
 ) a
 GROUP BY a.type
