@@ -6,7 +6,7 @@ from
 		FROM
 		(
 		SELECT user_id uid,create_time time_h
-		from rz_borrow.rz_borrow_tender  where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0 and user_id in ({uid})
+		from rz_borrow.rz_borrow_tender  where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0 and user_id in ({uid})
 		UNION ALL
 		SELECT user_id,add_time from new_wd.borrow_tender  where user_id in ({uid})
 		UNION ALL
@@ -14,7 +14,7 @@ from
 		) niu
 		JOIN (
 		SELECT user_id uid,create_time time_h
-		from rz_borrow.rz_borrow_tender where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0 and user_id in ({uid})
+		from rz_borrow.rz_borrow_tender where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0 and user_id in ({uid})
 		UNION ALL
 		SELECT user_id,add_time from new_wd.borrow_tender where user_id in ({uid})
 		UNION ALL

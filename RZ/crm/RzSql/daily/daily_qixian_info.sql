@@ -19,7 +19,7 @@ from
 						from rz_borrow.rz_borrow_tender a1
 						LEFT JOIN rz_activity.rz_additional_up_rate_tender c1 on a1.coupon_id = c1.up_rate_id
 						INNER JOIN rz_borrow.rz_borrow t1 on a1.borrow_id = t1.id
-						where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+						where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 						and a1.create_time >= "{qdate}"
 						and a1.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 						union all
@@ -95,7 +95,7 @@ from
 								max(a1.create_time) full_time                                                   -- 最后一笔投资时间近似为满标时间
 								from rz_borrow.rz_borrow_tender a1
 								INNER JOIN rz_borrow.rz_borrow t1 on a1.borrow_id = t1.id
-								where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+								where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 								and t1.full_time != "0000-00-00 00:00:00"
 								GROUP BY a1.borrow_id
 								UNION ALL

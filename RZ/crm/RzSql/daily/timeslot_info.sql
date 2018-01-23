@@ -13,7 +13,7 @@ LEFT JOIN
 	(
 			SELECT user_id uid,create_time time_h,money account
 			from rz_borrow.rz_borrow_tender
-			where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0  # 记录没被删除
+			where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0  # 记录没被删除
 			and create_time >= "{qdate}"
 			and create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 			UNION ALL

@@ -12,7 +12,7 @@ LEFT JOIN
 					# 投资详情
 					from (
 								SELECT user_id uid,create_time time_h,real_amount account from rz_borrow.rz_borrow_tender
-								where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0  # 记录没被删除
+								where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0  # 记录没被删除
 								and create_time >=  DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 								and create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 								UNION ALL
@@ -36,7 +36,7 @@ LEFT JOIN
 								(
 									SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
 									from rz_borrow.rz_borrow_tender a1
-									where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+									where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 									union all
 									SELECT a2.user_id uid,a2.real_amount account,a2.add_time time_h
 									from new_wd.borrow_tender a2
@@ -55,7 +55,7 @@ LEFT JOIN
 								from
 								(
 									SELECT user_id uid,create_time time_h,real_amount account from rz_borrow.rz_borrow_tender
-									where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0  # 记录没被删除
+									where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0  # 记录没被删除
 									and create_time >=  DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 									and create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 									UNION ALL
@@ -75,7 +75,7 @@ LEFT JOIN
 																	(
 																		SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
 																		from rz_borrow.rz_borrow_tender a1
-																		where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+																		where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 																		union all
 																		SELECT a2.user_id uid,a2.real_amount account,a2.add_time time_h
 																		from new_wd.borrow_tender a2
@@ -109,7 +109,7 @@ LEFT JOIN
 		from
 		(
 				SELECT user_id uid,create_time time_h,real_amount account from rz_borrow.rz_borrow_tender
-				where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6) and deleted = 0  # 记录没被删除
+				where borrow_id <> 10000 and `status` in (0,1,2,3,4,5,6,11) and deleted = 0  # 记录没被删除
 				and create_time >=  DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 				and create_time < DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 day)
 				UNION ALL
@@ -130,7 +130,7 @@ LEFT JOIN
 								(
 									SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
 									from rz_borrow.rz_borrow_tender a1
-									where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+									where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 									union all
 									SELECT a2.user_id uid,a2.real_amount account,a2.add_time time_h
 									from new_wd.borrow_tender a2
@@ -160,7 +160,7 @@ LEFT JOIN
 		from (
 					SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
 					from rz_borrow.rz_borrow_tender a1
-					where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+					where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 					UNION ALL
 					SELECT user_id,add_time,real_amount from new_wd.borrow_tender
 					where status = 1
@@ -186,7 +186,7 @@ LEFT JOIN
 		from (
 					SELECT a1.user_id uid,a1.real_amount account,a1.create_time time_h
 					from rz_borrow.rz_borrow_tender a1
-					where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6) and a1.deleted = 0  # 记录没被删除
+					where a1.borrow_id <> 10000 and a1.`status` in (0,1,2,3,4,5,6,11) and a1.deleted = 0  # 记录没被删除
 					UNION ALL
 					SELECT user_id,add_time,real_amount from new_wd.borrow_tender
 					where status = 1
