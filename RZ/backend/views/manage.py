@@ -198,7 +198,7 @@ def wdzj_jk(request):
             "qdate": qdate
         }  # 将用户此次输入日期存入session
         current_page = 1  # POST请求则为第一页
-    url = "https://www.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
+    url = "https://last.51rz.com/api/iwdzj.php/IwdzjnewV2/GetNowProjects?token=2e7c3ff493e716d0680d175513b0dff4&date={qdate}&page={current_page}&pageSize={num_show}".format(
         qdate=qdate,
         num_show=num_show,
         current_page=current_page,
@@ -238,7 +238,7 @@ def wdty_jk(request):
             "time_to": time_to,
         }  # 将用户此次输入日期存入session
         current_page = 1  # POST请求则为第一页
-    url = "https://www.51rz.com/api/ip2peye.php/Ip2peye/blist?token=acb1415727bc2b1375d8f3a221816c1b&time_from={time_from}&time_to={time_to}%2023:59:59&status=1&page_size={num_show}&page_index={current_page}".format(
+    url = "https://last.51rz.com/api/ip2peye.php/Ip2peye/blist?token=acb1415727bc2b1375d8f3a221816c1b&time_from={time_from}&time_to={time_to}%2023:59:59&status=1&page_size={num_show}&page_index={current_page}".format(
         time_from=time_from,
         time_to=time_to,
         num_show=num_show,
