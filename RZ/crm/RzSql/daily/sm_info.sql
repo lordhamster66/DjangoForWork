@@ -6,6 +6,7 @@ LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.u
 where a.real_name_status = 1  # 实名
 and j.uid is null  # 剔除机密借款人
 and a.deleted = 0  # 记录没被删除
+and a.user_type in (1,3)  # 投资人
 and a.real_name_verify_time >=  "{qdate}"
 and a.real_name_verify_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 ;

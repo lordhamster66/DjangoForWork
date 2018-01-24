@@ -8,6 +8,7 @@ from
 		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		where j.uid is null  # 剔除机密借款人
+		and a.user_type in (1,3) # 投资人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
 		and a.create_time >=  "{qdate}"
@@ -21,6 +22,7 @@ from
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
 		where a.real_name_status = 1
 		and j.uid is null  # 剔除机密借款人
+		and a.user_type in (1,3) # 投资人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
 		and a.real_name_verify_time >=  "{qdate}"
@@ -30,10 +32,12 @@ from
 		SELECT 0 tg_zhu_r,0 tg_sm_r,count(DISTINCT(a.user_id)) tg_sc_r,0 tg_xztz_r,0 tg_xztz_j
 		from rz_account.rz_account_recharge a
 		INNER JOIN rz_user.rz_user_base_info b on a.user_id = b.user_id
+		INNER JOIN rz_user.rz_user c on a.user_id = c.uid
 		INNER JOIN (SELECT user_id,min(id) min_id from rz_account.rz_account_recharge where status = 1 and deleted = 0 GROUP BY user_id) c on a.user_id = c.user_id and a.id = c.min_id  # 限定是首次充值
 		LEFT JOIN rz_user.rz_user_invite i on a.user_id = i.user_id
 		where a.status = 1  # 充值成功
 		and a.deleted = 0  # 记录没被删除
+		and c.user_type in (1,3) # 投资人
 		and i.user_id is null # 剔除邀请
 		and a.create_time >=  "{qdate}"
 		and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
@@ -60,7 +64,6 @@ from
 				and create_time >=  "{qdate}"
 				and create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 		) a
-		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		LEFT JOIN rzjf_bi.rzjf_old_invest_uid c on a.uid = c.uid
 		INNER JOIN
 		(
