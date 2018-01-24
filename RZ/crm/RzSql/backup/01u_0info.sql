@@ -153,5 +153,5 @@ a.user_type						 `utype`,
 ''							       `save_ancun`
 from rz_user.rz_user a
 LEFT JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
-where a.create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00")
-and a.create_time <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
+where a.create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 2 DAY),"%Y-%m-%d 23:59:59")
+and a.create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:59:59");

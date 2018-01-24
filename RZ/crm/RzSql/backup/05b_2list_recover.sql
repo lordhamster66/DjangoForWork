@@ -90,4 +90,4 @@ create_time																			`time_h`,
 '0.00'																					`recover_interest_plus`,
 '0.00'																					`recover_interest_plus_yes`
 from rz_borrow.rz_borrow_collection
-where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00") and create_time <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
+where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 2 DAY),"%Y-%m-%d 23:59:59") and create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:59:59");

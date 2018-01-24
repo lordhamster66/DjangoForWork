@@ -48,5 +48,5 @@ user_type					     `utype`,
 '0'								     `isvaild`,
 '0000-00-00'					 `validdate`
 from rz_user.rz_user
-where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:30:00")
-and create_time <= DATE_FORMAT(curdate(),"%Y-%m-%d 23:30:00");
+where create_time > DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 2 DAY),"%Y-%m-%d 23:59:59")
+and create_time <= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),"%Y-%m-%d 23:59:59");
