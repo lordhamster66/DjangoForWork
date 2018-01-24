@@ -9,7 +9,7 @@ LEFT JOIN
 	where a.status = 1
 	and a.deleted = 0
 	GROUP BY a.user_id
-) c on a.user_id = c.user_id and DATE(a.create_time) != DATE(c.min_recharge_time)
+) c on a.user_id = c.user_id
 INNER JOIN
 (
 			SELECT a1.user_id uid
@@ -72,6 +72,7 @@ INNER JOIN
 ) d on a.user_id = d.uid
 where a.status = 1  # 充值成功
 and a.deleted = 0  # 记录没被删除
+and DATE(a.create_time) != DATE(c.min_recharge_time)
 and a.create_time >=  "{qdate}"
 and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 ;
