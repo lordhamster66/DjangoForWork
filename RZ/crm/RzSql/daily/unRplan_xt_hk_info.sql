@@ -1,5 +1,5 @@
 # 非R计划续投回款详情
-SELECT a.hk_j - b.Rplan_xt
+SELECT a.hk_j - b.Rplan_xt  unRplan_xt_hk_j
 from
 (
 		# 回款详情

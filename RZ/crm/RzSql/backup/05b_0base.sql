@@ -9,7 +9,7 @@ insert into 05b_0base(
 )
 select
 id											`bid`,
-status									`status`,
+case when status in (14,15,16) then 3 else status end									`status`,
 '0'											`curstate`,
 '0'											`stoptrans`,
 '0'											`diya_type`,
