@@ -25,6 +25,8 @@ c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger�
 def index(request):
     data_dict = {}  # 用来存放首页数据
     # 当天注册人数
+    print(get_info_list(
+        "rz", models.SQLRecord.objects.get(id=20).content))
     data_dict["registered_num"] = get_info_list(
         "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num") or 0
     # 当天实名绑卡人数

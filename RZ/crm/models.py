@@ -246,6 +246,23 @@ class ReCasting(models.Model):
         verbose_name_plural = "专属客服复投数据"
 
 
+class LossRate(models.Model):
+    """VIP客服流失率"""
+    qdate = models.DateField(verbose_name='日期', db_index=True)
+    kefuname = models.CharField(max_length=64, verbose_name="客服姓名", null=True)
+    loss_num = models.IntegerField(verbose_name="流失用户", null=True)
+    exist_num = models.IntegerField(verbose_name="在投用户", null=True)
+    day_invest = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当日投资金额", null=True)
+    month_withdraw = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当月提现金额", null=True)
+    month_invest = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当月投资金额", null=True)
+    recall_num = models.IntegerField(verbose_name="当月召回人数", null=True)
+
+    class Meta:
+        db_table = "rzjf_loss_rate"
+        verbose_name = "VIP客服流失率数据"
+        verbose_name_plural = "VIP客服流失率数据"
+
+
 class WDZJ_Info(models.Model):
     """网贷之家数据详情"""
     qdate = models.DateField(verbose_name='日期', db_index=True, null=True)

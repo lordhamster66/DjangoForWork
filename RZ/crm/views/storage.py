@@ -345,6 +345,23 @@ class DataStorage(View):
             models.ReCasting.objects.using("default").bulk_create(re_casting_obj_list)
             settings.action_logger.info("%sEXCEL日报专属客服复投数据详情增加完毕!" % qdate)
 
+            # 增加日报VIP客服流失数据
+            loss_rate_obj_list = []
+            # 获取VIP客服流失数据
+            for row in getattr(self, "daily_loss_rate_info"):
+                loss_rate_obj_list.append(models.LossRate(
+                    qdate=qdate,  # 日期
+                    kefuname=row.get("kefuname") or None,  # 客服姓名
+                    loss_num=row.get("loss_num") or None,  # 流失用户
+                    exist_num=row.get("exist_num") or None,  # 在投用户
+                    day_invest=row.get("day_invest") or None,  # 当日投资金额
+                    month_withdraw=row.get("month_withdraw") or None,  # 当月提现金额
+                    month_invest=row.get("month_invest") or None,  # 当月投资金额
+                    recall_num=row.get("recall_num") or None,  # 当月召回人数
+                ))
+            models.LossRate.objects.using("default").bulk_create(loss_rate_obj_list)
+            settings.action_logger.info("%sEXCEL日报VIP客服流失数据详情增加完毕!" % qdate)
+
             settings.action_logger.info("%s日报所需数据已经更新!" % (qdate,))
 
     def get(self, request, *args, **kwargs):
