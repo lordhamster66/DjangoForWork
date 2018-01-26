@@ -44581,7 +44581,7 @@ LEFT JOIN
 		and a.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
-		and i.user_id is null # 剔除邀请
+		# and i.user_id is null # 剔除邀请
 		GROUP BY k.name
 ) t4 on t1.name = t4.name
 LEFT JOIN
@@ -44607,7 +44607,7 @@ LEFT JOIN
 		and a.time_h >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
-		and i.user_id is null # 剔除邀请
+		# and i.user_id is null # 剔除邀请
 		GROUP BY k.name
 ) t5 on t1.name = t5.name
 LEFT JOIN
@@ -44630,6 +44630,6 @@ LEFT JOIN
 		and a.create_time >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.create_time < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
-		and i.user_id is null # 剔除邀请
+		# and i.user_id is null # 剔除邀请
 		GROUP BY k.name
 ) t6 on t1.name = t6.name
