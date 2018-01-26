@@ -5,12 +5,12 @@ from
 		SELECT count(DISTINCT(a.uid)) tg_zhu_r,0 tg_sm_r,0 tg_sc_r,0 tg_xztz_r,0 tg_xztz_j
 		from rz_user.rz_user a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
-		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where j.uid is null  # 剔除机密借款人
-		and a.user_type in (1,3) # 投资人
+		LEFT JOIN rzjf_bi.01u_9tjr i1 on a.uid = i1.uid
+		where a.user_type in (1,3) # 投资人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
+		and i1.uid is null  # 剔除老版邀请
 		and a.create_time >=  "{qdate}"
 		and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 		UNION ALL
@@ -18,13 +18,13 @@ from
 		SELECT 0 tg_zhu_r,count(DISTINCT(a.uid)) tg_sm_r,0 tg_sc_r,0 tg_xztz_r,0 tg_xztz_j
 		from rz_user.rz_user a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
-		LEFT JOIN (SELECT uid from rz_user.rz_user where reg_mobile like "JM%") j on a.uid = j.uid      # 机密借款人注册
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
+		LEFT JOIN rzjf_bi.01u_9tjr i1 on a.uid = i1.uid
 		where a.real_name_status = 1
-		and j.uid is null  # 剔除机密借款人
 		and a.user_type in (1,3) # 投资人
 		and a.deleted = 0  # 记录没被删除
 		and i.user_id is null # 剔除邀请
+		and i1.uid is null  # 剔除老版邀请
 		and a.real_name_verify_time >=  "{qdate}"
 		and a.real_name_verify_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 		UNION ALL
@@ -35,10 +35,12 @@ from
 		INNER JOIN rz_user.rz_user c on a.user_id = c.uid
 		INNER JOIN (SELECT user_id,min(id) min_id from rz_account.rz_account_recharge where status = 1 and deleted = 0 GROUP BY user_id) c on a.user_id = c.user_id and a.id = c.min_id  # 限定是首次充值
 		LEFT JOIN rz_user.rz_user_invite i on a.user_id = i.user_id
+		LEFT JOIN rzjf_bi.01u_9tjr i1 on a.user_id = i1.uid
 		where a.status = 1  # 充值成功
 		and a.deleted = 0  # 记录没被删除
 		and c.user_type in (1,3) # 投资人
 		and i.user_id is null # 剔除邀请
+		and i1.uid is null  # 剔除老版邀请
 		and a.create_time >=  "{qdate}"
 		and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
 		UNION ALL
@@ -85,7 +87,9 @@ from
 					GROUP BY h1.uid
 		) t on a.uid = t.uid and DATE(a.time_h) = DATE(t.min_invest_time)  # 限定新增
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
+		LEFT JOIN rzjf_bi.01u_9tjr i1 on a.uid = i1.uid
 		where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
 		and i.user_id is null # 剔除邀请
+		and i1.uid is null  # 剔除老版邀请
 ) a
 ;
