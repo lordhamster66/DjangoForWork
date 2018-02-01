@@ -5,8 +5,8 @@ insert into 05b_0base_run
 select
 id											                       `bid`,
 amount									                       `account`,
-'0'											                       `tender_num`,
-'0'											                       `tender_times`,
+'1'											                       `tender_num`,
+'1'											                       `tender_times`,
 '0'											                       `hits`,
 create_time							                       `time_h`,
 amount											                   `borrow_account_yes`,
