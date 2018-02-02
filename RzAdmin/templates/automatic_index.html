@@ -200,6 +200,21 @@
     </div>
 {% endblock %}
 {% block js %}
+    <!-- 临时添加js开始 -->
+    <script>
+        swal({
+                title: "警告!",
+                text: "施工中!",
+                type: "warning",
+                confirmButtonText: "OK",
+                closeOnConfirm: false
+            },
+            function () {
+                location.href = "/automatic/search_table_list/";
+            });
+    </script>
+    <!-- 临时添加js结束 -->
+
     <!-- 更新系统时间js开始 -->
     <script>
         $(function () {
