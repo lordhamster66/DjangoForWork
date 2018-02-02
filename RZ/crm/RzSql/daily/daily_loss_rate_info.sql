@@ -3,7 +3,7 @@ from
 (
 		SELECT name
 		from rz_s.rz_s_operator
-		where id in (257346,257349,780304,319021,780309,799219,277387)
+		where id in (257346,257349,780304,319021,780309,799219,156955,277387)
 		GROUP BY name
 ) t1
 LEFT JOIN

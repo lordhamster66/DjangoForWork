@@ -4,7 +4,7 @@ from
 (
 				SELECT name uname
 				from rz_s.rz_s_operator
-				where id in (156955,319032,933452,1037495,26,27,28)
+				where id in (319032,933452,1037495,26,27,28)
 ) n
 LEFT JOIN
 (
@@ -91,14 +91,14 @@ LEFT JOIN
 								INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 								LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 								LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-								where b.customer_user_id in (156955,319032,933452,1037495,26,27,28)
+								where b.customer_user_id in (319032,933452,1037495,26,27,28)
 								# and i.user_id is null # 剔除邀请
 								and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
 								and a.time_h = t.min_time
 								# and b.kefu_settime < DATE_SUB(DATE_ADD(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL 1 MONTH),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)  # TODO 客服设置时间数据库丢失
 								GROUP BY a.uid
 					) s on a.uid = s.uid  # 限定人数为本月加前两月首投用户
-					where b.customer_user_id in (156955,319032,933452,1037495,26,27,28)
+					where b.customer_user_id in (319032,933452,1037495,26,27,28)
 					and a.time_h <> t.min_time  # 限定复投
 					GROUP BY k.name
 ) f on n.uname = f.uname
@@ -146,7 +146,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (156955,319032,933452,1037495,26,27,28)
+		where b.customer_user_id in (319032,933452,1037495,26,27,28)
 		# and i.user_id is null # 剔除邀请
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
 		and a.time_h = t.min_time
@@ -172,7 +172,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (156955,319032,933452,1037495,26,27,28)
+		where b.customer_user_id in (319032,933452,1037495,26,27,28)
 		and a.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
@@ -198,7 +198,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (156955,319032,933452,1037495,26,27,28)
+		where b.customer_user_id in (319032,933452,1037495,26,27,28)
 		and a.time_h >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ("app-tangzhuan","app-huoniao","app-youcai","wap-youcai","wap-youcai1","app-yc01","app-hainiaowo","app-zhs","app-bank","wap-z800","app-z800-3") or q.name is null)
