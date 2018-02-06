@@ -1,0 +1,165 @@
+{% extends "index.html" %}
+{% load automatic_tags %}
+{% block page-content %}
+    <div class="panel panel-bordered panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <div class="container-fluid">
+                    渠道名称对应信息
+                    <a class="btn btn-success pull-right" href="javascript:void(0);" data-toggle="modal"
+                       data-target=".bs-example-modal-lg"
+                       style="color: white;text-decoration: none;margin-top: 10px;">添加渠道名称</a>
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body">
+            {% if errors %}
+                <div class="alert alert-danger fade in">
+                    <button class="close" data-dismiss="alert"><span>×</span></button>
+                    <strong>invalid</strong>
+                    <ul class="errorlist">
+                        <li>{{ errors.invalid }}</li>
+                    </ul>
+                </div>
+            {% endif %}
+            <!-- 表格头部开始 -->
+            <form id="chnnel-name-detail-form" method="get">
+                <div class="row">
+                    <div class="dataTables_length" id="demo-dt-basic_length">
+                        <label>
+                            显示
+                            <select name="list_per_page" class="form-control input-sm" id="list_per_page">
+                                {% for per_page_value in condition_dict.list_per_page.0 %}
+                                    {% if per_page_value == condition_dict.list_per_page.1 %}
+                                        <option value="{{ per_page_value }}"
+                                                selected="selected">{{ per_page_value }}</option>
+                                    {% else %}
+                                        <option value="{{ per_page_value }}">{{ per_page_value }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>条
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-sm-3" style="padding: 0; margin-right: 10px;">
+                        <div class="form-group text-center">
+                            <label class="control-label"><b>渠道名称</b></label>
+                            <input type="text" name="qudao_name" class="form-control" id="qudao-name" autocomplete="off"
+                                   placeholder="请输入渠道名称（支持模糊匹配）" value="{{ condition_dict.qudao_name }}">
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-rounded" value="检索" style="margin-top: 20px;">
+                </div>
+            </form>
+            <!-- 表格头部结束 -->
+            <!-- 表格开始 -->
+            <div class="row table-responsive">
+                <table class="table table-striped table-bordered dataTable no-footer dtr-inline">
+                    <thead>
+                    <tr role="row">
+                        <th class="text-center" style="white-space:nowrap">序号</th>
+                        <th class="text-center" style="white-space:nowrap">渠道标识</th>
+                        <th class="text-center" style="white-space:nowrap">渠道名称</th>
+                        <th class="text-center" style="white-space:nowrap">编辑</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for channel_item in channel_name_list %}
+                        <tr role="row">
+                            <td class="text-center" style="white-space:nowrap">{{ forloop.counter }}</td>
+                            <td class="text-center channel-sign" style="white-space:nowrap">{{ channel_item.sign }}</td>
+                            <td class="text-center channel-name" style="white-space:nowrap">{{ channel_item.name }}</td>
+                            <td class="text-center edit-box" style="white-space:nowrap">
+                                <i class="fa fa-edit edit-channel" aria-hidden="true"
+                                   style="cursor:pointer;color:#337ab7;"></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- 表格结束 -->
+            总计:{{ channel_name_list.paginator.count }}条
+            <!-- 表格脚部开始 -->
+            <div class="row">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        {% get_page_ele channel_name_list %}
+                    </ul>
+                </nav>
+            </div>
+            <!-- 表格脚部结束 -->
+        </div>
+    </div>
+    <!-- Large modal start -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myLargeModalLabel">添加渠道名称</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">渠道标识:</label>
+                            <input type="text" class="form-control" id="recipient-name" name="channel_sign">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">渠道名称:</label>
+                            <input type="text" class="form-control" id="recipient-name" name="channel_name">
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary btn-rounded" value="添加">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Large modal end -->
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $("#list_per_page").change(function () {
+                $("#chnnel-name-detail-form").submit();
+            });
+            $(".edit-box").delegate(".edit-channel", "click", function () {
+                var channel_name = $(this).parent().prevAll(".channel-name").text();
+                var channel_name_input_ele = document.createElement("input");
+                $(channel_name_input_ele).attr("value", channel_name).addClass("form-control").data("channel_name", channel_name);
+                $(this).parent().prevAll(".channel-name").empty().append(channel_name_input_ele);
+                $(this).parent().empty().html('<i class="fa fa-check check-channel" aria-hidden="true" style="cursor:pointer;color:green;margin-right: 20px;"></i><i class="fa fa-close close-channel" aria-hidden="true" style="cursor:pointer;color:red;"></i>')
+
+            });
+            $(".edit-box").delegate(".close-channel", "click", function () {
+                var channel_name = $(this).parent().prevAll(".channel-name").children("input").data("channel_name");
+                $(this).parent().prevAll(".channel-name").empty().html(channel_name);
+                $(this).parent().empty().html('<i class="fa fa-edit edit-channel" aria-hidden="true" style="cursor:pointer;color:#337ab7;"></i>')
+            });
+            $(".edit-box").delegate(".check-channel", "click", function () {
+                var channel_sign = $(this).parent().prevAll(".channel-sign").text();
+                var channel_name = $(this).parent().prevAll(".channel-name").children("input").val();
+                var click_ele = $(this);
+                $.ajax({
+                    url: '/automatic/change_channel_name.html',
+                    type: "POST",
+                    data: {'channel_sign': channel_sign, 'channel_name': channel_name},
+                    dataType: "JSON",  // 内部会自动将返回的数据用JSON解析
+                    traditional: true,  // 这样设置之后ajax就可以发送多数据了，比如列表
+                    success: function (obj) {
+                        if (obj.status) {
+                            console.log(this);
+                            click_ele.parent().prevAll(".channel-name").empty().html(channel_name);
+                            click_ele.parent().empty().html('<i class="fa fa-edit edit-channel" aria-hidden="true" style="cursor:pointer;color:#337ab7;"></i>')
+                        }
+                    }
+                })
+
+            })
+        })
+    </script>
+{% endblock %}

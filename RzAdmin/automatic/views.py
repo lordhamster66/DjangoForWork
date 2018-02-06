@@ -14,6 +14,7 @@ from automatic.utils import (
     get_condition_dict, get_contact_list, get_paginator_query_sets, query_sets_sort, get_info_list, create_id
 )
 from automatic.permissions.permission import check_permission_decorate
+from django.db import connections
 
 # Create your views here.
 logger = logging.getLogger("__name__")  # 生成一个以当前模块名为名字的logger实例
@@ -277,3 +278,60 @@ def upload_file(request):
         ret["status"] = True
         ret["data"] = "/static/img/upload/%s/%s" % (request.user.email, file_name)
     return HttpResponse(json.dumps(ret))
+
+
+@login_required
+def channel_name_detail(request):
+    """渠道来源对应名称信息修改查看添加功能页面"""
+    errors = {}  # 要返回的错误信息
+    if request.method == "POST":
+        channel_sign = request.POST.get("channel_sign")  # 渠道标识
+        channel_name = request.POST.get("channel_name")  # 渠道名称
+        try:
+            if channel_sign and channel_name:
+                cursor = connections["rz"].cursor()  # 获取一个游标
+                cursor.execute(
+                    "INSERT INTO `rzjf_bi`.`rzjf_qudao_name` (`sign`, `name`) VALUES ('%s', '%s');" % (
+                        channel_sign, channel_name
+                    )
+                )  # 执行SQL
+        except Exception as e:
+            errors["invalid"] = e
+    list_per_page = request.GET.get("list_per_page", 25)  # 获取一页显示多少条
+    qudao_name = request.GET.get("qudao_name", "")  # 获取用户要查询的渠道名称
+    condition_dict = {
+        "list_per_page": [[10, 25, 50, 100], int(list_per_page)],
+        "qudao_name": qudao_name
+    }  # 返回给前端的本次查询条件
+    if qudao_name:  # 查询对应渠道名称的列表信息
+        channel_name_list = get_info_list(
+            "rz", "SELECT sign,name from rzjf_bi.rzjf_qudao_name WHERE name REGEXP '%s'" % qudao_name
+        )  # 获取用户查询的渠道名称列表
+    else:
+        channel_name_list = get_info_list("rz", "SELECT sign,name from rzjf_bi.rzjf_qudao_name ")  # 获取用户查询的渠道名称列表
+    # 生成带分页对象的渠道名称列表
+    channel_name_list = get_paginator_query_sets(request, channel_name_list, list_per_page)
+    return render(request, "channel_name_detail.html", {
+        "channel_name_list": channel_name_list,
+        "condition_dict": condition_dict,
+        "errors": errors
+    })
+
+
+def change_channel_name(request):
+    """修改渠道名称"""
+    if request.method == "POST":
+        if request.is_ajax():  # 确保是Ajax请求
+            ret = {"status": False, "error": None, "data": None}  # 要返回的数据
+            channel_sign = request.POST.get("channel_sign")  # 获取渠道标识
+            channel_name = request.POST.get("channel_name")  # 获取渠道名称
+            try:
+                cursor = connections["rz"].cursor()  # 获取一个游标
+                cursor.execute(
+                    "update rzjf_bi.rzjf_qudao_name set name = '%s' WHERE sign = '%s'" % (
+                        channel_name, channel_sign)
+                )  # 执行SQL
+                ret["status"] = True
+            except Exception as e:
+                ret["error"] = e
+            return HttpResponse(json.dumps(ret))

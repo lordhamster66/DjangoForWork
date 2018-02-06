@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^download_check/(?P<sql_record_id>\d+)/$', views.download_check, name="download_check"),  # 下载审核
     url(r'^delete_download_record/$', views.delete_download_record, name="delete_download_record"),  # 删除下载记录
     url(r'^upload_file.html$', views.upload_file, name="upload_file"),  # 上传文件
+    url(r'^channel_name_detail.html$', views.channel_name_detail, name="channel_name_detail"),  # 渠道名称详细信息
+    url(r'^change_channel_name.html$', views.change_channel_name, name="change_channel_name"),  # 修改渠道名称
 ]
