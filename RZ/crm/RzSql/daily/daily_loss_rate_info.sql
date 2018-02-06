@@ -119,7 +119,7 @@ from
 				INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 				INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 				LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`  # 渠道表
-				where b.customer_user_id in (257346,257349,272643,780304,319021,780309,799219,277387)
+				where b.customer_user_id in (257346,257349,780304,319021,780309,799219,156955,277387)
 				and a.uid not in (122,
 				364,
 				481,
@@ -44431,7 +44431,7 @@ LEFT JOIN
 					) a
 					INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 					INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
-					where b.customer_user_id in (257346,257349,272643,780304,319021,780309,799219,277387)
+					where b.customer_user_id in (257346,257349,780304,319021,780309,799219,156955,277387)
 					GROUP BY a.uid
 		) a
 		LEFT JOIN
@@ -44577,7 +44577,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (257346,257349,272643,780304,319021,780309,799219,277387)
+		where b.customer_user_id in (257346,257349,780304,319021,780309,799219,156955,277387)
 		and a.time_h >= DATE_SUB(CURDATE(),INTERVAL 1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
@@ -44603,7 +44603,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (257346,257349,272643,780304,319021,780309,799219,277387)
+		where b.customer_user_id in (257346,257349,780304,319021,780309,799219,156955,277387)
 		and a.time_h >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.time_h < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
@@ -44626,7 +44626,7 @@ LEFT JOIN
 		INNER JOIN rz_s.rz_s_operator k on b.customer_user_id = k.id
 		LEFT JOIN (SELECT `code`,name from rz_article.rz_channel GROUP BY `code`) q on b.utm_source = q.`code`
 		LEFT JOIN rz_user.rz_user_invite i on a.uid = i.user_id
-		where b.customer_user_id in (257346,257349,272643,780304,319021,780309,799219,277387)
+		where b.customer_user_id in (257346,257349,780304,319021,780309,799219,156955,277387)
 		and a.create_time >= DATE_SUB(DATE_SUB(CURDATE(),INTERVAL 1 day),INTERVAL day(DATE_SUB(CURDATE(),INTERVAL 1 day))-1 day)
 		and a.create_time < CURDATE()
 		and (q.name not in ('wap-qmm','wap-qmm-pc','wap-qmmzyb-pc','wap-qmmzyb','wap-qmm3','wap-qmm6','wap-qmm6-pc','wap-flw','wap-flw-pc','wap-flw1','wap-flw1-pc') or q.name is null)
