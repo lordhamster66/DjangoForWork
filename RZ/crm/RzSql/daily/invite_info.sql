@@ -58,5 +58,81 @@ from
 					GROUP BY h1.uid
 		) t on a.uid = t.uid and a.time_h = t.min_invest_time  # 限定首投
 		where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
+		UNION ALL
+		SELECT 0 invite_r,0 invited_r,0 invited_st_r,0 invited_st_j,sum(case when a.amount = 10 then a.amount else null end)+sum(case when a.amount = 90 then a.amount else null end) cost
+		FROM
+		(
+				SELECT a.source,a.amount,a.use_time,a.create_time
+				from rz_activity.rz_additional_user_red_envelope a
+				where a.name in ('邀请好友投资送10元红包','邀请好友投资送90元红包','邀好友投资获得10元','邀好友投资获得90元') and a.status = 1  and a.deleted = 0
+				and a.use_time >=  "{qdate}"
+				and a.use_time < DATE_ADD("{qdate}",INTERVAL 1 day)
+				and a.create_time >= DATE_SUB(CURDATE(),INTERVAL DAY(DATE_SUB(CURDATE(),INTERVAL 1 day)) day)
+		) a
+		INNER JOIN
+		(
+							SELECT a.source,min(a.create_time)create_time
+							FROM
+							(
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope a
+							where a.source_type in (4) and a.deleted = 0
+							union ALL
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope_cash a
+							where a.source_type in (3,4) and a.deleted = 0
+							) a
+							GROUP BY 1
+		) b on a.source = b.source and a.create_time = b.create_time
+		UNION ALL
+		SELECT 0 invite_r,0 invited_r,0 invited_st_r,0 invited_st_j,sum(case when a.amount = 50 then a.amount else null end) cost
+		FROM
+		(
+							SELECT a.source,a.amount,a.create_time
+							from rz_activity.rz_additional_user_red_envelope_cash a
+							where a.source_type in (4) and a.deleted = 0
+							and a.create_time >= "{qdate}"
+							and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
+		) a
+		INNER JOIN
+		(
+							SELECT a.source,min(a.create_time)create_time
+							FROM
+							(
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope a
+							where a.source_type in (4) and a.deleted = 0
+							union ALL
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope_cash a
+							where a.source_type in (3,4) and a.deleted = 0
+							) a
+							GROUP BY 1
+		) b on a.source = b.source and a.create_time = b.create_time
+		UNION ALL
+		SELECT 0 invite_r,0 invited_r,0 invited_st_r,0 invited_st_j,sum(a.amount) cost
+		FROM
+		(
+							SELECT a.source,a.amount,a.create_time
+							from rz_activity.rz_additional_user_red_envelope_cash a
+							where a.source_type in (3) and a.deleted = 0
+							and a.create_time >= "{qdate}"
+							and a.create_time < DATE_ADD("{qdate}",INTERVAL 1 day)
+		) a
+		INNER JOIN
+		(
+							SELECT a.source,min(a.create_time)create_time
+							FROM
+							(
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope a
+							where a.source_type in (4) and a.deleted = 0
+							union ALL
+							SELECT a.source,a.create_time
+							from rz_activity.rz_additional_user_red_envelope_cash a
+							where a.source_type in (3,4) and a.deleted = 0
+							) a
+							GROUP BY 1
+		) b on a.source = b.source and a.create_time = b.create_time
 ) a
 ;
