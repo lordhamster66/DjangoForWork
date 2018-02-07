@@ -37,7 +37,7 @@ from
 		) a
 		INNER JOIN rz_user.rz_user_base_info b on a.uid = b.user_id
 		LEFT JOIN rzjf_bi.rzjf_old_invest_uid c on a.uid = c.uid
-		INNER JOIN rz_user.rz_user_invite i on a.uid = i.user_id
+		INNER JOIN (SELECT user_id from rz_user.rz_user_invite UNION SELECT uid from rzjf_bi.01u_9tjr) i on a.uid = i.user_id
 		INNER JOIN
 		(
 					SELECT h1.uid,min(h1.time_h) min_invest_time
