@@ -1,6 +1,6 @@
 # 邀友详情
 SELECT sum(a.invite_r) invite_r,sum(a.invited_r) invited_r,sum(a.invited_st_r) invited_st_r,sum(a.invited_st_j) invited_st_j,
-sum(a.cost) cost
+sum(a.cost) cash_f
 from
 (
 		SELECT count(DISTINCT i.invite_user) invite_r,count(DISTINCT(a.uid)) invited_r,0 invited_st_r,0 invited_st_j,0 cost
