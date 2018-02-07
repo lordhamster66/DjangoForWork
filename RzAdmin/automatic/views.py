@@ -3,6 +3,7 @@ import json
 import xlwt
 import time
 import os
+import math
 from datetime import date
 from RzAdmin import settings
 from django.utils.timezone import datetime, now, timedelta
@@ -136,7 +137,6 @@ def download_excel(request, sql_record_id):
         response['Content-Disposition'] = 'attachment; filename=' + time.strftime('%Y%m%d-%H.%M.%S', time.localtime(
             time.time())) + '.xls'
         workbook = xlwt.Workbook(encoding='utf-8')  # 创建工作簿
-        sheet = workbook.add_sheet("sheet1")  # 创建工作页
         style_heading = xlwt.easyxf("""
                 font:
                     name Arial,
@@ -173,18 +173,32 @@ def download_excel(request, sql_record_id):
                 """
                                  )
         if query_sets:
-            for index, field in enumerate(query_sets[0].keys()):
-                sheet.write(0, index, field, style_heading)
-            for index, item in enumerate(query_sets):
-                for value_index, value in enumerate(item.values()):
-                    if isinstance(value, datetime):
-                        value = value.strftime("%Y-%m-%d %H:%M:%S")
-                    if isinstance(value, date):
-                        value = value.strftime("%Y-%m-%d")
-                    if isinstance(value, str):
-                        if value.isdigit() and len(value) == 11:  # 是数字且为11位，可以初步判断为手机号
-                            value = int(value)
-                    sheet.write(index + 1, value_index, value, style_body)
+            data_list = []  # 存放数据的数据结构
+            if len(query_sets) > 50000:  # 超过5万行的数据分sheet存放
+                sheet_num = math.ceil(len(query_sets) / 50000)  # 计算需要几个sheet存放
+                start = 0  # 起始位置
+                for i in range(int(sheet_num)):  # 需要几个sheet就讲数据拆分几次
+                    new_sheet = workbook.add_sheet("sheet%s" % (i + 1))  # 创建工作页
+                    new_query_sets = query_sets[start:start + 50000]  # 对query_sets进行切片，选取本次所对应的数据列表
+                    start += 50000  # 起始位置往后推5万位
+                    data_list.append({"query_sets": new_query_sets, "sheet": new_sheet})
+            else:
+                sheet = workbook.add_sheet("sheet1")  # 创建工作页
+                data_list = [{"query_sets": query_sets, "sheet": sheet}]
+
+            for query_sets_dict in data_list:
+                for index, field in enumerate(query_sets_dict["query_sets"][0].keys()):
+                    query_sets_dict["sheet"].write(0, index, field, style_heading)
+                for index, item in enumerate(query_sets_dict["query_sets"]):
+                    for value_index, value in enumerate(item.values()):
+                        if isinstance(value, datetime):
+                            value = value.strftime("%Y-%m-%d %H:%M:%S")
+                        if isinstance(value, date):
+                            value = value.strftime("%Y-%m-%d")
+                        if isinstance(value, str):
+                            if value.isdigit() and len(value) == 11:  # 是数字且为11位，可以初步判断为手机号
+                                value = int(value)
+                        query_sets_dict["sheet"].write(index + 1, value_index, value, style_body)
         workbook.save(response)
         return response
     else:
