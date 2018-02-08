@@ -86,8 +86,10 @@ def table_search_detail(request, sql_record_id):
                 logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
             query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
             query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
-    query_sets = get_paginator_query_sets(request, query_sets,
-                                          request.GET.get("list_per_page", sql_record_obj.list_per_page))
+    query_sets = get_paginator_query_sets(
+        request, query_sets,
+        request.GET.get("list_per_page", sql_record_obj.list_per_page)
+    )
     return render(request, "table_search_detail.html", {
         "sql_record_obj": sql_record_obj,
         "table_form_obj": table_form_obj,
@@ -133,9 +135,9 @@ def download_excel(request, sql_record_id):
     if table_form_obj.is_valid():  # form验证
         query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
         query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
-        response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=' + time.strftime('%Y%m%d-%H.%M.%S', time.localtime(
-            time.time())) + '.xls'
+        # response = HttpResponse(content_type='application/vnd.ms-excel')
+        # response['Content-Disposition'] = 'attachment; filename=' + time.strftime('%Y%m%d-%H.%M.%S', time.localtime(
+        #     time.time())) + '.xls'
         workbook = xlwt.Workbook(encoding='utf-8')  # 创建工作簿
         style_heading = xlwt.easyxf("""
                 font:
@@ -199,8 +201,18 @@ def download_excel(request, sql_record_id):
                             if value.isdigit() and len(value) == 11:  # 是数字且为11位，可以初步判断为手机号
                                 value = int(value)
                         query_sets_dict["sheet"].write(index + 1, value_index, value, style_body)
-        workbook.save(response)
-        return response
+        user_for_download_path = os.path.join(settings.BASE_DIR, "static", "for_download", str(request.user.id))
+        os.makedirs(user_for_download_path, exist_ok=True)  # 确保路径存在
+        for file_name in os.listdir(user_for_download_path):  # 将已经存在的文件删除，确保不会造成文件堆积
+            file_path = os.path.join(user_for_download_path, file_name)
+            os.remove(file_path)
+        for_download_file_name = "%s.xls" % time.strftime('%Y%m%d-%H.%M.%S', time.localtime(time.time()))  # 生成文件名
+        for_download_file_path = os.path.join(user_for_download_path, for_download_file_name)  # 要下载的文件的绝对路径
+        workbook.save(for_download_file_path)  # 保存至静态文件
+        download_static_url = os.path.join(
+            "/static/for_download/%s/%s" % (str(request.user.id), for_download_file_name)
+        )  # 生成文件的静态路径
+        return redirect(download_static_url)  # 利用静态文件实现下载
     else:
         return HttpResponse("没有数据!")
 
