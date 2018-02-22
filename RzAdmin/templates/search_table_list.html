@@ -11,6 +11,21 @@
             <h3 class="panel-title">可用查询功能</h3>
         </div>
         <div class="panel-body">
+            <form method="get">
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="searchbox" style="float: left;">
+                        <div class="input-group custom-search-form">
+                            <input type="text" name="search_q" class="form-control" id="search_q"
+                                   placeholder="可根据关键字检索您想要的查询内容" value="{{ condition_dict.search_q }}">
+                            <span class="input-group-btn">
+                            <button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-rounded" value="检索" style="margin-left: 20px;">
+                    <b>PS:为空可检索所有查询内容</b>
+                </div>
+            </form>
             <div class="row">
                 <div class="table-responsive">
                     <table class="table">

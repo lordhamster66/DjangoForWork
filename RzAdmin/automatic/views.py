@@ -63,10 +63,19 @@ def index(request):
 @login_required
 def search_table_list(request):
     """可用查询页面"""
-    user = request.user  # 获取用户对象
-    sql_record_objs = models.SQLRecord.objects.filter(roles__in=user.roles.all(), query_page=True).all()
-    sql_record_objs = get_paginator_query_sets(request, sql_record_objs, request.GET.get("list_per_page", 10))
-    return render(request, "search_table_list.html", {"sql_record_objs": sql_record_objs})
+    if request.method == "GET":
+        condition_dict = {"search_q": ""}  # 返回给前端的过滤条件
+        user = request.user  # 获取用户对象
+        sql_record_objs = models.SQLRecord.objects.filter(roles__in=user.roles.all(), query_page=True).all()
+        search_q = request.GET.get("search_q")  # 获取用户想要检索的查询内容
+        if search_q:  # 如果用户有输入检索内容才会进行检索操作
+            sql_record_objs = sql_record_objs.filter(name__contains=search_q).all()
+            condition_dict["search_q"] = search_q
+        sql_record_objs = get_paginator_query_sets(request, sql_record_objs, request.GET.get("list_per_page", 10))
+        return render(request, "search_table_list.html", {
+            "sql_record_objs": sql_record_objs,
+            "condition_dict": condition_dict
+        })
 
 
 @check_permission_decorate
