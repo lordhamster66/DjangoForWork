@@ -124,6 +124,11 @@ class DownloadRecordAdmin(BaseAdmin):
         return self.request.user
 
 
+class UserSearchLogAdmin(BaseAdmin):
+    list_display = ("user", "search_name", "condition_dict", "create_time", "update_time")
+    list_filter = ("user", "create_time")
+
+
 register(models.UserProfile, UserProfileAdmin)
 register(models.Role, RoleAdmin)
 register(models.Menu, MenuAdmin)
@@ -131,3 +136,4 @@ register(models.SQLTag, SQLTagAdmin)
 register(models.SQLFunc, SQLFuncAdmin)
 register(models.SQLRecord, SQLRecordAdmin)
 register(models.DownloadRecord, DownloadRecordAdmin)
+register(models.UserSearchLog, UserSearchLogAdmin)
