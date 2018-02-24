@@ -465,7 +465,7 @@ def get_wdty_info(request):
         return HttpResponse("网贷天眼数据填入完毕!")
 
 
-@cache_page(5 * 60)
+@cache_page(10 * 60)
 def rzjf_recorde(request):
     """用于定时存储人众金服业务所产生的一些记录"""
     # 获取更新用SQL
