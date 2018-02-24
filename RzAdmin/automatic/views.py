@@ -93,6 +93,12 @@ def table_search_detail(request, sql_record_id):
         if table_form_obj.is_valid():  # form验证
             if not request.GET.get("page") and not request.GET.get("o"):  # 用户没有进行翻页和排序操作才会记录查询日志
                 logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
+                # 将用户查询记录添加至数据库
+                models.UserSearchLog.objects.create(
+                    user=request.user,
+                    search_name=str(sql_record_obj.name),
+                    condition_dict=str(condition_dict)
+                )
             query_sets = get_contact_list(sql_record_obj, table_form_obj.cleaned_data)
             query_sets, order_by_dict = query_sets_sort(request, query_sets)  # 进行排序
     query_sets = get_paginator_query_sets(

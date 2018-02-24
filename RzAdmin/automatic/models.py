@@ -270,3 +270,18 @@ class DownloadRecord(models.Model):
 
     class Meta:
         verbose_name_plural = "下载记录表"
+
+
+class UserSearchLog(models.Model):
+    """用户查询记录日志"""
+    user = models.ForeignKey("UserProfile", verbose_name="查询用户")
+    search_name = models.CharField(max_length=32, verbose_name="查询名称")
+    condition_dict = models.TextField(verbose_name="查询条件")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="查询时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+
+    def __str__(self):
+        return "%s查询了%s" % (self.user.name, self.search_name)
+
+    class Meta:
+        verbose_name_plural = "用户查询记录日志"

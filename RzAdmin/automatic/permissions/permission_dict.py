@@ -290,14 +290,6 @@ PermissionDict = {
         "args": [],
         "hooks": [],
     },
-    # 可以访问查看所有SQL记录页面
-    "automatic.can_access_kind_admin_sqlrecord": {
-        "url_type": 1,
-        "url": "/kind_admin/automatic/sqlrecord/",
-        "method": "GET",
-        "args": [],
-        "hooks": [],
-    },
     # 可以对查看所有SQL记录页面进行行内编辑和action操作
     "automatic.can_change_or_do_action_kind_admin_sqlrecord": {
         "url_type": 1,
