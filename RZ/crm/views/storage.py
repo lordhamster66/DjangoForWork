@@ -473,14 +473,28 @@ def rzjf_recorde(request):
     rzjf_user_memo_sql = db_connect.get_sql("crm", "RzSql", "storage", "rzjf_user_memo.sql")
     # 连接数据库并执行SQL
     cursor = connections['rz_bi'].cursor()
-    cursor.execute(rzjf_first_invest_recorde_sql)
+    rzjf_first_invest_recorde_sql_list = db_connect.get_info_list("rz_bi", rzjf_first_invest_recorde_sql)
     rzjf_user_memo_list = db_connect.get_info_list("rz_bi", rzjf_user_memo_sql)
-    for info in rzjf_user_memo_list:
-        cursor.execute(
-            "INSERT INTO `rzjf_bi`.`rzjf_user_memo` (`uid`, `memo`) VALUES ('%s', '%s');" % (
-                info.get("uid"), info.get("memo")
+    with transaction.atomic():
+        # 插入首投记录
+        for info in rzjf_first_invest_recorde_sql_list:
+            cursor.execute(
+                """INSERT INTO `rzjf_bi`.`rzjf_first_invest_recorde` 
+                (`uid`,`first_time`,`first_account`,`bid`,`name`,`time_limit`,`apr`,`db`) 
+                VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');""" % (
+                    info.get("uid"), info.get("first_time"), info.get("first_account"),
+                    info.get("bid"), info.get("name"), info.get("time_limit"),
+                    info.get("apr"), info.get("db")
+                )
             )
-        )
+
+        # 插入用户注册标识
+        for info in rzjf_user_memo_list:
+            cursor.execute(
+                "INSERT INTO `rzjf_bi`.`rzjf_user_memo` (`uid`, `memo`) VALUES ('%s', '%s');" % (
+                    info.get("uid"), info.get("memo")
+                )
+            )
     return HttpResponse("ok!")
 
 

@@ -1,4 +1,3 @@
-INSERT INTO rzjf_bi.rzjf_first_invest_recorde (uid,first_time,first_account,bid,name,time_limit,apr,db)
 SELECT  a.uid,a.time_h first_time,a.account first_account,a.bid,a.name,a.qixian time_limit,a.borrow_apr apr,a.db
 from
 (
@@ -45,9 +44,5 @@ INNER JOIN
 ) t on a.uid = t.uid and a.time_h = t.min_invest_time
 LEFT JOIN rzjf_bi.rzjf_old_invest_uid c on a.uid = c.uid
 where c.uid is null  # 剔除老系统投资的用户，这些用户肯定不能算作新增投资用户
-and a.uid not in
-(
-SELECT uid
-from rzjf_bi.rzjf_first_invest_recorde
-GROUP BY uid
-)
+and a.uid not in (SELECT uid from rzjf_bi.rzjf_first_invest_recorde GROUP BY uid)
+;
