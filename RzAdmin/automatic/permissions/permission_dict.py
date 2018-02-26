@@ -313,7 +313,15 @@ PermissionDict = {
         "method": "POST",
         "args": [],
         "hooks": [],
-    }
+    },
+    # 可以访问用户查询记录页面
+    "automatic.can_access_kind_admin_usersearchlog": {
+        "url_type": 1,
+        "url": "/kind_admin/automatic/usersearchlog/",
+        "method": "GET",
+        "args": [],
+        "hooks": [],
+    },
 }
 
 

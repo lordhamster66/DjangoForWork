@@ -173,6 +173,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
             ('can_change_or_do_action_kind_admin_sqlrecord', '可以对查看所有SQL记录页面进行行内编辑和action操作'),
             ('can_access_kind_admin_sqlrecord_change', '可以访问SQL记录修改页面'),
             ('can_change_kind_admin_sqlrecord', '可以修改SQL记录'),
+            ('can_access_kind_admin_usersearchlog', '可以访问用户查询记录页面'),
         )
 
 
