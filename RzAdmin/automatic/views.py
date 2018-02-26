@@ -91,7 +91,8 @@ def table_search_detail(request, sql_record_id):
     if condition_dict:  # 有查询条件时，才会进行from验证，否则为第一访问该地址不需要验证
         table_form_obj = table_form_class(data=condition_dict)
         if table_form_obj.is_valid():  # form验证
-            if not request.GET.get("page") and not request.GET.get("o"):  # 用户没有进行翻页和排序操作才会记录查询日志
+            # 用户没有进行翻页、排序和切换每页显示多少条操作才会记录查询日志
+            if not request.GET.get("page") and not request.GET.get("o") and not request.GET.get("list_per_page"):
                 logger.info("用户%s查询了%s,使用条件%s!" % (request.user.name, sql_record_obj.name, condition_dict))
                 # 将用户查询记录添加至数据库
                 models.UserSearchLog.objects.create(
