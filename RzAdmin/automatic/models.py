@@ -182,6 +182,7 @@ class Role(models.Model):
     name = models.CharField(max_length=32, unique=True, verbose_name="角色名称")
     menus = models.ManyToManyField("Menu", blank=True, verbose_name="菜单")
     download_status = models.BooleanField(default=False, verbose_name="是否拥有下载权限")
+    check_download_status = models.BooleanField(default=False, verbose_name="是否可以审核下载记录")
 
     def __str__(self):
         return self.name
