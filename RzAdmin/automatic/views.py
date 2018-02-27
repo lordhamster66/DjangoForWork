@@ -135,14 +135,19 @@ def search_channel_name(request):
 @login_required
 def download_excel(request, sql_record_id):
     """导出明细至EXCEL"""
-    user_roles_list = [i.name for i in request.user.roles.all()]  # 用户所属角色
     sql_record_obj = models.SQLRecord.objects.get(id=sql_record_id)  # sql记录
     table_form_class = create_table_form(sql_record_obj)  # 动态生成table_form类
     condition_dict = get_condition_dict(request)  # 获取查询条件
     table_form_obj = table_form_class(data=condition_dict)
     download_record_obj = models.DownloadRecord.objects.filter(id=request.GET.get("download_record_id")).first()
-    if len(set(settings.DetaileJurisdiction) & set(
-            user_roles_list)) == 0 and not sql_record_obj.directly_download_status:  # 没有直接下载权限则需要进行下载认证
+    download_status = False  # 是否有下载权限
+    # 循环用户的角色，看用户是否有角色具有下载权限
+    for role_obj in request.user.roles.all():
+        if role_obj.download_status:
+            download_status = True
+            break
+    # 没有直接下载权限且对应查询记录不具备直接下载属性则需要进行下载认证
+    if not download_status and not sql_record_obj.directly_download_status:
         if download_record_obj:
             if download_record_obj.check_status != 1:
                 return HttpResponse("该下载记录未审核通过,您无权下载!")
