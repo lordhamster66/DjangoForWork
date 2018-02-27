@@ -40,7 +40,7 @@ def get_page_ele(query_sets, condition_dict=None, order_by_dict=None):
     # 显示的页数
     for loop_num in query_sets.paginator.page_range:
         if loop_num < 3 or loop_num > query_sets.paginator.num_pages - 2 or abs(
-                        loop_num - query_sets.number) < 2:  # 最前2页和最后两页以及当前页及当前页前后两页
+                loop_num - query_sets.number) < 2:  # 最前2页和最后两页以及当前页及当前页前后两页
             actived = ""
             if loop_num == query_sets.number:
                 actived = "active"
@@ -124,9 +124,12 @@ def get_table_head(query_sets, condition_dict, order_by_dict):
 @register.simple_tag
 def render_download_option(request, sql_record_obj, condition_dict, order_by_dict):
     """展示下载EXCEL功能或者是提交下载审核功能"""
-    user_roles_list = [i.name for i in request.user.roles.all() if i.name]  # 用户所属角色
-    if len(set(settings.DetaileJurisdiction) & set(
-            user_roles_list)) == 0 and not sql_record_obj.directly_download_status:
+    download_status = False  # 是否有下载权限
+    for role_obj in request.user.roles.all():
+        if role_obj.download_status:
+            download_status = True
+            break
+    if not download_status and not sql_record_obj.directly_download_status:  # 没有下载权限且对应查询记录不具备直接下载属性
         condition_str = "?o=%s" % order_by_dict.get("current_order_by_key", "") + get_condition_str(condition_dict)
         download_option_ele = """
                 <a href="/automatic/download_check/%s/%s"
