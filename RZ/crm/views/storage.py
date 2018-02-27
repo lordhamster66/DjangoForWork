@@ -232,7 +232,7 @@ class DataStorage(View):
             cursor = connections['default'].cursor()  # 创建数据库游标
             for row in user_recover_info:
                 sql = """INSERT INTO `rzjf_user_recover` (`qdate`, `uid`, `recover_account`)
-                VALUES ('%s', '%s', '%s');""" % (row.get("qdate"), row.get("uid"), row.get("recover_account"))
+                VALUES ('%s', '%s', '%s');""" % (qdate, row.get("uid"), row.get("recover_account"))
                 cursor.execute(sql)  # 执行SQL
             cursor.close()  # 关闭游标
             settings.action_logger.info("%s每日每人在贷详情增加完毕!" % qdate)
