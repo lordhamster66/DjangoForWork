@@ -3,7 +3,6 @@
 # __author__ = "Breakering"
 # Date: 2017/12/13
 import json
-from RzAdmin import settings
 from django.db.models.signals import post_save  # 对象保存前和对象保存后
 from RzAdmin.consumer import message_dict
 
@@ -15,7 +14,7 @@ def model_instance_save_callback(sender, **kwargs):
         download_record_obj = kwargs.get("instance")  # 用户下载记录对象
         if kwargs.get("created"):  # 说明用户在创建下载记录
             mass_users = []  # 要群发的用户邮箱
-            detaile_jurisdiction_role_objs = models.Role.objects.filter(name__in=settings.DetaileJurisdiction).all()
+            detaile_jurisdiction_role_objs = models.Role.objects.filter(check_download_status=True).all()
             for detaile_jurisdiction_role_obj in detaile_jurisdiction_role_objs:
                 for user_obj in detaile_jurisdiction_role_obj.userprofile_set.all():
                     user_email = user_obj.email
