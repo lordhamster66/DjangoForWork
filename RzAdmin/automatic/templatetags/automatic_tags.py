@@ -69,8 +69,13 @@ def get_table_rows(request, row):
     """
     td_ele = ""
     detaile_jurisdiction_flag = True  # 有详细信息查看权限
-    user_roles_list = [i.name for i in request.user.roles.all()]  # 用户所属角色
-    if len(set(settings.DetaileJurisdiction) & set(user_roles_list)) == 0:
+    download_status = False  # 是否有下载权限
+    # 循环用户的角色，看用户是否有角色具有下载权限
+    for role_obj in request.user.roles.all():
+        if role_obj.download_status:
+            download_status = True
+            break
+    if not download_status:  # 用户不具备下载权限则部分敏感信息进行打码
         detaile_jurisdiction_flag = False  # 用户没有一个角色在详细信息查看权限角色列表里面则将权限改为False
     for field, data in row.items():  # 循环每一行的数据
         if isinstance(data, datetime):
