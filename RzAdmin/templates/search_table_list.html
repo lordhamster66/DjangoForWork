@@ -11,7 +11,22 @@
             <h3 class="panel-title">可用查询功能</h3>
         </div>
         <div class="panel-body">
-            <form method="get">
+            <form id="base-form" method="get">
+                <div class="row">
+                    <div class="dataTables_length" id="demo-dt-basic_length">
+                        <label style="margin-left: 12px;">显示
+                            <select name="list_per_page" class="form-control input-sm" id="list_per_page">
+                                {% for per_page_value in condition_dict.list_per_page.0 %}
+                                    {% if per_page_value == condition_dict.list_per_page.1 %}
+                                        <option value="{{ per_page_value }}"
+                                                selected="selected">{{ per_page_value }}</option>
+                                    {% else %}
+                                        <option value="{{ per_page_value }}">{{ per_page_value }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>条
+                        </label></div>
+                </div>
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="searchbox" style="float: left;">
                         <div class="input-group custom-search-form">
@@ -69,4 +84,13 @@
             <!-- 表格脚部结束 -->
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $("#list_per_page").change(function () {
+                $("#base-form").submit();
+            })
+        })
+    </script>
 {% endblock %}
