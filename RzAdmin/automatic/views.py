@@ -4,6 +4,8 @@ import xlwt
 import time
 import os
 import math
+import threading
+import copy
 from datetime import date
 from RzAdmin import settings
 from django.utils.timezone import datetime, now, timedelta
@@ -20,42 +22,111 @@ from django.db import connections
 # Create your views here.
 logger = logging.getLogger("__name__")  # 生成一个以当前模块名为名字的logger实例
 c_logger = logging.getLogger("collect")  # 生成一个名为'collect'的logger实例，用于收集一些需要特殊记录的日志
-data_dict = {}  # 用来存放首页数据
+data_dict = {
+    "message": None,  # 提示信息
+    "update_time": "",  # 更新时间
+    "registered_num": 0,  # 对应首页用户数据统计的注册用户数
+    "real_names_num": 0,  # 对应首页用户数据统计的实名用户数
+    "supply_chain_amount": 0,  # 对应首页投资金额统计的供应链投资金额
+    "consumer_amount": 0,  # 对应首页投资金额统计的消费金融投资金额
+    "un_R_xt_person_num": 0,  # 对应首页图表的投资用户数
+    "un_R_xt_amount": "0万",  # 对应首页非自动续投投资金额
+    "recharge_num": 0,  # 对应首页用户数据统计的充值用户数
+    "recover_account": 0,  # 对应首页总待收金额
+    "amount": 0,  # 对应首页总投资金额
+    "recharge_money": 0,  # 对应首页的总充值金额
+    "withdraw_money": 0,  # 对应首页的总提现金额
+    "income": 0,  # 对应首页的总收益
+    "balance": 0,  # 对应首页的站岗资金
+}  # 首页数据字典模板
+
+lock = threading.Lock()
+
+
+def get_home_page_data():
+    """
+    获取首页数据
+    :return:
+    """
+    print("更新首页数据的线程运行了！")
+    lock.acquire()  # 加锁
+    # 当天注册人数
+    data_dict["registered_num"] = get_info_list(
+        "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num") or 0
+    # 当天实名绑卡人数
+    data_dict["real_names_num"] = get_info_list(
+        "rz", models.SQLRecord.objects.get(id=21).content)[0].get("real_names_num") or 0
+    # 当天供应链消费投资详情
+    supply_chain_and_consumer_info = get_info_list("rz", models.SQLRecord.objects.get(id=33).content)[0]
+    data_dict["supply_chain_amount"] = float(supply_chain_and_consumer_info.get("supply_chain_amount") or 0) / 10000
+    data_dict["consumer_amount"] = float(supply_chain_and_consumer_info.get("consumer_amount") or 0) / 10000
+    # 当天非自动续投投资详情
+    un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
+    data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num") or 0
+    data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount") or 0) / 10000)
+    # 昨天截止同一时刻非自动续投投资详情
+    yesterday_un_R_xt_amount_info = get_info_list("rz", models.SQLRecord.objects.get(id=34).content)[0]
+    yesterday_un_R_xt_amount = float(yesterday_un_R_xt_amount_info.get("yesterday_un_R_xt_amount") or 0)
+    data_dict["amount_compare"] = round(((
+                                                 float(un_R_xt_amount.get(
+                                                     "un_R_xt_amount") or 0) - yesterday_un_R_xt_amount
+                                         ) / yesterday_un_R_xt_amount) * 100, 2)
+
+    # 首页底部仪表盘详情
+    # 当天总计投资详情
+    data_dict["amount"] = float(
+        get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0].get("amount") or 0) / 10000
+    # 当天总充值
+    recharge_info = get_info_list("rz", models.SQLRecord.objects.get(id=31).content)[0]
+    data_dict["recharge_num"] = recharge_info.get("recharge_num") or 0
+    data_dict["recharge_money"] = float(recharge_info.get("recharge_money") or 0) / 10000
+    # 当天总提现
+    withdraw_info = get_info_list("rz", models.SQLRecord.objects.get(id=32).content)[0]
+    data_dict["withdraw_money"] = float(withdraw_info.get("withdraw_money") or 0) / 10000
+
+    # 当天总待收金额
+    data_dict["recover_account"] = float(
+        get_info_list("rz", models.SQLRecord.objects.get(id=45).content)[0].get("recover_account") or 0
+    ) / 10000
+    # 当天总收益
+    data_dict["income"] = float(
+        get_info_list("rz", models.SQLRecord.objects.get(id=47).content)[0].get("income") or 0
+    ) / 10000
+    # 当天站岗金额
+    data_dict["balance"] = float(
+        get_info_list("rz", models.SQLRecord.objects.get(id=46).content)[0].get("balance") or 0
+    ) / 10000
+
+    data_dict["message"] = None  # 数据更新完毕，则充值消息为空
+    lock.release()  # 释放锁
 
 
 @check_permission_decorate
 @login_required
 def index(request):
-    # # 当天注册人数
-    # data_dict["registered_num"] = get_info_list(
-    #     "rz", models.SQLRecord.objects.get(id=20).content)[0].get("registered_num") or 0
-    # # 当天实名绑卡人数
-    # data_dict["real_names_num"] = get_info_list(
-    #     "rz", models.SQLRecord.objects.get(id=21).content)[0].get("real_names_num") or 0
-    # # 当天供应链消费投资详情
-    # supply_chain_and_consumer_info = get_info_list("rz", models.SQLRecord.objects.get(id=33).content)[0]
-    # data_dict["supply_chain_amount"] = float(supply_chain_and_consumer_info.get("supply_chain_amount") or 0) / 10000
-    # data_dict["consumer_amount"] = float(supply_chain_and_consumer_info.get("consumer_amount") or 0) / 10000
-    # # 当天非自动续投投资详情
-    # un_R_xt_amount = get_info_list("rz", models.SQLRecord.objects.get(id=22).content)[0]
-    # data_dict["un_R_xt_person_num"] = un_R_xt_amount.get("un_R_xt_person_num") or 0
-    # data_dict["un_R_xt_amount"] = "%s万" % (float(un_R_xt_amount.get("un_R_xt_amount") or 0) / 10000)
-    # # 昨天截止同一时刻非自动续投投资详情
-    # yesterday_un_R_xt_amount_info = get_info_list("rz", models.SQLRecord.objects.get(id=34).content)[0]
-    # yesterday_un_R_xt_amount = float(yesterday_un_R_xt_amount_info.get("yesterday_un_R_xt_amount") or 0)
-    # data_dict["amount_compare"] = round(((
-    #                                          float(un_R_xt_amount.get("un_R_xt_amount") or 0) - yesterday_un_R_xt_amount
-    #                                      ) / yesterday_un_R_xt_amount) * 100, 2)
-    # # 当天充值详情
-    # recharge_info = get_info_list("rz", models.SQLRecord.objects.get(id=31).content)[0]
-    # data_dict["recharge_num"] = recharge_info.get("recharge_num") or 0
-    # data_dict["recharge_money"] = float(recharge_info.get("recharge_money") or 0) / 10000
-    # # 当天提现详情
-    # withdraw_info = get_info_list("rz", models.SQLRecord.objects.get(id=32).content)[0]
-    # data_dict["withdraw_money"] = float(withdraw_info.get("withdraw_money") or 0) / 10000
-    # # 当天总计投资详情
-    # data_dict["amount"] = float(
-    #     get_info_list("rz", models.SQLRecord.objects.get(id=23).content)[0].get("amount") or 0) / 10000
+    update_require = False  # 是否需要更新
+    time_of_now = datetime.strftime(now(), "%Y-%m-%d %H:%M:%S")  # 现在的时间
+    timestamp_of_now = time.mktime(time.strptime(time_of_now, "%Y-%m-%d %H:%M:%S"))  # 现在时间对应的时间戳
+    last_update_time = data_dict.get("update_time")  # 上次更新的时间
+    if last_update_time:  # 能获取到上次的更新时间，则将上次更新时间和现在的时间进行比较
+        timestamp_of_last_update = time.mktime(time.strptime(last_update_time, "%Y-%m-%d %H:%M:%S"))  # 上次更新对应的时间戳
+        if timestamp_of_now - timestamp_of_last_update >= 5 * 60:  # 间隔五分钟则会更新数据
+            update_require = True
+        else:
+            date_of_now = datetime.strftime(now(), "%Y-%m-%d")  # 现在的日期
+            last_update_date = data_dict.get("update_time").split(" ")[0]  # 上次更新的日期
+            if date_of_now != last_update_date:  # 上次更新日期和现在的日期不相等则更新数据
+                data_dict["message"] = "数据正在更新中，请稍后！"
+                update_require = True
+    else:  # 获取不到上次更新时间，则说明服务器第一次启动，需要进行更新数据操作
+        update_require = True
+    # print(data_dict)
+    # print(time_of_now, last_update_time, update_require)
+    if update_require:  # 需要更新，才会更新数据
+        data_dict["update_time"] = time_of_now  # 记录本次更新时间
+        data_dict["message"] = "数据正在更新中，请稍后！"
+        t = threading.Thread(target=get_home_page_data)  # 生成一个用来更新数据的线程
+        t.start()  # 启动线程
     return render(request, "automatic_index.html", {"data_dict": data_dict})
 
 

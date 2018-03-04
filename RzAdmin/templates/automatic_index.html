@@ -5,6 +5,22 @@
 {% block page-content %}
     <div class="panel">
         <div class="panel-body">
+            {% if data_dict.message %}
+                <div class="row">
+                    <div class="alert alert-danger media fade in">
+                        <button class="close" data-dismiss="alert"><span>×</span></button>
+                        <div class="media-left">
+                                <span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
+                                    <i class="fa fa-bolt fa-lg"></i>
+                                </span>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="alert-title">友情提示</h4>
+                            <p class="alert-message">{{ data_dict.message }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="col-sm-6 col-lg-4">
                     <!--Registered User-->
@@ -77,7 +93,7 @@
                     <div class="col-md-12 col-lg-4 eq-box-lg">
                         <div class="panel">
                             <div class="panel-heading">
-                                <h3 class="panel-title">总待收金额(亿)</h3>
+                                <h3 class="panel-title">总待收金额(万)</h3>
                             </div>
                             <!-- Gauge JS -->
                             <!--===================================================-->
@@ -200,20 +216,20 @@
     </div>
 {% endblock %}
 {% block js %}
-    <!-- 临时添加js开始 -->
-    <script>
-        swal({
-                title: "警告!",
-                text: "施工中!",
-                type: "warning",
-                confirmButtonText: "OK",
-                closeOnConfirm: false
-            },
-            function () {
-                location.href = "/automatic/search_table_list/";
-            });
-    </script>
-    <!-- 临时添加js结束 -->
+    {#    <!-- 临时添加js开始 -->#}
+    {#    <script>#}
+    {#        swal({#}
+    {#                title: "警告!",#}
+    {#                text: "施工中!",#}
+    {#                type: "warning",#}
+    {#                confirmButtonText: "OK",#}
+    {#                closeOnConfirm: false#}
+    {#            },#}
+    {#            function () {#}
+    {#                location.href = "/automatic/search_table_list/";#}
+    {#            });#}
+    {#    </script>#}
+    {#    <!-- 临时添加js结束 -->#}
 
     <!-- 更新系统时间js开始 -->
     <script>
@@ -406,9 +422,9 @@
                 strokeColor: '#ddd', // to see which ones work best for you
                 generateGradient: true
             }); // create sexy gauge!
-            pendingGauge.maxValue = {{data_dict.amount}}+20; // set max gauge value
+            pendingGauge.maxValue = {{data_dict.recover_account}}+100000; // set max gauge value
             pendingGauge.animationSpeed = 32; // set animation speed (32 is default value)
-            pendingGauge.set({{data_dict.amount}}); // set actual value
+            pendingGauge.set({{data_dict.recover_account}}); // set actual value
             pendingGauge.setTextField(document.getElementById("pending-gauge-txt"));
 
             // 总投资金额
@@ -428,7 +444,7 @@
                 strokeColor: '#ddd', // to see which ones work best for you
                 generateGradient: true
             }); // create sexy gauge!
-            investGauge.maxValue = {{data_dict.amount}}+2000; // set max gauge value
+            investGauge.maxValue = {{data_dict.amount}}+1000; // set max gauge value
             investGauge.animationSpeed = 32; // set animation speed (32 is default value)
             investGauge.set({{data_dict.amount}}); // set actual value
             investGauge.setTextField(document.getElementById("invest-gauge-txt"));
@@ -494,9 +510,9 @@
                 strokeColor: '#ddd', // to see which ones work best for     you
                 generateGradient: true
             }); // create sexy gauge!
-            incomeGauge.maxValue = 6000; // set max gauge value
+            incomeGauge.maxValue = {{data_dict.income}}+1000; // set max gauge value
             incomeGauge.animationSpeed = 32; // set animation speed (32 is default value)
-            incomeGauge.set({{data_dict.amount}}); // set actual value
+            incomeGauge.set({{data_dict.income}}); // set actual value
             incomeGauge.setTextField(document.getElementById("income-gauge-txt"));
 
             // 站岗资金
@@ -516,9 +532,9 @@
                 strokeColor: '#ddd', // to see which ones work best for     you
                 generateGradient: true
             }); // create sexy gauge!
-            balanceGauge.maxValue = 6000; // set max gauge value
+            balanceGauge.maxValue = {{data_dict.balance}}+1000; // set max gauge value
             balanceGauge.animationSpeed = 32; // set animation speed (32 is default value)
-            balanceGauge.set({{data_dict.amount}}); // set actual value
+            balanceGauge.set({{data_dict.balance}}); // set actual value
             balanceGauge.setTextField(document.getElementById("balance-gauge-txt"));
         })
     </script>
