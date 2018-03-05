@@ -240,7 +240,18 @@ class ReCasting(models.Model):
     day_t_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当日投资金额", null=True)
     month_t_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="当月投资金额", null=True)
 
+    one_month_ft_r = models.IntegerField(verbose_name="本月首投后复投人数", null=True)
+    one_month_st_r = models.IntegerField(verbose_name="本月首投人数", null=True)
+    one_month_ft_lv = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="本月首投用户复投率", null=True)
+    one_month_ft_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="本月首投用户复投金额", null=True)
+
+    two_month_ft_r = models.IntegerField(verbose_name="前两月首投后复投人数", null=True)
+    two_month_st_r = models.IntegerField(verbose_name="前两月首投人数", null=True)
+    two_month_ft_lv = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="前两月首投用户复投率", null=True)
+    two_month_ft_j = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="前两月首投用户复投金额", null=True)
+
     class Meta:
+        unique_together = ("qdate", "kefuname")
         db_table = "rzjf_re_casting"
         verbose_name = "专属客服复投数据"
         verbose_name_plural = "专属客服复投数据"

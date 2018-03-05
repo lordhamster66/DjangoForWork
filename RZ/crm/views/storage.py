@@ -342,6 +342,16 @@ class DataStorage(View):
                     ft_j=row.get("ft_j") or None,  # 复投金额
                     day_t_j=row.get("day_t_j") or None,  # 当日投资金额
                     month_t_j=row.get("month_t_j") or None,  # 当月投资金额
+
+                    one_month_ft_r=row.get("one_month_ft_r") or None,  # 本月首投后复投人数
+                    one_month_st_r=row.get("one_month_st_r") or None,  # 本月首投人数
+                    one_month_ft_lv=row.get("one_month_ft_lv") or None,  # 本月首投用户复投率
+                    one_month_ft_j=row.get("one_month_ft_j") or None,  # 本月首投用户复投金额
+
+                    two_month_ft_r=row.get("two_month_ft_r") or None,  # 前两月首投后复投人数
+                    two_month_st_r=row.get("two_month_st_r") or None,  # 前两月首投人数
+                    two_month_ft_lv=row.get("two_month_ft_lv") or None,  # 前两月首投用户复投率
+                    two_month_ft_j=row.get("two_month_ft_j") or None,  # 前两月首投用户复投金额
                 ))
             models.ReCasting.objects.using("default").bulk_create(re_casting_obj_list)
             settings.action_logger.info("%sEXCEL日报专属客服复投数据详情增加完毕!" % qdate)
