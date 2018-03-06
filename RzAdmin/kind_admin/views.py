@@ -70,6 +70,8 @@ def table_add(request, app_name, table_name):
     """
     model_form_obj = None  # 要返回的model_form对象
     admin_class = kind_admin.enabled_admins[app_name][table_name]  # 获取admin_class
+    if admin_class.new_add_url:  # 如果有新的添加对象的地址则跳转至新的添加地址
+        return redirect(admin_class.new_add_url)
     admin_class.need_readonly = False  # 对对象进行添加时，不需要有readonly的需求
     model_form_class = create_model_form(admin_class)  # 获取ModelForm
     if request.method == "GET":

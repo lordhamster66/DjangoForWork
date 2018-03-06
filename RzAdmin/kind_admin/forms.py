@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 # __author__ = "Breakering"
 # Date: 2017/11/18
-from automatic import models
-from django.forms import ModelForm, widgets, PasswordInput
+from django.forms import ModelForm
 from kind_admin.kind_admin import enabled_admins
 
 
@@ -59,7 +58,7 @@ def create_model_form(admin_class):
     class Meta:
         model = admin_class.model
         fields = "__all__"
-        exclude = admin_class.modelform_exclude_fields  # 生成表单是要剔除的字段
+        exclude = admin_class.modelform_exclude_fields  # 生成表单时要剔除的字段
 
     attrs = {"Meta": Meta, "__new__": __new__, "clean": clean}
     model_form_class = type("DynamicModelForm", (ModelForm,), attrs)  # 动态生成ModelForm

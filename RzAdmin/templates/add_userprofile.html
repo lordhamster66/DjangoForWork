@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/kind_admin/">APP库</a></li>
+        <li><a href="/kind_admin/automatic/userprofile/">账户表</a></li>
+        <li class="active">添加自动化后台账户</li>
+    </ol>
+{% endblock %}
+{% block page-content %}
+    <div class="panel panel-bordered panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加自动化后台账户</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-5">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in add_userprofile_form_obj %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="demo-is-inputsmall">{{ field.label }}：</label>
+                            <div class="col-sm-10">
+                                {{ field }}
+                                <span class="errors">{{ field.errors.0 }}</span>  <!-- 有错误信息则自动显示 -->
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <input id="check-submit" type="submit" class="btn btn-primary btn-rounded" style="margin-top: 20px;"
+                           value="确认提交">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

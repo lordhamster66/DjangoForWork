@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^upload_file.html$', views.upload_file, name="upload_file"),  # 上传文件
     url(r'^channel_name_detail.html$', views.channel_name_detail, name="channel_name_detail"),  # 渠道名称详细信息
     url(r'^change_channel_name.html$', views.change_channel_name, name="change_channel_name"),  # 修改渠道名称
+    # url(r'^add_userprofile.html$', views.add_userprofile, name="add_userprofile"),  # 添加新的自动化后台账户
 ]

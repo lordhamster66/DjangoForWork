@@ -24,6 +24,7 @@ class BaseAdmin(object):
     dynamic_default_fields = ()  # 动态默认字段,在修改对象时动态生成
     only_display_img_field = ()  # 只显示图片的字段
     list_editable = ()  # 行内编辑字段
+    new_add_url = ""  # 添加对象地址修改
 
     def delete_selected(self, request, querysets):
         """
@@ -79,10 +80,11 @@ def register(model_class, admin_class=None):
 #         pass
 
 class UserProfileAdmin(BaseAdmin):
-    list_display = ("email", "name", "last_login", 'is_admin', "is_active")
+    list_display = ("email", "name", "last_login", 'is_admin', "is_active", "is_superuser")
     readonly_fields = ("email", "password",)
     filter_horizontal = ("roles", "groups", "user_permissions")
-    modelform_exclude_fields = ("is_superuser", "last_login", "avatar",)
+    modelform_exclude_fields = ("last_login", "avatar",)
+    new_add_url = "/admin/automatic/userprofile/add/"
 
 
 class RoleAdmin(BaseAdmin):
