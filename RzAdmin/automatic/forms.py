@@ -7,6 +7,7 @@ from django.forms import fields
 from django.forms import widgets
 from django.utils.timezone import datetime, timedelta
 from automatic.utils import get_info_list
+from django.core.exceptions import ValidationError  # 导入一个异常
 
 
 class FunctionList(object):
@@ -196,3 +197,38 @@ def create_table_form(sql_record_obj):
                 attrs["clean_%s" % func_name] = getattr(FunctionList, "clean_%s" % func_name)
     dynamic_form = type("DynamicTableForm", (Form,), attrs)
     return dynamic_form
+
+
+class AddUserProfileForm(Form):
+    """添加自动化账户form"""
+    email = fields.EmailField(
+        label="邮箱",
+        widget=widgets.EmailInput(attrs={"class": "form-control"}),
+        error_messages={"required": "邮箱不能为空！", "invalid": "邮箱格式错误！"},
+    )
+
+    name = fields.CharField(
+        label="姓名",
+        widget=widgets.TextInput(attrs={"class": "form-control"}),
+        error_messages={"required": "姓名不能为空!"}
+    )
+
+    password = fields.CharField(
+        label="密码",
+        widget=widgets.PasswordInput(attrs={"class": "form-control"}),
+        error_messages={"required": "密码不能为空!"}
+    )
+
+    password_confirm = fields.CharField(
+        label="确认密码",
+        widget=widgets.PasswordInput(attrs={"class": "form-control"}),
+        error_messages={"required": "确认密码不能为空!"}
+    )
+
+    def clean(self):
+        """进行数据清洗"""
+        password = self.cleaned_data.get("password", "")  # 获取用户输入的密码
+        password_confirm = self.cleaned_data.get("password_confirm", "")  # 获取用户输入的确认密码
+        if password != password_confirm:
+            self.add_error("password_confirm", "两次输入密码不一致")
+        return self.cleaned_data

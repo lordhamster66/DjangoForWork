@@ -52,6 +52,11 @@
 
     <!--themes [ OPTIONAL ]-->
     <link href="/static/css/themes/{{ request.user.themes }}" rel="stylesheet">
+    <style>
+        .errors {
+            color: red;
+        }
+    </style>
     {% block css %}{% endblock %}
 
 

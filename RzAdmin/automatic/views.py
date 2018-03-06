@@ -5,12 +5,11 @@ import time
 import os
 import math
 import threading
-import copy
 from datetime import date
 from RzAdmin import settings
-from django.utils.timezone import datetime, now, timedelta
+from django.utils.timezone import datetime, now
 from automatic import models
-from automatic.forms import create_table_form
+from automatic.forms import create_table_form, AddUserProfileForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from automatic.utils import (
@@ -439,6 +438,7 @@ def channel_name_detail(request):
     })
 
 
+@login_required
 def change_channel_name(request):
     """修改渠道名称"""
     if request.method == "POST":
@@ -456,3 +456,20 @@ def change_channel_name(request):
             except Exception as e:
                 ret["error"] = e
             return HttpResponse(json.dumps(ret))
+
+
+# @login_required
+# def add_userprofile(request):
+#     """添加新的自动化后台账户"""
+#     if request.method == "GET":
+#         add_userprofile_form_obj = AddUserProfileForm()  # 创建添加账户的form对象
+#     elif request.method == "POST":
+#         add_userprofile_form_obj = AddUserProfileForm(request.POST)
+#         if add_userprofile_form_obj.is_valid():
+#             objects = models.UserProfileManager()
+#             objects.create_user(
+#                 add_userprofile_form_obj.cleaned_data.pop("email"),
+#                 password=add_userprofile_form_obj.cleaned_data.pop("password"),
+#                 name=add_userprofile_form_obj.cleaned_data.pop("name"),
+#             )
+#     return render(request, "add_userprofile.html", {"add_userprofile_form_obj": add_userprofile_form_obj})

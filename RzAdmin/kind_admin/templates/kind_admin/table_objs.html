@@ -20,8 +20,13 @@
                 <div class="container-fluid">
                     {% render_table_name admin_class %}
                     {% if not admin_class.table_readonly %}
-                        <a class="btn btn-success pull-right" href="{{ request.path }}add"
-                           style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+                        {% if not admin_class.new_add_url %}
+                            <a class="btn btn-success pull-right" href="{{ request.path }}add"
+                               style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+                        {% else %}
+                            <a class="btn btn-success pull-right" href="{{ admin_class.new_add_url }}"
+                               style="color: white;text-decoration: none;margin-top: 10px;">添加内容</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </h3>
