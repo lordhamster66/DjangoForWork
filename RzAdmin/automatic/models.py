@@ -233,6 +233,7 @@ class SQLRecord(models.Model):
     """sql记录表"""
     user = models.ForeignKey("UserProfile", verbose_name="创建者")
     name = models.CharField(max_length=32, verbose_name="sql名称", unique=True)
+    nick_name = models.CharField(max_length=128, verbose_name="sql昵称", unique=True, null=True)
     roles = models.ManyToManyField("Role", blank=True, verbose_name="所属角色", default=None)
     tags = models.ManyToManyField("SQLTag", blank=True, verbose_name="标签", default=None)
     content = models.TextField(verbose_name="sql内容")
@@ -243,7 +244,7 @@ class SQLRecord(models.Model):
     directly_download_status = models.BooleanField(default=False, verbose_name="是否可以直接下载")
     list_per_page_choices = ((10, "10"), (25, "25"), (50, "50"), (100, "100"))
     list_per_page = models.SmallIntegerField(choices=list_per_page_choices, default='10', verbose_name="每页显示多少条")
-    usage_choices = ((0, "生成查询页面"), (1, "首页展示"), (2, "其他展示"))
+    usage_choices = ((0, "生成查询页面"), (1, "首页展示"), (2, "日报数据提取"), (3, "BI数据库辅助"), (4, "其他用途"))
     usage = models.SmallIntegerField(choices=usage_choices, default=0, verbose_name="SQL记录用途")
     date = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 

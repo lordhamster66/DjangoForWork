@@ -138,37 +138,37 @@ class DataStorage(View):
                 # hb_s=invite_info.get("hb_s")  # 红包使用金额
             )
             settings.action_logger.info("%s邀请数据信息增加完毕!" % qdate)
-            # 增加资产数据详情
-            asset_info_obj_list = []
-            for row in getattr(self, "qixian_info"):
-                asset_info_obj_list.append(models.AssetInfo(
-                    qdate=qdate,  # 日期
-                    asset_type="所有",  # 资产类型
-                    term=row.get("term") or None,  # 期限类型
-                    tz_r=row.get("tz_r") or None,  # 投资人数
-                    tz_j=row.get("tz_j") or None,  # 投资金额
-                    mb_ys=row.get("mb_ys") or None  # 满标用时
-                ))
-            for row in getattr(self, "s_qixian_info"):
-                asset_info_obj_list.append(models.AssetInfo(
-                    qdate=qdate,  # 日期
-                    asset_type="散标",  # 资产类型
-                    term=row.get("term") or None,  # 期限类型
-                    tz_r=row.get("tz_r") or None,  # 投资人数
-                    tz_j=row.get("tz_j") or None,  # 投资金额
-                    mb_ys=row.get("mb_ys") or None  # 满标用时
-                ))
-            for row in getattr(self, "r_qixian_info"):
-                asset_info_obj_list.append(models.AssetInfo(
-                    qdate=qdate,  # 日期
-                    asset_type="R计划",  # 资产类型
-                    term=row.get("term") or None,  # 期限类型
-                    tz_r=row.get("tz_r") or None,  # 投资人数
-                    tz_j=row.get("tz_j") or None,  # 投资金额
-                    mb_ys=row.get("mb_ys") or None  # 满标用时
-                ))
-            models.AssetInfo.objects.using("default").bulk_create(asset_info_obj_list)
-            settings.action_logger.info("%s资产数据详情增加完毕!" % qdate)
+            # # 增加资产数据详情
+            # asset_info_obj_list = []
+            # for row in getattr(self, "qixian_info"):
+            #     asset_info_obj_list.append(models.AssetInfo(
+            #         qdate=qdate,  # 日期
+            #         asset_type="所有",  # 资产类型
+            #         term=row.get("term") or None,  # 期限类型
+            #         tz_r=row.get("tz_r") or None,  # 投资人数
+            #         tz_j=row.get("tz_j") or None,  # 投资金额
+            #         mb_ys=row.get("mb_ys") or None  # 满标用时
+            #     ))
+            # for row in getattr(self, "s_qixian_info"):
+            #     asset_info_obj_list.append(models.AssetInfo(
+            #         qdate=qdate,  # 日期
+            #         asset_type="散标",  # 资产类型
+            #         term=row.get("term") or None,  # 期限类型
+            #         tz_r=row.get("tz_r") or None,  # 投资人数
+            #         tz_j=row.get("tz_j") or None,  # 投资金额
+            #         mb_ys=row.get("mb_ys") or None  # 满标用时
+            #     ))
+            # for row in getattr(self, "r_qixian_info"):
+            #     asset_info_obj_list.append(models.AssetInfo(
+            #         qdate=qdate,  # 日期
+            #         asset_type="R计划",  # 资产类型
+            #         term=row.get("term") or None,  # 期限类型
+            #         tz_r=row.get("tz_r") or None,  # 投资人数
+            #         tz_j=row.get("tz_j") or None,  # 投资金额
+            #         mb_ys=row.get("mb_ys") or None  # 满标用时
+            #     ))
+            # models.AssetInfo.objects.using("default").bulk_create(asset_info_obj_list)
+            # settings.action_logger.info("%s资产数据详情增加完毕!" % qdate)
             # 增加各端数据详情
             geduan_rw = getattr(self, "geduan_rw")  # 获取各端回款并提现数据
             geduan_rw_dic = {}  # 定义一个各端回款并提现字典

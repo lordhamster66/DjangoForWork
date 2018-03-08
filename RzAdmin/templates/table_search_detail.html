@@ -32,7 +32,7 @@
                 <b>{{ sql_record_obj.name }}查询</b>
                 {% for func in sql_record_obj.funcs.all %}
                     {% if func.name == "update_first_invest" %}
-                        <a class="btn btn-warning  btn-rounded" href="http://10.1.1.105:9008/crm/rzjf_recorde/"
+                        <a class="btn btn-warning  btn-rounded" href="/daily/rzjf_recorde/"
                            target="_blank">更新至实时首投记录</a>
                     {% endif %}
                 {% endfor %}
