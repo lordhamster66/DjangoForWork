@@ -233,7 +233,7 @@ class SQLRecord(models.Model):
     """sql记录表"""
     user = models.ForeignKey("UserProfile", verbose_name="创建者")
     name = models.CharField(max_length=32, verbose_name="sql名称", unique=True)
-    nick_name = models.CharField(max_length=128, verbose_name="sql昵称", unique=True, null=True)
+    nick_name = models.CharField(max_length=128, verbose_name="sql昵称", unique=True, null=True, blank=True)
     roles = models.ManyToManyField("Role", blank=True, verbose_name="所属角色", default=None)
     tags = models.ManyToManyField("SQLTag", blank=True, verbose_name="标签", default=None)
     content = models.TextField(verbose_name="sql内容")
