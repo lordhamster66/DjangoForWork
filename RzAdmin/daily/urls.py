@@ -13,17 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
-from RzAdmin import views
+from django.conf.urls import url
+from daily import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),  # django admin
-    url(r'^$', views.index),
-    url(r'^accounts/login/$', views.acc_login),  # 登录
-    url(r'^accounts/logout/$', views.acc_logout),  # 注销
-    url(r'^accounts/change_avatar/$', views.change_avatar, name="change_avatar"),  # 修改用户头像
-    url(r'^automatic/', include("automatic.urls")),  # automatic App
-    url(r'^kind_admin/', include("kind_admin.urls")),  # kind_admin 插件
-    url(r'^daily/', include("daily.urls")),  # daily App
+    url(r'^data_storage/$', views.DataStorage.as_view()),  # 获取公司数据库信息
+    url(r'^get_wdzj_info/$', views.get_wdzj_info),  # 爬取网贷之家数据信息
+    url(r'^get_wdty_info/$', views.get_wdty_info),  # 爬取网贷天眼数据信息
+    url(r'^rzjf_recorde/$', views.rzjf_recorde),  # 用于定时存储人众金服业务所产生的一些记录
+    url(r'^rzjf_invest_rank/$', views.rzjf_invest_rank),  # 存储投资次数
 ]
