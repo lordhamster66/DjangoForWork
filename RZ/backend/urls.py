@@ -23,9 +23,9 @@ urlpatterns = [
     url(r'^login/$', user.login),
     url(r'^logout/$', user.logout),
     url(r'^index/$', manage.index),
-    # url(r'^base_info/$', manage.base_info),
-    # url(r'^tg_info/$', manage.tg_info),
-    # url(r'^wdzj_jk/$', manage.wdzj_jk),  # 网贷之家接口
-    # url(r'^wdty_jk/$', manage.wdty_jk),  # 网贷天眼接口
+    url(r'^base_info/$', manage.base_info),
+    url(r'^tg_info/$', manage.tg_info),
+    url(r'^wdzj_jk/$', manage.wdzj_jk),  # 网贷之家接口
+    url(r'^wdty_jk/$', manage.wdty_jk),  # 网贷天眼接口
     # url(r'^search_channel_name/$', manage.search_channel_name)  # 查询渠道名称
 ]
