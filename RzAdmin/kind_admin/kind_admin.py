@@ -4,6 +4,7 @@
 # Date: 2017/11/11
 from django.shortcuts import redirect
 from automatic import models
+from daily import models as daily_models
 
 enabled_admins = {}
 
@@ -131,6 +132,87 @@ class UserSearchLogAdmin(BaseAdmin):
     list_filter = ("user", "create_time")
 
 
+class BaseInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "zhu_r", "sm_r", "sc_r", "xztz_r",
+        "xztz_j", "cz_r", "cz_j", "tx_r", "tx_j",
+        "tz_r", "tz_j", "tz_b", "tz_dl_r", "hk_r",
+        "hk_j", "zg_j", "zg_r", "zd_r", "zd_j",
+        "xt_j", "cz_tz"
+    )
+    list_filter = ("qdate",)
+
+
+class OtherInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "cz_fee", "short_tz_r", "short_tz_j", "short_zd_j",
+        "Rplan_account", "Rplan_recover_account", "g_tz_j", "x_tz_j", "Rplan_xt",
+        "unRplan_xt_hk_j"
+    )
+    list_filter = ("qdate",)
+
+
+class CollectClassifyAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "term", "collect_r", "collect_j", "collect_type"
+    )
+    list_filter = ("qdate",)
+
+
+class WithdrawClassifyAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "term", "tx_r", "tx_j", "withdraw_type"
+    )
+    list_filter = ("qdate",)
+
+
+class TgInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "tg_zhu_r", "tg_sm_r", "tg_sc_r", "tg_xztz_r"
+        , "tg_xztz_j", "tg_cost"
+    )
+    list_filter = ("qdate",)
+
+
+class OperateInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "xz_cz", "hk_cz", "unhk_cz", "zj_ft_lv"
+        , "rs_ft_lv"
+    )
+    list_filter = ("qdate",)
+
+
+class InviteInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "invite_r", "invited_r", "invited_st_r", "invited_st_j"
+        , "cash_f"
+    )
+    list_filter = ("qdate",)
+
+
+class AssetInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "term", "tz_r", "tz_j", "mb_ys"
+        , "asset_type"
+    )
+    list_filter = ("qdate",)
+
+
+class TimeSlotAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "timeslot", "tz_r"
+    )
+    list_filter = ("qdate",)
+
+
+class GeDuanInfoAdmin(BaseAdmin):
+    list_display = (
+        "qdate", "geduan", "recover", "recover_withdraw", "account", "xztz_j",
+        "withdraw"
+    )
+    list_filter = ("qdate",)
+
+
 register(models.UserProfile, UserProfileAdmin)
 register(models.Role, RoleAdmin)
 register(models.Menu, MenuAdmin)
@@ -139,3 +221,15 @@ register(models.SQLFunc, SQLFuncAdmin)
 register(models.SQLRecord, SQLRecordAdmin)
 register(models.DownloadRecord, DownloadRecordAdmin)
 register(models.UserSearchLog, UserSearchLogAdmin)
+
+# daily app
+register(daily_models.BaseInfo, BaseInfoAdmin)
+register(daily_models.OtherInfo, OtherInfoAdmin)
+register(daily_models.CollectClassify, CollectClassifyAdmin)
+register(daily_models.WithdrawClassify, WithdrawClassifyAdmin)
+register(daily_models.TgInfo, TgInfoAdmin)
+register(daily_models.OperateInfo, OperateInfoAdmin)
+register(daily_models.InviteInfo, InviteInfoAdmin)
+register(daily_models.AssetInfo, AssetInfoAdmin)
+register(daily_models.TimeSlot, TimeSlotAdmin)
+register(daily_models.GeDuanInfo, GeDuanInfoAdmin)

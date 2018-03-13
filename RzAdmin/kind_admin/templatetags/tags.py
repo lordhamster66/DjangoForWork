@@ -47,7 +47,7 @@ def get_table_thead(admin_class, column, orderby_dict, condition_dict, search_co
                 sorte_icon = '<i class="fa fa-sort-up" aria-hidden="true"></i>'
             else:
                 sorte_icon = '<i class="fa fa-sort-desc" aria-hidden="true"></i>'
-        th_ele += '<th><a href="?o=%s%s&_q=%s">%s</a>%s</th>' % (
+        th_ele += '<th style="white-space:nowrap;"><a href="?o=%s%s&_q=%s">%s</a>%s</th>' % (
             orderby_key, condition_str, search_content, column_name, sorte_icon
         )
     except FieldDoesNotExist as e:  # 说明此字段不在model类里面,为用户自定义字段
@@ -56,7 +56,7 @@ def get_table_thead(admin_class, column, orderby_dict, condition_dict, search_co
             func = getattr(admin_class, column)
             if hasattr(func, "display_name"):
                 column_name = func.display_name
-        th_ele += '<th><a href="javascript:void(0);">%s</a></th>' % column_name
+        th_ele += '<th style="white-space:nowrap;"><a href="javascript:void(0);">%s</a></th>' % column_name
     return mark_safe(th_ele)
 
 
@@ -114,7 +114,7 @@ def get_table_rows(request, obj, admin_class):
             admin_class.request = request  # 在admin_class里封装请求内容
             if hasattr(admin_class, column):
                 column_data = getattr(admin_class, column)()
-        td_ele += "<td>%s</td>" % column_data
+        td_ele += "<td style='white-space:nowrap;'>%s</td>" % column_data
     return mark_safe(td_ele)
 
 
@@ -134,7 +134,7 @@ def get_page_ele(query_sets, condition_dict, orderby_dict, search_content):
     # 显示的页数
     for loop_num in query_sets.paginator.page_range:
         if loop_num < 3 or loop_num > query_sets.paginator.num_pages - 2 or abs(
-                        loop_num - query_sets.number) < 2:  # 最前2页和最后两页以及当前页及当前页前后两页
+                loop_num - query_sets.number) < 2:  # 最前2页和最后两页以及当前页及当前页前后两页
             actived = ""
             if loop_num == query_sets.number:  # 如果是当前页则激活
                 actived = "active"
