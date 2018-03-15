@@ -137,7 +137,7 @@ class BaseInfoAdmin(BaseAdmin):
         "qdate", "zhu_r", "sm_r", "sc_r", "xztz_r",
         "xztz_j", "cz_r", "cz_j", "tx_r", "tx_j",
         "tz_r", "tz_j", "tz_b", "tz_dl_r", "hk_r",
-        "hk_j", "zg_j", "zg_r", "zd_r", "zd_j",
+        "hk_j", "zg_j", "zg_r", "zd_j", "zd_r",
         "xt_j", "cz_tz"
     )
     list_filter = ("qdate",)
@@ -157,6 +157,8 @@ class CollectClassifyAdmin(BaseAdmin):
         "qdate", "term", "collect_r", "collect_j", "collect_type"
     )
     list_filter = ("qdate",)
+    ordering = "id"
+    list_per_page = 100
 
 
 class WithdrawClassifyAdmin(BaseAdmin):
@@ -164,6 +166,8 @@ class WithdrawClassifyAdmin(BaseAdmin):
         "qdate", "term", "tx_r", "tx_j", "withdraw_type"
     )
     list_filter = ("qdate",)
+    ordering = "id"
+    list_per_page = 100
 
 
 class TgInfoAdmin(BaseAdmin):
@@ -196,6 +200,7 @@ class AssetInfoAdmin(BaseAdmin):
         , "asset_type"
     )
     list_filter = ("qdate",)
+    ordering = "id"
 
 
 class TimeSlotAdmin(BaseAdmin):
@@ -203,6 +208,8 @@ class TimeSlotAdmin(BaseAdmin):
         "qdate", "timeslot", "tz_r"
     )
     list_filter = ("qdate",)
+    list_per_page = 100
+    ordering = "id"
 
 
 class GeDuanInfoAdmin(BaseAdmin):
@@ -211,6 +218,7 @@ class GeDuanInfoAdmin(BaseAdmin):
         "withdraw"
     )
     list_filter = ("qdate",)
+    ordering = "id"
 
 
 register(models.UserProfile, UserProfileAdmin)
